@@ -1,6 +1,6 @@
 package net.spotifei.Controller;
 
-public class UsuarioController extends ControllerBase {
+public class LoginController extends ControllerBase {
 
     public void loginUsuario(){
 

@@ -16,6 +16,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.7")
+
+    // https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
+    implementation("commons-dbutils:commons-dbutils:1.7")
 }
 
 test {
