@@ -8,7 +8,7 @@ import static java.sql.DriverManager.getConnection;
 
 public class ParametersHelper {
 
-    public Map<String, Object> getParametersFromObject(Object object) {
+    public static Map<String, Object> getParametersFromObject(Object object) {
         Map<String, Object> params = new HashMap<>();
         Class<?> clazz = object.getClass();
 
