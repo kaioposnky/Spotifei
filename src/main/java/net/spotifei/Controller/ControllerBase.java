@@ -1,19 +1,19 @@
 package net.spotifei.Controller;
 
-import net.spotifei.Models.Usuario;
+import net.spotifei.Models.User;
 
 import javax.swing.*;
 
 public abstract class ControllerBase {
-    private Usuario usuarioLogado;
+    private User userLogado;
     private JFrame view;
 
-    public Usuario getUsuarioLogado() {
-        return usuarioLogado;
+    public User getUsuarioLogado() {
+        return userLogado;
     }
 
-    public void setUsuarioLogado(Usuario usuarioLogado) {
-        this.usuarioLogado = usuarioLogado;
+    public void setUsuarioLogado(User userLogado) {
+        this.userLogado = userLogado;
     }
 
     public JFrame getView() {

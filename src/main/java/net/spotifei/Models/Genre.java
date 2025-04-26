@@ -1,9 +1,9 @@
 package net.spotifei.Models;
 
-public class Genero {
+public class Genre {
     private String nome;
 
-    public Genero(String nome) {
+    public Genre(String nome) {
         this.nome = nome;
     }
 
