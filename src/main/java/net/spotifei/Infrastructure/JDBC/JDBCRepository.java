@@ -1,20 +1,24 @@
 package net.spotifei.Infrastructure.JDBC;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
-import net.spotifei.Helpers.ParametersHelper;
+import net.spotifei.Infrastructure.Logger.LoggerRepository;
 import org.apache.commons.dbutils.QueryRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,6 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.spotifei.Helpers.AssetsLoader.getQueriesFiles;
+import static net.spotifei.Helpers.ParametersHelper.getParametersFromObject;
+import static net.spotifei.Spotifei.getDotEnv;
 
 public class JDBCRepository {
     private final ConcurrentMap<String, String> queriesCache = new ConcurrentHashMap<>();
@@ -33,12 +39,16 @@ public class JDBCRepository {
     private String user;
     private String password;
     private Connection _connection;
+    private static JDBCRepository instance;
 
-    public JDBCRepository(String url, String user, String password) throws SQLException {
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        openConnection();
+    public static JDBCRepository getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new JDBCRepository();
+            instance.url = getDotEnv().get("DATABASE_URL");
+            instance.user = getDotEnv().get("DATABASE_USER");
+            instance.password = getDotEnv().get("DATABASE_PASSWORD");
+        }
+        return instance;
     }
 
     private Connection getConnection() throws SQLException {
@@ -58,7 +68,29 @@ public class JDBCRepository {
         _connection.close();
     }
 
-    public ResultSet executeQuery(String sql, Object params) throws SQLException, RuntimeException {
+    private void loadQueriesCache() throws FileNotFoundException {
+        try{
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            File[] xmlFiles = getQueriesFiles();
+
+            for (File xmlFile : xmlFiles){
+                Document doc = builder.parse(xmlFile);
+                NodeList queries = doc.getElementsByTagName("query");
+                for (int i = 0; i < queries.getLength(); i++){
+                    String queryName = queries.item(i).getAttributes().getNamedItem("name").getTextContent();
+                    String sql = queries.item(i).getTextContent().trim();
+                    queriesCache.putIfAbsent(queryName, sql);
+                }
+            }
+        }  catch (NullPointerException e){
+            throw new FileNotFoundException("Arquivos de query não encontrados!");
+        }
+        catch (IOException | IllegalArgumentException | SAXException | ParserConfigurationException e) {
+            throw new RuntimeException("Erro ao dar parse nos arquivos XML!", e);
+        }
+    }
+
+    public ResultSet queryProcedure(String sql, Object params) throws SQLException, RuntimeException {
         return getConnection().prepareStatement(getPreparedStatement(sql, params).toString()).executeQuery();
     }
 
@@ -92,8 +124,7 @@ public class JDBCRepository {
 
         PreparedStatement sqlFilled = _connection.prepareStatement(sqlRaw);
 
-        Map<String, Object> paramValues = new ParametersHelper()
-                .getParametersFromObject(classParam);
+        Map<String, Object> paramValues = getParametersFromObject(classParam);
 
         // converte os valores
         Object[] paramsList = new Object[paramNames.size()];
@@ -111,50 +142,19 @@ public class JDBCRepository {
         return sqlFilled;
     }
 
-    public String getQueryNamed(String queryName) throws QueryNotFoundException {
+    public String getQueryNamed(String queryName) throws QueryNotFoundException, FileNotFoundException {
+        if (queriesCache.isEmpty()){
+            loadQueriesCache();
+        }
+
         // obter key do cache é bem mais rápido
-        if(queriesCache.containsKey(queryName)){
-            return queriesCache.get(queryName);
-        }
+        String sql = queriesCache.get(queryName);
 
-        DocumentBuilder builder;
-        try {
-            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException("Erro ao criar o parser XML", e);
-        }
-
-        try{
-            File[] xmlFiles = getQueriesFiles();
-            for (File xmlFile : xmlFiles){
-                Document doc = builder.parse(xmlFile);
-                NodeList queries = doc.getElementsByTagName("query");
-                for (int i = 0; i < queries.getLength(); i++){
-                    if (queries.item(i).getAttributes().getNamedItem("name").getTextContent().equals(queryName)){
-                        String sql = queries.item(i).getTextContent().trim();
-                        queriesCache.put(queryName, sql);
-                        return sql;
-                    }
-                }
-            }
+        if(sql == null){
             // throw está aqui porque ele PRECISA dizer que não conseguiu achar a query,
             // isso implica que o código iria quebrar se não tivesse a exception
             throw new QueryNotFoundException("Não foi possível encontrar a query com nome " + queryName + "!");
-        } catch (IOException | IllegalArgumentException | SAXException e) {
-            throw new RuntimeException("Erro ao dar parse nos arquivos XML!",e);
         }
-
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return sql;
     }
 }
