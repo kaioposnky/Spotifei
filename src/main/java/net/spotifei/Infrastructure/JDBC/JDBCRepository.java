@@ -29,10 +29,17 @@ public class JDBCRepository {
     private static final Pattern PARAM_PATTERN = Pattern.compile("@(\\w+)");
     // Sobre o regex: o @ significa pegar caractere @ os () significa todos os que estão depois do @
     // e o \\w+ um ou mais quaisquer caracteres de a-z A-Z + underscore
-    private static String url;
-    private static String user;
-    private static String password;
+    private String url;
+    private String user;
+    private String password;
     private Connection _connection;
+
+    public JDBCRepository(String url, String user, String password) throws SQLException {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+        openConnection();
+    }
 
     private Connection getConnection() throws SQLException {
         if(_connection == null || _connection.isClosed()){
@@ -51,7 +58,7 @@ public class JDBCRepository {
         _connection.close();
     }
 
-    private ResultSet executeQuery(String sql, Object params) throws SQLException, RuntimeException {
+    public ResultSet executeQuery(String sql, Object params) throws SQLException, RuntimeException {
         return getConnection().prepareStatement(getPreparedStatement(sql, params).toString()).executeQuery();
     }
 
@@ -104,7 +111,7 @@ public class JDBCRepository {
         return sqlFilled;
     }
 
-    private String getQueryNamed(String queryName) throws QueryNotFoundException {
+    public String getQueryNamed(String queryName) throws QueryNotFoundException {
         // obter key do cache é bem mais rápido
         if(queriesCache.containsKey(queryName)){
             return queriesCache.get(queryName);
@@ -139,5 +146,15 @@ public class JDBCRepository {
 
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
