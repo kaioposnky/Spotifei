@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.sql.DriverManager.getConnection;
-
 public class ParametersHelper {
 
     public static Map<String, Object> getParametersFromObject(Object object) {

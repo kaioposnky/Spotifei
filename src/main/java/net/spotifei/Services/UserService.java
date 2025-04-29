@@ -1,8 +1,9 @@
 package net.spotifei.Services;
 
-import net.spotifei.Helpers.SQL.SQLResponseHelper;
+import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.Repository.UserRepository;
-import net.spotifei.Models.SQL.Response;
+import net.spotifei.Models.Requests.UserRequest;
+import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 
 public class UserService {
@@ -13,13 +14,13 @@ public class UserService {
         _userRepository = new UserRepository();
     }
 
-    public Response getUsuario(User user){
+    public Response<User> getUsuarioByEmail(UserRequest user){
         try{
-            User usuari2o = _userRepository.getUsuario(user.getNome());
-            return SQLResponseHelper.GenerateSuccessResponse("usuarios obtidos com sucesso",
-                    DataHelper.generateJson(usuari2o))
+            User usuari2o = _userRepository.getUsuarioByEmail(user.email);
+            return ResponseHelper.GenerateSuccessResponse(
+                    "usuarios obtidos com sucesso", usuari2o);
         } catch (Exception ex){
-
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
     }
 }

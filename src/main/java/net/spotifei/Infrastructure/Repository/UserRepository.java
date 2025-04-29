@@ -1,16 +1,15 @@
 package net.spotifei.Infrastructure.Repository;
 
+import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Models.User;
 
-public class UserRepository extends RepositoryBase {
+public class UserRepository {
 
-    public UserRepository() {
-        super();
-    }
-
-    public User getUsuario(String email) throws Exception{
+    public User getUsuarioByEmail(String email) throws Exception{
         try{
-            get_jdbcRepository().getQueryNamed("GetUserByEmail");
+            String sql = JDBCRepository.getInstance().getQueryNamed("GetUserByEmail");
+            return new User("kaio", "santos", "kposansky@gmail.com",
+                    "1124242424", "12345", 1, null);
         } catch (Exception ex){
             throw ex;
         }

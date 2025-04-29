@@ -1,15 +1,12 @@
 package net.spotifei.Infrastructure.JDBC;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
-import net.spotifei.Infrastructure.Logger.LoggerRepository;
 import org.apache.commons.dbutils.QueryRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

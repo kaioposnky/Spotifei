@@ -3,7 +3,10 @@ package net.spotifei.Helpers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 
 public class MessagesHelper {
     private static String language = "pt-br"; // lingua padrão
