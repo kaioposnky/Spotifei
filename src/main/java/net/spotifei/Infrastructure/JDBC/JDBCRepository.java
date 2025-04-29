@@ -37,7 +37,7 @@ public class JDBCRepository {
     private Connection _connection;
     private static JDBCRepository instance;
 
-    public static JDBCRepository getInstance() throws SQLException {
+    public static JDBCRepository getInstance() {
         if (instance == null) {
             instance = new JDBCRepository();
             instance.url = getDotEnv().get("DATABASE_URL");
@@ -86,23 +86,49 @@ public class JDBCRepository {
         }
     }
 
-    public ResultSet queryProcedure(String sql, Object params) throws SQLException, RuntimeException {
+    /**
+     *
+     * @param sql Query a ser executada e obtida
+     * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
+     * @return Retorna uma lista das informações obtidas pelo banco
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
+    public ResultSet queryProcedure(String sql, Object params) throws SQLException {
         return getConnection().prepareStatement(getPreparedStatement(sql, params).toString()).executeQuery();
     }
 
     /**
-     * @implNote Use para gerar um PreparedStatement em um comando que não precisa de parâmetros
+     *
+     * @param sql Query a ser executada
+     * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
+    public void executeProcedure(String sql, Object params) throws SQLException {
+        getConnection().prepareStatement(getPreparedStatement(sql).toString()).execute();
+    }
+
+    /**
+     * @implNote Use para gerar um PreparedStatement num comando que NÃO PRECISE de parâmetros
      * @param queryCode Código SQL obtido pelo getQueryNamed
      * @return Retorna o PreparedStatement do código SQL
-     * @throws SQLException
+     * @throws SQLException Gerada se tiver erro de conexão na DB
      */
     private PreparedStatement getPreparedStatement(String queryCode) throws SQLException {
         return _connection.prepareStatement(queryCode);
     }
 
+    /**
+     * @implNote Use para gerar um PreparedStatement num comando que PRECISE de parâmetros
+     * @param sqlRaw Código SQL com os parâmetros no formato @Parametro
+     * @param classParam Classe para ser usada de parâmetro para preencher as variáveis no SQL
+     * @return Retorna um PreparedStatement com os parâmetros já incluídos no código sql
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     * @throws NullParameterException Gerada se o parâmetro for nulo
+     * @throws IllegalArgumentException Gerada se um dos atributos do parâmetro for nulo
+     */
     private PreparedStatement getPreparedStatement(String sqlRaw,
                                                    Object classParam)
-            throws SQLException, NullParameterException {
+            throws SQLException, NullParameterException, IllegalArgumentException {
 
         if (classParam == null || sqlRaw == null) {
             throw new NullParameterException("Nenhum dos parâmetros enviados podem ser nulos!");
