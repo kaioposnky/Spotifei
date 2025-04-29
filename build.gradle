@@ -16,6 +16,15 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.7")
+
+    // https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
+    implementation("commons-dbutils:commons-dbutils:1.7")
+
+    // https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
+    implementation("io.github.cdimascio:dotenv-java:3.2.0")
+
+    // https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm
+    implementation("de.mkammerer:argon2-jvm:2.1")
 }
 
 test {

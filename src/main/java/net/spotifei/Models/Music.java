@@ -1,25 +1,25 @@
 package net.spotifei.Models;
 
-public class Musica {
+public class Music {
     private String nome;
-    private Artista autor;
-    private Genero genero;
+    private Artist autor;
+    private Genre genre;
     private int milissegundos;
     private int id;
 
-    public Musica(String nome, Artista autor, Genero genero, int milissegundos, int id) {
+    public Music(String nome, Artist autor, Genre genre, int milissegundos, int id) {
         this.nome = nome;
         this.autor = autor;
-        this.genero = genero;
+        this.genre = genre;
         this.milissegundos = milissegundos;
         this.id = id;
     }
 
-    public Artista getAutor() {
+    public Artist getAutor() {
         return autor;
     }
 
-    public void setAutor(Artista autor) {
+    public void setAutor(Artist autor) {
         this.autor = autor;
     }
 
@@ -39,12 +39,12 @@ public class Musica {
         this.milissegundos = milissegundos;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public Genre getGenero() {
+        return genre;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setGenero(Genre genre) {
+        this.genre = genre;
     }
 
     public int getId() {

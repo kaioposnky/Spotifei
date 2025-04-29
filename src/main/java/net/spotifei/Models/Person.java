@@ -1,6 +1,6 @@
 package net.spotifei.Models;
 
-public class Pessoa {
+public class Person {
     private String nome;
     private String sobrenome;
     private String email;
@@ -8,7 +8,7 @@ public class Pessoa {
     private String senha;
     private int idUsuario;
 
-    public Pessoa(String nome, String sobrenome, String email, String telefone, String senha, int idUsuario) {
+    public Person(String nome, String sobrenome, String email, String telefone, String senha, int idUsuario) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;

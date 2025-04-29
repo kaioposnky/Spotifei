@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Playlist {
     private String nome;
-    private Pessoa autor;
-    private ArrayList<Musica> musicas;
+    private Person autor;
+    private ArrayList<Music> music;
     private long salvamentos;
 
-    public Playlist(String nome, Pessoa autor, ArrayList<Musica> musicas, long salvamentos) {
+    public Playlist(String nome, Person autor, ArrayList<Music> music, long salvamentos) {
         this.nome = nome;
         this.autor = autor;
-        this.musicas = musicas;
+        this.music = music;
         this.salvamentos = salvamentos;
     }
 
@@ -23,20 +23,20 @@ public class Playlist {
         this.nome = nome;
     }
 
-    public Pessoa getAutor() {
+    public Person getAutor() {
         return autor;
     }
 
-    public void setAutor(Pessoa autor) {
+    public void setAutor(Person autor) {
         this.autor = autor;
     }
 
-    public ArrayList<Musica> getMusicas() {
-        return musicas;
+    public ArrayList<Music> getMusicas() {
+        return music;
     }
 
-    public void setMusicas(ArrayList<Musica> musicas) {
-        this.musicas = musicas;
+    public void setMusicas(ArrayList<Music> music) {
+        this.music = music;
     }
 
     public long getSalvamentos() {
