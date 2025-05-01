@@ -3,6 +3,7 @@ package net.spotifei.Infrastructure.JDBC;
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -87,14 +88,17 @@ public class JDBCRepository {
     }
 
     /**
-     *
      * @param sql Query a ser executada e obtida
      * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
      * @return Retorna uma lista das informações obtidas pelo banco
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
-    public ResultSet queryProcedure(String sql, Object params) throws SQLException {
-        return getConnection().prepareStatement(getPreparedStatement(sql, params).toString()).executeQuery();
+    public <T> T queryProcedure(String sql, Object params, ResultSetHandler<T> handler) throws SQLException {
+        return handler.handle(getPreparedStatement(sql, params).executeQuery());
+    }
+
+    public <T> T queryProcedure(String sql, ResultSetHandler<T> handler) throws SQLException {
+        return handler.handle(getPreparedStatement(sql).executeQuery());
     }
 
     /**
@@ -104,7 +108,11 @@ public class JDBCRepository {
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
     public void executeProcedure(String sql, Object params) throws SQLException {
-        getConnection().prepareStatement(getPreparedStatement(sql).toString()).execute();
+        getPreparedStatement(sql, params).execute();
+    }
+
+    public void executeProcedure(String sql) throws SQLException {
+        getPreparedStatement(sql).execute();
     }
 
     /**
