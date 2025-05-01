@@ -28,6 +28,6 @@ public class ErrorResponse<T> implements Response<T> {
 
     @Override
     public T getData() {
-        throw new NotApplicableMethodException("Método não aplicado para respostas de error.");
+        throw new NotApplicableMethodException("Método não aplicado para respostas sem sucesso.");
     }
 }

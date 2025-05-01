@@ -1,5 +1,6 @@
 package net.spotifei.Helpers;
 
+import net.spotifei.Models.Responses.BadResponse;
 import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.SuccessResponse;
 
@@ -27,5 +28,9 @@ public class ResponseHelper {
 
     public static <T> SuccessResponse<T>  GenerateSuccessResponse(){
         return new SuccessResponse<>(null, null);
+    }
+
+    public static <T> BadResponse<T> GenerateBadResponse(String message){
+        return new BadResponse<>(message);
     }
 }
