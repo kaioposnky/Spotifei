@@ -1,17 +1,21 @@
 package net.spotifei.Controller;
 
+import com.sun.tools.javac.Main;
 import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.AuthServices;
 import net.spotifei.Views.Login_Panel;
+import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 
 public class AuthController  {
+    private final MainFrame mainframe;
     private final Login_Panel view;
     private final AuthServices authServices;
 
-    public AuthController(Login_Panel view) {
+    public AuthController(MainFrame mainframe, Login_Panel view) {
+        this.mainframe = mainframe;
         this.view = view;
         this.authServices = new AuthServices();
     }
@@ -34,7 +38,7 @@ public class AuthController  {
         boolean isLoginValid = response.getData();
         if (isLoginValid){
             System.out.println("Login válido!"); // lógica de mandar para o painel home
-
+            mainframe.setPanel(MainFrame.HOME_PANEL);
         } else {
             System.out.println("Login inválido!");
          }

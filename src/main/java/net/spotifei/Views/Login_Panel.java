@@ -23,6 +23,7 @@ public class Login_Panel extends javax.swing.JPanel {
     public Login_Panel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
+        ac = new AuthController(mainframe,this);
     }
 
     public JButton getBt_cadastro() {
@@ -226,8 +227,8 @@ public class Login_Panel extends javax.swing.JPanel {
     private void bt_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_entrarActionPerformed
         // TODO add your handling code here:
         // fazer login
-//        ac.loginUsuario();
-        mainframe.setPanel(MainFrame.HOME_PANEL);
+        ac.loginUsuario();
+
     }//GEN-LAST:event_bt_entrarActionPerformed
 
     private void bt_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastroActionPerformed
