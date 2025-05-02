@@ -1,34 +1,41 @@
 package net.spotifei.Controller;
 
+import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.AuthServices;
 import net.spotifei.Views.JanelaLogin;
-import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 
 public class AuthController  {
-    private final JPanel view;
+    private final JFrame view;
     private final AuthServices authServices;
 
-    public AuthController(JPanel view) {
+    public AuthController(JFrame view) {
         this.view = view;
         this.authServices = new AuthServices();
     }
 
-    public void loginUsuario(){
+    public void loginUsuario() {
         JanelaLogin loginFrame = (JanelaLogin) view;
         String email = loginFrame.getTxt_email_login().getText();
         String password = loginFrame.getTxt_senha_login().getText();
         Response<Boolean> response = authServices.validateUserLogin(email, password);
+        System.out.println(response.isSuccess());
+        System.out.println();
         if (!response.isSuccess()){
-            // mais tarde colocar um logger com error aqui
+//             mais tarde colocar um logger com error aqui
             JOptionPane.showMessageDialog(view, response.getMessage());
+            if (response.getClass() == ErrorResponse.class){
+                response.getException().printStackTrace();
+            }
             return;
         }
         boolean isLoginValid = response.getData();
         if (isLoginValid){
-            // lógica de mandar para o painel home
-        }
+            System.out.println("Login válido!"); // lógica de mandar para o painel home
+        } else {
+            System.out.println("Login inválido!");
+         }
     }
 }

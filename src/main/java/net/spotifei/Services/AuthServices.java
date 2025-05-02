@@ -2,7 +2,6 @@ package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.Repository.UserRepository;
-import net.spotifei.Models.Responses.BadResponse;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 
@@ -15,7 +14,6 @@ public class AuthServices {
     public Response<Boolean> validateUserLogin(String email, String senha){
         try{
             User user = userRepository.getUsuarioByEmail(email);
-
             if (user == null){
                 return ResponseHelper.GenerateBadResponse("Usuário não encontrado!");
             }

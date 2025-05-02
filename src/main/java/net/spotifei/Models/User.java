@@ -8,6 +8,10 @@ public class User extends Person {
         this.musicTocando = musicTocando;
     }
 
+    public User(){
+        super();
+    }
+
     public Music getMusicaTocando() {
         return musicTocando;
     }

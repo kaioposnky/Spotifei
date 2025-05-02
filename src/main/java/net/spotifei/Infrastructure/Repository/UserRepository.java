@@ -1,16 +1,25 @@
 package net.spotifei.Infrastructure.Repository;
 
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import net.spotifei.Models.User;
+import net.spotifei.Models.Person;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-public class UserRepository {
+import java.util.List;
 
-    public User getUsuarioByEmail(String email) throws Exception{
+public class PersonRepository {
+
+    public Person getUsuarioByEmail(String email) throws Exception{
         try{
             String sql = JDBCRepository.getInstance().getQueryNamed("GetUserByEmail");
-            return new User("kaio", "santos", "kposansky@gmail.com",
-                    "1124242424", "12345", 1, null);
+            List<Person> users = JDBCRepository.getInstance().queryProcedure(sql, email, new BeanListHandler<>(Person.class));
+
+            if (users.isEmpty()){
+                return null;
+            }
+
+            return users.get(0);
         } catch (Exception ex){
+            ex.getCause();
             throw ex;
         }
     }

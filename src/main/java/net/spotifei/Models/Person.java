@@ -8,6 +8,7 @@ public class Person {
     private String senha;
     private int idUsuario;
 
+
     public Person(String nome, String sobrenome, String email, String telefone, String senha, int idUsuario) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -15,6 +16,10 @@ public class Person {
         this.telefone = telefone;
         this.senha = senha;
         this.idUsuario = idUsuario;
+    }
+
+    public Person(){
+
     }
 
     public String getNome() {
