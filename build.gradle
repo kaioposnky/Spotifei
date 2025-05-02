@@ -25,6 +25,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm
     implementation("de.mkammerer:argon2-jvm:2.1")
+
+    implementation 'org.postgresql:postgresql:42.7.5'
 }
 
 test {

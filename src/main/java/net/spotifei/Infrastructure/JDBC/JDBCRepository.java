@@ -2,6 +2,7 @@ package net.spotifei.Infrastructure.JDBC;
 
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
+import net.spotifei.Exceptions.QueryNotSupported;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
@@ -35,7 +36,7 @@ public class JDBCRepository {
     private String url;
     private String user;
     private String password;
-    private Connection _connection;
+    private Connection connection;
     private static JDBCRepository instance;
 
     public static JDBCRepository getInstance() {
@@ -49,20 +50,20 @@ public class JDBCRepository {
     }
 
     private Connection getConnection() throws SQLException {
-        if(_connection == null || _connection.isClosed()){
+        if(connection == null || connection.isClosed()){
             openConnection();
         }
-        return _connection;
+        return connection;
     }
 
     private void openConnection() throws SQLException {
-        _connection = DriverManager.getConnection(
+        connection = DriverManager.getConnection(
                 url, user, password
         );
     }
 
     private void closeConnection() throws SQLException {
-        _connection.close();
+        connection.close();
     }
 
     private void loadQueriesCache() throws FileNotFoundException {
@@ -97,6 +98,10 @@ public class JDBCRepository {
         return handler.handle(getPreparedStatement(sql, params).executeQuery());
     }
 
+    public <T> T queryProcedure(String sql, String param, ResultSetHandler<T> handler) throws SQLException {
+        return handler.handle(getPreparedStatement(sql, param).executeQuery());
+    }
+
     public <T> T queryProcedure(String sql, ResultSetHandler<T> handler) throws SQLException {
         return handler.handle(getPreparedStatement(sql).executeQuery());
     }
@@ -122,7 +127,23 @@ public class JDBCRepository {
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
     private PreparedStatement getPreparedStatement(String queryCode) throws SQLException {
-        return _connection.prepareStatement(queryCode);
+        return getConnection().prepareStatement(queryCode);
+    }
+
+    private PreparedStatement getPreparedStatement(String sqlRaw, String parameter) throws SQLException {
+        // guarda os parâmetros da query
+        Matcher matcher = PARAM_PATTERN.matcher(sqlRaw); // regex para obter @XXXXX do código sql
+
+        if (matcher.results().count() > 1){
+            throw new IllegalArgumentException("A query selecionada deve possuir apenas 1 campo de parâmetro!");
+        }
+
+        // dá replace no @XXXX para o parâmetro inserido
+        sqlRaw = PARAM_PATTERN.matcher(sqlRaw).replaceAll("?");
+
+        PreparedStatement statement = getConnection().prepareStatement(sqlRaw);
+        statement.setString(1, parameter);
+        return statement;
     }
 
     /**
@@ -152,7 +173,7 @@ public class JDBCRepository {
         // dá replace em todos os @XXXX para ?
         sqlRaw = PARAM_PATTERN.matcher(sqlRaw).replaceAll("?");
 
-        PreparedStatement sqlFilled = _connection.prepareStatement(sqlRaw);
+        PreparedStatement sqlFilled = getConnection().prepareStatement(sqlRaw);
 
         Map<String, Object> paramValues = getParametersFromObject(classParam);
 
@@ -171,6 +192,8 @@ public class JDBCRepository {
 
         return sqlFilled;
     }
+
+
 
     public String getQueryNamed(String queryName) throws QueryNotFoundException, FileNotFoundException {
         if (queriesCache.isEmpty()){

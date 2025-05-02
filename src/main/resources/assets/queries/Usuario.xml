@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
     <query name="GetUserByEmail">
-        SELECT * FROM Usuarios WHERE email = @Email
-    </query>
-    <query name="GetUserPasswordByEmail">
-        SELECT * FROM Usuarios WHERE email = @Email
+        SELECT * FROM Usuario WHERE email = @Email
     </query>
 </queries>
