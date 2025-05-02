@@ -2,7 +2,6 @@ package net.spotifei.Infrastructure.JDBC;
 
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
-import net.spotifei.Exceptions.QueryNotSupported;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;

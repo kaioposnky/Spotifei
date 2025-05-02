@@ -16,9 +16,9 @@ public class UserService {
 
     public Response<User> getUsuarioByEmail(UserRequest user){
         try{
-            User usuari2o = _userRepository.getUsuarioByEmail(user.email);
+//            User usuari2o = _userRepository.getUsuarioByEmail(user.email);
             return ResponseHelper.GenerateSuccessResponse(
-                    "usuarios obtidos com sucesso", usuari2o);
+                    "usuarios obtidos com sucesso");
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
