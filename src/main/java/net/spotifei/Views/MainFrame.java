@@ -16,16 +16,16 @@ public class MainFrame extends JFrame{
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
 
-//        cards.add(new JanelaLogin(), LOGIN_PANEL);
-//        cards.add(new JanelaPesquisa(), SEARCH_PANEL);
-//        cards.add(new JanelaHome(), HOME_PANEL);
-        cards.add(new JanelaCadastro(), REGISTER_PANEL);
+        cards.add(new Login_Panel(this), LOGIN_PANEL);;
+        cards.add(new Search_Panel(this), SEARCH_PANEL);;
+        cards.add(new Home_Panel(this), HOME_PANEL);;
+        cards.add(new Register_Panel(this), REGISTER_PANEL);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(cards);
         pack();
-        setPanel(REGISTER_PANEL);
+        setPanel(LOGIN_PANEL);
     }
 
     public void setPanel(String panel){
