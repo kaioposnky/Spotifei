@@ -9,15 +9,14 @@ package net.spotifei.Views;
  * @author fengl
  */
 
-
-public class Search_Panel extends javax.swing.JPanel {
+public class HomePanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
 
     /**
-     * Creates new form JanelaP
+     * Creates new form JanelaH
      */
-    public Search_Panel(MainFrame mainframe) {
+    public HomePanel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
     }
@@ -32,22 +31,22 @@ public class Search_Panel extends javax.swing.JPanel {
     private void initComponents() {
         setBackground(new java.awt.Color(35, 35, 35));
 
+        txt_Home1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+
+        txt_Home1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_Home1.setForeground(new java.awt.Color(250, 250, 250));
+        txt_Home1.setText("HOME");
 
         jButton1.setBackground(new java.awt.Color(35, 35, 35));
         jButton1.setForeground(new java.awt.Color(250, 250, 250));
-        jButton1.setText("Menu");
+        jButton1.setText("BUSCAR");
         jButton1.setBorderPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("Pesquisa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,31 +55,34 @@ public class Search_Panel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(jLabel1))
+                        .addGap(121, 121, 121)
+                        .addComponent(txt_Home1))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(110, 110, 110)
                         .addComponent(jButton1)))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 384, Short.MAX_VALUE)
+                .addGap(36, 36, 36)
+                .addComponent(txt_Home1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(39, 39, 39))
+                .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.HOME_PANEL);
+//        JanelaPesquisa jp = new JanelaPesquisa();
+//        jp.setVisible(true);
+        mainframe.setPanel(MainFrame.SEARCH_PANEL);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel txt_Home1;
     // End of variables declaration//GEN-END:variables
 }

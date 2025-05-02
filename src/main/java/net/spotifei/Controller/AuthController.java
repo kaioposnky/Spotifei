@@ -1,27 +1,26 @@
 package net.spotifei.Controller;
 
-import com.sun.tools.javac.Main;
 import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.AuthServices;
-import net.spotifei.Views.Login_Panel;
+import net.spotifei.Views.LoginPanel;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 
 public class AuthController  {
     private final MainFrame mainframe;
-    private final Login_Panel view;
+    private final LoginPanel view;
     private final AuthServices authServices;
 
-    public AuthController(MainFrame mainframe, Login_Panel view) {
+    public AuthController(MainFrame mainframe, LoginPanel view) {
         this.mainframe = mainframe;
         this.view = view;
         this.authServices = new AuthServices();
     }
 
     public void loginUsuario() {
-        Login_Panel loginFrame = (Login_Panel) view;
+        LoginPanel loginFrame = (LoginPanel) view;
         String email = loginFrame.getTxt_email_login().getText();
         String password = loginFrame.getTxt_senha_login().getText();
         Response<Boolean> response = authServices.validateUserLogin(email, password);
@@ -43,4 +42,5 @@ public class AuthController  {
             System.out.println("Login inválido!");
          }
     }
+
 }

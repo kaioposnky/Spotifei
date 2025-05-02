@@ -12,13 +12,13 @@ import javax.swing.JTextField;
  *
  * @author fengl
  */
-public class Register_Panel extends javax.swing.JPanel {
+public class RegisterPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
     /**
      * Creates new form JanelaCadastro
      */
-    public Register_Panel(MainFrame mainframe) {
+    public RegisterPanel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
     }

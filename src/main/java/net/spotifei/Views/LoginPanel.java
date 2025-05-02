@@ -14,13 +14,13 @@ import net.spotifei.Controller.AuthController;
  *
  * @author fengl
  */
-public class Login_Panel extends javax.swing.JPanel {
+public class LoginPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
     /**
      * Creates new form JanelaL
      */
-    public Login_Panel(MainFrame mainframe) {
+    public LoginPanel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
         ac = new AuthController(mainframe,this);
