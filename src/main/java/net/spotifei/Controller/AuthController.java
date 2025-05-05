@@ -10,10 +10,10 @@ import javax.swing.*;
 
 public class AuthController  {
     private final MainFrame mainframe;
-    private final LoginPanel view;
+    private final JPanel view;
     private final AuthServices authServices;
 
-    public AuthController(MainFrame mainframe, LoginPanel view) {
+    public AuthController(MainFrame mainframe, JPanel view) {
         this.mainframe = mainframe;
         this.view = view;
         this.authServices = new AuthServices();
@@ -27,9 +27,9 @@ public class AuthController  {
         System.out.println(response.isSuccess());
         System.out.println();
         if (!response.isSuccess()){
-//             mais tarde colocar um logger com error aqui
             JOptionPane.showMessageDialog(view, response.getMessage());
             if (response.getClass() == ErrorResponse.class){
+//             mais tarde colocar um logger com error aqui
                 response.getException().printStackTrace();
             }
             return;

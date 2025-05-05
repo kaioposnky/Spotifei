@@ -1,16 +1,12 @@
 package net.spotifei.Infrastructure.Repository;
 
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import net.spotifei.Models.Person;
 import net.spotifei.Models.User;
-import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import java.sql.ResultSet;
 import java.util.List;
 
-public class UserRepository {
+public class PersonRepository {
 
     private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
 

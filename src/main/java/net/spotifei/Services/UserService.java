@@ -1,17 +1,17 @@
 package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
-import net.spotifei.Infrastructure.Repository.UserRepository;
+import net.spotifei.Infrastructure.Repository.PersonRepository;
 import net.spotifei.Models.Requests.UserRequest;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 
 public class UserService {
 
-    private UserRepository _userRepository;
+    private PersonRepository _personRepository;
 
     public UserService(){
-        _userRepository = new UserRepository();
+        _personRepository = new PersonRepository();
     }
 
     public Response<User> getUsuarioByEmail(UserRequest user){

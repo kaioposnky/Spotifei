@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Playlist {
     private String nome;
-    private Person autor;
-    private ArrayList<Music> music;
+    private Artist autor;
     private long salvamentos;
+    private ArrayList<Music> music;
 
-    public Playlist(String nome, Person autor, ArrayList<Music> music, long salvamentos) {
+    public Playlist(String nome, Artist autor, ArrayList<Music> music, long salvamentos) {
         this.nome = nome;
         this.autor = autor;
         this.music = music;
@@ -27,7 +27,7 @@ public class Playlist {
         return autor;
     }
 
-    public void setAutor(Person autor) {
+    public void setAutor(Artist autor) {
         this.autor = autor;
     }
 

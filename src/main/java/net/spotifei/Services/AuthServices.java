@@ -1,7 +1,7 @@
 package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
-import net.spotifei.Infrastructure.Repository.UserRepository;
+import net.spotifei.Infrastructure.Repository.PersonRepository;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 
@@ -9,11 +9,11 @@ import static net.spotifei.Infrastructure.Cryptograph.CriptographRepository.comp
 
 public class AuthServices {
 
-    private final UserRepository userRepository = new UserRepository();
+    private final PersonRepository personRepository = new PersonRepository();
 
     public Response<Boolean> validateUserLogin(String email, String senha){
         try{
-            User user = userRepository.getUsuarioByEmail(email);
+            User user = personRepository.getUsuarioByEmail(email);
             if (user == null){
                 return ResponseHelper.GenerateBadResponse("Usuário não encontrado!");
             }
