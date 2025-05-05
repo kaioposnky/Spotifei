@@ -12,10 +12,12 @@ import java.util.List;
 
 public class UserRepository {
 
+    private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
+
     public User getUsuarioByEmail(String email) throws Exception{
         try{
-            String sql = JDBCRepository.getInstance().getQueryNamed("GetUserByEmail");
-            List<User> users = JDBCRepository.getInstance().queryProcedure(sql, email, new BeanListHandler<>(User.class));
+            String sql = jdbcRepository.getQueryNamed("GetUserByEmail");
+            List<User> users = jdbcRepository.queryProcedure(sql, email, new BeanListHandler<>(User.class));
 
             if (users.isEmpty()){
                 return null;

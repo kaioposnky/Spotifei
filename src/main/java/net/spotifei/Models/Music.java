@@ -1,18 +1,21 @@
 package net.spotifei.Models;
 
+import javax.sound.sampled.AudioInputStream;
+
 public class Music {
     private String nome;
     private Artist autor;
     private Genre genre;
-    private int milissegundos;
-    private int id;
+    private int duracao_ms;
+    private AudioInputStream audio;
+    private int id_musica;
 
-    public Music(String nome, Artist autor, Genre genre, int milissegundos, int id) {
+    public Music(String nome, Artist autor, Genre genre, int duracao_ms, int id_musica) {
         this.nome = nome;
         this.autor = autor;
         this.genre = genre;
-        this.milissegundos = milissegundos;
-        this.id = id;
+        this.duracao_ms = duracao_ms;
+        this.id_musica = id_musica;
     }
 
     public Artist getAutor() {
@@ -31,27 +34,35 @@ public class Music {
         this.nome = nome;
     }
 
-    public int getMilissegundos() {
-        return milissegundos;
+    public int getDuracao_ms() {
+        return duracao_ms;
     }
 
-    public void setMilissegundos(int milissegundos) {
-        this.milissegundos = milissegundos;
+    public void setDuracao_ms(int duracao_ms) {
+        this.duracao_ms = duracao_ms;
     }
 
-    public Genre getGenero() {
+    public int getId_musica() {
+        return id_musica;
+    }
+
+    public void setId_musica(int id_musica) {
+        this.id_musica = id_musica;
+    }
+
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenero(Genre genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
-    public int getId() {
-        return id;
+    public AudioInputStream getAudio() {
+        return audio;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAudio(AudioInputStream audio) {
+        this.audio = audio;
     }
 }
