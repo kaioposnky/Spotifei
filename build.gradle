@@ -27,6 +27,13 @@ dependencies {
     implementation("de.mkammerer:argon2-jvm:2.1")
 
     implementation 'org.postgresql:postgresql:42.7.5'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation("org.slf4j:slf4j-api:2.0.17")
+
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
+
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
 }
 
 test {
