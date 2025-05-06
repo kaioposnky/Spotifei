@@ -3,4 +3,9 @@
     <query name="GetUserByEmail">
         SELECT * FROM Usuario WHERE email = @Email
     </query>
+    <query name="RegisterUser">
+        INSERT INTO
+        usuario (nome, sobrenome, email, telefone, senha, id_tipo_usuario)
+        VALUES (@Nome, @Sobrenome, @Email, @Telefone, @Senha, 1)
+    </query>
 </queries>
