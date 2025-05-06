@@ -7,7 +7,7 @@ import net.spotifei.Models.User;
 
 import static net.spotifei.Infrastructure.Cryptograph.CriptographRepository.compareHash;
 
-public class AuthServices {
+public class AuthService {
 
     private final PersonRepository personRepository = new PersonRepository();
 

@@ -5,7 +5,7 @@ import net.spotifei.Infrastructure.Repository.MusicRepository;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
-public class MusicServices {
+public class MusicService {
 
     private final MusicRepository musicRepository = new MusicRepository();
 
