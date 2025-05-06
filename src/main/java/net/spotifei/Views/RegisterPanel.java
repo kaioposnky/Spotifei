@@ -268,4 +268,9 @@ public class RegisterPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_sob_cadastro;
     private javax.swing.JTextField txt_telefone_cadastro;
     // End of variables declaration//GEN-END:variables
+
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
 }

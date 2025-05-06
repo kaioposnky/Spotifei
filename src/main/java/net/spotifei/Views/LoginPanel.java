@@ -23,7 +23,7 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
-        ac = new AuthController(mainframe,this);
+        ac = new AuthController(this);
     }
 
     public JButton getBt_cadastro() {
@@ -249,4 +249,9 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_email_login;
     private javax.swing.JTextField txt_senha_login;
     // End of variables declaration//GEN-END:variables
+
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
 }

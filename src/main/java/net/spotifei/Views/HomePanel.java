@@ -85,4 +85,9 @@ public class HomePanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel txt_Home1;
     // End of variables declaration//GEN-END:variables
+
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
 }
