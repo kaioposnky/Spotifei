@@ -7,6 +7,7 @@ import net.spotifei.Views.HomePanel;
 
 import javax.swing.*;
 
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class MusicasController {
@@ -21,8 +22,9 @@ public class MusicasController {
     }
 
     public void playUserNextMusic(){
-        int userId = ((HomePanel) view).getMainframe().getAppContext().getPersonContext().getIdUsuario();
-        Response<Music> response = musicServices.getNextMusicForUser(userId);
+        HomePanel homePanel = (HomePanel) view;
+        int userId = homePanel.getMainframe().getAppContext().getPersonContext().getIdUsuario();
+        Response<Music> response = musicServices.getNextMusicInUserQueue(userId);
         if(!response.isSuccess()){
             logError(response.getMessage());
             return;
@@ -33,6 +35,8 @@ public class MusicasController {
             logError(response.getMessage());
             return;
         }
+        logDebug("Tocando agora: " + musicFound.getNome());
+        homePanel.getMainframe().getAppContext().setMusicContext(musicFound);
         // update do UI com a nova música tocando
     }
 }

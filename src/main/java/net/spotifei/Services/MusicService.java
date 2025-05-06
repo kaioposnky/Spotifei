@@ -15,7 +15,7 @@ public class MusicService {
         this.audioPlayerWorker = audioPlayerWorker;
     }
 
-    public Response<Music> getNextMusicForUser(int userId){
+    public Response<Music> getNextMusicInUserQueue(int userId){
         try{
             Music music = musicRepository.getNextMusicOnUserQueue(userId);
 

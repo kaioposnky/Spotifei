@@ -32,6 +32,23 @@ public class UserService {
         }
     }
 
+    public Response<User> getUsuarioByEmail(String email){
+        try{
+            User usuario = _personRepository.getUsuarioByEmail(email);
+
+            if (usuario == null){
+                return ResponseHelper.GenerateBadResponse("Nenhum usuário foi encontrado com o email: "
+                        + email);
+            }
+
+            return ResponseHelper.GenerateSuccessResponse(
+                    "usuarios obtidos com sucesso", usuario);
+
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
     public Response<Void> createUser(User user){
         try{
             // Deixa a senha criptografada antes de salvar no banco

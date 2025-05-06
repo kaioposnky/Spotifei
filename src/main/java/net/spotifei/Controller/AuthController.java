@@ -2,7 +2,9 @@ package net.spotifei.Controller;
 
 import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.Response;
+import net.spotifei.Models.User;
 import net.spotifei.Services.AuthService;
+import net.spotifei.Services.UserService;
 import net.spotifei.Views.LoginPanel;
 import net.spotifei.Views.MainFrame;
 
@@ -13,11 +15,13 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
     private final JPanel view;
 
     public AuthController(JPanel view) {
         this.view = view;
         this.authService = new AuthService();
+        this.userService = new UserService();
     }
 
     public void loginUsuario() {
@@ -36,8 +40,10 @@ public class AuthController {
         }
         boolean isLoginValid = response.getData();
         if (isLoginValid){
-            logInfo("Usuário com email" + email + " logou com sucesso!");
+            logInfo("Usuário com email " + email + " logou com sucesso!");
             loginFrame.getMainframe().setPanel(MainFrame.HOME_PANEL);
+            User user = userService.getUsuarioByEmail(email).getData();
+            loginFrame.getMainframe().getAppContext().setPersonContext(user);
         } else {
             JOptionPane.showMessageDialog(view, "Senha incorreta!");
          }
