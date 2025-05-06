@@ -6,16 +6,16 @@ public class Person {
     private String email;
     private String telefone;
     private String senha;
-    private int id;
+    private int idUsuario;
 
 
-    public Person(String nome, String sobrenome, String email, String telefone, String senha, int id) {
+    public Person(String nome, String sobrenome, String email, String telefone, String senha, int idUsuario) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
-        this.id = id;
+        this.idUsuario = idUsuario;
     }
 
     public Person(){
@@ -62,11 +62,11 @@ public class Person {
         this.senha = senha;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

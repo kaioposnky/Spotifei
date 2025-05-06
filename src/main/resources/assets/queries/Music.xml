@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
     <query name="GetNextMusicOnUserQueueByUserId">
-        SELECT
-            m.id_musica
-            m.nome
-
-
-        FROM
-
+        SELECT nome,
+        duracao_ms AS duracaoMs,
+        id_musica AS idMusica
+        FROM usuario_fila
+        WHERE id_usuario = [ID_DO_DO_USUARIO]
+        ORDER BY posicao ASC
+        LIMIT 1;
+    </query>
+    <query name="GetMusicAudioByMusicId">
+        SELECT audio
+        FROM musica_audio
+        WHERE id_musica = @idMusica;
     </query>
 </queries>

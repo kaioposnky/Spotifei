@@ -1,10 +1,9 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -57,11 +56,14 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
 
     /**
      * Toca uma música com o audioinputstream fornecido
-     * @param audioInputStream "InputStream" da música
-     * @throws Exception Retorna qualquer excessão gerada
+     * @param musicAudioByteArray byte[] contendo o aúdio da música
+     * @throws Exception Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
      * ao tentar tocar a música
      */
-    public void playMusic(AudioInputStream audioInputStream) throws InterruptedException {
+    public void playMusic(byte[] musicAudioByteArray) throws InterruptedException, UnsupportedAudioFileException, IOException {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                new ByteArrayInputStream(musicAudioByteArray)
+        );
         commandQueue.put(() -> handlePlayMusic(audioInputStream));
     }
 
@@ -147,8 +149,14 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
     }
 
     private void handlePlayMusic(AudioInputStream audioInputStream) throws Exception{
-        clip.open(audioInputStream);
-        clip.setMicrosecondPosition(0);
-        clip.start();
+        try{
+            clip.open(audioInputStream);
+            clip.setMicrosecondPosition(0);
+            clip.start();
+            isPlaying = true;
+        } finally {
+            if (audioInputStream != null) audioInputStream.close();
+        }
+
     }
 }

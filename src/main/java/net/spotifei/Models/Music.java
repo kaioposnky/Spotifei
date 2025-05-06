@@ -6,16 +6,16 @@ public class Music {
     private String nome;
     private Artist autor;
     private Genre genre;
-    private int duracao_ms;
+    private int duracaoMs;
     private AudioInputStream audio;
-    private int id_musica;
+    private int idMusica;
 
-    public Music(String nome, Artist autor, Genre genre, int duracao_ms, int id_musica) {
+    public Music(String nome, Artist autor, Genre genre, int duracaoMs, int idMusica) {
         this.nome = nome;
         this.autor = autor;
         this.genre = genre;
-        this.duracao_ms = duracao_ms;
-        this.id_musica = id_musica;
+        this.duracaoMs = duracaoMs;
+        this.idMusica = idMusica;
     }
 
     public Artist getAutor() {
@@ -34,20 +34,20 @@ public class Music {
         this.nome = nome;
     }
 
-    public int getDuracao_ms() {
-        return duracao_ms;
+    public int getDuracaoMs() {
+        return duracaoMs;
     }
 
-    public void setDuracao_ms(int duracao_ms) {
-        this.duracao_ms = duracao_ms;
+    public void setDuracaoMs(int duracaoMs) {
+        this.duracaoMs = duracaoMs;
     }
 
-    public int getId_musica() {
-        return id_musica;
+    public int getIdMusica() {
+        return idMusica;
     }
 
-    public void setId_musica(int id_musica) {
-        this.id_musica = id_musica;
+    public void setIdMusica(int idMusica) {
+        this.idMusica = idMusica;
     }
 
     public Genre getGenre() {
