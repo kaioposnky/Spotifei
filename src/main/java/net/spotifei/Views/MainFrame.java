@@ -1,6 +1,7 @@
 package net.spotifei.Views;
 
-import net.spotifei.Infrastructure.Context.AppContext;
+import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
+import net.spotifei.Infrastructure.Container.AppContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +15,12 @@ public class MainFrame extends JFrame{
 
     private CardLayout cardLayout;
     private JPanel cards;
+    private final AppContext appContext;
+    private final AudioPlayerWorker audioPlayerWorker;
 
-    public MainFrame(){
+    public MainFrame(AppContext appContext, AudioPlayerWorker audioPlayerWorker){
+        this.appContext = appContext;
+        this.audioPlayerWorker = audioPlayerWorker;
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
 
@@ -35,5 +40,11 @@ public class MainFrame extends JFrame{
         cardLayout.show(cards, panel);
     }
 
-}
+    public AppContext getAppContext() {
+        return appContext;
+    }
 
+    public AudioPlayerWorker getAudioPlayerWorker() {
+        return audioPlayerWorker;
+    }
+}
