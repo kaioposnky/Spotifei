@@ -11,7 +11,7 @@ public class ParametersHelper {
         Class<?> clazz = object.getClass();
 
         while (clazz != null){
-            Field[] fields = clazz.getFields();
+            Field[] fields = clazz.getDeclaredFields();
             for(Field field : fields){
                 field.setAccessible(true);
                 try {
