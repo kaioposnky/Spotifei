@@ -4,6 +4,8 @@
  */
 package net.spotifei.Views;
 
+import net.spotifei.Controller.UserController;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -21,6 +23,7 @@ public class RegisterPanel extends javax.swing.JPanel {
     public RegisterPanel(MainFrame mainframe) {
         initComponents();
         this.mainframe = mainframe;
+        uc = new UserController(this);
     }
 
 
@@ -250,10 +253,10 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
         // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.LOGIN_PANEL);
+        uc.createUser();
     }//GEN-LAST:event_bt_cadastrarActionPerformed
 
-
+    private UserController uc;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cadastrar;
     private javax.swing.JLabel jLabel1;

@@ -25,4 +25,16 @@ public class PersonRepository {
             throw ex;
         }
     }
+
+    public void createUser(User user) throws Exception{
+        try{
+            String sql = jdbcRepository.getQueryNamed("CreateUser");
+
+            jdbcRepository.executeProcedure(sql, user);
+
+        } catch (Exception ex){
+            ex.getCause();
+            throw ex;
+        }
+    }
 }
