@@ -5,7 +5,7 @@
         duracao_ms AS duracaoMs,
         id_musica AS idMusica
         FROM usuario_fila
-        WHERE id_usuario = [ID_DO_DO_USUARIO]
+        WHERE id_usuario = @idUsuario
         ORDER BY posicao ASC
         LIMIT 1;
     </query>

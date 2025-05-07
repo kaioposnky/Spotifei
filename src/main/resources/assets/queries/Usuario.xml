@@ -5,7 +5,7 @@
     </query>
     <query name="CreateUser">
         INSERT INTO
-        usuario (nome, sobrenome, email, telefone, senha, id_tipo_usuario)
-        VALUES (@nome, @sobrenome, @email, @telefone, @senha, 1)
+        usuario (nome, sobrenome, email, telefone, senha)
+        VALUES (@nome, @sobrenome, @email, @telefone, @senha)
     </query>
 </queries>
