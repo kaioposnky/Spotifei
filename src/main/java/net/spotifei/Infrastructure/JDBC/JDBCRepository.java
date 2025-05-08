@@ -14,7 +14,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +92,7 @@ public class JDBCRepository {
 
     /**
      * @param sql Query a ser executada e obtida
-     * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
+     * @param params HashMap de parâmetros que devem estar na query selecionada
      * @return Retorna uma lista das informações obtidas pelo banco
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
@@ -97,38 +100,79 @@ public class JDBCRepository {
         return handler.handle(getPreparedStatement(sql, params).executeQuery());
     }
 
+    /**
+     * @param sql Query a ser executada e obtida
+     * @param param Parâmetro único em forma de String que será usado na query
+     * @return Retorna uma lista das informações obtidas pelo banco
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
     public <T> T queryProcedure(String sql, String param, ResultSetHandler<T> handler) throws SQLException {
         return handler.handle(getPreparedStatement(sql, param).executeQuery());
     }
 
+    /**
+     * @param sql Query a ser executada e obtida
+     * @return Retorna uma lista das informações obtidas pelo banco
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
     public <T> T queryProcedure(String sql, ResultSetHandler<T> handler) throws SQLException {
         return handler.handle(getPreparedStatement(sql).executeQuery());
     }
 
     /**
-     *
+     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da query
      * @param sql Query a ser executada
      * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
+    @Deprecated
     public void executeProcedure(String sql, Object params) throws SQLException {
         getPreparedStatement(sql, params).execute();
     }
 
+    /**
+     * @param sql Query a ser executada
+     * @param param Parâmetro único em forma de String que será usado na query
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
+    public void executeProcedure(String sql, String param) throws SQLException {
+        getPreparedStatement(sql, param).execute();
+    }
+
+    /**
+     * @param sql Query a ser executada
+     * @param params Parâmetros que devem ser inseridos na Query, no formato de um HashMap
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
+    public void executeProcedure(String sql, Map<String, Object> params) throws SQLException {
+        getPreparedStatement(sql, params).execute();
+    }
+
+    /**
+     * @param sql Query a ser executada
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
     public void executeProcedure(String sql) throws SQLException {
         getPreparedStatement(sql).execute();
     }
 
     /**
      * @implNote Use para gerar um PreparedStatement num comando que NÃO PRECISE de parâmetros
-     * @param queryCode Código SQL obtido pelo getQueryNamed
+     * @param sqlRaw Código SQL obtido pelo getQueryNamed
      * @return Retorna o PreparedStatement do código SQL
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
-    private PreparedStatement getPreparedStatement(String queryCode) throws SQLException {
-        return getConnection().prepareStatement(queryCode);
+    private PreparedStatement getPreparedStatement(String sqlRaw) throws SQLException {
+        return getConnection().prepareStatement(sqlRaw);
     }
 
+
+    /**
+     * @param sqlRaw Código SQL obtido pelo getQueryNamed
+     * @param parameter Parâmetro único que será utilizado no SQL
+     * @return Retorna o PreparedStatement do código SQL
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
     private PreparedStatement getPreparedStatement(String sqlRaw, String parameter) throws SQLException {
         // guarda os parâmetros da query
         Matcher matcher = PARAM_PATTERN.matcher(sqlRaw); // regex para obter @XXXXX do código sql
@@ -146,6 +190,9 @@ public class JDBCRepository {
     }
 
     /**
+     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da query
+     * foi determinada Deprecated por possuir uma fragilidade enorme quanto ao nome das variáveis, use
+     * somente caso você saiba o que você está fazendo.
      * @implNote Use para gerar um PreparedStatement num comando que PRECISE de parâmetros
      * @param sqlRaw Código SQL com os parâmetros no formato @Parametro
      * @param classParam Classe para ser usada de parâmetro para preencher as variáveis no SQL
@@ -154,6 +201,7 @@ public class JDBCRepository {
      * @throws NullParameterException Gerada se o parâmetro for nulo
      * @throws IllegalArgumentException Gerada se um dos atributos do parâmetro for nulo
      */
+    @Deprecated
     private PreparedStatement getPreparedStatement(String sqlRaw,
                                                    Object classParam)
             throws SQLException, NullParameterException, IllegalArgumentException {
@@ -162,6 +210,36 @@ public class JDBCRepository {
             throw new NullParameterException("Nenhum dos parâmetros enviados podem ser nulos!");
         }
 
+        Map<String, Object> paramValues = getParametersFromObject(classParam);
+
+        return prepareStatementFromMap(sqlRaw, paramValues);
+    }
+
+    /**
+     * @implNote Use para gerar um PreparedStatement num comando que PRECISE de parâmetros
+     * @param sqlRaw Código SQL com os parâmetros no formato @Parametro
+     * @param paramsMap Mapa de String, Object, para adicionar parâmetros do SQL
+     * @return Retorna um PreparedStatement com os parâmetros já incluídos no código sql
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     * @throws NullParameterException Gerada se o parâmetro for nulo
+     * @throws IllegalArgumentException Gerada se um dos atributos do parâmetro for nulo
+     */
+    private PreparedStatement getPreparedStatement(String sqlRaw,
+                                                   Map<String, Object> paramsMap)
+            throws SQLException, NullParameterException, IllegalArgumentException {
+
+        if (paramsMap == null || sqlRaw == null) {
+            throw new NullParameterException("Nenhum dos parâmetros enviados podem ser nulos!");
+        }
+        if (paramsMap.containsValue(null)){
+            throw new IllegalArgumentException("Nenhum dos valores dentro do mapa de parâmetros pode ser nulo!");
+        }
+
+        return prepareStatementFromMap(sqlRaw, paramsMap);
+    }
+
+    private PreparedStatement prepareStatementFromMap(String sqlRaw, Map<String, Object> paramsMap)
+            throws SQLException {
         // guarda os parâmetros da query
         List<String> paramNames = new ArrayList<>();
         Matcher matcher = PARAM_PATTERN.matcher(sqlRaw); // regex para obter @XXXXX do código sql
@@ -174,25 +252,22 @@ public class JDBCRepository {
 
         PreparedStatement sqlFilled = getConnection().prepareStatement(sqlRaw);
 
-        Map<String, Object> paramValues = getParametersFromObject(classParam);
-
         // converte os valores
         Object[] paramsList = new Object[paramNames.size()];
         for (int i = 0; i < paramNames.size(); i++) {
             String name = paramNames.get(i);
-            if (!paramValues.containsKey(name)) {
+            if (!paramsMap.containsKey(name)) {
                 throw new IllegalArgumentException(
                         "Parâmetro não encontrado na classe: " + name);
             }
-            paramsList[i] = paramValues.get(name);
+            paramsList[i] = paramsMap.get(name);
         }
 
         new QueryRunner().fillStatement(sqlFilled, paramsList);
 
         return sqlFilled;
+
     }
-
-
 
     public String getQueryNamed(String queryName) throws QueryNotFoundException, FileNotFoundException {
         if (queriesCache.isEmpty()){
