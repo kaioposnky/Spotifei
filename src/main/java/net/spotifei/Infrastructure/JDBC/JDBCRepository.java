@@ -91,12 +91,23 @@ public class JDBCRepository {
     }
 
     /**
+     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da query
      * @param sql Query a ser executada e obtida
      * @param params HashMap de parâmetros que devem estar na query selecionada
      * @return Retorna uma lista das informações obtidas pelo banco
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
+    @Deprecated
     public <T> T queryProcedure(String sql, Object params, ResultSetHandler<T> handler) throws SQLException {
+        return handler.handle(getPreparedStatement(sql, params).executeQuery());
+    }
+
+    /**
+     * @param sql Query a ser executada
+     * @param params Parâmetros que devem ser inseridos na Query, no formato de um HashMap
+     * @throws SQLException Gerada se tiver erro de conexão na DB
+     */
+    public <T> T queryProcedure(String sql, Map<String, Object> params, ResultSetHandler<T> handler) throws SQLException {
         return handler.handle(getPreparedStatement(sql, params).executeQuery());
     }
 
@@ -120,7 +131,7 @@ public class JDBCRepository {
     }
 
     /**
-     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da query
+     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da procedure
      * @param sql Query a ser executada
      * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
      * @throws SQLException Gerada se tiver erro de conexão na DB
