@@ -17,6 +17,11 @@ public class SuccessResponse<T> implements Response<T> {
     }
 
     @Override
+    public boolean isError() {
+        return false;
+    }
+
+    @Override
     public T getData() {
         return data;
     }

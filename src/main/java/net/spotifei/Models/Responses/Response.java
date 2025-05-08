@@ -6,6 +6,7 @@ package net.spotifei.Models.Responses;
  */
 public interface Response<T> {
     boolean isSuccess();
+    boolean isError();
     T getData();
     String getMessage();
     Exception getException();

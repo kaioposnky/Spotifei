@@ -17,6 +17,11 @@ public class ErrorResponse<T> implements Response<T> {
     }
 
     @Override
+    public boolean isError() {
+        return true;
+    }
+
+    @Override
     public String getMessage() {
         return message;
     }

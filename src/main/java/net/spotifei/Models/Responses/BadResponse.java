@@ -15,6 +15,11 @@ public class BadResponse<T> implements Response<T> {
     }
 
     @Override
+    public boolean isError() {
+        return false;
+    }
+
+    @Override
     public T getData() {
         throw new NotApplicableMethodException("Método não aplicado para respostas sem sucesso.");
     }
