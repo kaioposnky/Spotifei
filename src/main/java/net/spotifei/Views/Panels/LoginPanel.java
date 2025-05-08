@@ -7,7 +7,6 @@ package net.spotifei.Views.Panels;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Views.MainFrame;
 
@@ -16,10 +15,11 @@ import net.spotifei.Views.MainFrame;
  * @author fengl
  */
 public class LoginPanel extends javax.swing.JPanel {
-
+    
     private final MainFrame mainframe;
+
     /**
-     * Creates new form JanelaL
+     * Creates new form HPanel
      */
     public LoginPanel(MainFrame mainframe) {
         initComponents();
@@ -27,20 +27,20 @@ public class LoginPanel extends javax.swing.JPanel {
         ac = new AuthController(this);
     }
 
-    public JButton getBt_cadastro() {
-        return bt_cadastro;
+    public JButton getBt_registrar() {
+        return bt_registrar;
     }
 
-    public void setBt_cadastro(JButton bt_cadastro) {
-        this.bt_cadastro = bt_cadastro;
+    public void setBt_registrar(JButton bt_registrar) {
+        this.bt_registrar = bt_registrar;
     }
 
-    public JButton getBt_entrar() {
-        return bt_entrar;
+    public JLabel getjLabel1() {
+        return jLabel1;
     }
 
-    public void setBt_entrar(JButton bt_entrar) {
-        this.bt_entrar = bt_entrar;
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
     }
 
     public JLabel getjLabel2() {
@@ -59,20 +59,20 @@ public class LoginPanel extends javax.swing.JPanel {
         this.jLabel3 = jLabel3;
     }
 
-    public JLabel getTxt1() {
-        return txt1;
+    public JLabel getjLabel4() {
+        return jLabel4;
     }
 
-    public void setTxt1(JLabel txt1) {
-        this.txt1 = txt1;
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
     }
 
-    public JLabel getTxt2() {
-        return txt2;
+    public JLabel getjLabel5() {
+        return jLabel5;
     }
 
-    public void setTxt2(JLabel txt2) {
-        this.txt2 = txt2;
+    public void setjLabel5(JLabel jLabel5) {
+        this.jLabel5 = jLabel5;
     }
 
     public JTextField getTxt_email_login() {
@@ -92,6 +92,8 @@ public class LoginPanel extends javax.swing.JPanel {
     }
     
     
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,60 +103,75 @@ public class LoginPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setBackground(new java.awt.Color(35, 35, 35));
 
-        txt1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txt_email_login = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        txt_email_login = new javax.swing.JTextField();
         txt_senha_login = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        bt_registrar = new javax.swing.JButton();
         bt_entrar = new javax.swing.JButton();
-        txt2 = new javax.swing.JLabel();
-        bt_cadastro = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
-        txt1.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        txt1.setForeground(new java.awt.Color(250, 250, 250));
-        txt1.setText("BEM VINDO!");
+        setBackground(new java.awt.Color(35, 35, 35));
+        setForeground(new java.awt.Color(35, 35, 35));
+        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMinimumSize(new java.awt.Dimension(800, 600));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel1.setText("SEJAM BEM-VINDOS!");
+
+        jLabel2.setBackground(new java.awt.Color(250, 250, 250));
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel2.setText("Email:");
+        jLabel2.setText("LOGIN");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel3.setText("E-MAIL:");
+
+        txt_email_login.setBackground(new java.awt.Color(250, 250, 250));
+        txt_email_login.setForeground(new java.awt.Color(35, 35, 35));
         txt_email_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_email_loginActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel3.setText("Senha:");
+        txt_senha_login.setBackground(new java.awt.Color(250, 250, 250));
+        txt_senha_login.setForeground(new java.awt.Color(35, 35, 35));
 
-        txt_senha_login.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel4.setText("SENHA:");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel5.setText("NÃO TEM UM LOGIN?");
+
+        bt_registrar.setBackground(new java.awt.Color(51, 255, 102));
+        bt_registrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_registrar.setForeground(new java.awt.Color(0, 255, 102));
+        bt_registrar.setText("REGISTRAR");
+        bt_registrar.setBorderPainted(false);
+        bt_registrar.setContentAreaFilled(false);
+        bt_registrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_senha_loginActionPerformed(evt);
+                bt_registrarActionPerformed(evt);
             }
         });
 
-        bt_entrar.setText("ENTRAR");
+        bt_entrar.setBackground(new java.awt.Color(0, 0, 0));
+        bt_entrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        bt_entrar.setForeground(new java.awt.Color(250, 250, 250));
+        bt_entrar.setText("Entrar");
+        bt_entrar.setBorderPainted(false);
         bt_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_entrarActionPerformed(evt);
-            }
-        });
-
-        txt2.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        txt2.setForeground(new java.awt.Color(250, 250, 250));
-        txt2.setText("NÃO TEM LOGIN ?");
-
-        bt_cadastro.setBackground(new java.awt.Color(35, 35, 35));
-        bt_cadastro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_cadastro.setForeground(new java.awt.Color(250, 250, 250));
-        bt_cadastro.setText("Cadastrar");
-        bt_cadastro.setBorderPainted(false);
-        bt_cadastro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_cadastroActionPerformed(evt);
             }
         });
 
@@ -163,57 +180,65 @@ public class LoginPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(txt1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                        .addGap(160, 160, 160)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(15, 15, 15)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txt_email_login, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(txt_senha_login))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel4)
+                                .addGap(21, 21, 21)
+                                .addComponent(txt_senha_login, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txt_email_login, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(jLabel1)))
+                .addContainerGap(186, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(bt_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
+                        .addComponent(bt_registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(275, 275, 275))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(bt_cadastro)
-                        .addGap(110, 110, 110))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 51, Short.MAX_VALUE)
-                .addComponent(txt2)
-                .addGap(42, 42, 42))
+                        .addComponent(bt_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(215, 215, 215))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addComponent(txt1)
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_email_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
+                    .addComponent(txt_email_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
                     .addComponent(txt_senha_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addComponent(bt_entrar)
-                .addGap(37, 37, 37)
-                .addComponent(txt2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bt_cadastro)
-                .addGap(38, 38, 38))
+                .addComponent(bt_registrar)
+                .addContainerGap(115, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -221,38 +246,34 @@ public class LoginPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_email_loginActionPerformed
 
-    private void txt_senha_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_senha_loginActionPerformed
+    private void bt_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_senha_loginActionPerformed
+        mainframe.setPanel(MainFrame.REGISTER_PANEL);
+    }//GEN-LAST:event_bt_registrarActionPerformed
 
     private void bt_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_entrarActionPerformed
         // TODO add your handling code here:
-        // fazer login
         ac.loginUsuario();
-
     }//GEN-LAST:event_bt_entrarActionPerformed
 
-    private void bt_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastroActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.REGISTER_PANEL);
-
-    }//GEN-LAST:event_bt_cadastroActionPerformed
-
-
+    
     private AuthController ac;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_cadastro;
     private javax.swing.JButton bt_entrar;
+    private javax.swing.JButton bt_registrar;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel txt1;
-    private javax.swing.JLabel txt2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txt_email_login;
     private javax.swing.JTextField txt_senha_login;
     // End of variables declaration//GEN-END:variables
 
-
     public MainFrame getMainframe() {
         return mainframe;
     }
+
+
 }
