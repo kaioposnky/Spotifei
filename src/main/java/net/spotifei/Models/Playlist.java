@@ -6,6 +6,7 @@ public class Playlist {
     private String nome;
     private Artist autor;
     private long salvamentos;
+    private boolean isPublic;
     private ArrayList<Music> music;
 
     public Playlist(String nome, Artist autor, ArrayList<Music> music, long salvamentos) {
@@ -45,5 +46,13 @@ public class Playlist {
 
     public void setSalvamentos(long salvamentos) {
         this.salvamentos = salvamentos;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }

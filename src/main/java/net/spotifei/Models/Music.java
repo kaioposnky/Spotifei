@@ -9,6 +9,8 @@ public class Music {
     private int duracaoMs;
     private AudioInputStream audio;
     private int idMusica;
+    private long likes;
+    private long dislikes;
 
     public Music(String nome, Artist autor, Genre genre, int duracaoMs, int idMusica) {
         this.nome = nome;
@@ -64,5 +66,21 @@ public class Music {
 
     public void setAudio(AudioInputStream audio) {
         this.audio = audio;
+    }
+
+    public long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(long likes) {
+        this.likes = likes;
+    }
+
+    public long getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(long dislikes) {
+        this.dislikes = dislikes;
     }
 }
