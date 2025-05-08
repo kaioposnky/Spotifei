@@ -25,7 +25,9 @@ public class MainFrame extends JFrame{
     public MainFrame(AppContext appContext, AudioPlayerWorker audioPlayerWorker){
         this.appContext = appContext;
         this.audioPlayerWorker = audioPlayerWorker;
-        this.musicPlayerPanel = new MusicPlayerPanel();
+        this.musicPlayerPanel = new MusicPlayerPanel(this);
+
+        audioPlayerWorker.setMusicPlayerPanel(musicPlayerPanel);
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
