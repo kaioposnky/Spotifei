@@ -4,6 +4,7 @@ import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Models.Music;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,11 @@ public class MusicRepository {
 
     public Music getNextMusicOnUserQueue(int userId) throws Exception {
         try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("userId", userId);
+
             String sql = jdbcRepository.getQueryNamed("GetNextMusicOnUserQueueByUserId");
-            Music music = jdbcRepository.queryProcedure(sql, userId, new BeanHandler<>(Music.class));
+            Music music = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Music.class));
 
             return music;
         } catch (Exception e){
@@ -42,8 +46,11 @@ public class MusicRepository {
 
     public byte[] getMusicAsByteArray(int musicId) throws Exception {
         try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idMusica", musicId);
+
             String sql = jdbcRepository.getQueryNamed("GetMusicAudioByMusicId");
-            byte[] musicAudio = jdbcRepository.queryProcedure(sql, musicId, new BeanHandler<>(byte[].class));
+            byte[] musicAudio = jdbcRepository.queryProcedure(sql, params, new ScalarHandler<>());
 
             return musicAudio;
         } catch (Exception e){
