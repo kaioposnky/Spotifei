@@ -13,6 +13,8 @@ public class MainFrame extends JFrame{
     public static final String REGISTER_PANEL = "Register";
     public static final String HOME_PANEL = "Home";
     public static final String SEARCH_PANEL = "Search";
+    public static final String HISTORY_PANEL = "History";
+    public static final String PLAYLIST_PANEL = "Playlist";
 
     private CardLayout cardLayout;
     private JPanel cards;
@@ -32,6 +34,8 @@ public class MainFrame extends JFrame{
         cards.add(new SearchPanel(this), SEARCH_PANEL);
         cards.add(new HomePanel(this), HOME_PANEL);
         cards.add(new RegisterPanel(this), REGISTER_PANEL);
+        cards.add(new HistoryPanel(this), HISTORY_PANEL);
+        cards.add(new PlaylistPanel(this), PLAYLIST_PANEL);
 
 //        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);
