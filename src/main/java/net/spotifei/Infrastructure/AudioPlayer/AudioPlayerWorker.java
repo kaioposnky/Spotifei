@@ -1,23 +1,39 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
+import net.spotifei.Views.Panels.MusicPlayerPanel;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 /**
  * Worker assíncrono que gerencia as músicas sendo tocadas em background
  * @implNote Não crie instâncias de MusicPlayerWorker se você não
  * quiser erros catastróficos
  */
-public class AudioPlayerWorker extends SwingWorker<String, Void> {
+public class AudioPlayerWorker extends SwingWorker<String, Long> implements LineListener{
 
     private final LinkedBlockingQueue<AudioCommand> commandQueue = new LinkedBlockingQueue<>();
-    private long musicMicrosecond = 0;
+    private Thread progressUpdateThread;
+    private ProgressPublisherRunnable progressPublisherRunnable;
+    private long musicMicrosecondNow = 0;
     private boolean isPlaying = false;
-    private boolean keepRunning = true;
+    private boolean shutdownWorker = false;
     private Clip clip;
+    private MusicPlayerPanel musicPlayerPanel;
+
+    // calculos feitos logo no começo do carregamento da música para não terem que ser re-feitos
+
+
+    // TODO: REMOVER ISSO E COLOCAR A DEPENDENCIA NO CONSTRUTOR
+    public void setMusicPlayerPanel(MusicPlayerPanel musicPlayerPanel) {
+        this.musicPlayerPanel = musicPlayerPanel;
+    }
 
     @FunctionalInterface
     private interface AudioCommand{
@@ -37,21 +53,52 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
     @Override
     protected String doInBackground() throws Exception {
         clip = AudioSystem.getClip();
-        while (keepRunning) { // Infinite loop planejado p
+        clip.addLineListener(this); // colocar o listener de audio
+
+        while (!shutdownWorker) { // Infinite loop planejado p
             try {
                 AudioCommand command = commandQueue.take(); // Trava a Thread até que consiga obter um elemento da Queue
                 command.execute();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (IllegalArgumentException e) {
-                // loggar isso, algum valor colocado errado que vai ser ignorado
-                System.err.println("Um comando executado no worker de aúdio falhou!" + e.getMessage());
+                logError("Um comando executado no worker de aúdio falhou!", e);
             }
         }
 
         if (clip != null && clip.isOpen()) clip.close();
 
         return "Worker de aúdio encerrado.";
+    }
+
+    @Override
+    protected void process(List<Long> chunks) {
+        // muitas verificacoes mas é para ter certeza que nao vai bugar
+        if (musicPlayerPanel != null || clip != null &&
+                clip.isOpen() && clip.isActive() && clip.isRunning() && clip.getMicrosecondLength() > 0) {
+
+            long musicCurrentLength = chunks.get(chunks.size() - 1); // obter o length da música pelos chunks recebidos
+            long musicTotalLength = clip.getMicrosecondLength();
+            float musicPercentage = (float) musicCurrentLength / (float) musicTotalLength;
+            musicPercentage = Math.max(0.0f, Math.min(1.0f, musicPercentage));
+
+            musicPlayerPanel.getMusicSlider().setValue((int) musicPercentage);
+
+            int minutes = (int) (musicCurrentLength / 6000000);
+            int seconds = (int) ((musicCurrentLength / 1000000) % 60);
+
+            musicPlayerPanel.getMusicTimeNowLabel().setText(minutes + ":" + seconds);
+            chunks.clear(); // limpar memoria
+        }
+    }
+
+    @Override
+    public void update(LineEvent event) {
+        if (event.getType() == LineEvent.Type.STOP) {
+            if(isPlaying){
+                isPlaying = false;
+            }
+        }
     }
 
     /**
@@ -90,11 +137,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
 
     /**
      * Altera o tempo da música sendo tocada
-     * @param microseconds Tempo da música em microsegundos a ser
+     * @param musicTimePercentage Tempo da música em porcentagem
      * setado (vai tocar a música a partir desse tempo)
      */
-    public void seek(long microseconds) throws InterruptedException {
-        commandQueue.put(() -> handleSeek(microseconds));
+    public void seek(float musicTimePercentage) throws InterruptedException {
+        commandQueue.put(() -> handleSeek(musicTimePercentage));
     }
 
     /**
@@ -102,26 +149,34 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
      * @param volume Número float entre 0.1f e 1.0f
      */
     public void setVolume(float volume) throws InterruptedException {
-        if (volume <= 0f || volume > 1f){
-            throw new IllegalArgumentException("O volume deve ser um valor entre (0 e 1]!");
+        if (volume < 0.0f || volume > 1.0f) {
+            logWarn("Volume fora do intervao 0.0-1.0: " + volume + "!");
+            volume = Math.max(0.0f, Math.min(1.0f, volume));
         }
-        commandQueue.put(() -> handleSetVolume(volume));
+        float finalVolume = volume;
+        commandQueue.put(() -> handleSetVolume(finalVolume));
     }
 
     public void shutdown() throws InterruptedException {
-        keepRunning = false;
+        shutdownWorker = false;
         commandQueue.put(() -> {});
     }
 
 
     private void handleSetVolume(float volume){
+        if (clip == null || !clip.isOpen()) return;
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-        gainControl.setValue(20f * (float) Math.log10(volume));
+        float finalVolume = (float) Math.log10(volume);
+        // Multiplica por 1.5 para reduzir o volume (dividir aumenta por algum motivo)
+        gainControl.setValue( -15f + (finalVolume) * 60f);
     }
 
 
-    private void handleSeek(long microseconds){
+    private void handleSeek(float musicTimePercentage){
+
+        long microseconds = (long) (clip.getMicrosecondLength() * musicTimePercentage);
+
         if (microseconds > clip.getMicrosecondLength()){
             microseconds = clip.getMicrosecondLength() - 1;
         }
@@ -137,12 +192,12 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
             shouldPause = forceStatus;
         }
         if (shouldPause) {
-            musicMicrosecond = clip.getMicrosecondPosition();
+            musicMicrosecondNow = clip.getMicrosecondPosition();
             clip.stop();
             isPlaying = false;
         }
         else {
-            clip.setMicrosecondPosition(musicMicrosecond);
+            clip.setMicrosecondPosition(musicMicrosecondNow);
             clip.start();
             isPlaying = true;
         }
@@ -151,12 +206,61 @@ public class AudioPlayerWorker extends SwingWorker<String, Void> {
     private void handlePlayMusic(AudioInputStream audioInputStream) throws Exception{
         try{
             clip.open(audioInputStream);
+            setVolume(musicPlayerPanel.getMusicSlider().getValue() / 100f);
             clip.setMicrosecondPosition(0);
             clip.start();
             isPlaying = true;
+
+
+            long totalSeconds = clip.getMicrosecondLength() / 1000000;
+            long minutes = totalSeconds / 60;
+            long remainingSeconds = totalSeconds % 60;
+
+            musicPlayerPanel.getMusicTimeTotalLabel().setText(String.format("%1d:%02d", minutes, remainingSeconds));
+        }  catch (Exception e) {
+            logError("Erro ao tocar música!", e);
         } finally {
             if (audioInputStream != null) audioInputStream.close();
         }
+    }
 
+    private void startProgressUpdateThread() {
+        if(shutdownWorker){
+            logWarn("Tentativa de iniciar o Thread de Atualizar Progresso do Slider com o Worker encerrado!");
+            return;
+        } else if (progressUpdateThread != null && progressUpdateThread.isAlive()) {
+            logWarn("Tentativa de iniciar o Thread de Atualizar Progresso do Slider com um outro Thread rodando!");
+        } else if (this.clip == null || !this.clip.isOpen()){
+            logWarn("Tentativa de iniciar o Thread de Atualizar Progresso do Slider com um Clip fechado!");
+            return;
+        }
+        progressPublisherRunnable = new ProgressPublisherRunnable(this, this.clip);
+        progressUpdateThread = new Thread(progressPublisherRunnable);
+        progressUpdateThread.setDaemon(true); // tornar thread daemon (roda em background em baixa prioridade)
+        progressUpdateThread.start(); // iniciar o thread :P
+        logInfo("Thread de Atualizar Progresso do Slider iniciada com sucesso!");
+    }
+
+    private void stopProgressUpdateThread() {
+        if (progressPublisherRunnable != null){
+            progressPublisherRunnable.stopPublisher();
+        }
+        if (progressUpdateThread != null && progressUpdateThread.isAlive()){
+            progressUpdateThread.interrupt();
+        }
+        logInfo("Thread de Atualizar Progresso do Slider encerrada com sucesso!");
+
+        // limpa a memória
+        this.progressPublisherRunnable = null;
+        this.progressUpdateThread = null;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void publishProgress(long microseconds) {
+        if (shutdownWorker) return;
+        publish(microseconds);
     }
 }
