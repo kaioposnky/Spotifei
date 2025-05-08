@@ -7,7 +7,6 @@ public class Music {
     private Artist autor;
     private Genre genre;
     private int duracaoMs;
-    private AudioInputStream audio;
     private int idMusica;
     private long likes;
     private long dislikes;
@@ -58,14 +57,6 @@ public class Music {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public AudioInputStream getAudio() {
-        return audio;
-    }
-
-    public void setAudio(AudioInputStream audio) {
-        this.audio = audio;
     }
 
     public long getLikes() {

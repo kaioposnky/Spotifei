@@ -5,17 +5,21 @@ import net.spotifei.Models.Music;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import javax.sound.sampled.AudioInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MusicRepository {
 
     private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
 
-    private List<Music> getMusicByName(String name) throws Exception{
+    private List<Music> searchMusicByName(String name) throws Exception{
         try{
-            String sql = jdbcRepository.getQueryNamed("GetMusicByName");
-            List<Music> musics = jdbcRepository.queryProcedure(sql, name, new BeanListHandler<>(Music.class));
+            Map<String, Object> params = new HashMap<>();
+            params.put("name", name);
+
+            String sql = jdbcRepository.getQueryNamed("SearchMusicByName");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
 
             return  musics;
         } catch (Exception e){
@@ -42,6 +46,42 @@ public class MusicRepository {
             byte[] musicAudio = jdbcRepository.queryProcedure(sql, musicId, new BeanHandler<>(byte[].class));
 
             return musicAudio;
+        } catch (Exception e){
+            e.getCause();
+            throw e;
+        }
+    }
+
+    public List<Music> getMostLikedMusics() throws Exception{
+        try{
+            String sql = jdbcRepository.getQueryNamed("GetMostLikedMusics");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, new BeanListHandler<>(Music.class));
+
+            return musics;
+        } catch (Exception e){
+            e.getCause();
+            throw e;
+        }
+    }
+
+    public List<Music> getMostDislikedMusics() throws Exception{
+        try{
+            String sql = jdbcRepository.getQueryNamed("GetMostDislikedMusics");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, new BeanListHandler<>(Music.class));
+
+            return musics;
+        } catch (Exception e){
+            e.getCause();
+            throw e;
+        }
+    }
+
+    public int getTotalMusics() throws Exception{
+        try{
+            String sql = jdbcRepository.getQueryNamed("GetTotalMusics");
+            int totalMusics = jdbcRepository.queryProcedure(sql, new BeanHandler<>(Integer.class));
+
+            return totalMusics;
         } catch (Exception e){
             e.getCause();
             throw e;

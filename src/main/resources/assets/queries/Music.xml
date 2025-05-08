@@ -14,4 +14,49 @@
         FROM musica_audio
         WHERE id_musica = @idMusica;
     </query>
+    <query name="SearchMusicByName">
+        SELECT DISTINCT
+        m.id_musica AS idMusica,
+        m.nome AS nomeMusica,
+        FROM musica m
+        LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
+        LEFT JOIN artista a ON am.id_artista = a.id_artista
+        LEFT JOIN genero g ON m.id_genero = g.id_genero
+        WHERE
+        m.nome ILIKE '%' || @nome || '%' OR
+        a.nome_artistico ILIKE '%' || @nome || '%' OR
+        g.nome ILIKE '%' || @nome || '%';
+        ORDER BY m.nome;
+    </query>
+    <query name="GetMostLikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        WHERE au.gostou = TRUE
+        GROUP BY m.id_musica, m.nome
+        ORDER BY total_curtidas DESC
+        LIMIT 5;
+    </query>
+    <query name="GetMostDislikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        WHERE au.gostou = FALSE
+        GROUP BY m.id_musica, m.nome
+        ORDER BY total_curtidas DESC
+        LIMIT 5;
+    </query>
+    <query name="GetTotalMusics">
+        SELECT COUNT(*) AS total
+        FROM musica;
+    </query>
+
+<!--    Não adicionada em produção!    -->
+    <query name="InsertMusicAudio">
+        INSERT INTO musica_audio (id_musica, audio) VALUES (@idMusica, @audio);
+    </query>
 </queries>

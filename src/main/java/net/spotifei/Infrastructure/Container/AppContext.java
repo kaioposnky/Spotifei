@@ -7,6 +7,7 @@ public class AppContext {
 
     private Person personContext;
     private Music musicContext;
+    private boolean isMusicPlaying = false;
 
     public Person getPersonContext() {
         return personContext;
@@ -23,5 +24,13 @@ public class AppContext {
 
     public void setMusicContext(Music musicContext) {
         this.musicContext = musicContext;
+    }
+
+    public boolean isMusicPlaying() {
+        return isMusicPlaying;
+    }
+
+    public void setMusicPlaying(boolean musicPlaying) {
+        isMusicPlaying = musicPlaying;
     }
 }
