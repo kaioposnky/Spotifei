@@ -1,11 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
     <query name="GetUserByEmail">
-        SELECT * FROM Usuario WHERE email = @Email
+        SELECT
+        u.id_usuario AS idUsuario,
+        u.email AS email,
+        u.nome AS nome,
+        u.sobrenome AS sobrenome,
+        u.telefone AS telefone
+        FROM Usuario u
+        WHERE email = @Email;
+    </query>
+    <query name="GetUserById">
+        SELECT
+        u.id_usuario AS idUsuario,
+        u.email AS email,
+        u.nome AS nome,
+        u.sobrenome AS sobrenome,
+        u.telefone AS telefone
+        FROM Usuario u
+        WHERE u.id_usuario = @idUsuario;
     </query>
     <query name="CreateUser">
         INSERT INTO
         usuario (nome, sobrenome, email, telefone, senha)
-        VALUES (@nome, @sobrenome, @email, @telefone, @senha)
+        VALUES (@nome, @sobrenome, @email, @telefone, @senha);
+    </query>
+    <query name="GetMostLikedUserMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracao
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        WHERE au.gostou = TRUE
+        AND au.id_usuario = @idUsuario
+        ORDER BY m.nome;
+    </query>
+    <query name="GetUserLast10MusicsSearched">
+        SELECT
+        uhb.busca AS busca,
+        uhb.data_busca AS data,
+        uhb.id_usuario AS idUsuario
+        FROM usuario_historico_buscas uhb
+        WHERE uhb.id_usuario = @idUsuario
+        ORDER BY uhb.data_busca DESC
+        LIMIT 10;
+    </query>
+    <query name="GetMostDislikedUserMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracao
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        WHERE au.gostou = FALSE
+        AND au.id_usuario = @idUsuario
+        ORDER BY m.nome;
+    </query>
+    <query name="GetTotalUsers">
+        SELECT COUNT(*) AS total
+        FROM usuario;
     </query>
 </queries>
