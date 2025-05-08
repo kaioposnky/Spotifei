@@ -1,16 +1,26 @@
 package net.spotifei.Views.Panels;
 
+import net.spotifei.Controller.MusicController;
+import net.spotifei.Views.Components.SpotifyLikeButton;
+import net.spotifei.Views.Components.SpotifyLikeSlider;
+import net.spotifei.Views.MainFrame;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 
 public class MusicPlayerPanel extends JPanel {
 
-    public MusicPlayerPanel() {
+    private MusicController musicController;
+    private SpotifyLikeSlider musicSlider;
+    private SpotifyLikeSlider audioSlider;
+    private JLabel musicTimeNowLabel;
+    private JLabel musicTimeTotalLabel;
+
+    public MusicPlayerPanel(MainFrame mainframe) {
+        this.musicController = new MusicController(this, mainframe.getAudioPlayerWorker());
         initComponents();
     }
 
@@ -60,29 +70,30 @@ public class MusicPlayerPanel extends JPanel {
         JPanel musicProgressPanel = new JPanel();
         musicProgressPanel.setOpaque(false);
 
-        MusicSlider musicProgress = new MusicSlider(0, 100, 20, 400, 20);
+        musicSlider = new SpotifyLikeSlider(0, 100, 20, 400, 20);
+        musicSlider.addMouseListener(getMusicSliderMouseListeners(musicSlider));
 
-        JLabel musicTimeNow = new JLabel("0:00");
-        musicTimeNow.setFont(new Font("Arial", Font.PLAIN, 12));
-        musicTimeNow.setForeground(Color.GRAY);
+        musicTimeNowLabel = new JLabel("0:00");
+        musicTimeNowLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        musicTimeNowLabel.setForeground(Color.GRAY);
 
-        JLabel musicTimeTotal = new JLabel("3:20");
-        musicTimeTotal.setFont(new Font("Arial", Font.PLAIN, 12));
-        musicTimeTotal.setForeground(Color.GRAY);
+        musicTimeTotalLabel = new JLabel("1:00");
+        musicTimeTotalLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        musicTimeTotalLabel.setForeground(Color.GRAY);
 
-        musicProgressPanel.add(musicTimeNow, BorderLayout.WEST);
-        musicProgressPanel.add(musicProgress, BorderLayout.CENTER);
-        musicProgressPanel.add(musicTimeTotal, BorderLayout.EAST);
+        musicProgressPanel.add(musicTimeNowLabel, BorderLayout.WEST);
+        musicProgressPanel.add(musicSlider, BorderLayout.CENTER);
+        musicProgressPanel.add(musicTimeTotalLabel, BorderLayout.EAST);
 
         JPanel musicControlPanel = new JPanel();
         musicControlPanel.setOpaque(false);
         musicControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
 
-        MusicControlButton btnSkip = new MusicControlButton("<html>&#x23ED;</html>", 16);
+        SpotifyLikeButton btnSkip = new SpotifyLikeButton("<html>&#x23ED;</html>", 16);
 
-        MusicControlButton btnPause = new MusicControlButton("<html>&#x25B6;</html>", 20);
+        SpotifyLikeButton btnPause = new SpotifyLikeButton("<html>&#x25B6;</html>", 20);
 
-        MusicControlButton btnPrevious = new MusicControlButton("<html>&#x23EE;</html>", 16);
+        SpotifyLikeButton btnPrevious = new SpotifyLikeButton("<html>&#x23EE;</html>", 16);
 
         musicControlPanel.add(btnPrevious, BorderLayout.WEST);
         musicControlPanel.add(btnPause, BorderLayout.CENTER);
@@ -106,169 +117,50 @@ public class MusicPlayerPanel extends JPanel {
         muteButtonWrapper.setMaximumSize(new Dimension(25, 25));
         muteButtonWrapper.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        MusicControlButton btnMute = new MusicControlButton("<html> &#x1F50A </html>", 17);
+        SpotifyLikeButton btnMute = new SpotifyLikeButton("<html> &#x1F50A </html>", 17);
         btnMute.setFocusPainted(false);
         btnMute.setBorder(new EmptyBorder(-7,8,0,0));
 
         muteButtonWrapper.add(btnMute);
 
-        SpotifyLikeSlider spotifyLikeSlider = new SpotifyLikeSlider(0, 100, 15);
+        audioSlider = new SpotifyLikeSlider(0, 100, 15);
+        audioSlider.addMouseListener(getAudioSliderMouseListeners(audioSlider));
 
         rightPanel.add(muteButtonWrapper);
-        rightPanel.add(spotifyLikeSlider);
+        rightPanel.add(audioSlider);
 
         return rightPanel;
     }
 
-    private class MusicControlButton extends JButton {
-
-        private final Color textColor = new Color(179, 179, 179);
-        private final Color backgroundColor = Color.BLACK;
-        private final Color hoverTextColor = Color.white;
-
-        public MusicControlButton(String text, int fontSize) {
-            super("<html><span style='font-size: " + fontSize + "px;'>" + text + "</span></html>");
-            this.setFocusPainted(false);
-            this.setOpaque(false);
-            this.setBorderPainted(false);
-            this.setBackground(backgroundColor);
-            this.setForeground(textColor);
-            this.setContentAreaFilled(false);
-            this.addMouseListener(getMouseListener());
-        }
-
-        private MouseAdapter getMouseListener() {
-            return new MouseAdapter() {
-                @Override
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    setForeground(hoverTextColor);
-                    setText("<html><span style='font-size: " + (getFont().getSize() + 10) + "px;'>" + getText() + "</span></html>");
-                    super.mouseEntered(evt);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    setForeground(textColor);
-                    super.mouseExited(e);
-                }
-            };
-        }
-    }
-
-    private class SpotifyLikeSlider extends JSlider {
-
-        public SpotifyLikeSlider(int min, int max, int value) {
-            super(min, max, value);
-            this.setPreferredSize(new Dimension(100, 15));
-            this.setOpaque(false);
-            this.setFocusable(false);
-            this.setUI(new SpotifyLikeSliderUI(this));
-        }
-
-        public SpotifyLikeSlider(int min, int max, int value, int width, int height) {
-            super(min, max, value);
-            this.setPreferredSize(new Dimension(width, height));
-            this.setOpaque(false);
-            this.setFocusable(false);
-            this.setUI(new SpotifyLikeSliderUI(this));
-        }
-
-        private static class SpotifyLikeSliderUI extends BasicSliderUI {
-
-            private final Color trackColor = new Color(77, 77, 77);
-            private final Color filledColor = Color.white;
-            private final Color hoveredFilledColor = new Color(30, 215, 96);
-            private boolean isMouseHovering = false;
-
-            public SpotifyLikeSliderUI(JSlider b) {
-                super(b);
-            }
-
+    private MouseAdapter getMusicSliderMouseListeners(SpotifyLikeSlider musicSlider) {
+        return new MouseAdapter() {
             @Override
-            public void installUI(JComponent c) {
-                super.installUI(c);
-
-                MouseAdapter hoverListener = new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        isMouseHovering = true;
-                        slider.repaint();
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        isMouseHovering = false;
-                        if (!slider.getValueIsAdjusting()) {
-                            slider.repaint();
-                        }
-                    }
-                };
-                slider.addMouseListener(hoverListener);
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                musicController.setMusicTime(musicSlider.getValue());
             }
+        };
+    }
 
-            @Override // socorro onde eu fui me meter
-            public void paintTrack(Graphics g) { // repintar a linha do slider
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-                int trackY = trackRect.y + (trackRect.height / 2) - 4; // centraliza a posição y
-
-                // pintar a linha de background
-                g2d.setColor(trackColor);
-                // essa classe faz a mágica de criar uma barra com as bordas circulares, melhor nao saber como
-                RoundRectangle2D slideBackground = new RoundRectangle2D.Float(
-                        trackRect.x, trackY, trackRect.width, 5, 4, 4);
-                g2d.fill(slideBackground);
-
-                // pega o valor do slider preenchido e subtrai pela coordenada X
-                int amountFilled = xPositionForValue(slider.getValue()) - trackRect.x;
-
-                // pintar a linha preenchida
-                g2d.setColor(isMouseHovering || slider.getValueIsAdjusting()? hoveredFilledColor : filledColor);
-                RoundRectangle2D slideFilled = new RoundRectangle2D.Float(
-                        trackRect.x, trackY, amountFilled, 5, 4, 4);
-                g2d.fill(slideFilled);
-            }
-
+    private MouseAdapter getAudioSliderMouseListeners(SpotifyLikeSlider audioSlider) {
+        return new MouseAdapter() {
             @Override
-            public void paintThumb(Graphics g){ // repintar o "thumb" do slider
-                if (!isMouseHovering && !slider.getValueIsAdjusting()) return;
-
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-
-                int ovalX = thumbRect.x + (thumbRect.width - 10) / 2;
-                int ovalY = thumbRect.y + 1 + (thumbRect.height - 10) / 2;
-
-                g2d.setColor(Color.WHITE);
-                // NÃO AUMENTA PARA MAIS DE 10 ERROS DE VAZAMENTO DE PIXEL VÃO OCORRER
-                g2d.fillOval(ovalX, ovalY - 3, 10, 10);
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                musicController.setAudioVolume(audioSlider.getValue());
             }
-        }
+        };
     }
 
-    private class MusicSlider extends SpotifyLikeSlider {
-
-        public MusicSlider(int min, int max, int value) {
-            super(min, max, value);
-            addMouseListener(getSeekMouseListener());
-        }
-
-        public MusicSlider(int min, int max, int value, int width, int height) {
-            super(min, max, value, width, height);
-            addMouseListener(getSeekMouseListener());
-        }
-
-        private MouseAdapter getSeekMouseListener() {
-            return new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    super.mouseReleased(e);
-                    // adicionar logica do seek do audioplayer
-                }
-            };
-        }
+    public JLabel getMusicTimeNowLabel() {
+        return musicTimeNowLabel;
     }
 
+    public JLabel getMusicTimeTotalLabel() {
+        return musicTimeTotalLabel;
+    }
 
+    public SpotifyLikeSlider getMusicSlider() {
+        return musicSlider;
+    }
 }

@@ -1,5 +1,6 @@
 package net.spotifei.Controller;
 
+import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
@@ -14,11 +15,9 @@ public class MusicController {
     private final JPanel view;
     private final MusicService musicServices;
 
-    public MusicController(JPanel view) {
+    public MusicController(JPanel view, AudioPlayerWorker audioPlayerWorker) {
         this.view = view;
-        this.musicServices = new MusicService(
-                ((HomePanel) view).getMainframe().getAudioPlayerWorker()
-        );
+        this.musicServices = new MusicService(audioPlayerWorker);
     }
 
     public void playUserNextMusic(){
@@ -38,5 +37,31 @@ public class MusicController {
         logDebug("Tocando agora: " + musicFound.getNome());
         homePanel.getMainframe().getAppContext().setMusicContext(musicFound);
         // update do UI com a nova música tocando
+    }
+
+    public void setAudioVolume(float volume){
+        Response<Void> response = musicServices.setAudioVolume(volume);
+        if(!response.isSuccess()){
+            if(response.isError()){
+                logError(response.getMessage(), response.getException());
+            } else{
+                logError(response.getMessage());
+            }
+            return;
+        }
+        logDebug("Volume alterado para " + volume + " com sucesso!");
+    }
+
+    public void setMusicTime(float musicTime){
+        Response<Void> response = musicServices.setMusicTime(musicTime);
+        if(!response.isSuccess()){
+            if(response.isError()){
+                logError(response.getMessage(), response.getException());
+            } else{
+                logError(response.getMessage());
+            }
+            return;
+        }
+        logDebug("Tempo da música alterado para " + musicTime + " com sucesso!");
     }
 }
