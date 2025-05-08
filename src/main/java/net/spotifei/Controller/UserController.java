@@ -4,7 +4,7 @@ import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.MainFrame;
-import net.spotifei.Views.RegisterPanel;
+import net.spotifei.Views.Panels.RegisterPanel;
 
 import javax.swing.*;
 
