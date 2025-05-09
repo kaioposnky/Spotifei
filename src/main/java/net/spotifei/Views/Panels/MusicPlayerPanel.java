@@ -24,13 +24,13 @@ public class MusicPlayerPanel extends JPanel {
     private JLabel musicArtist;
 
     public MusicPlayerPanel(MainFrame mainframe) {
-        this.musicController = new MusicController(this, mainframe.getAudioPlayerWorker());
+        this.musicController = new MusicController(this, mainframe, this);
         initComponents();
     }
 
     private void initComponents() {
         setLayout(new BorderLayout(5, 5));
-        setBorder(new EmptyBorder(5, 20, 15, 10));
+        setBorder(new EmptyBorder(5, 5, 15, 10));
         setBackground(Color.black);
 
         add(createLeftPanel(), BorderLayout.WEST);
@@ -39,8 +39,8 @@ public class MusicPlayerPanel extends JPanel {
     }
 
     private JPanel createLeftPanel(){
-        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 20));
-        leftPanel.setOpaque(false);
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        leftPanel.setOpaque(true);
 
         JPanel songInfoPanel = new JPanel();
         songInfoPanel.setOpaque(false);
@@ -49,7 +49,7 @@ public class MusicPlayerPanel extends JPanel {
         musicTitle = new JLabel("Music Title");
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.WHITE);
-
+        
         musicArtist = new JLabel("Music Artist");
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
@@ -94,6 +94,7 @@ public class MusicPlayerPanel extends JPanel {
         musicControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
 
         SpotifyLikeButton btnSkip = new SpotifyLikeButton("<html>&#x23ED;</html>", 16);
+        btnSkip.addActionListener(event -> handleNextMusicButton());
 
         JPanel pausebtnWrapper = new JPanel();
         pausebtnWrapper.setOpaque(false);
@@ -164,6 +165,10 @@ public class MusicPlayerPanel extends JPanel {
                 musicController.setAudioVolume(audioSlider.getValue());
             }
         };
+    }
+
+    public void handleNextMusicButton(){
+        musicController.playMusic();
     }
 
     public void handlePauseButton(){
