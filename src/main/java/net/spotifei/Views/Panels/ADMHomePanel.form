@@ -45,10 +45,10 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jButton1" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
-                              <Component id="jButton2" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
-                              <Component id="jButton3" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
-                              <Component id="jButton4" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
+                              <Component id="bt_cad_musica" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
+                              <Component id="bt_excluir_musica" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
+                              <Component id="bt_cad_artista" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
+                              <Component id="bt_consulta_usuario" alignment="1" min="-2" pref="366" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -57,7 +57,7 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="224" max="32767" attributes="0"/>
-              <Component id="jButton5" min="-2" pref="366" max="-2" attributes="0"/>
+              <Component id="bt_sistema" min="-2" pref="366" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -72,15 +72,15 @@
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_cad_musica" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_excluir_musica" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_cad_artista" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_consulta_usuario" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_sistema" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="92" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -120,7 +120,7 @@
         <Property name="text" type="java.lang.String" value="&gt; O QUE DESEJA FAZER?"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="bt_cad_musica">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -134,10 +134,10 @@
         <Property name="text" type="java.lang.String" value="Cadastrar M&#xfa;sicas"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_cad_musicaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="bt_excluir_musica">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -151,7 +151,7 @@
         <Property name="text" type="java.lang.String" value="Excluir M&#xfa;sicas"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="bt_cad_artista">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -165,7 +165,7 @@
         <Property name="text" type="java.lang.String" value="Cadastrar Artistas"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="bt_consulta_usuario">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -179,7 +179,7 @@
         <Property name="text" type="java.lang.String" value="Consultar Usu&#xe1;rios"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="bt_sistema">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="1"/>

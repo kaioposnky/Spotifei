@@ -15,6 +15,8 @@ public class MainFrame extends JFrame{
     public static final String SEARCH_PANEL = "Search";
     public static final String HISTORY_PANEL = "History";
     public static final String PLAYLIST_PANEL = "Playlist";
+    public static final String ADMHOME_PANEL = "ADMHome";
+    public static final String ADMREGMUSIC_PANEL = "ADMRegMusic";
 
     private CardLayout cardLayout;
     private JPanel cards;
@@ -39,6 +41,8 @@ public class MainFrame extends JFrame{
         cards.add(new RegisterPanel(this), REGISTER_PANEL);
         cards.add(new HistoryPanel(this), HISTORY_PANEL);
         cards.add(new PlaylistPanel(this), PLAYLIST_PANEL);
+        cards.add(new ADMHomePanel(this), ADMHOME_PANEL);
+        cards.add(new ADMRegisterMusicPanel(this), ADMREGMUSIC_PANEL);
 
 //        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);

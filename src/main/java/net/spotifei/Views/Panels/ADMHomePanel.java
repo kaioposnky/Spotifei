@@ -4,18 +4,88 @@
  */
 package net.spotifei.Views.Panels;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import net.spotifei.Views.MainFrame;
+
 /**
  *
  * @author fengl
  */
 public class ADMHomePanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ADMHomePanel
-     */
-    public ADMHomePanel() {
+    private final MainFrame mainframe;  
+    
+    public ADMHomePanel(MainFrame mainframe) {
         initComponents();
+        this.mainframe = mainframe;
     }
+
+    public JButton getBt_cad_artista() {
+        return bt_cad_artista;
+    }
+
+    public void setBt_cad_artista(JButton bt_cad_artista) {
+        this.bt_cad_artista = bt_cad_artista;
+    }
+
+    public JButton getBt_cad_musica() {
+        return bt_cad_musica;
+    }
+
+    public void setBt_cad_musica(JButton bt_cad_musica) {
+        this.bt_cad_musica = bt_cad_musica;
+    }
+
+    public JButton getBt_consulta_usuario() {
+        return bt_consulta_usuario;
+    }
+
+    public void setBt_consulta_usuario(JButton bt_consulta_usuario) {
+        this.bt_consulta_usuario = bt_consulta_usuario;
+    }
+
+    public JButton getBt_excluir_musica() {
+        return bt_excluir_musica;
+    }
+
+    public void setBt_excluir_musica(JButton bt_excluir_musica) {
+        this.bt_excluir_musica = bt_excluir_musica;
+    }
+
+    public JButton getBt_sistema() {
+        return bt_sistema;
+    }
+
+    public void setBt_sistema(JButton bt_sistema) {
+        this.bt_sistema = bt_sistema;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,11 +99,11 @@ public class ADMHomePanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        bt_cad_musica = new javax.swing.JButton();
+        bt_excluir_musica = new javax.swing.JButton();
+        bt_cad_artista = new javax.swing.JButton();
+        bt_consulta_usuario = new javax.swing.JButton();
+        bt_sistema = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -51,36 +121,36 @@ public class ADMHomePanel extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("> O QUE DESEJA FAZER?");
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(250, 250, 250));
-        jButton1.setText("Cadastrar Músicas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_cad_musica.setBackground(new java.awt.Color(0, 0, 0));
+        bt_cad_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_cad_musica.setForeground(new java.awt.Color(250, 250, 250));
+        bt_cad_musica.setText("Cadastrar Músicas");
+        bt_cad_musica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_cad_musicaActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 0, 0));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(250, 250, 250));
-        jButton2.setText("Excluir Músicas");
+        bt_excluir_musica.setBackground(new java.awt.Color(0, 0, 0));
+        bt_excluir_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_excluir_musica.setForeground(new java.awt.Color(250, 250, 250));
+        bt_excluir_musica.setText("Excluir Músicas");
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 0));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(250, 250, 250));
-        jButton3.setText("Cadastrar Artistas");
+        bt_cad_artista.setBackground(new java.awt.Color(0, 0, 0));
+        bt_cad_artista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_cad_artista.setForeground(new java.awt.Color(250, 250, 250));
+        bt_cad_artista.setText("Cadastrar Artistas");
 
-        jButton4.setBackground(new java.awt.Color(0, 0, 0));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(250, 250, 250));
-        jButton4.setText("Consultar Usuários");
+        bt_consulta_usuario.setBackground(new java.awt.Color(0, 0, 0));
+        bt_consulta_usuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_consulta_usuario.setForeground(new java.awt.Color(250, 250, 250));
+        bt_consulta_usuario.setText("Consultar Usuários");
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 204, 102));
-        jButton5.setText("Estátisticas do Sistema");
-        jButton5.setBorderPainted(false);
-        jButton5.setContentAreaFilled(false);
+        bt_sistema.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        bt_sistema.setForeground(new java.awt.Color(0, 204, 102));
+        bt_sistema.setText("Estátisticas do Sistema");
+        bt_sistema.setBorderPainted(false);
+        bt_sistema.setContentAreaFilled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -101,14 +171,14 @@ public class ADMHomePanel extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(bt_cad_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bt_excluir_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bt_cad_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bt_consulta_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 224, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(210, 210, 210))
         );
         layout.setVerticalGroup(
@@ -121,32 +191,38 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(bt_cad_musica)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(bt_excluir_musica)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(bt_cad_artista)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(bt_consulta_usuario)
                 .addGap(69, 69, 69)
-                .addComponent(jButton5)
+                .addComponent(bt_sistema)
                 .addContainerGap(92, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bt_cad_musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cad_musicaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        mainframe.setPanel(MainFrame.ADMREGMUSIC_PANEL);
+    }//GEN-LAST:event_bt_cad_musicaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton bt_cad_artista;
+    private javax.swing.JButton bt_cad_musica;
+    private javax.swing.JButton bt_consulta_usuario;
+    private javax.swing.JButton bt_excluir_musica;
+    private javax.swing.JButton bt_sistema;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
+
 }

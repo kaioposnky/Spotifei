@@ -4,18 +4,40 @@
  */
 package net.spotifei.Views.Panels;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import net.spotifei.Views.MainFrame;
+
 /**
  *
  * @author fengl
  */
 public class ADMRegisterMusicPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ADMRegisterMusicPanel
-     */
-    public ADMRegisterMusicPanel() {
+    private final MainFrame mainframe;
+    
+    public ADMRegisterMusicPanel(MainFrame mainframe) {
         initComponents();
+        this.mainframe = mainframe;
     }
+
+    public JButton getBt_voltar() {
+        return bt_voltar;
+    }
+
+    public void setBt_voltar(JButton bt_voltar) {
+        this.bt_voltar = bt_voltar;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,6 +49,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        bt_voltar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -36,13 +59,27 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
         jLabel1.setText("CADASTRAR MÚSICAS");
 
+        bt_voltar.setBackground(new java.awt.Color(0, 0, 0));
+        bt_voltar.setForeground(new java.awt.Color(250, 250, 250));
+        bt_voltar.setText("VOLTAR");
+        bt_voltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_voltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(290, 290, 290)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(319, 319, 319)
+                        .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(254, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -50,12 +87,24 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
-                .addContainerGap(526, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+                .addComponent(bt_voltar)
+                .addGap(145, 145, 145))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.ADMHOME_PANEL);
+    }//GEN-LAST:event_bt_voltarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_voltar;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
 }
