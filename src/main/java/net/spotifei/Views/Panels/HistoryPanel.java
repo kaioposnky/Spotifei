@@ -45,21 +45,6 @@ public class HistoryPanel extends javax.swing.JPanel {
         this.bt_home = bt_home;
     }
 
-    public JButton getBt_pesquisa() {
-        return bt_pesquisa;
-    }
-
-    public void setBt_pesquisa(JButton bt_pesquisa) {
-        this.bt_pesquisa = bt_pesquisa;
-    }
-
-    public JButton getBt_playlist() {
-        return bt_playlist;
-    }
-
-    public void setBt_playlist(JButton bt_playlist) {
-        this.bt_playlist = bt_playlist;
-    }
 
     public JButton getBt_top10() {
         return bt_top10;
@@ -103,9 +88,7 @@ public class HistoryPanel extends javax.swing.JPanel {
         bt_deslikes = new javax.swing.JButton();
         bt_curtidas = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        bt_playlist = new javax.swing.JButton();
         bt_home = new javax.swing.JButton();
-        bt_pesquisa = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
         jPopupMenu1.add(jMenu1);
@@ -150,33 +133,13 @@ public class HistoryPanel extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Aqui está seu histórico!");
 
-        bt_playlist.setBackground(new java.awt.Color(0, 0, 0));
-        bt_playlist.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_playlist.setForeground(new java.awt.Color(250, 250, 250));
-        bt_playlist.setText("PLAYLIST");
-        bt_playlist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_playlistActionPerformed(evt);
-            }
-        });
-
         bt_home.setBackground(new java.awt.Color(0, 0, 0));
         bt_home.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         bt_home.setForeground(new java.awt.Color(250, 250, 250));
-        bt_home.setText("HOME");
+        bt_home.setText("VOLTAR");
         bt_home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_homeActionPerformed(evt);
-            }
-        });
-
-        bt_pesquisa.setBackground(new java.awt.Color(0, 0, 0));
-        bt_pesquisa.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_pesquisa.setForeground(new java.awt.Color(250, 250, 250));
-        bt_pesquisa.setText("PESQUISA");
-        bt_pesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_pesquisaActionPerformed(evt);
             }
         });
 
@@ -199,19 +162,13 @@ public class HistoryPanel extends javax.swing.JPanel {
                 .addGap(128, 128, 128)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bt_playlist, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                        .addComponent(bt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(83, 83, 83))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(112, 112, 112)
-                    .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(570, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                        .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,16 +182,9 @@ public class HistoryPanel extends javax.swing.JPanel {
                     .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_playlist, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(444, Short.MAX_VALUE)
-                    .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(45, 45, 45)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(bt_home)
+                .addGap(99, 99, 99))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -244,20 +194,10 @@ public class HistoryPanel extends javax.swing.JPanel {
         deslike.setVisible(true);
     }//GEN-LAST:event_bt_deslikesActionPerformed
 
-    private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_playlistActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
-    }//GEN-LAST:event_bt_playlistActionPerformed
-
     private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.HOME_PANEL);
     }//GEN-LAST:event_bt_homeActionPerformed
-
-    private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pesquisaActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.SEARCH_PANEL);
-    }//GEN-LAST:event_bt_pesquisaActionPerformed
 
     private void bt_top10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_top10MouseClicked
         // TODO add your handling code here:
@@ -285,8 +225,6 @@ public class HistoryPanel extends javax.swing.JPanel {
     private javax.swing.JButton bt_curtidas;
     private javax.swing.JButton bt_deslikes;
     private javax.swing.JButton bt_home;
-    private javax.swing.JButton bt_pesquisa;
-    private javax.swing.JButton bt_playlist;
     private javax.swing.JButton bt_top10;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

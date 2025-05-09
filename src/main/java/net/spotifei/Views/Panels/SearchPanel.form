@@ -54,17 +54,12 @@
                       <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="405" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="331" max="-2" attributes="0"/>
+                      <Component id="bt_home" min="-2" pref="110" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
-              <Component id="bt_home" min="-2" pref="110" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
-              <Component id="bt_playlist" min="-2" pref="110" max="-2" attributes="0"/>
-              <EmptySpace pref="152" max="32767" attributes="0"/>
-              <Component id="bt_historico" min="-2" pref="110" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+              <EmptySpace pref="185" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,13 +78,9 @@
               <Component id="bt_pesquisar" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bt_playlist" alignment="3" min="-2" pref="110" max="-2" attributes="0"/>
-                  <Component id="bt_home" alignment="3" min="-2" pref="110" max="-2" attributes="0"/>
-                  <Component id="bt_historico" alignment="3" min="-2" pref="110" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+              <Component id="bt_home" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="81" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -179,24 +170,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="bt_playlist">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="1"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="fa" green="fa" red="fa" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="PLAYLIST"/>
-        <Property name="borderPainted" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_playlistActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="bt_home">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -208,29 +181,11 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="fa" green="fa" red="fa" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="HOME"/>
+        <Property name="text" type="java.lang.String" value="VOLTAR"/>
         <Property name="borderPainted" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_homeActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="bt_historico">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="1"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="fa" green="fa" red="fa" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="HIST&#xd3;RICO"/>
-        <Property name="borderPainted" type="boolean" value="false"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_historicoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

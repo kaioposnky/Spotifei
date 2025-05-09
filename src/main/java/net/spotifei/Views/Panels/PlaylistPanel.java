@@ -21,14 +21,6 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.mainframe = mainframe;
     }
 
-    public JButton getBt_historico() {
-        return bt_historico;
-    }
-
-    public void setBt_historico(JButton bt_historico) {
-        this.bt_historico = bt_historico;
-    }
-
     public JButton getBt_home() {
         return bt_home;
     }
@@ -37,13 +29,6 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.bt_home = bt_home;
     }
 
-    public JButton getBt_pesquisa() {
-        return bt_pesquisa;
-    }
-
-    public void setBt_pesquisa(JButton bt_pesquisa) {
-        this.bt_pesquisa = bt_pesquisa;
-    }
 
     public JLabel getjLabel4() {
         return jLabel4;
@@ -75,8 +60,9 @@ public class PlaylistPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         bt_home = new javax.swing.JButton();
-        bt_pesquisa = new javax.swing.JButton();
-        bt_historico = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(35, 35, 35));
 
@@ -92,68 +78,61 @@ public class PlaylistPanel extends javax.swing.JPanel {
         bt_home.setBackground(new java.awt.Color(0, 0, 0));
         bt_home.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         bt_home.setForeground(new java.awt.Color(250, 250, 250));
-        bt_home.setText("HOME");
+        bt_home.setText("VOLTAR");
         bt_home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_homeActionPerformed(evt);
             }
         });
 
-        bt_pesquisa.setBackground(new java.awt.Color(0, 0, 0));
-        bt_pesquisa.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_pesquisa.setForeground(new java.awt.Color(250, 250, 250));
-        bt_pesquisa.setText("PESQUISA");
-        bt_pesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_pesquisaActionPerformed(evt);
-            }
-        });
+        jButton1.setBackground(new java.awt.Color(0, 204, 102));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Criar Playlist!");
 
-        bt_historico.setBackground(new java.awt.Color(0, 0, 0));
-        bt_historico.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_historico.setForeground(new java.awt.Color(250, 250, 250));
-        bt_historico.setText("HISTÓRICO");
-        bt_historico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_historicoActionPerformed(evt);
-            }
-        });
+        jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(201, 201, 201))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(jLabel7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(286, 286, 286)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(295, 295, 295)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(119, 119, 119)
-                .addComponent(bt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(bt_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
+                        .addGap(336, 336, 336)
+                        .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel4)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(72, 72, 72)
+                .addComponent(bt_home)
+                .addGap(102, 102, 102))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,23 +141,14 @@ public class PlaylistPanel extends javax.swing.JPanel {
         mainframe.setPanel(MainFrame.HOME_PANEL);
     }//GEN-LAST:event_bt_homeActionPerformed
 
-    private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pesquisaActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.SEARCH_PANEL);
-    }//GEN-LAST:event_bt_pesquisaActionPerformed
-
-    private void bt_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_historicoActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.HISTORY_PANEL);
-    }//GEN-LAST:event_bt_historicoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_historico;
     private javax.swing.JButton bt_home;
-    private javax.swing.JButton bt_pesquisa;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
     public MainFrame getMainframe() {

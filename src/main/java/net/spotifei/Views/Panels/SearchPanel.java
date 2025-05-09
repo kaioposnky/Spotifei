@@ -40,13 +40,6 @@ public class SearchPanel extends javax.swing.JPanel {
         this.bt_pesquisar = bt_pesquisar;
     }
 
-    public JButton getBt_playlist() {
-        return bt_playlist;
-    }
-
-    public void setBt_playlist(JButton bt_playlist) {
-        this.bt_playlist = bt_playlist;
-    }
 
     public JLabel getjLabel4() {
         return jLabel4;
@@ -95,15 +88,6 @@ public class SearchPanel extends javax.swing.JPanel {
     public void setTxt_pesquisar_musica(JTextField txt_pesquisar_musica) {
         this.txt_pesquisar_musica = txt_pesquisar_musica;
     }
-
-    public JButton getBt_historico() {
-        return bt_historico;
-    }
-
-    public void setBt_historico(JButton bt_historico) {
-        this.bt_historico = bt_historico;
-    }
-    
     
     
     
@@ -124,9 +108,7 @@ public class SearchPanel extends javax.swing.JPanel {
         bt_pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_area_musica_pesquisa = new javax.swing.JTextArea();
-        bt_playlist = new javax.swing.JButton();
         bt_home = new javax.swing.JButton();
-        bt_historico = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -160,36 +142,14 @@ public class SearchPanel extends javax.swing.JPanel {
         txt_area_musica_pesquisa.setRows(5);
         jScrollPane1.setViewportView(txt_area_musica_pesquisa);
 
-        bt_playlist.setBackground(new java.awt.Color(0, 0, 0));
-        bt_playlist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_playlist.setForeground(new java.awt.Color(250, 250, 250));
-        bt_playlist.setText("PLAYLIST");
-        bt_playlist.setBorderPainted(false);
-        bt_playlist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_playlistActionPerformed(evt);
-            }
-        });
-
         bt_home.setBackground(new java.awt.Color(0, 0, 0));
         bt_home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         bt_home.setForeground(new java.awt.Color(250, 250, 250));
-        bt_home.setText("HOME");
+        bt_home.setText("VOLTAR");
         bt_home.setBorderPainted(false);
         bt_home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_homeActionPerformed(evt);
-            }
-        });
-
-        bt_historico.setBackground(new java.awt.Color(0, 0, 0));
-        bt_historico.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_historico.setForeground(new java.awt.Color(250, 250, 250));
-        bt_historico.setText("HISTÓRICO");
-        bt_historico.setBorderPainted(false);
-        bt_historico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_historicoActionPerformed(evt);
             }
         });
 
@@ -217,16 +177,11 @@ public class SearchPanel extends javax.swing.JPanel {
                         .addComponent(bt_pesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(188, 188, 188)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(144, 144, 144)
-                .addComponent(bt_playlist, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
-                .addComponent(bt_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(331, 331, 331)
+                        .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,36 +198,21 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addComponent(bt_pesquisar)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_playlist, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(75, 75, 75)
+                .addComponent(bt_home)
+                .addContainerGap(81, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_playlistActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
-    }//GEN-LAST:event_bt_playlistActionPerformed
 
     private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.HOME_PANEL);
     }//GEN-LAST:event_bt_homeActionPerformed
 
-    private void bt_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_historicoActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.HISTORY_PANEL);
-    }//GEN-LAST:event_bt_historicoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_historico;
     private javax.swing.JButton bt_home;
     private javax.swing.JButton bt_pesquisar;
-    private javax.swing.JButton bt_playlist;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
