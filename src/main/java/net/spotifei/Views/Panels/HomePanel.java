@@ -227,6 +227,7 @@ public class HomePanel extends javax.swing.JPanel {
 
     private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_playlistActionPerformed
         // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
     }//GEN-LAST:event_bt_playlistActionPerformed
 
     private void bt_historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_historicoActionPerformed

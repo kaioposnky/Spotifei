@@ -50,7 +50,7 @@ public class MainFrame extends JFrame{
         setBackground(Color.DARK_GRAY);
         pack(); // tem que estar antes do setLocationRelativeTo
         setLocationRelativeTo(null);
-        setPanel(LOGIN_PANEL);
+        setPanel(HOME_PANEL);
     }
 
     public void setPanel(String panel){

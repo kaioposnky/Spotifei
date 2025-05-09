@@ -124,6 +124,11 @@ public class HistoryPanel extends javax.swing.JPanel {
                 bt_top10MouseClicked(evt);
             }
         });
+        bt_top10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_top10ActionPerformed(evt);
+            }
+        });
 
         bt_deslikes.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         bt_deslikes.setText("DESLIKES");
@@ -135,6 +140,11 @@ public class HistoryPanel extends javax.swing.JPanel {
 
         bt_curtidas.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         bt_curtidas.setText("CURTIDAS");
+        bt_curtidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_curtidasActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
@@ -230,10 +240,13 @@ public class HistoryPanel extends javax.swing.JPanel {
 
     private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_deslikesActionPerformed
         // TODO add your handling code here:
+        DeslikedPopUp deslike = new DeslikedPopUp(mainframe, true);
+        deslike.setVisible(true);
     }//GEN-LAST:event_bt_deslikesActionPerformed
 
     private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_playlistActionPerformed
         // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
     }//GEN-LAST:event_bt_playlistActionPerformed
 
     private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
@@ -257,6 +270,16 @@ public class HistoryPanel extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_bt_top10MouseClicked
 
+    private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_curtidasActionPerformed
+        // TODO add your handling code here:
+        LikedPopUp curtidas = new LikedPopUp(mainframe, true);
+        curtidas.setVisible(true);
+    }//GEN-LAST:event_bt_curtidasActionPerformed
+
+    private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {
+        Top10PopUp top10 = new Top10PopUp(mainframe, true);
+        top10.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_curtidas;

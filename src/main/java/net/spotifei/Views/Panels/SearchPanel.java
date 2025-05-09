@@ -254,6 +254,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
     private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_playlistActionPerformed
         // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
     }//GEN-LAST:event_bt_playlistActionPerformed
 
     private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
