@@ -17,6 +17,8 @@ public class Playlist {
         this.salvamentos = salvamentos;
     }
 
+    public Playlist(){}
+
     public String getNome() {
         return nome;
     }
@@ -65,11 +67,4 @@ public class Playlist {
         this.idPlaylist = idPlaylist;
     }
 
-//    public ArrayList<Music> getMusicas() {;
-//        return musicas;
-//    }
-//
-//    public void setMusicas(ArrayList<Music> musicas) {
-//        this.musicas = musicas;
-//    }
 }

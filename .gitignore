@@ -43,3 +43,4 @@ bin/
 .idea
 gradle
 src/main/java/net/spotifei/AddMusicAudio.java
+musics

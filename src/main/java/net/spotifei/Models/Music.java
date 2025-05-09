@@ -19,6 +19,10 @@ public class Music {
         this.idMusica = idMusica;
     }
 
+    public Music(){
+
+    }
+
     public Artist getAutor() {
         return autor;
     }

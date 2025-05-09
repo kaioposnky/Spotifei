@@ -7,6 +7,15 @@ public class UserSearch {
     private int idUsuario;
     private Date data;
 
+    public UserSearch(String busca, int idUsuario, Date data) {
+        this.busca = busca;
+        this.idUsuario = idUsuario;
+        this.data = data;
+    }
+
+    public UserSearch(){
+    }
+
     public String getBusca() {
         return busca;
     }

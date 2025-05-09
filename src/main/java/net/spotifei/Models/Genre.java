@@ -7,6 +7,9 @@ public class Genre {
         this.nome = nome;
     }
 
+    public Genre(){
+    }
+
     public String getNome() {
         return nome;
     }
