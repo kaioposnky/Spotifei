@@ -8,6 +8,7 @@ import net.spotifei.Views.MainFrame;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -18,6 +19,9 @@ public class MusicPlayerPanel extends JPanel {
     private SpotifyLikeSlider audioSlider;
     private JLabel musicTimeNowLabel;
     private JLabel musicTimeTotalLabel;
+    private SpotifyLikeButton btnPause;
+    private JLabel musicTitle;
+    private JLabel musicArtist;
 
     public MusicPlayerPanel(MainFrame mainframe) {
         this.musicController = new MusicController(this, mainframe.getAudioPlayerWorker());
@@ -42,11 +46,11 @@ public class MusicPlayerPanel extends JPanel {
         songInfoPanel.setOpaque(false);
         songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
 
-        JLabel musicTitle = new JLabel("Music Title");
+        musicTitle = new JLabel("Music Title");
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.WHITE);
 
-        JLabel musicArtist = new JLabel("Music Artist");
+        musicArtist = new JLabel("Music Artist");
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
 
@@ -91,12 +95,22 @@ public class MusicPlayerPanel extends JPanel {
 
         SpotifyLikeButton btnSkip = new SpotifyLikeButton("<html>&#x23ED;</html>", 16);
 
-        SpotifyLikeButton btnPause = new SpotifyLikeButton("<html>&#x25B6;</html>", 20);
+        JPanel pausebtnWrapper = new JPanel();
+        pausebtnWrapper.setOpaque(false);
+        pausebtnWrapper.setPreferredSize(new Dimension(50, 50));
+        pausebtnWrapper.setMinimumSize(new Dimension(50, 50));
+        pausebtnWrapper.setMaximumSize(new Dimension(50, 50));
+        pausebtnWrapper.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        btnPause = new SpotifyLikeButton("<html>⏸</html>", 20);
+        btnPause.addActionListener(event -> handlePauseButton());
+
+        pausebtnWrapper.add(btnPause);
 
         SpotifyLikeButton btnPrevious = new SpotifyLikeButton("<html>&#x23EE;</html>", 16);
 
         musicControlPanel.add(btnPrevious, BorderLayout.WEST);
-        musicControlPanel.add(btnPause, BorderLayout.CENTER);
+        musicControlPanel.add(pausebtnWrapper, BorderLayout.CENTER);
         musicControlPanel.add(btnSkip, BorderLayout.EAST);
 
         centerPanel.add(musicControlPanel, BorderLayout.NORTH);
@@ -152,6 +166,10 @@ public class MusicPlayerPanel extends JPanel {
         };
     }
 
+    public void handlePauseButton(){
+        musicController.pauseMusic();
+    }
+
     public JLabel getMusicTimeNowLabel() {
         return musicTimeNowLabel;
     }
@@ -162,5 +180,25 @@ public class MusicPlayerPanel extends JPanel {
 
     public SpotifyLikeSlider getMusicSlider() {
         return musicSlider;
+    }
+
+    public SpotifyLikeButton getBtnPause() {
+        return btnPause;
+    }
+
+    public JLabel getMusicTitle() {
+        return musicTitle;
+    }
+
+    public void setMusicTitle(JLabel musicTitle) {
+        this.musicTitle = musicTitle;
+    }
+
+    public JLabel getMusicArtist() {
+        return musicArtist;
+    }
+
+    public void setMusicArtist(JLabel musicArtist) {
+        this.musicArtist = musicArtist;
     }
 }

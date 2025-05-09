@@ -82,12 +82,12 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
             float musicPercentage = (float) musicCurrentLength / (float) musicTotalLength;
             musicPercentage = Math.max(0.0f, Math.min(1.0f, musicPercentage));
 
-            musicPlayerPanel.getMusicSlider().setValue((int) musicPercentage);
+            musicPlayerPanel.getMusicSlider().setValue((int) (musicPercentage * 100));
 
-            int minutes = (int) (musicCurrentLength / 6000000);
-            int seconds = (int) ((musicCurrentLength / 1000000) % 60);
-
-            musicPlayerPanel.getMusicTimeNowLabel().setText(minutes + ":" + seconds);
+            long currentSeconds = musicCurrentLength / 1_000_000;
+            long minutes = currentSeconds / 60;
+            long seconds = currentSeconds % 60;
+            musicPlayerPanel.getMusicTimeNowLabel().setText(String.format("%1d:%02d", minutes, seconds));
             chunks.clear(); // limpar memoria
         }
     }
@@ -108,10 +108,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
      * ao tentar tocar a música
      */
     public void playMusic(byte[] musicAudioByteArray) throws InterruptedException, UnsupportedAudioFileException, IOException {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
-                new ByteArrayInputStream(musicAudioByteArray)
-        );
-        commandQueue.put(() -> handlePlayMusic(audioInputStream));
+        commandQueue.put(() -> handlePlayMusic(musicAudioByteArray));
     }
 
     /**
@@ -169,9 +166,8 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
 
         float finalVolume = (float) Math.log10(volume);
         // Multiplica por 1.5 para reduzir o volume (dividir aumenta por algum motivo)
-        gainControl.setValue( -15f + (finalVolume) * 60f);
+        gainControl.setValue( -5f + (finalVolume) * 60f);
     }
-
 
     private void handleSeek(float musicTimePercentage){
 
@@ -195,32 +191,57 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
             musicMicrosecondNow = clip.getMicrosecondPosition();
             clip.stop();
             isPlaying = false;
+            stopProgressUpdateThread();
+            musicPlayerPanel.getBtnPause().setText("<html>&#x25B6;</html>");
         }
         else {
             clip.setMicrosecondPosition(musicMicrosecondNow);
             clip.start();
             isPlaying = true;
+            startProgressUpdateThread();
+            musicPlayerPanel.getBtnPause().setText("<html>⏸</html>");
         }
     }
 
-    private void handlePlayMusic(AudioInputStream audioInputStream) throws Exception{
+    public void publishProgress(long microseconds) {
+        if (shutdownWorker) return;
+        publish(microseconds);
+    }
+
+    private void handlePlayMusic(byte[] audioByteArray) throws Exception{
+        if (clip == null){
+            throw new IllegalStateException("O clip não foi inicializado!");
+        }
+
+        if (clip.isOpen()){
+            stopProgressUpdateThread();
+            clip.close();
+        }
+
         try{
-            clip.open(audioInputStream);
+            try(ByteArrayInputStream bais = new ByteArrayInputStream(audioByteArray);
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bais)){
+                clip.open(audioInputStream);
+            }
             setVolume(musicPlayerPanel.getMusicSlider().getValue() / 100f);
             clip.setMicrosecondPosition(0);
-            clip.start();
+            musicMicrosecondNow = 0;
             isPlaying = true;
+            clip.start();
 
+            startProgressUpdateThread();
 
             long totalSeconds = clip.getMicrosecondLength() / 1000000;
             long minutes = totalSeconds / 60;
             long remainingSeconds = totalSeconds % 60;
 
             musicPlayerPanel.getMusicTimeTotalLabel().setText(String.format("%1d:%02d", minutes, remainingSeconds));
+
+            progressPublisherRunnable = new ProgressPublisherRunnable(this, this.clip);
         }  catch (Exception e) {
+            isPlaying = false;
             logError("Erro ao tocar música!", e);
-        } finally {
-            if (audioInputStream != null) audioInputStream.close();
+            throw e;
         }
     }
 
@@ -259,8 +280,4 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
         return isPlaying;
     }
 
-    public void publishProgress(long microseconds) {
-        if (shutdownWorker) return;
-        publish(microseconds);
-    }
 }

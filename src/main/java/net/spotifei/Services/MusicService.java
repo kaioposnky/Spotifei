@@ -84,4 +84,14 @@ public class MusicService {
             return ResponseHelper.GenerateErrorResponse("Erro ao tentar alterar o volume!", e);
         }
     }
+
+    public Response<Void> pauseMusic(){
+        try{
+            audioPlayerWorker.pause();
+
+            return ResponseHelper.GenerateSuccessResponse("Música pausada com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse("Erro ao tentar pausar a música!", ex);
+        }
+    }
 }

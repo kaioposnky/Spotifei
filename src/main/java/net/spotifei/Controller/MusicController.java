@@ -64,4 +64,18 @@ public class MusicController {
         }
         logDebug("Tempo da música alterado para " + musicTime + " com sucesso!");
     }
+
+    public void pauseMusic(){
+        Response<Void> response = musicServices.pauseMusic();
+        if(!response.isSuccess()){
+            if(response.isError()){
+                logError(response.getMessage(), response.getException());
+            } else{
+                logError(response.getMessage());
+            }
+            return;
+        }
+        // modificar o status do appcontext na musicontext para deixar pausada ou despausada
+        logDebug("Música pausada com sucesso!");
+    }
 }
