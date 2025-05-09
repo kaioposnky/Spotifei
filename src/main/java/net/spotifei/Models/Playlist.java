@@ -7,12 +7,13 @@ public class Playlist {
     private Artist autor;
     private long salvamentos;
     private boolean isPublic;
-    private ArrayList<Music> music;
+    private int idPlaylist;
+    private ArrayList<Music> musicas;
 
-    public Playlist(String nome, Artist autor, ArrayList<Music> music, long salvamentos) {
+    public Playlist(String nome, Artist autor, ArrayList<Music> musicas, long salvamentos) {
         this.nome = nome;
         this.autor = autor;
-        this.music = music;
+        this.musicas = musicas;
         this.salvamentos = salvamentos;
     }
 
@@ -33,11 +34,11 @@ public class Playlist {
     }
 
     public ArrayList<Music> getMusicas() {
-        return music;
+        return musicas;
     }
 
     public void setMusicas(ArrayList<Music> music) {
-        this.music = music;
+        this.musicas = music;
     }
 
     public long getSalvamentos() {
@@ -54,5 +55,21 @@ public class Playlist {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public int getIdPlaylist() {
+        return idPlaylist;
+    }
+
+    public void setIdPlaylist(int idPlaylist) {
+        this.idPlaylist = idPlaylist;
+    }
+
+    public ArrayList<Music> getMusicas() {
+        return musicas;
+    }
+
+    public void setMusicas(ArrayList<Music> musicas) {
+        this.musicas = musicas;
     }
 }
