@@ -4,7 +4,8 @@ import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
-import net.spotifei.Views.Panels.HomePanel;
+import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
@@ -14,29 +15,40 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 public class MusicController {
     private final JPanel view;
     private final MusicService musicServices;
+    private final MainFrame mainFrame;
+    private final MusicPlayerPanel musicPlayerPanel;
 
-    public MusicController(JPanel view, AudioPlayerWorker audioPlayerWorker) {
+    public MusicController(JPanel view, MainFrame mainFrame, MusicPlayerPanel musicPlayerPanel) {
         this.view = view;
-        this.musicServices = new MusicService(audioPlayerWorker);
+        this.musicServices = new MusicService(mainFrame.getAudioPlayerWorker());
+        this.mainFrame = mainFrame;
+        this.musicPlayerPanel = musicPlayerPanel;
     }
 
     public void playUserNextMusic(){
-        HomePanel homePanel = (HomePanel) view;
-        int userId = homePanel.getMainframe().getAppContext().getPersonContext().getIdUsuario();
+        int userId = mainFrame.getAppContext().getPersonContext().getIdUsuario();
         Response<Music> response = musicServices.getNextMusicInUserQueue(userId);
         if(!response.isSuccess()){
             logError(response.getMessage());
             return;
         }
         Music musicFound = response.getData();
-        Response<Void> response2 = musicServices.playMusic(musicFound.getIdMusica());
-        if(!response2.isSuccess()){
+        mainFrame.getAppContext().setMusicContext(musicFound);
+        logDebug("Próxima música do usuário obtida: " + musicFound.getNome());
+        playMusic();
+    }
+
+    public void playMusic(){
+        Music music = mainFrame.getAppContext().getMusicContext();
+        logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
+        musicPlayerPanel.getMusicTitle().setText(music.getNome());
+        musicPlayerPanel.getMusicArtist().setText(music.getAutor().getNomeArtistico());
+        Response<Void> response = musicServices.playMusic(music.getIdMusica());
+        if(!response.isSuccess()){
             logError(response.getMessage());
             return;
         }
-        logDebug("Tocando agora: " + musicFound.getNome());
-        homePanel.getMainframe().getAppContext().setMusicContext(musicFound);
-        // update do UI com a nova música tocando
+        logDebug("Tocando agora: " + music.getNome());
     }
 
     public void setAudioVolume(float volume){

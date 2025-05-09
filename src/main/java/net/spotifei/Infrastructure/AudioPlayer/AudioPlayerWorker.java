@@ -164,9 +164,14 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
         if (clip == null || !clip.isOpen()) return;
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-        float finalVolume = (float) Math.log10(volume);
+        float finalVolume = (float) (Math.log10(volume) * 60) -5f;
+        if (finalVolume < -80.0f) {
+            logWarn("Volume recebido foi menor do que o permitido (-80.0f): " + finalVolume + "!" +
+                    "\n O valor foi redefinido para -80.0f.");
+            finalVolume = -80.0f;
+        }
         // Multiplica por 1.5 para reduzir o volume (dividir aumenta por algum motivo)
-        gainControl.setValue( -5f + (finalVolume) * 60f);
+        gainControl.setValue(finalVolume);
     }
 
     private void handleSeek(float musicTimePercentage){
@@ -259,7 +264,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
         progressUpdateThread = new Thread(progressPublisherRunnable);
         progressUpdateThread.setDaemon(true); // tornar thread daemon (roda em background em baixa prioridade)
         progressUpdateThread.start(); // iniciar o thread :P
-        logInfo("Thread de Atualizar Progresso do Slider iniciada com sucesso!");
+        logDebug("Thread de Atualizar Progresso do Slider iniciada com sucesso!");
     }
 
     private void stopProgressUpdateThread() {
@@ -269,7 +274,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
         if (progressUpdateThread != null && progressUpdateThread.isAlive()){
             progressUpdateThread.interrupt();
         }
-        logInfo("Thread de Atualizar Progresso do Slider encerrada com sucesso!");
+        logDebug("Thread de Atualizar Progresso do Slider encerrada com sucesso!");
 
         // limpa a memória
         this.progressPublisherRunnable = null;
