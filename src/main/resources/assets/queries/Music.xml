@@ -59,4 +59,12 @@
     <query name="InsertMusicAudio">
         INSERT INTO musica_audio (id_musica, audio) VALUES (@idMusica, @audio);
     </query>
+    <query name="GetMusicById">
+        SELECT
+        id_musica AS idMusica,
+        nome AS nome,
+        duracao_ms AS duracaoMs
+        FROM musica
+        WHERE id_musica = @idMusica
+    </query>
 </queries>
