@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+    <query name="GetArtistById">
+        SELECT
+        nome_artistico AS nomeArtistico
+        FROM artista
+        WHERE id_artista = @idArtista
+    </query>
+    <query name="GetArtistByMusicId">
+        SELECT
+        a.nome_artistico AS nomeArtistico
+        a.id_artista AS idArtista
+        FROM artista_musica am
+        JOIN artista a ON a.id_artista = am.id_artista
+        WHERE am.id_musica = @idMusica
+    </query>
+</queries>
