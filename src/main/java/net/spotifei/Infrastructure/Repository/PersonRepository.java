@@ -11,7 +11,11 @@ import java.util.List;
 
 public class PersonRepository {
 
-    private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
+    private final JDBCRepository jdbcRepository;
+
+    public PersonRepository(JDBCRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
+    }
 
     public User getUsuarioByEmail(String email) throws Exception{
         try{

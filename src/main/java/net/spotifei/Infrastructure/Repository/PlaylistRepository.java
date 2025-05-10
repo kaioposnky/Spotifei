@@ -12,7 +12,11 @@ import java.util.Map;
 
 public class PlaylistRepository {
 
-    private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
+    private final JDBCRepository jdbcRepository;
+
+    public PlaylistRepository(JDBCRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
+    }
 
     public void createPlaylist(Playlist playlist) throws Exception{
         try{

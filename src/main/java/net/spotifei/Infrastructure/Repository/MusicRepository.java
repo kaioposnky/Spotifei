@@ -12,7 +12,11 @@ import java.util.Map;
 
 public class MusicRepository {
 
-    private final JDBCRepository jdbcRepository = JDBCRepository.getInstance();
+    private final JDBCRepository jdbcRepository;
+
+    public MusicRepository(JDBCRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
+    }
 
     private List<Music> searchMusicByName(String name) throws Exception{
         try{
