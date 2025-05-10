@@ -7,6 +7,9 @@ package net.spotifei.Views.Panels;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.PopUps.DeslikedPopUp;
+import net.spotifei.Views.PopUps.LikedPopUp;
+import net.spotifei.Views.PopUps.Top10PopUp;
 
 /**
  *

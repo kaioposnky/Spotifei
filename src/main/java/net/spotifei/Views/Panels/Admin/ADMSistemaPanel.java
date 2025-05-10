@@ -7,6 +7,10 @@ package net.spotifei.Views.Panels.Admin;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.PopUps.Admin.ADMTop5MaisPopUp;
+import net.spotifei.Views.PopUps.Admin.ADMTop5MenosPopUp;
+import net.spotifei.Views.PopUps.Admin.ADMTotalMusicaPopUp;
+import net.spotifei.Views.PopUps.Admin.ADMTotalUserPopUp;
 
 public class ADMSistemaPanel extends javax.swing.JPanel {
 
