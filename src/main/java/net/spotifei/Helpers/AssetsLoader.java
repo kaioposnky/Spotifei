@@ -8,16 +8,6 @@ public class AssetsLoader {
             String.valueOf(AssetsLoader.class.getClassLoader().getResource("assets"))
                     .replace("file:/", "");
 
-    public static File getLangFile() throws FileNotFoundException {
-        String langFilePath = assetsPath + File.separator + "lang" + File.separator + MessagesHelper.getLanguage() + ".json";
-        try{
-            return new File(langFilePath);
-        } catch (NullPointerException e){
-            throw new FileNotFoundException("Arquivo de linguagens para a lingua não encontrado ou inválido!"
-                + "Caminho: " + langFilePath);
-        }
-    }
-
     public static File[] getQueriesFiles() throws FileNotFoundException, RuntimeException {
         String queriesPath = assetsPath + "/" + "queries";
         try {
