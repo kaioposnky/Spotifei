@@ -7,21 +7,23 @@ import net.spotifei.Services.AuthService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.Panels.LoginPanel;
 import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.Panels.RegisterPanel;
 
 import javax.swing.*;
 
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 public class AuthController {
+    private final MainFrame mainFrame;
     private final AuthService authService;
-    private final UserService userService;
     private final JPanel view;
+    private final UserController userController;
 
-    public AuthController(JPanel view) {
+    public AuthController(JPanel view, MainFrame mainFrame, AuthService authService, UserController userController) {
+        this.mainFrame = mainFrame;
         this.view = view;
-        this.authService = new AuthService();
-        this.userService = new UserService();
+        this.authService = authService;
+        this.userController = userController;
     }
 
     public void loginUsuario() {
@@ -41,12 +43,29 @@ public class AuthController {
         boolean isLoginValid = response.getData();
         if (isLoginValid){
             logInfo("Usuário com email " + email + " logou com sucesso!");
-            loginFrame.getMainframe().setPanel(MainFrame.HOME_PANEL);
-            User user = userService.getUsuarioByEmail(email).getData();
-            loginFrame.getMainframe().getAppContext().setPersonContext(user);
+            userController.handleLoginSucess(email);
         } else {
             JOptionPane.showMessageDialog(view, "Senha incorreta!");
          }
+    }
+
+    public void createUser(){
+        RegisterPanel registerPanel = (RegisterPanel) view;
+        User user = new User();
+        user.setEmail(registerPanel.getTxt_email_cadastro().getText());
+        user.setNome(registerPanel.getTxt_nome_cadastro().getText());
+        user.setSobrenome(registerPanel.getTxt_sob_cadastro().getText());
+        user.setTelefone(registerPanel.getTxt_telefone_cadastro().getText());
+        user.setSenha(registerPanel.getTxt_senha_cadastro().getText());
+        user.setIdUsuario(1);
+
+        Response<Void> response = authService.createUser(user);
+        if (!response.isSuccess()){
+            logError("Erro ao criar usuário!", response.getException());
+            return;
+        }
+        logDebug("Usuário criado com sucesso!");
+        registerPanel.getMainframe().setPanel(MainFrame.LOGIN_PANEL);
     }
 
 }
