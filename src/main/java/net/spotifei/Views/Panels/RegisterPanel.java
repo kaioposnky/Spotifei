@@ -7,7 +7,9 @@ package net.spotifei.Views.Panels;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import net.spotifei.Controller.UserController;
+
+import net.spotifei.Controller.AuthController;
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -18,19 +20,14 @@ public class RegisterPanel extends javax.swing.JPanel {
 
 
     private final MainFrame mainframe;
-    
-    public RegisterPanel(MainFrame mainframe) {
-        initComponents();
+    private final AppContext appContext;
+    private final AuthController ac;
+
+    public RegisterPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
-        uc = new UserController(this);
-    }
-
-    public UserController getUc() {
-        return uc;
-    }
-
-    public void setUc(UserController uc) {
-        this.uc = uc;
+        this.ac = appContext.getAuthController(this, mainframe);
+        initComponents();
     }
 
     public JButton getBt_cadastrar() {
@@ -307,7 +304,7 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
         // TODO add your handling code here:
-        uc.createUser();
+        ac.createUser();
     }//GEN-LAST:event_bt_cadastrarActionPerformed
 
     private void bt_voltar_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltar_loginActionPerformed
@@ -315,7 +312,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         mainframe.setPanel(MainFrame.LOGIN_PANEL);
     }//GEN-LAST:event_bt_voltar_loginActionPerformed
 
-    private UserController uc;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cadastrar;
     private javax.swing.JButton bt_voltar_login;

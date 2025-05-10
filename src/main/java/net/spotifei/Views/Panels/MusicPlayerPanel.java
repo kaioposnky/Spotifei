@@ -1,6 +1,8 @@
 package net.spotifei.Views.Panels;
 
 import net.spotifei.Controller.MusicController;
+import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Components.SpotifyLikeButton;
 import net.spotifei.Views.Components.SpotifyLikeSlider;
 import net.spotifei.Views.MainFrame;
@@ -11,11 +13,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
-public class MusicPlayerPanel extends JPanel {
+public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
-    private MusicController musicController;
+    private final MusicController musicController;
     private SpotifyLikeSlider musicSlider;
     private SpotifyLikeSlider audioSlider;
     private JLabel musicTimeNowLabel;
@@ -24,8 +26,13 @@ public class MusicPlayerPanel extends JPanel {
     private JLabel musicTitle;
     private JLabel musicArtist;
 
-    public MusicPlayerPanel(MainFrame mainframe) {
-        this.musicController = new MusicController(this, mainframe, this);
+    private final MainFrame mainframe;
+    private final AppContext appContext;
+
+    public MusicPlayerPanel(MainFrame mainframe, AppContext appContext) {
+        this.mainframe = mainframe;
+        this.appContext = appContext;
+        this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
 
@@ -198,6 +205,38 @@ public class MusicPlayerPanel extends JPanel {
         };
     }
 
+    @Override
+    public void onMusicProgressUpdate(long musicCurrentLength, long musicTotalLength) {
+
+        float musicPercentage = (float) musicCurrentLength / (float) musicTotalLength;
+        musicPercentage = Math.max(0.0f, Math.min(1.0f, musicPercentage));
+
+        this.musicSlider.setValue((int) (musicPercentage * 100));
+
+        long currentSeconds = musicCurrentLength / 1_000_000;
+        long minutes = currentSeconds / 60;
+        long seconds = currentSeconds % 60;
+        this.musicTimeNowLabel.setText(String.format("%1d:%02d", minutes, seconds));
+        if (Integer.parseInt(musicTimeTotalLabel.getText()) != musicTotalLength / 1_000_000) {
+            this.musicTimeTotalLabel.setText(String.format("%1d:%02d", minutes, seconds));
+        }
+    }
+
+    @Override
+    public void onMusicPlayingStatusUpdate(boolean isPlaying) {
+        logDebug("Play update acionado! " + isPlaying);
+        if (isPlaying) {
+            this.btnPause.setText("<html>⏸</html>");
+        } else{
+            this.btnPause.setText("<html>&#x25B6;</html>");
+        }
+    }
+
+    @Override
+    public void onEndOfMusic() {
+
+    }
+
     public void handleNextMusicButton(){
         musicController.playMusic();
     }
@@ -237,4 +276,5 @@ public class MusicPlayerPanel extends JPanel {
     public void setMusicArtist(JLabel musicArtist) {
         this.musicArtist = musicArtist;
     }
+
 }

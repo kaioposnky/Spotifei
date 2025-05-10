@@ -7,6 +7,8 @@ package net.spotifei.Views.Panels.Admin;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -17,10 +19,12 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
     
     
     private final MainFrame mainframe;
+    private final AppContext appContext;
 
-    public ADMCadArtistPanel(MainFrame mainframe) {
-        initComponents();
+    public ADMCadArtistPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_salvar() {

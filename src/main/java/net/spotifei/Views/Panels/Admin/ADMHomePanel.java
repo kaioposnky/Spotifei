@@ -6,6 +6,8 @@ package net.spotifei.Views.Panels.Admin;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -14,11 +16,13 @@ import net.spotifei.Views.MainFrame;
  */
 public class ADMHomePanel extends javax.swing.JPanel {
 
-    private final MainFrame mainframe;  
-    
-    public ADMHomePanel(MainFrame mainframe) {
-        initComponents();
+    private final MainFrame mainframe;
+    private final AppContext appContext;
+
+    public ADMHomePanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_cad_artista() {

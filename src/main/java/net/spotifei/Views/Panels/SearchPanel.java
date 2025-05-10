@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -18,10 +20,12 @@ import net.spotifei.Views.MainFrame;
 public class SearchPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
-    
-    public SearchPanel(MainFrame mainframe) {
-        initComponents();
+    private final AppContext appContext;
+
+    public SearchPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_home() {

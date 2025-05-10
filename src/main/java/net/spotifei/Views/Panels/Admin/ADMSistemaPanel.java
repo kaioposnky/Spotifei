@@ -6,6 +6,8 @@ package net.spotifei.Views.Panels.Admin;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.PopUps.Admin.ADMTop5MaisPopUp;
 import net.spotifei.Views.PopUps.Admin.ADMTop5MenosPopUp;
@@ -15,10 +17,12 @@ import net.spotifei.Views.PopUps.Admin.ADMTotalUserPopUp;
 public class ADMSistemaPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
-    
-    public ADMSistemaPanel(MainFrame mainframe) {
-        initComponents();
+    private final AppContext appContext;
+
+    public ADMSistemaPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_top5mais() {

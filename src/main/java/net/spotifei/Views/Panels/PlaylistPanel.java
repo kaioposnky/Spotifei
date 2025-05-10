@@ -6,6 +6,8 @@ package net.spotifei.Views.Panels;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -15,10 +17,13 @@ import net.spotifei.Views.MainFrame;
 public class PlaylistPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
-    
-    public PlaylistPanel(MainFrame mainframe) {
-        initComponents();
+    private final AppContext appContext;
+
+
+    public PlaylistPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_home() {

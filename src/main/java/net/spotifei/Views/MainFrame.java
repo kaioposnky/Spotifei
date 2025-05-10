@@ -25,33 +25,30 @@ public class MainFrame extends JFrame{
 
     private CardLayout cardLayout;
     private JPanel cards;
+
     private final AppContext appContext;
-    private final AudioPlayerWorker audioPlayerWorker;
     private final MusicPlayerPanel musicPlayerPanel;
 
-    public MainFrame(AppContext appContext, AudioPlayerWorker audioPlayerWorker){
+    public MainFrame(AppContext appContext){
         this.appContext = appContext;
-        this.audioPlayerWorker = audioPlayerWorker;
-        this.musicPlayerPanel = new MusicPlayerPanel(this);
-
-        audioPlayerWorker.execute();
-        audioPlayerWorker.setMusicPlayerPanel(musicPlayerPanel);
+        this.musicPlayerPanel = new MusicPlayerPanel(this, this.appContext);
+        this.appContext.registerMusicPlayerPanelListener(this.musicPlayerPanel);
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
 
-        cards.add(new LoginPanel(this), LOGIN_PANEL);
-        cards.add(new SearchPanel(this), SEARCH_PANEL);
-        cards.add(new HomePanel(this), HOME_PANEL);
-        cards.add(new RegisterPanel(this), REGISTER_PANEL);
-        cards.add(new HistoryPanel(this), HISTORY_PANEL);
-        cards.add(new PlaylistPanel(this), PLAYLIST_PANEL);
-        cards.add(new ADMHomePanel(this), ADMHOME_PANEL);
-        cards.add(new ADMRegisterMusicPanel(this), ADMREGMUSIC_PANEL);
-        cards.add(new ADMSistemaPanel(this), ADMSISTEMA_PANEL);
-        cards.add(new ADMConsultaUsuarioPanel(this), ADMCONUSER_PANEL);
-        cards.add(new ADMDelMusicPanel(this), ADMDELMUSIC_PANEL);
-        cards.add(new ADMCadArtistPanel(this), ADMCADARTIST_PANEL);
+        cards.add(new LoginPanel(this, this.appContext), LOGIN_PANEL);
+        cards.add(new SearchPanel(this, this.appContext), SEARCH_PANEL);
+        cards.add(new HomePanel(this, this.appContext), HOME_PANEL);
+        cards.add(new RegisterPanel(this, this.appContext), REGISTER_PANEL);
+        cards.add(new HistoryPanel(this, this.appContext), HISTORY_PANEL);
+        cards.add(new PlaylistPanel(this, this.appContext), PLAYLIST_PANEL);
+        cards.add(new ADMHomePanel(this, this.appContext), ADMHOME_PANEL);
+        cards.add(new ADMRegisterMusicPanel(this, this.appContext), ADMREGMUSIC_PANEL);
+        cards.add(new ADMSistemaPanel(this, this.appContext), ADMSISTEMA_PANEL);
+        cards.add(new ADMConsultaUsuarioPanel(this, this.appContext), ADMCONUSER_PANEL);
+        cards.add(new ADMDelMusicPanel(this, this.appContext), ADMDELMUSIC_PANEL);
+        cards.add(new ADMCadArtistPanel(this, this.appContext), ADMCADARTIST_PANEL);
 
 //        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);
@@ -68,17 +65,5 @@ public class MainFrame extends JFrame{
 
     public void setPanel(String panel){
         cardLayout.show(cards, panel);
-    }
-
-    public AppContext getAppContext() {
-        return appContext;
-    }
-
-    public AudioPlayerWorker getAudioPlayerWorker() {
-        return audioPlayerWorker;
-    }
-
-    public MusicPlayerPanel getMusicPlayerPanel() {
-        return musicPlayerPanel;
     }
 }

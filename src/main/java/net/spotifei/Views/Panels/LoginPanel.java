@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import net.spotifei.Controller.AuthController;
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -17,14 +18,15 @@ import net.spotifei.Views.MainFrame;
 public class LoginPanel extends javax.swing.JPanel {
     
     private final MainFrame mainframe;
+    private final AppContext appContext;
 
     /**
      * Creates new form HPanel
      */
-    public LoginPanel(MainFrame mainframe) {
-        initComponents();
+    public LoginPanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
-        ac = new AuthController(this);
+        initComponents();
     }
 
     public JButton getBt_registrar() {

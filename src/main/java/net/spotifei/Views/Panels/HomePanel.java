@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -17,10 +19,12 @@ import net.spotifei.Views.MainFrame;
 public class HomePanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
-    
-    public HomePanel(MainFrame mainframe) {
-        initComponents();
+    private final AppContext appContext;
+
+    public HomePanel(MainFrame mainframe, AppContext appContext) {
+        this.appContext = appContext;
         this.mainframe = mainframe;
+        initComponents();
     }
 
     public JButton getBt_historico() {

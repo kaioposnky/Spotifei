@@ -4,13 +4,13 @@ import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
 public class CriptographRepository {
-    private static final Argon2 argon2 = Argon2Factory.create(32, 16);
+    private final Argon2 argon2 = Argon2Factory.create(32, 16);
 
     /**
      * @param string Recebe a string a ser encriptada
      * @return Retorna a string encriptada
      */
-    public static String generateHash(String string){
+    public String generateHash(String string){
         return argon2.hash(1, 8196, 1, string);
     }
 
@@ -20,7 +20,7 @@ public class CriptographRepository {
      * @param hash Recebe a string com hash
      * @return Retorna se a string pertence ao hash
      */
-    public static boolean compareHash(String string, String hash){
+    public boolean compareHash(String string, String hash){
         return argon2.verify(hash, string);
     }
 }

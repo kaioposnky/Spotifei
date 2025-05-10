@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 /**
@@ -18,10 +20,12 @@ import net.spotifei.Views.MainFrame;
 public class ADMDelMusicPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
+    private final AppContext appContext;
 
-    public ADMDelMusicPanel(MainFrame mainframe) {
-        initComponents();
+    public ADMDelMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
+        this.appContext = appContext;
+        initComponents();
     }
 
     public JButton getBt_excluir() {
