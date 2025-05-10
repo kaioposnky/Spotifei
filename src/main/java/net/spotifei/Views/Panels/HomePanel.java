@@ -163,7 +163,7 @@ public class HomePanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel5.setText("OLÁ, COMO VOCÊ ESTÁ HOJÊ?");
+        jLabel5.setText("OLÁ, COMO VOCÊ ESTÁ HOJE?");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
