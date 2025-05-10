@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
     <query name="CreatePlaylist">
-        INSERT INTO playlist (nome, is_public)
-        VALUES (@nome, @isPublic);
+        INSERT INTO playlist (nome)
+        VALUES (@nome);
     </query>
     <query name="DeletePlaylist">
         DELETE FROM playlist
@@ -10,8 +10,7 @@
     </query>
     <query name="UpdatePlaylist">
         UPDATE playlist
-        SET nome = @nome,
-        is_public = @isPublic,
+        SET nome = @nome
         WHERE id_playlist = @idPlaylist;
     </query>
     <query name="AddMusicToPlaylist">
@@ -39,12 +38,11 @@
         SELECT
         p.id_playlist AS idPlaylist,
         p.nome AS nome,
-        p.is_public as isPublic,
         COUNT(ups.id_usuario) AS salvamentos
         FROM Playlist p
         LEFT JOIN usuario_playlists_salvas ups
         ON p.id_playlist = ups.id_playlist
         WHERE p.id_playlist = @idPlaylist
-        GROUP BY p.id_playlist, p.nome, p.is_public;
+        GROUP BY p.id_playlist, p.nome;
     </query>
 </queries>

@@ -10,6 +10,7 @@ public class Music {
     private int idMusica;
     private long likes;
     private long dislikes;
+    private boolean gostou;
 
     public Music(String nome, List<Artist> autores, Genre genre, int duracaoMs, int idMusica) {
         this.nome = nome;
@@ -77,6 +78,14 @@ public class Music {
 
     public void setDislikes(long dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public boolean isGostou() {
+        return gostou;
+    }
+
+    public void setGostou(boolean gostou) {
+        this.gostou = gostou;
     }
 
     public String getAuthorNames(){

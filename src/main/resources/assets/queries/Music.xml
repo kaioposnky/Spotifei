@@ -11,13 +11,13 @@
     </query>
     <query name="GetMusicAudioByMusicId">
         SELECT audio
-        FROM musica_audio
+        FROM musica
         WHERE id_musica = @idMusica;
     </query>
     <query name="SearchMusicByName">
         SELECT DISTINCT
         m.id_musica AS idMusica,
-        m.nome AS nomeMusica,
+        m.nome AS nomeMusica
         FROM musica m
         LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
         LEFT JOIN artista a ON am.id_artista = a.id_artista
@@ -32,6 +32,7 @@
         SELECT
         m.id_musica AS idMusica,
         m.nome AS nome,
+        COUNT(au.gostou) AS total_curtidas
         FROM avaliacao_usuario au
         JOIN musica m ON au.id_musica = m.id_musica
         WHERE au.gostou = TRUE
@@ -43,21 +44,22 @@
         SELECT
         m.id_musica AS idMusica,
         m.nome AS nome,
+        COUNT(au.gostou) AS total_descurtidas
         FROM avaliacao_usuario au
         JOIN musica m ON au.id_musica = m.id_musica
         WHERE au.gostou = FALSE
         GROUP BY m.id_musica, m.nome
-        ORDER BY total_curtidas DESC
+        ORDER BY total_descurtidas DESC
         LIMIT 5;
     </query>
     <query name="GetTotalMusics">
         SELECT COUNT(*) AS total
         FROM musica;
     </query>
-
-<!--    Não adicionada em produção!    -->
-    <query name="InsertMusicAudio">
-        INSERT INTO musica_audio (id_musica, audio) VALUES (@idMusica, @audio);
+    <query name="UpdateMusicAudio">
+        UPDATE musica
+        SET audio = @audio
+        WHERE id_musica = @idMusica;
     </query>
     <query name="GetMusicById">
         SELECT
@@ -65,6 +67,20 @@
         nome AS nome,
         duracao_ms AS duracaoMs
         FROM musica
-        WHERE id_musica = @idMusica
+        WHERE id_musica = @idMusica;
+    </query>
+    <query name="SetOrInsertMusicUserRating">
+        INSERT INTO avaliacao_usuario
+        (gostou, id_usuario, id_musica)
+        VALUES (@liked, @idUsuario, @idMusica)
+        DO
+        UPDATE
+        SET gostou = EXCLUDED.gostou,
+        data_avaliacao = CURRENT_TIMESTAMP;
+    </query>
+    <query name="DeleteUserRating">
+        DELETE FROM avaliacao_usuario
+        WHERE id_usuario = @idUsuario
+        AND id_musica = @idMusica;
     </query>
 </queries>

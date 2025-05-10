@@ -61,4 +61,9 @@
         SELECT COUNT(*) AS total
         FROM usuario;
     </query>
+    <query name="CheckIfUserIsAdminById">
+        SELECT id_administrador AS idUsuario
+        FROM administrador
+        WHERE id_administrador = @idUsuario
+    </query>
 </queries>
