@@ -42,7 +42,7 @@ public class AppContext {
 
     public AppContext() {
         this.audioPlayerWorker = new AudioPlayerWorker();
-        this.jdbcRepository = JDBCRepository.getInstance();
+        this.jdbcRepository = new JDBCRepository();
         this.criptographRepository = new CriptographRepository();
 
         this.personRepository = new PersonRepository(this.jdbcRepository);
@@ -52,7 +52,7 @@ public class AppContext {
 
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.userService = new UserService(this.personRepository);
-        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker);
+        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository);
     }
 
     /**

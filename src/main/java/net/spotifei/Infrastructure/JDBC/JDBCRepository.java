@@ -39,16 +39,11 @@ public class JDBCRepository {
     private String user;
     private String password;
     private Connection connection;
-    private static JDBCRepository instance;
 
-    public static JDBCRepository getInstance() {
-        if (instance == null) {
-            instance = new JDBCRepository();
-            instance.url = getDotEnv().get("DATABASE_URL");
-            instance.user = getDotEnv().get("DATABASE_USER");
-            instance.password = getDotEnv().get("DATABASE_PASSWORD");
-        }
-        return instance;
+    public JDBCRepository() {
+        this.url = getDotEnv().get("DATABASE_URL");
+        this.user = getDotEnv().get("DATABASE_USER");
+        this.password = getDotEnv().get("DATABASE_PASSWORD");
     }
 
     private Connection getConnection() throws SQLException {
@@ -269,7 +264,7 @@ public class JDBCRepository {
             String name = paramNames.get(i);
             if (!paramsMap.containsKey(name)) {
                 throw new IllegalArgumentException(
-                        "Parâmetro não encontrado na classe: " + name);
+                        "Parâmetro não encontrado: " + name);
             }
             paramsList[i] = paramsMap.get(name);
         }

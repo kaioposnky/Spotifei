@@ -4,14 +4,14 @@
         SELECT
         nome_artistico AS nomeArtistico
         FROM artista
-        WHERE id_artista = @idArtista
+        WHERE id_artista = @idArtista;
     </query>
-    <query name="GetArtistByMusicId">
+    <query name="GetArtistsByMusicId">
         SELECT
-        a.nome_artistico AS nomeArtistico
+        a.nome_artistico AS nomeArtistico,
         a.id_artista AS idArtista
         FROM artista_musica am
         JOIN artista a ON a.id_artista = am.id_artista
-        WHERE am.id_musica = @idMusica
+        WHERE am.id_musica = @idMusica;
     </query>
 </queries>

@@ -1,19 +1,19 @@
 package net.spotifei.Models;
 
-import javax.sound.sampled.AudioInputStream;
+import java.util.List;
 
 public class Music {
     private String nome;
-    private Artist autor;
+    private List<Artist> autores;
     private Genre genre;
     private int duracaoMs;
     private int idMusica;
     private long likes;
     private long dislikes;
 
-    public Music(String nome, Artist autor, Genre genre, int duracaoMs, int idMusica) {
+    public Music(String nome, List<Artist> autores, Genre genre, int duracaoMs, int idMusica) {
         this.nome = nome;
-        this.autor = autor;
+        this.autores = autores;
         this.genre = genre;
         this.duracaoMs = duracaoMs;
         this.idMusica = idMusica;
@@ -23,12 +23,12 @@ public class Music {
 
     }
 
-    public Artist getAutor() {
-        return autor;
+    public List<Artist> getAutores() {
+        return autores;
     }
 
-    public void setAutor(Artist autor) {
-        this.autor = autor;
+    public void setAutores(List<Artist> autores) {
+        this.autores = autores;
     }
 
     public String getNome() {
@@ -77,5 +77,16 @@ public class Music {
 
     public void setDislikes(long dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public String getAuthorNames(){
+        String names = "";
+        for(int i = 0; i < autores.size(); i++){
+            if(i != 0 || (i+1 != autores.size())){
+                names += ",";
+            }
+            names += autores.get(i).getNome() + " ";
+        }
+        return names;
     }
 }
