@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package net.spotifei.Views.Panels;
+package net.spotifei.Views.PopUps.Admin;
 
 import java.awt.Frame;
 import javax.swing.JLabel;
@@ -13,15 +13,15 @@ import javax.swing.JTextArea;
  *
  * @author fengl
  */
-public class LikedPopUp extends javax.swing.JDialog {
+public class ADMTop5MaisPopUp extends javax.swing.JDialog {
 
     /**
-     * Creates new form LikedPopUp
+     * Creates new form ADMTop5MaisPopUp
      */
-    public LikedPopUp(Frame owner, boolean modal) {
+    public ADMTop5MaisPopUp(Frame owner, boolean modal) {
         super(owner, modal);
         initComponents();
-        setLocationRelativeTo(owner); // Opcional: centraliza o diálogo em relação ao pai
+        setLocationRelativeTo(owner);
     }
 
     public JLabel getjLabel1() {
@@ -40,12 +40,12 @@ public class LikedPopUp extends javax.swing.JDialog {
         this.jScrollPane1 = jScrollPane1;
     }
 
-    public JTextArea getTxt_area_curtidas() {
-        return txt_area_curtidas;
+    public JTextArea getTxt_area_top5mais() {
+        return txt_area_top5mais;
     }
 
-    public void setTxt_area_curtidas(JTextArea txt_area_curtidas) {
-        this.txt_area_curtidas = txt_area_curtidas;
+    public void setTxt_area_top5mais(JTextArea txt_area_top5mais) {
+        this.txt_area_top5mais = txt_area_top5mais;
     }
     
     
@@ -62,7 +62,7 @@ public class LikedPopUp extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txt_area_curtidas = new javax.swing.JTextArea();
+        txt_area_top5mais = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,34 +70,32 @@ public class LikedPopUp extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("> Músicas Curtidas: ");
+        jLabel1.setText("> Top 5 Músicas mais curtidas: ");
 
-        txt_area_curtidas.setBackground(new java.awt.Color(250, 250, 250));
-        txt_area_curtidas.setColumns(20);
-        txt_area_curtidas.setRows(5);
-        jScrollPane1.setViewportView(txt_area_curtidas);
+        txt_area_top5mais.setBackground(new java.awt.Color(250, 250, 250));
+        txt_area_top5mais.setColumns(20);
+        txt_area_top5mais.setRows(5);
+        jScrollPane1.setViewportView(txt_area_top5mais);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -108,7 +106,7 @@ public class LikedPopUp extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -117,7 +115,7 @@ public class LikedPopUp extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
+//    public static void main(String args[]) {;
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -131,20 +129,20 @@ public class LikedPopUp extends javax.swing.JDialog {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                LikedPopUp dialog = new LikedPopUp(new javax.swing.JFrame(), true);
+//                ADMTop5MaisPopUp dialog = new ADMTop5MaisPopUp(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -160,6 +158,6 @@ public class LikedPopUp extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txt_area_curtidas;
+    private javax.swing.JTextArea txt_area_top5mais;
     // End of variables declaration//GEN-END:variables
 }

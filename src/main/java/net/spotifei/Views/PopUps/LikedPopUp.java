@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package net.spotifei.Views.Panels;
+package net.spotifei.Views.PopUps;
 
 import java.awt.Frame;
 import javax.swing.JLabel;
@@ -13,12 +13,12 @@ import javax.swing.JTextArea;
  *
  * @author fengl
  */
-public class DeslikedPopUp extends javax.swing.JDialog {
+public class LikedPopUp extends javax.swing.JDialog {
 
     /**
-     * Creates new form DeslikedPopUp
+     * Creates new form LikedPopUp
      */
-    public DeslikedPopUp(Frame owner, boolean modal) {
+    public LikedPopUp(Frame owner, boolean modal) {
         super(owner, modal);
         initComponents();
         setLocationRelativeTo(owner); // Opcional: centraliza o diálogo em relação ao pai
@@ -40,12 +40,12 @@ public class DeslikedPopUp extends javax.swing.JDialog {
         this.jScrollPane1 = jScrollPane1;
     }
 
-    public JTextArea getTxt_area_descurtidas() {
-        return txt_area_descurtidas;
+    public JTextArea getTxt_area_curtidas() {
+        return txt_area_curtidas;
     }
 
-    public void setTxt_area_descurtidas(JTextArea txt_area_descurtidas) {
-        this.txt_area_descurtidas = txt_area_descurtidas;
+    public void setTxt_area_curtidas(JTextArea txt_area_curtidas) {
+        this.txt_area_curtidas = txt_area_curtidas;
     }
     
     
@@ -62,7 +62,7 @@ public class DeslikedPopUp extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txt_area_descurtidas = new javax.swing.JTextArea();
+        txt_area_curtidas = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,12 +70,12 @@ public class DeslikedPopUp extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("> Músicas Descurtidas: ");
+        jLabel1.setText("> Músicas Curtidas: ");
 
-        txt_area_descurtidas.setBackground(new java.awt.Color(250, 250, 250));
-        txt_area_descurtidas.setColumns(20);
-        txt_area_descurtidas.setRows(5);
-        jScrollPane1.setViewportView(txt_area_descurtidas);
+        txt_area_curtidas.setBackground(new java.awt.Color(250, 250, 250));
+        txt_area_curtidas.setColumns(20);
+        txt_area_curtidas.setRows(5);
+        jScrollPane1.setViewportView(txt_area_curtidas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -84,9 +84,11 @@ public class DeslikedPopUp extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,7 +97,7 @@ public class DeslikedPopUp extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,7 +117,7 @@ public class DeslikedPopUp extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {;
+//    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -129,20 +131,20 @@ public class DeslikedPopUp extends javax.swing.JDialog {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(DeslikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(DeslikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(DeslikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(DeslikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LikedPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                DeslikedPopUp dialog = new DeslikedPopUp(new javax.swing.JFrame(), true);
+//                LikedPopUp dialog = new LikedPopUp(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -158,6 +160,6 @@ public class DeslikedPopUp extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txt_area_descurtidas;
+    private javax.swing.JTextArea txt_area_curtidas;
     // End of variables declaration//GEN-END:variables
 }
