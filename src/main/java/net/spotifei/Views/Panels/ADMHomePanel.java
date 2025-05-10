@@ -106,7 +106,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_sistema = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
-        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -135,72 +135,86 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_excluir_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_excluir_musica.setForeground(new java.awt.Color(250, 250, 250));
         bt_excluir_musica.setText("Excluir Músicas");
+        bt_excluir_musica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_excluir_musicaActionPerformed(evt);
+            }
+        });
 
         bt_cad_artista.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_artista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_cad_artista.setForeground(new java.awt.Color(250, 250, 250));
         bt_cad_artista.setText("Cadastrar Artistas");
+        bt_cad_artista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cad_artistaActionPerformed(evt);
+            }
+        });
 
         bt_consulta_usuario.setBackground(new java.awt.Color(0, 0, 0));
         bt_consulta_usuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_consulta_usuario.setForeground(new java.awt.Color(250, 250, 250));
         bt_consulta_usuario.setText("Consultar Usuários");
+        bt_consulta_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_consulta_usuarioActionPerformed(evt);
+            }
+        });
 
         bt_sistema.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         bt_sistema.setForeground(new java.awt.Color(0, 204, 102));
         bt_sistema.setText("Estátisticas do Sistema");
         bt_sistema.setBorderPainted(false);
         bt_sistema.setContentAreaFilled(false);
+        bt_sistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_sistemaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(217, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(291, 291, 291)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(316, 316, 316)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(bt_cad_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bt_excluir_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bt_cad_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bt_consulta_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(bt_sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_excluir_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_consulta_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_cad_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_cad_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(217, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 224, Short.MAX_VALUE)
-                .addComponent(bt_sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(210, 210, 210))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(49, 49, 49)
+                .addGap(47, 47, 47)
                 .addComponent(jLabel2)
-                .addGap(35, 35, 35)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(15, 15, 15)
                 .addComponent(bt_cad_musica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_excluir_musica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_cad_artista)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_consulta_usuario)
-                .addGap(69, 69, 69)
+                .addGap(76, 76, 76)
                 .addComponent(bt_sistema)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -208,6 +222,26 @@ public class ADMHomePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMREGMUSIC_PANEL);
     }//GEN-LAST:event_bt_cad_musicaActionPerformed
+
+    private void bt_sistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_sistemaActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.ADMSISTEMA_PANEL);
+    }//GEN-LAST:event_bt_sistemaActionPerformed
+
+    private void bt_consulta_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_consulta_usuarioActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.ADMCONUSER_PANEL);
+    }//GEN-LAST:event_bt_consulta_usuarioActionPerformed
+
+    private void bt_excluir_musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_excluir_musicaActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.ADMDELMUSIC_PANEL);
+    }//GEN-LAST:event_bt_excluir_musicaActionPerformed
+
+    private void bt_cad_artistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cad_artistaActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.ADMCADARTIST_PANEL);
+    }//GEN-LAST:event_bt_cad_artistaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

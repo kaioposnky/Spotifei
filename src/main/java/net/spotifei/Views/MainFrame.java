@@ -17,6 +17,10 @@ public class MainFrame extends JFrame{
     public static final String PLAYLIST_PANEL = "Playlist";
     public static final String ADMHOME_PANEL = "ADMHome";
     public static final String ADMREGMUSIC_PANEL = "ADMRegMusic";
+    public static final String ADMSISTEMA_PANEL = "ADMSistema";
+    public static final String ADMCONUSER_PANEL = "ADMConUser";
+    public static final String ADMDELMUSIC_PANEL = "ADMDelMusic";
+    public static final String ADMCADARTIST_PANEL = "ADMCadArtist";
 
     private CardLayout cardLayout;
     private JPanel cards;
@@ -43,6 +47,10 @@ public class MainFrame extends JFrame{
         cards.add(new PlaylistPanel(this), PLAYLIST_PANEL);
         cards.add(new ADMHomePanel(this), ADMHOME_PANEL);
         cards.add(new ADMRegisterMusicPanel(this), ADMREGMUSIC_PANEL);
+        cards.add(new ADMSistemaPanel(this), ADMSISTEMA_PANEL);
+        cards.add(new ADMConsultaUsuarioPanel(this), ADMCONUSER_PANEL);
+        cards.add(new ADMDelMusicPanel(this), ADMDELMUSIC_PANEL);
+        cards.add(new ADMCadArtistPanel(this), ADMCADARTIST_PANEL);
 
 //        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);
@@ -54,7 +62,7 @@ public class MainFrame extends JFrame{
         setBackground(Color.DARK_GRAY);
         pack(); // tem que estar antes do setLocationRelativeTo
         setLocationRelativeTo(null);
-        setPanel(HOME_PANEL);
+        setPanel(HOME_PANEL);    
     }
 
     public void setPanel(String panel){
