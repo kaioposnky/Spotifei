@@ -8,9 +8,10 @@ import net.spotifei.Views.MainFrame;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class MusicPlayerPanel extends JPanel {
 
@@ -29,18 +30,47 @@ public class MusicPlayerPanel extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(5, 5, 15, 10));
         setBackground(Color.black);
 
-        add(createLeftPanel(), BorderLayout.WEST);
-        add(createCenterPanel(), BorderLayout.CENTER);
-        add(createRightPanel(), BorderLayout.EAST);
+        JPanel leftPanel = createLeftPanel();
+        JPanel centerPanel = createCenterPanel();
+        JPanel rightPanel = createRightPanel();
+
+        GridBagConstraints gbc;
+        gbc = createPanelConstraints(0,0, GridBagConstraints.WEST);
+        add(leftPanel, gbc);
+
+        gbc = createPanelConstraints(1, 0.7, GridBagConstraints.WEST);
+        add(Box.createHorizontalGlue(), gbc);
+
+        gbc = createPanelConstraints(2, 0.5, GridBagConstraints.CENTER);
+        add(centerPanel, gbc);
+
+        gbc = createPanelConstraints(3, 0.7, GridBagConstraints.EAST);
+        add(Box.createHorizontalGlue(), gbc);
+
+        gbc = createPanelConstraints(4, 0, GridBagConstraints.EAST);
+        add(rightPanel, gbc);
+    }
+
+    public GridBagConstraints createPanelConstraints(
+            int gridx, double weightx, int anchor
+    ){
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = gridx;
+        constraints.gridy = 0; // nao mexer na altura pra nao bugar tudo
+        constraints.weightx = weightx;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.anchor = anchor;
+        return constraints;
     }
 
     private JPanel createLeftPanel(){
-        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        leftPanel.setOpaque(true);
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS) );
+        leftPanel.setOpaque(false);
 
         JPanel songInfoPanel = new JPanel();
         songInfoPanel.setOpaque(false);
@@ -49,7 +79,7 @@ public class MusicPlayerPanel extends JPanel {
         musicTitle = new JLabel("Music Title");
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.WHITE);
-        
+
         musicArtist = new JLabel("Music Artist");
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
@@ -57,7 +87,10 @@ public class MusicPlayerPanel extends JPanel {
         songInfoPanel.add(musicTitle);
         songInfoPanel.add(musicArtist);
 
-        leftPanel.add(songInfoPanel, BorderLayout.WEST);
+        // as box deixam as infos centralizadas (é meio gambis mas funciona)
+        leftPanel.add(Box.createVerticalGlue());
+        leftPanel.add(songInfoPanel);
+        leftPanel.add(Box.createVerticalGlue());
 
         return leftPanel;
     }
@@ -68,10 +101,8 @@ public class MusicPlayerPanel extends JPanel {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        centerPanel.add(Box.createVerticalGlue());
-
-
         JPanel musicProgressPanel = new JPanel();
+        musicProgressPanel.setLayout(new BorderLayout( 0, 0));
         musicProgressPanel.setOpaque(false);
 
         musicSlider = new SpotifyLikeSlider(0, 100, 20, 400, 20);
@@ -91,7 +122,7 @@ public class MusicPlayerPanel extends JPanel {
 
         JPanel musicControlPanel = new JPanel();
         musicControlPanel.setOpaque(false);
-        musicControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        musicControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         SpotifyLikeButton btnSkip = new SpotifyLikeButton("<html>&#x23ED;</html>", 16);
         btnSkip.addActionListener(event -> handleNextMusicButton());
@@ -114,8 +145,8 @@ public class MusicPlayerPanel extends JPanel {
         musicControlPanel.add(pausebtnWrapper, BorderLayout.CENTER);
         musicControlPanel.add(btnSkip, BorderLayout.EAST);
 
-        centerPanel.add(musicControlPanel, BorderLayout.NORTH);
-        centerPanel.add(musicProgressPanel, BorderLayout.SOUTH);
+        centerPanel.add(musicControlPanel);
+        centerPanel.add(musicProgressPanel);
 
         return centerPanel;
     }
