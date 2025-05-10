@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package net.spotifei.Views.Panels;
+package net.spotifei.Views.Panels.Admin;
 
 import java.awt.Frame;
 import javax.swing.JLabel;
@@ -13,12 +13,12 @@ import javax.swing.JTextArea;
  *
  * @author fengl
  */
-public class ADMTop5MaisPopUp extends javax.swing.JDialog {
+public class ADMTotalUserPopUp extends javax.swing.JDialog {
 
     /**
-     * Creates new form ADMTop5MaisPopUp
+     * Creates new form ADMTotalUserPopUp
      */
-    public ADMTop5MaisPopUp(Frame owner, boolean modal) {
+    public ADMTotalUserPopUp(Frame owner, boolean modal) {
         super(owner, modal);
         initComponents();
         setLocationRelativeTo(owner);
@@ -40,12 +40,12 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
         this.jScrollPane1 = jScrollPane1;
     }
 
-    public JTextArea getTxt_area_top5mais() {
-        return txt_area_top5mais;
+    public JTextArea getTxt_area_totaluser() {
+        return txt_area_totaluser;
     }
 
-    public void setTxt_area_top5mais(JTextArea txt_area_top5mais) {
-        this.txt_area_top5mais = txt_area_top5mais;
+    public void setTxt_area_totaluser(JTextArea txt_area_totaluser) {
+        this.txt_area_totaluser = txt_area_totaluser;
     }
     
     
@@ -62,7 +62,7 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txt_area_top5mais = new javax.swing.JTextArea();
+        txt_area_totaluser = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,12 +70,12 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("> Top 5 Músicas mais curtidas: ");
+        jLabel1.setText("> Total de Usuários: ");
 
-        txt_area_top5mais.setBackground(new java.awt.Color(250, 250, 250));
-        txt_area_top5mais.setColumns(20);
-        txt_area_top5mais.setRows(5);
-        jScrollPane1.setViewportView(txt_area_top5mais);
+        txt_area_totaluser.setBackground(new java.awt.Color(250, 250, 250));
+        txt_area_totaluser.setColumns(20);
+        txt_area_totaluser.setRows(5);
+        jScrollPane1.setViewportView(txt_area_totaluser);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,8 +85,8 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +115,7 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {;
+//    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -129,20 +129,20 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTotalUserPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTotalUserPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTotalUserPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ADMTop5MaisPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ADMTotalUserPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                ADMTop5MaisPopUp dialog = new ADMTop5MaisPopUp(new javax.swing.JFrame(), true);
+//                ADMTotalUserPopUp dialog = new ADMTotalUserPopUp(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -158,6 +158,6 @@ public class ADMTop5MaisPopUp extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txt_area_top5mais;
+    private javax.swing.JTextArea txt_area_totaluser;
     // End of variables declaration//GEN-END:variables
 }

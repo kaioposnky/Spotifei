@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package net.spotifei.Views.Panels;
+package net.spotifei.Views.Panels.Admin;
 
 import java.awt.Frame;
 import javax.swing.JLabel;

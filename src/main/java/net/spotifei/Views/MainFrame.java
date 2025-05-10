@@ -3,6 +3,7 @@ package net.spotifei.Views;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Panels.*;
+import net.spotifei.Views.Panels.Admin.*;
 
 import javax.swing.*;
 import java.awt.*;
