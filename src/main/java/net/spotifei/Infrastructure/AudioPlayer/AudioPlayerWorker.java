@@ -1,11 +1,9 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
-import net.spotifei.Views.Panels.MusicPlayerPanel;
-
 import javax.sound.sampled.*;
 import javax.swing.*;
-import java.io.*;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
@@ -15,7 +13,7 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
  * @implNote Não crie instâncias de MusicPlayerWorker se você não
  * quiser erros catastróficos
  */
-public class AudioPlayerWorker extends SwingWorker<String, Long> {
+public class AudioPlayerWorker extends SwingWorker<String, Long> implements AudioControls{
 
     private final LinkedBlockingQueue<AudioCommand> commandQueue = new LinkedBlockingQueue<>();
     private Thread progressUpdateThread;
@@ -24,20 +22,50 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
     private boolean isPlaying = false;
     private boolean shutdownWorker = false;
     private Clip clip;
-    private MusicPlayerPanel musicPlayerPanel;
     private float volume = 0.0f;
+    // está sendo usado CopyOnWriteArrayList pq é a única list thread safe do java, o resto buga em alguns casos
+    private final List<AudioUpdateListener> listeners = new CopyOnWriteArrayList<>();
 
-    private float DEFAULT_VOLUME = -23.0f;
-
-    // TODO: REMOVER ISSO E COLOCAR A DEPENDENCIA NO CONSTRUTOR
-    public void setMusicPlayerPanel(MusicPlayerPanel musicPlayerPanel) {
-        this.musicPlayerPanel = musicPlayerPanel;
-    }
+    private final float DEFAULT_VOLUME = -23.0f;
 
     @FunctionalInterface
     private interface AudioCommand{
         void execute() throws Exception;
     }
+
+    // FUNÇÕES RELACIONADAS AOS LISTENERS (conexões para outros lugares do código)
+
+    public void addListener(AudioUpdateListener listener){
+        if (listener != null && !listeners.contains(listener)){
+            listeners.add(listener);
+        }
+    }
+
+    public void removeListener(AudioUpdateListener listener){
+        if (listener != null){
+            listeners.remove(listener);
+        }
+    }
+
+    public void notifyEndOfMusic(){
+        for(AudioUpdateListener listener : listeners){
+            listener.onEndOfMusic();
+        }
+    }
+
+    public void notifyOnMusicUpdate(long musicTime, long musicTotalTime){
+        for(AudioUpdateListener listener : listeners){
+            listener.onMusicProgressUpdate(musicTime, musicTotalTime);
+        }
+    }
+
+    public void notifyOnPlayStatusUpdate(boolean isPlaying){
+        for (AudioUpdateListener listener : listeners){
+            listener.onMusicPlayingStatusUpdate(isPlaying);
+        }
+    }
+
+    // FUNÇÕES DO WORKER
 
     @Override
     protected void done() {
@@ -52,7 +80,10 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
     @Override
     protected String doInBackground() throws Exception {
         clip = AudioSystem.getClip();
+        // listener para checar quando for o fim da música
+        clip.addLineListener(this::handleEndOfMusic);
 
+        logInfo("Worker tocador de aúdio iniciado!");
         while (!shutdownWorker) { // Infinite loop planejado p
             try {
                 AudioCommand command = commandQueue.take(); // Trava a Thread até que consiga obter um elemento da Queue
@@ -72,23 +103,19 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
     @Override
     protected void process(List<Long> chunks) {
         // muitas verificacoes mas é para ter certeza que nao vai bugar
-        if (musicPlayerPanel != null || clip != null &&
-                clip.isOpen() && clip.isActive() && clip.isRunning() && clip.getMicrosecondLength() > 0) {
+
+        if (clip != null && clip.isOpen() && clip.isActive()
+                && clip.isRunning() && clip.getMicrosecondLength() > 0) {
 
             long musicCurrentLength = chunks.get(chunks.size() - 1); // obter o length da música pelos chunks recebidos
             long musicTotalLength = clip.getMicrosecondLength();
-            float musicPercentage = (float) musicCurrentLength / (float) musicTotalLength;
-            musicPercentage = Math.max(0.0f, Math.min(1.0f, musicPercentage));
+            notifyOnMusicUpdate(musicCurrentLength, musicTotalLength);
 
-            musicPlayerPanel.getMusicSlider().setValue((int) (musicPercentage * 100));
-
-            long currentSeconds = musicCurrentLength / 1_000_000;
-            long minutes = currentSeconds / 60;
-            long seconds = currentSeconds % 60;
-            musicPlayerPanel.getMusicTimeNowLabel().setText(String.format("%1d:%02d", minutes, seconds));
             chunks.clear(); // limpar memoria
         }
     }
+
+    // FUNCOES DOS CONTROLES DE AUDIO
 
     /**
      * Toca uma música com o audioinputstream fornecido
@@ -96,29 +123,23 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
      * @throws Exception Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
      * ao tentar tocar a música
      */
-    public void playMusic(byte[] musicAudioByteArray) throws InterruptedException, UnsupportedAudioFileException, IOException {
+    public void playMusic(byte[] musicAudioByteArray) throws InterruptedException {
         commandQueue.put(() -> handlePlayMusic(musicAudioByteArray));
     }
 
     /**
-     * Força a pausa ou despausa de uma música conforme
-     * o parâmetro forceStatus inserido, deixe sem argumento
-     * para pausar / despausar automaticamente
-     * @param forceStatus Booleano para definir se deve pausar ou
-     *              despausar as músicas:
-     *              true = pausa
-     *              false = despausa
+     * Pausa a música
      */
-    public void pause(boolean forceStatus) throws InterruptedException {
-        commandQueue.put(() -> handlePauseMusic(forceStatus));
+    public void pause() throws InterruptedException {
+        commandQueue.put(() -> handlePauseMusic(true));
     }
 
     /**
-     * Pausa ou despausa uma música, se está tocando
-     * será pausada, se estiver pausada será tocada
+     * Despausa a música
      */
-    public void pause() throws InterruptedException {
-        commandQueue.put(() -> handlePauseMusic(null));
+    @Override
+    public void resume() throws InterruptedException {
+        commandQueue.put(() -> handlePauseMusic(false));
     }
 
     /**
@@ -148,6 +169,16 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
         commandQueue.put(() -> {});
     }
 
+    // FUNCOES DA LÓGICA DOS CONTROLES DE AÚDIO
+
+    private void handleEndOfMusic(LineEvent event){
+        // verificacao para checar se musica finalizou
+        // - 100 de intervalo extra
+        if (event.getType() == LineEvent.Type.STOP
+        && clip.getMicrosecondPosition() == clip.getMicrosecondLength() - 100){
+            notifyEndOfMusic();
+        }
+    }
 
     private void handleSetVolume(float volume){
         if (clip == null || !clip.isOpen()) return;
@@ -183,6 +214,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
             microseconds = clip.getMicrosecondLength() - 1;
         }
         clip.setMicrosecondPosition(microseconds);
+        musicMicrosecondNow = microseconds;
         if (isPlaying){
             clip.start();
         }
@@ -198,15 +230,14 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
             clip.stop();
             isPlaying = false;
             stopProgressUpdateThread();
-            musicPlayerPanel.getBtnPause().setText("<html>&#x25B6;</html>");
         }
         else {
             clip.setMicrosecondPosition(musicMicrosecondNow);
             clip.start();
             isPlaying = true;
             startProgressUpdateThread();
-            musicPlayerPanel.getBtnPause().setText("<html>⏸</html>");
         }
+        notifyOnPlayStatusUpdate(isPlaying); // notificar o listener de alterar status
     }
 
     public void publishProgress(long microseconds) {
@@ -248,8 +279,6 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
             long minutes = totalSeconds / 60;
             long remainingSeconds = totalSeconds % 60;
 
-            musicPlayerPanel.getMusicTimeTotalLabel().setText(String.format("%1d:%02d", minutes, remainingSeconds));
-
             progressPublisherRunnable = new ProgressPublisherRunnable(this, this.clip);
         }  catch (Exception e) {
             isPlaying = false;
@@ -257,6 +286,8 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
             throw e;
         }
     }
+
+    // FUNCOES DO THREAD PARA DAR UPATE NO SLIDER DE MUSICA
 
     private void startProgressUpdateThread() {
         if(shutdownWorker){
@@ -288,6 +319,8 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> {
         this.progressPublisherRunnable = null;
         this.progressUpdateThread = null;
     }
+
+    // GETTER DE isPlaying
 
     public boolean isPlaying() {
         return isPlaying;
