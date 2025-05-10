@@ -4,8 +4,7 @@ import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -16,7 +15,7 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
  * @implNote Não crie instâncias de MusicPlayerWorker se você não
  * quiser erros catastróficos
  */
-public class AudioPlayerWorker extends SwingWorker<String, Long> implements LineListener{
+public class AudioPlayerWorker extends SwingWorker<String, Long> {
 
     private final LinkedBlockingQueue<AudioCommand> commandQueue = new LinkedBlockingQueue<>();
     private Thread progressUpdateThread;
@@ -26,9 +25,9 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
     private boolean shutdownWorker = false;
     private Clip clip;
     private MusicPlayerPanel musicPlayerPanel;
+    private float volume = 0.0f;
 
-    // calculos feitos logo no começo do carregamento da música para não terem que ser re-feitos
-
+    private float DEFAULT_VOLUME = -23.0f;
 
     // TODO: REMOVER ISSO E COLOCAR A DEPENDENCIA NO CONSTRUTOR
     public void setMusicPlayerPanel(MusicPlayerPanel musicPlayerPanel) {
@@ -53,7 +52,6 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
     @Override
     protected String doInBackground() throws Exception {
         clip = AudioSystem.getClip();
-        clip.addLineListener(this); // colocar o listener de audio
 
         while (!shutdownWorker) { // Infinite loop planejado p
             try {
@@ -89,15 +87,6 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
             long seconds = currentSeconds % 60;
             musicPlayerPanel.getMusicTimeNowLabel().setText(String.format("%1d:%02d", minutes, seconds));
             chunks.clear(); // limpar memoria
-        }
-    }
-
-    @Override
-    public void update(LineEvent event) {
-        if (event.getType() == LineEvent.Type.STOP) {
-            if(isPlaying){
-                isPlaying = false;
-            }
         }
     }
 
@@ -170,8 +159,20 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
                     "\n O valor foi redefinido para -80.0f.");
             finalVolume = -80.0f;
         }
+        this.volume = finalVolume; // coloca o volume que o usuario definiu
         // Multiplica por 1.5 para reduzir o volume (dividir aumenta por algum motivo)
         gainControl.setValue(finalVolume);
+    }
+
+    private void forceSetVolume(float volume){
+        if (clip == null || !clip.isOpen()) {
+            logWarn("Tentativa de forçar volume enquanto clip não foi inicializado!");
+            return;
+        }
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        logDebug("Volume setado de forma forçada para: " + volume + "");
+        gainControl.setValue(volume);
     }
 
     private void handleSeek(float musicTimePercentage){
@@ -224,11 +225,18 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Line
         }
 
         try{
-            try(ByteArrayInputStream bais = new ByteArrayInputStream(audioByteArray);
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bais)){
-                clip.open(audioInputStream);
+
+            // obtem o audiostream do arquivo opus convertido
+            AudioInputStream audioStream = OpusConverter.convertOpusBytesToAudioInputStream(audioByteArray);
+            clip.open(audioStream);
+
+            if (volume == 0.0f && clip.getControl(FloatControl.Type.MASTER_GAIN) != null){
+                volume = DEFAULT_VOLUME;
+                forceSetVolume(volume);
+            } else{
+                forceSetVolume(volume);
             }
-            setVolume(musicPlayerPanel.getMusicSlider().getValue() / 100f);
+
             clip.setMicrosecondPosition(0);
             musicMicrosecondNow = 0;
             isPlaying = true;

@@ -13,7 +13,6 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.7")
 
@@ -34,6 +33,11 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
 
     implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+
+    // TUDO ISSO para poder tocar o aúdio .opus ;)
+    implementation 'org.bytedeco:javacv:1.5.8'
+    implementation 'org.bytedeco:ffmpeg:5.1.2-1.5.8'
+    implementation 'org.bytedeco:ffmpeg-platform:5.1.2-1.5.8'
 }
 
 test {
