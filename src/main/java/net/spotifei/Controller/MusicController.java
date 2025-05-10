@@ -11,8 +11,7 @@ import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 public class MusicController implements AudioUpdateListener {
     private final JPanel view;

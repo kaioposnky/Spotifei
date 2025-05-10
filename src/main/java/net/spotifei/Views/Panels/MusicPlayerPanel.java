@@ -217,9 +217,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         long minutes = currentSeconds / 60;
         long seconds = currentSeconds % 60;
         this.musicTimeNowLabel.setText(String.format("%1d:%02d", minutes, seconds));
-        if (Integer.parseInt(musicTimeTotalLabel.getText()) != musicTotalLength / 1_000_000) {
-            this.musicTimeTotalLabel.setText(String.format("%1d:%02d", minutes, seconds));
-        }
+
+        long totalSeconds = musicTotalLength / 1_000_000;
+        minutes = totalSeconds / 60;
+        seconds = totalSeconds % 60;
+        this.musicTimeTotalLabel.setText(String.format("%1d:%02d", minutes, seconds));
+
     }
 
     @Override

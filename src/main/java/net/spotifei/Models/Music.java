@@ -85,7 +85,7 @@ public class Music {
             if(i != 0 || (i+1 != autores.size())){
                 names += ",";
             }
-            names += autores.get(i).getNome() + " ";
+            names += autores.get(i).getNomeArtistico() + " ";
         }
         return names;
     }

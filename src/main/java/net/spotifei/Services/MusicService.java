@@ -8,7 +8,11 @@ import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class MusicService {
 
@@ -46,10 +50,9 @@ public class MusicService {
             }
 
             List<Artist> artists = artistRepository.getArtistsByMusicId(musicId);
-            if (artists != null && !artists.isEmpty()){
+            if (artists == null || artists.isEmpty()){
                 return ResponseHelper.GenerateBadResponse("Os artistas da música retornados foram nulos!");
             }
-
             music.setAutores(artists);
 
             return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
