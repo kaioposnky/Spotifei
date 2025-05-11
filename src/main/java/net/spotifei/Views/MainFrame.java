@@ -54,13 +54,12 @@ public class MainFrame extends JFrame{
         add(musicPlayerPanel, BorderLayout.SOUTH);
         add(cards);
 
-
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBackground(Color.DARK_GRAY);
         pack(); // tem que estar antes do setLocationRelativeTo
         setLocationRelativeTo(null);
-        setPanel(HOME_PANEL);    
+        setPanel(LOGIN_PANEL);
     }
 
     public void setPanel(String panel){

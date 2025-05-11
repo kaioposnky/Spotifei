@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
+    <query name="GetUserHashPasswordByEmail">
+        SELECT
+        u.senha AS senha
+        FROM Usuario u
+        WHERE email = @Email;
+    </query>
     <query name="GetUserByEmail">
         SELECT
         u.id_usuario AS idUsuario,
         u.email AS email,
         u.nome AS nome,
         u.sobrenome AS sobrenome,
-        u.telefone AS telefone
+        u.telefone AS telefone,
+        u.senha AS senha
         FROM Usuario u
         WHERE email = @Email;
     </query>

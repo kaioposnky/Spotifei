@@ -19,7 +19,7 @@ public class PersonRepository {
 
     public User getUsuarioByEmail(String email) throws Exception{
         try{
-            String sql = jdbcRepository.getQueryNamed("GetUserByEmail");
+            String sql = jdbcRepository.getQueryNamed("GetUserHashPasswordByEmail");
             User user = jdbcRepository.queryProcedure(sql, email, new BeanHandler<>(User.class));
 
             return user;

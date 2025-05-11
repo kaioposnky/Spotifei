@@ -69,4 +69,16 @@ public class Person {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", senha='" + senha + '\'' +
+                ", idUsuario=" + idUsuario +
+                '}';
+    }
 }

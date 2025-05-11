@@ -19,6 +19,7 @@ public class LoginPanel extends javax.swing.JPanel {
     
     private final MainFrame mainframe;
     private final AppContext appContext;
+    private final AuthController ac;
 
     /**
      * Creates new form HPanel
@@ -26,6 +27,7 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.ac = appContext.getAuthController(this, mainframe);
         initComponents();
     }
 
@@ -262,7 +264,6 @@ public class LoginPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_entrarActionPerformed
 
     
-    private AuthController ac;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_entrar;
     private javax.swing.JButton bt_registrar;
