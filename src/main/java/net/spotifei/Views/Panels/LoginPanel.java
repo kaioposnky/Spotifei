@@ -4,9 +4,8 @@
  */
 package net.spotifei.Views.Panels;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
@@ -91,7 +90,7 @@ public class LoginPanel extends javax.swing.JPanel {
         return txt_senha_login;
     }
 
-    public void setTxt_senha_login(JTextField txt_senha_login) {
+    public void setTxt_senha_login(JPasswordField txt_senha_login) {
         this.txt_senha_login = txt_senha_login;
     }
     
@@ -112,7 +111,7 @@ public class LoginPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txt_email_login = new javax.swing.JTextField();
-        txt_senha_login = new javax.swing.JTextField();
+        txt_senha_login = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         bt_registrar = new javax.swing.JButton();
@@ -274,7 +273,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txt_email_login;
-    private javax.swing.JTextField txt_senha_login;
+    private javax.swing.JPasswordField txt_senha_login;
     // End of variables declaration//GEN-END:variables
 
     public MainFrame getMainframe() {

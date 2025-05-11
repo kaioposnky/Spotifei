@@ -1,6 +1,7 @@
 package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
+import net.spotifei.Infrastructure.Repository.AdministratorRepository;
 import net.spotifei.Infrastructure.Repository.PersonRepository;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
@@ -8,9 +9,11 @@ import net.spotifei.Models.User;
 public class UserService {
 
     private final PersonRepository personRepository;
+    private final AdministratorRepository administratorRepository;
 
-    public UserService(PersonRepository personRepository){
+    public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository){
         this.personRepository = personRepository;
+        this.administratorRepository = administratorRepository;
     }
 
     public Response<User> getUsuarioByEmail(User user){
@@ -42,6 +45,34 @@ public class UserService {
             return ResponseHelper.GenerateSuccessResponse(
                     "usuarios obtidos com sucesso", usuario);
 
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<Boolean> checkUserAdmin(User user){
+        try{
+            if (user == null || user.getIdUsuario() == 0){
+                return ResponseHelper.GenerateBadResponse("Os campos user e idUsuario não podem ser nulos ou zero!");
+            }
+
+            int isUserAdmin = administratorRepository.checkUserAdminById(user.getIdUsuario());
+            boolean isAdmin = isUserAdmin == 1;
+
+            return ResponseHelper.GenerateSuccessResponse("Usuário checado com sucesso!", isAdmin);
+
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<Void> updateAdminLastLoginByEmail(String email){
+        try{
+            int adminId = administratorRepository.getAdminIdByEmail(email);
+
+            administratorRepository.updateAdminLastLoginById(adminId);
+
+            return ResponseHelper.GenerateSuccessResponse("Última data de login do administrador atualizada com sucesso!");
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }

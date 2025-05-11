@@ -9,6 +9,8 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.util.List;
 
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
+
 public class PersonRepository {
 
     private final JDBCRepository jdbcRepository;
@@ -19,7 +21,7 @@ public class PersonRepository {
 
     public User getUsuarioByEmail(String email) throws Exception{
         try{
-            String sql = jdbcRepository.getQueryNamed("GetUserHashPasswordByEmail");
+            String sql = jdbcRepository.getQueryNamed("GetUserByEmail");
             User user = jdbcRepository.queryProcedure(sql, email, new BeanHandler<>(User.class));
 
             return user;

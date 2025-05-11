@@ -31,8 +31,6 @@ public class AuthController {
         String email = loginFrame.getTxt_email_login().getText();
         String password = loginFrame.getTxt_senha_login().getText();
         Response<Boolean> response = authService.validateUserLogin(email, password);
-        System.out.println(response.isSuccess());
-        System.out.println();
         if (!response.isSuccess()){
             JOptionPane.showMessageDialog(view, response.getMessage());
             if (response.getClass() == ErrorResponse.class){

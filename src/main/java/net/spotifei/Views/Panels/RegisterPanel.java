@@ -4,9 +4,7 @@
  */
 package net.spotifei.Views.Panels;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
@@ -122,7 +120,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         return txt_senha_cadastro;
     }
 
-    public void setTxt_senha_cadastro(JTextField txt_senha_cadastro) {
+    public void setTxt_senha_cadastro(JPasswordField txt_senha_cadastro) {
         this.txt_senha_cadastro = txt_senha_cadastro;
     }
 
@@ -160,7 +158,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         txt_sob_cadastro = new javax.swing.JTextField();
         txt_telefone_cadastro = new javax.swing.JTextField();
         txt_email_cadastro = new javax.swing.JTextField();
-        txt_senha_cadastro = new javax.swing.JTextField();
+        txt_senha_cadastro = new javax.swing.JPasswordField();
         bt_cadastrar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
@@ -324,7 +322,7 @@ public class RegisterPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField txt_email_cadastro;
     private javax.swing.JTextField txt_nome_cadastro;
-    private javax.swing.JTextField txt_senha_cadastro;
+    private javax.swing.JPasswordField txt_senha_cadastro;
     private javax.swing.JTextField txt_sob_cadastro;
     private javax.swing.JTextField txt_telefone_cadastro;
     // End of variables declaration//GEN-END:variables

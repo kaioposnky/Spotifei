@@ -7,10 +7,7 @@ import net.spotifei.Infrastructure.AudioPlayer.AudioControls;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import net.spotifei.Infrastructure.Repository.ArtistRepository;
-import net.spotifei.Infrastructure.Repository.MusicRepository;
-import net.spotifei.Infrastructure.Repository.PersonRepository;
-import net.spotifei.Infrastructure.Repository.PlaylistRepository;
+import net.spotifei.Infrastructure.Repository.*;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Person;
 import net.spotifei.Services.AuthService;
@@ -32,6 +29,7 @@ public class AppContext {
     private final PlaylistRepository playlistRepository;
     private final MusicRepository musicRepository;
     private final PersonRepository personRepository;
+    private final AdministratorRepository administratorRepository;
 
     private final MusicService musicService;
     private final AuthService authService;
@@ -49,9 +47,10 @@ public class AppContext {
         this.musicRepository = new MusicRepository(this.jdbcRepository);
         this.artistRepository = new ArtistRepository(this.jdbcRepository);
         this.playlistRepository = new PlaylistRepository(this.jdbcRepository);
+        this.administratorRepository = new AdministratorRepository(this.jdbcRepository);
 
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
-        this.userService = new UserService(this.personRepository);
+        this.userService = new UserService(this.personRepository, this.administratorRepository);
         this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository);
     }
 
