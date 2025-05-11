@@ -2,6 +2,7 @@ package net.spotifei.Infrastructure.JDBC;
 
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
+import net.spotifei.Models.User;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
@@ -126,14 +127,12 @@ public class JDBCRepository {
     }
 
     /**
-     * @deprecated Não passe mais uma classe, crie um Map<\String, Object> com as informações da procedure
      * @param sql Query a ser executada
-     * @param params Parâmetros que devem ser inseridos na Query, pode incluir uma classe
+     * @param userParams Parâmetros do usuário que será modificado
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
-    @Deprecated
-    public void executeProcedure(String sql, Object params) throws SQLException {
-        getPreparedStatement(sql, params).execute();
+    public void executeProcedure(String sql, User userParams) throws SQLException {
+        getPreparedStatement(sql, userParams).execute();
     }
 
     /**
