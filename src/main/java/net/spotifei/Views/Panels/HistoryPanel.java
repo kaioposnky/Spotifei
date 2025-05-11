@@ -44,15 +44,6 @@ public class HistoryPanel extends javax.swing.JPanel {
         this.bt_deslikes = bt_deslikes;
     }
 
-    public JButton getBt_home() {
-        return bt_home;
-    }
-
-    public void setBt_home(JButton bt_home) {
-        this.bt_home = bt_home;
-    }
-
-
     public JButton getBt_top10() {
         return bt_top10;
     }
@@ -95,7 +86,6 @@ public class HistoryPanel extends javax.swing.JPanel {
         bt_deslikes = new javax.swing.JButton();
         bt_curtidas = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        bt_home = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
         jPopupMenu1.add(jMenu1);
@@ -140,16 +130,6 @@ public class HistoryPanel extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Aqui está seu histórico!");
 
-        bt_home.setBackground(new java.awt.Color(0, 0, 0));
-        bt_home.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_home.setForeground(new java.awt.Color(250, 250, 250));
-        bt_home.setText("VOLTAR");
-        bt_home.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_homeActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,22 +138,19 @@ public class HistoryPanel extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
-                .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128)
-                .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133)
-                .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(128, 128, 128)
+                        .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(133, 133, 133)
+                        .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(131, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,9 +164,7 @@ public class HistoryPanel extends javax.swing.JPanel {
                     .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(232, 232, 232)
-                .addComponent(bt_home)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -198,11 +173,6 @@ public class HistoryPanel extends javax.swing.JPanel {
         DeslikedPopUp deslike = new DeslikedPopUp(mainframe, true);
         deslike.setVisible(true);
     }//GEN-LAST:event_bt_deslikesActionPerformed
-
-    private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.HOME_PANEL);
-    }//GEN-LAST:event_bt_homeActionPerformed
 
     private void bt_top10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_top10MouseClicked
         // TODO add your handling code here:
@@ -229,7 +199,6 @@ public class HistoryPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_curtidas;
     private javax.swing.JButton bt_deslikes;
-    private javax.swing.JButton bt_home;
     private javax.swing.JButton bt_top10;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

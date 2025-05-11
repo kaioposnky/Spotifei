@@ -28,14 +28,6 @@ public class SearchPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public JButton getBt_home() {
-        return bt_home;
-    }
-
-    public void setBt_home(JButton bt_home) {
-        this.bt_home = bt_home;
-    }
-
     public JButton getBt_pesquisar() {
         return bt_pesquisar;
     }
@@ -112,7 +104,6 @@ public class SearchPanel extends javax.swing.JPanel {
         bt_pesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_area_musica_pesquisa = new javax.swing.JTextArea();
-        bt_home = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -151,17 +142,6 @@ public class SearchPanel extends javax.swing.JPanel {
         txt_area_musica_pesquisa.setRows(5);
         jScrollPane1.setViewportView(txt_area_musica_pesquisa);
 
-        bt_home.setBackground(new java.awt.Color(0, 0, 0));
-        bt_home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_home.setForeground(new java.awt.Color(250, 250, 250));
-        bt_home.setText("VOLTAR");
-        bt_home.setBorderPainted(false);
-        bt_home.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_homeActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,21 +156,11 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addGap(0, 177, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_home, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -208,16 +178,9 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addComponent(bt_pesquisar)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addComponent(bt_home)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_homeActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.HOME_PANEL);
-    }//GEN-LAST:event_bt_homeActionPerformed
 
     private void bt_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pesquisarActionPerformed
         // TODO add your handling code here:
@@ -225,7 +188,6 @@ public class SearchPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_home;
     private javax.swing.JButton bt_pesquisar;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -167,7 +167,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 .addGap(0, 273, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap(271, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -207,11 +207,11 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txt_genero_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                .addGap(80, 80, 80)
                 .addComponent(bt_salvar)
-                .addGap(103, 103, 103)
+                .addGap(135, 135, 135)
                 .addComponent(bt_voltar)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
