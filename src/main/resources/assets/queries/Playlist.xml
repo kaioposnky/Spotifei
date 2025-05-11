@@ -17,6 +17,11 @@
         INSERT INTO playlist_musica (id_playlist, id_musica, posicao)
         VALUES (@idPlaylist, @idMusica, @position);
     </query>
+    <query name="GetMaxPlaylistPosition">
+        SELECT COALESCE(MAX(posicao), 0)
+        FROM playlist_musica
+        WHERE id_playlist = @idPlaylist;
+    </query>
     <query name="RemoveMusicFromPlaylist">
         DELETE FROM playlist_musica
         WHERE id_playlist = @idPlaylist

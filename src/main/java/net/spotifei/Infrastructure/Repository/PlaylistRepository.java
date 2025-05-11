@@ -5,6 +5,7 @@ import net.spotifei.Models.Music;
 import net.spotifei.Models.Playlist;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,11 +72,11 @@ public class PlaylistRepository {
         }
     }
 
-    public void removeMusicFromPlaylist(Music music, int playlistId) throws Exception{
+    public void removeMusicFromPlaylist(int musicId, int playlistId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("idPlaylist", playlistId);
-            params.put("idMusica", music.getIdMusica());
+            params.put("idMusica", musicId);
 
             String sql = jdbcRepository.getQueryNamed("RemoveMusicFromPlaylist");
             jdbcRepository.executeProcedure(sql, params);
@@ -107,6 +108,20 @@ public class PlaylistRepository {
             return playlist;
         } catch (Exception e){
             e.getCause();
+            throw e;
+        }
+    }
+    public int getLastPlaylistPosition(int playlistId) throws Exception{
+        try {
+            ScalarHandler<Integer> handler = new ScalarHandler<>();
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+
+            String sql = jdbcRepository.getQueryNamed("GetMaxPlaylistPosition");
+            int lastPosition = jdbcRepository.queryProcedure(sql, params, handler);
+
+            return lastPosition;
+        } catch (Exception e){
             throw e;
         }
     }
