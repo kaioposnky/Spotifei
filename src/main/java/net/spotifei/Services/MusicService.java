@@ -123,4 +123,19 @@ public class MusicService {
             return ResponseHelper.GenerateErrorResponse("Erro ao tentar pausar a música!", ex);
         }
     }
+
+    public Response<Void> addMusicToUserHistory(int userId, int musicId){
+        try{
+            if(userId == 0 || musicId == 0){
+                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+            }
+
+            musicRepository.insertMusicPlayHistory(userId, musicId);
+
+            return ResponseHelper.GenerateSuccessResponse("Música adicionada ao histórico com sucesso");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+
+    }
 }

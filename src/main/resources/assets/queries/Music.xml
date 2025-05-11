@@ -83,4 +83,48 @@
         WHERE id_usuario = @idUsuario
         AND id_musica = @idMusica;
     </query>
+    <query name="CreateMusic">
+        INSERT INTO musica(nome, duracao_ms, audio, id_genero)
+        VALUES(@name, @durationMs, @audio, @idGenre)
+    </query>
+    <query name="GetUserPreviousMusic">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nomeMusica,
+        m.duracao_ms AS duracaoMs,
+        uhm.data_tocada AS dataTocada
+        FROM
+        usuario_historico_musicas uhm
+        JOIN
+        musica m ON uhm.id_musica = m.id_musica
+        WHERE
+        uhm.id_usuario = @idUsuario
+        ORDER BY
+        uhm.data_tocada DESC
+        LIMIT 1 OFFSET 1;
+    </query>
+    <query name="GetUserLastMusic">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nomeMusica,
+        m.duracao_ms AS duracaoMs,
+        uhm.data_tocada AS dataTocada
+        FROM
+        usuario_historico_musicas uhm
+        JOIN
+        musica m ON uhm.id_musica = m.id_musica
+        WHERE
+        uhm.id_usuario = @idUsuario
+        ORDER BY
+        uhm.data_tocada DESC
+        LIMIT 1;
+    </query>
+    <query name="DeleteMusic">
+        DELETE FROM music
+        WHERE id_musica = @idMusic
+    </query>
+    <query name="InsertMusicPlayHistory">
+        INSERT INTO usuario_historico_musicas (id_usuario, id_musica)
+        VALUES (@idUser, @idMusic);
+    </query>
 </queries>

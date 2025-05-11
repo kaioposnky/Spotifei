@@ -45,44 +45,23 @@ public class MusicController implements AudioUpdateListener {
     public void playMusic(){
         MusicPlayerPanel musicPlayerPanel = (MusicPlayerPanel) view;
         Music music = appContext.getMusicContext();
-        logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
-        musicPlayerPanel.getMusicTitle().setText(music.getNome());
-        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
-        Response<Void> response = musicServices.playMusic(music.getIdMusica());
-        if(!response.isSuccess()){
-            logError(response.getMessage());
-            return;
-        }
-        logDebug("Tocando agora: " + music.getNome());
+        handleSaveMusic(musicPlayerPanel, music);
     }
 
     /**
      * Toca a música pelo id dela
      * @param musicId Id da música a ser tocada
      */
-    public void playMusic(int musicId) throws ExecutionControl.NotImplementedException {
+    public void playMusic(int musicId) {
         MusicPlayerPanel musicPlayerPanel = (MusicPlayerPanel) view;
-        Response<Music> responseMusica = null; //musicServices.getMusicById(musicId); (CRIAR FUNÇÃO)
-        if (responseMusica == null) throw new ExecutionControl.NotImplementedException("Necessário implementar no Repository!");
+        Response<Music> responseMusica = musicServices.getMusicById(musicId);
 
         if(!responseMusica.isSuccess()){
             logError(responseMusica.getMessage());
             return;
         }
         Music music = responseMusica.getData();
-        logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
-        musicPlayerPanel.getMusicTitle().setText(music.getNome());
-        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
-        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica());
-        if(!responsePlay.isSuccess()){
-            if(responsePlay.isError()){
-                logError(responsePlay.getMessage(), responsePlay.getException());
-            } else{
-                logError(responsePlay.getMessage());
-            }
-            return;
-        }
-        logDebug("Tocando agora: " + music.getNome());
+        handleSaveMusic(musicPlayerPanel, music);
     }
 
     public void setAudioVolume(float volume){
@@ -123,6 +102,39 @@ public class MusicController implements AudioUpdateListener {
         }
         // modificar o status do appcontext na musicontext para deixar pausada ou despausada
         logDebug("Música pausada com sucesso!");
+    }
+
+    private boolean handlePlayMusic(MusicPlayerPanel musicPlayerPanel, Music music) {
+        logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
+        musicPlayerPanel.getMusicTitle().setText(music.getNome());
+        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
+
+        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica());
+        if(!responsePlay.isSuccess()){
+            if(responsePlay.isError()){
+                logError(responsePlay.getMessage(), responsePlay.getException());
+            } else{
+                logError(responsePlay.getMessage());
+            }
+            return true;
+        }
+        logDebug("Tocando agora: " + music.getNome());
+        return false;
+    }
+
+    private void handleSaveMusic(MusicPlayerPanel musicPlayerPanel, Music music) {
+        if (handlePlayMusic(musicPlayerPanel, music)) return;
+        Response<Void> responseSaveMusicToHistory = musicServices.
+                addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
+        if(!responseSaveMusicToHistory.isSuccess()){
+            if(responseSaveMusicToHistory.isError()){
+                logError(responseSaveMusicToHistory.getMessage(), responseSaveMusicToHistory.getException());
+            } else{
+                logError(responseSaveMusicToHistory.getMessage());
+            }
+            return;
+        }
+        logDebug("Música salva ao histórico com sucesso!");
     }
 
     // Ações do Listener que é notificado em AudioPlayerWorker

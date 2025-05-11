@@ -114,4 +114,18 @@ public class MusicRepository {
             throw e;
         }
     }
+
+    public void insertMusicPlayHistory(int userId, int musicId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idMusic", musicId);
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("InsertMusicPlayHistory");
+            jdbcRepository.executeProcedure(sql, params);
+
+        } catch (Exception e){
+            throw e;
+        }
+    }
 }
