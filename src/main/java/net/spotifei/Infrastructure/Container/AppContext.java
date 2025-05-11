@@ -12,6 +12,7 @@ import net.spotifei.Models.Music;
 import net.spotifei.Models.Person;
 import net.spotifei.Services.AuthService;
 import net.spotifei.Services.MusicService;
+import net.spotifei.Services.PlaylistService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.Panels.MusicPlayerPanel;
@@ -30,10 +31,12 @@ public class AppContext {
     private final MusicRepository musicRepository;
     private final PersonRepository personRepository;
     private final AdministratorRepository administratorRepository;
+    private final GenreRepository genreRepository;
 
     private final MusicService musicService;
     private final AuthService authService;
     private final UserService userService;
+    private final PlaylistService playlistService;
 
     private Person personContext;
     private Music musicContext;
@@ -48,9 +51,11 @@ public class AppContext {
         this.artistRepository = new ArtistRepository(this.jdbcRepository);
         this.playlistRepository = new PlaylistRepository(this.jdbcRepository);
         this.administratorRepository = new AdministratorRepository(this.jdbcRepository);
+        this.genreRepository = new GenreRepository(this.jdbcRepository);
 
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
-        this.userService = new UserService(this.personRepository, this.administratorRepository);
+        this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
+        this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository);
         this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository);
     }
 

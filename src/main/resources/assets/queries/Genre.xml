@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+    <query name="CreateGenre">
+        INSERT INTO genero(nome)
+        VALUES(@name)
+    </query>
+    <query name="GetGenreById">
+        SELECT
+        g.nome AS name
+        g.id_genero AS idGenre
+        FROM genero g
+        WHERE g.id_genero = @idGenre
+    </query>
+    <query name="GetAllGenres">
+        SELECT
+        id_genero AS idGenre,
+        nome AS name,
+        data_criacao AS dataCriacao
+        FROM genero
+        ORDER BY nome ASC;
+    </query>
+
+    <query name="UpdateGenre">
+        UPDATE genero
+        SET nome = @name
+        WHERE id_genero = @idGenre;
+    </query>
+
+    <query name="DeleteGenre">
+        DELETE FROM genero
+        WHERE id_genero = @idGenre;
+    </query>
+</queries>

@@ -28,7 +28,6 @@ public class MusicRepository {
 
             return  musics;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -43,7 +42,6 @@ public class MusicRepository {
 
             return music;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -56,10 +54,8 @@ public class MusicRepository {
 
             String sql = jdbcRepository.getQueryNamed("GetMusicAudioByMusicId");
 
-            // por questões de velocidade o retorno foi juntado com a função que retorna o audio
             return jdbcRepository.queryProcedure(sql, params, handler);
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -71,7 +67,6 @@ public class MusicRepository {
 
             return musics;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -83,19 +78,18 @@ public class MusicRepository {
 
             return musics;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
 
     public int getTotalMusics() throws Exception{
         try{
+            ScalarHandler<Integer> handler = new ScalarHandler<>();
             String sql = jdbcRepository.getQueryNamed("GetTotalMusics");
-            int totalMusics = jdbcRepository.queryProcedure(sql, new BeanHandler<>(Integer.class));
+            int totalMusics = jdbcRepository.queryProcedure(sql, handler);
 
             return totalMusics;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -110,7 +104,6 @@ public class MusicRepository {
 
             return music;
         } catch (Exception e){
-            e.getCause();
             throw e;
         }
     }
@@ -118,13 +111,92 @@ public class MusicRepository {
     public void insertMusicPlayHistory(int userId, int musicId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
-            params.put("idMusic", musicId);
-            params.put("idUser", userId);
+            params.put("idUser", userId); // Check if parameter name in XML is idUser or idUsuario
+            params.put("idMusic", musicId); // Check if parameter name in XML is idMusic or idMusica
 
             String sql = jdbcRepository.getQueryNamed("InsertMusicPlayHistory");
             jdbcRepository.executeProcedure(sql, params);
 
         } catch (Exception e){
+            throw e;
+        }
+    }
+
+    // fila de musica do usuario
+
+    public void deleteUserQueue(int userId) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUsuario", userId);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteUserQueue");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public List<Music> getPlaylistMusicForQueue(int playlistId) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+
+            String sql = jdbcRepository.getQueryNamed("GetPlaylistMusicForQueueById");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+            return musics;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void insertMusicIntoQueue(int userId, int musicId) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUsuario", userId);
+            params.put("idMusica", musicId);
+
+            String sql = jdbcRepository.getQueryNamed("InsertMusicIntoQueue");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void deleteMusicFromQueueByPosition(int userId, int position) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUsuario", userId);
+            params.put("posicao", position);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueByPosition");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void deleteMusicFromQueueByMusicId(int userId, int musicId) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUsuario", userId);
+            params.put("idMusica", musicId);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueByMusicId");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public List<Music> getUserQueue(int userId) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUsuario", userId);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserQueue");
+            List<Music> queue = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+            return queue;
+        } catch (Exception e) {
             throw e;
         }
     }

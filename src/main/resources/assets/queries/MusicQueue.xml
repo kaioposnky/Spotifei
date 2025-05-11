@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<queries>
+    <query name="DeleteUserQueue">
+        DELETE FROM usuario_fila
+        WHERE id_usuario = @idUsuario;
+    </query>
+
+    <query name="GetPlaylistMusicForQueueById">
+        SELECT
+        pm.id_musica AS idMusica,
+        pm.posicao AS posicaoPlaylist
+        FROM
+        playlist_musica pm
+        WHERE
+        pm.id_playlist = @idPlaylist
+        ORDER BY
+        pm.posicao ASC;
+    </query>
+
+    <query name="InsertMusicIntoQueue">
+        INSERT INTO usuario_fila (id_usuario, id_musica, posicao)
+        VALUES (
+        @idUsuario,
+        @idMusica,
+        (SELECT COALESCE(MAX(posicao), 0) + 1 FROM usuario_fila WHERE id_usuario = @idUsuario)
+        );
+    </query>
+
+    <query name="DeleteMusicFromQueueByPosition">
+        DELETE FROM usuario_fila
+        WHERE id_usuario = @idUsuario AND posicao = @posicao;
+    </query>
+
+    <query name="DeleteMusicFromQueueByMusicId">
+        DELETE FROM usuario_fila
+        WHERE id_usuario = @idUsuario AND id_musica = @idMusica;
+    </query>
+
+    <query name="GetUserQueue">
+        SELECT
+        uf.id_musica_fila AS idMusicaFila,
+        m.id_musica AS idMusica,
+        m.nome AS nomeMusica,
+        m.duracao_ms AS duracaoMs,
+        uf.posicao AS posicao
+        FROM
+        usuario_fila uf
+        JOIN
+        musica m ON uf.id_musica = m.id_musica
+        WHERE
+        uf.id_usuario = @idUsuario
+        ORDER BY
+        uf.posicao ASC;
+    </query>
+
+</queries>

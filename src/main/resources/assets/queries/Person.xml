@@ -68,4 +68,8 @@
         SELECT COUNT(*) AS total
         FROM usuario;
     </query>
+    <query name="DeleteUser">
+        DELETE FROM usuario
+        WHERE id_usuario = @idUser
+    </query>
 </queries>

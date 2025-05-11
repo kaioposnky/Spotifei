@@ -7,7 +7,9 @@ import net.spotifei.Models.UserSearch;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
@@ -100,6 +102,18 @@ public class PersonRepository {
             return totalUsers;
         } catch (Exception ex){
             ex.getCause();
+            throw ex;
+        }
+    }
+
+    public void deleteUser(int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteUser");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception ex){
             throw ex;
         }
     }

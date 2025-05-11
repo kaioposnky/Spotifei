@@ -2,7 +2,9 @@ package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.Repository.AdministratorRepository;
+import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.PersonRepository;
+import net.spotifei.Models.Artist;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 
@@ -10,10 +12,12 @@ public class UserService {
 
     private final PersonRepository personRepository;
     private final AdministratorRepository administratorRepository;
+    private final ArtistRepository artistRepository;
 
-    public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository){
+    public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository, ArtistRepository artistRepository){
         this.personRepository = personRepository;
         this.administratorRepository = administratorRepository;
+        this.artistRepository = artistRepository;
     }
 
     public Response<User> getUsuarioByEmail(User user){
@@ -76,5 +80,46 @@ public class UserService {
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
+    }
+
+    public Response<Void> createArtist(Artist artist){
+        try{
+            if (artist == null){
+                return ResponseHelper.GenerateBadResponse("O artista fornecida foi nulo!");
+            }
+            artistRepository.createArtist(artist);
+
+            return ResponseHelper.GenerateSuccessResponse("Artista criado com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<Artist> getArtistById(int artistId){
+        try{
+            if (artistId <= 0){
+                return ResponseHelper.GenerateBadResponse("O id do artista deve ser >= 0!");
+            }
+            Artist artist = artistRepository.getArtistById(artistId);
+
+            return ResponseHelper.GenerateSuccessResponse("Artista obtido com sucesso!", artist);
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<Void> deleteArtist(int artistId){
+        try {
+            if (artistId <= 0){
+                return ResponseHelper.GenerateBadResponse("O id do artista deve ser >= 0!");
+            }
+
+            artistRepository.deleteArtist(artistId);
+
+            return ResponseHelper.GenerateSuccessResponse("Artista deletado com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+
     }
 }
