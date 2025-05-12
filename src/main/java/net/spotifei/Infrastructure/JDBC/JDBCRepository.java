@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import static net.spotifei.Helpers.AssetsLoader.getQueriesFiles;
 import static net.spotifei.Helpers.ParametersHelper.getParametersFromObject;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Spotifei.getDotEnv;
 
 public class JDBCRepository {
@@ -45,6 +46,13 @@ public class JDBCRepository {
         this.url = getDotEnv().get("DATABASE_URL");
         this.user = getDotEnv().get("DATABASE_USER");
         this.password = getDotEnv().get("DATABASE_PASSWORD");
+
+        try{
+            loadQueriesCache();
+            logDebug("Queries do JDBC carregadas com sucesso no Cache!");
+        } catch (FileNotFoundException e){
+            throw new RuntimeException("Erro ao carregar os arquivos de query!", e);
+        }
     }
 
     private Connection getConnection() throws SQLException {

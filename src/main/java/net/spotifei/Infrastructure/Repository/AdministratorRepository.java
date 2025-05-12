@@ -23,9 +23,9 @@ public class AdministratorRepository {
             ScalarHandler<Integer> scalar = new ScalarHandler<>();
 
             String sql = jdbcRepository.getQueryNamed("CheckUserAdminById");
-            int isUserAdmin = jdbcRepository.queryProcedure(sql, params, scalar);
+            Integer isUserAdmin = jdbcRepository.queryProcedure(sql, params, scalar);
 
-            return isUserAdmin;
+            return isUserAdmin == null ? 0 : isUserAdmin;
         } catch (Exception e){
             throw e;
         }
