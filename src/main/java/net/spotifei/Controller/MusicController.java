@@ -11,6 +11,7 @@ import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
+import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 public class MusicController implements AudioUpdateListener {
@@ -56,50 +57,30 @@ public class MusicController implements AudioUpdateListener {
         MusicPlayerPanel musicPlayerPanel = (MusicPlayerPanel) view;
         Response<Music> responseMusica = musicServices.getMusicById(musicId);
 
-        if(!responseMusica.isSuccess()){
-            logError(responseMusica.getMessage());
-            return;
-        }
+        if(handleDefaultResponseIfError(responseMusica)) return;
+
         Music music = responseMusica.getData();
         handleSaveMusic(musicPlayerPanel, music);
     }
 
     public void setAudioVolume(float volume){
         Response<Void> response = musicServices.setAudioVolume(volume);
-        if(!response.isSuccess()){
-            if(response.isError()){
-                logError(response.getMessage(), response.getException());
-            } else{
-                logError(response.getMessage());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         logDebug("Volume alterado para " + volume + " com sucesso!");
     }
 
     public void setMusicTime(float musicTime){
         Response<Void> response = musicServices.setMusicTime(musicTime);
-        if(!response.isSuccess()){
-            if(response.isError()){
-                logError(response.getMessage(), response.getException());
-            } else{
-                logError(response.getMessage());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         logDebug("Tempo da música alterado para " + musicTime + " com sucesso!");
     }
 
     public void pauseMusic(){
         Response<Void> response = musicServices.pauseMusic();
-        if(!response.isSuccess()){
-            if(response.isError()){
-                logError(response.getMessage(), response.getException());
-            } else{
-                logError(response.getMessage());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         // modificar o status do appcontext na musicontext para deixar pausada ou despausada
         logDebug("Música pausada com sucesso!");
     }

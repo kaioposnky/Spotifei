@@ -6,6 +6,7 @@ import net.spotifei.Views.Panels.Admin.ADMRegisterMusicPanel;
 
 import javax.swing.*;
 
+import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
@@ -36,15 +37,8 @@ public class AdminController {
             createJDialog("Você deve incluir o gênero da música!");
         }
         Response<Void> response = musicService.registerMusic(musicFilePath, musicName, musicArtistName, musicGenreName);
-        if(!response.isSuccess()){
-            if(response.isError()){
-                logError(response.getMessage(), response.getException());
-            } else{
-                logError(response.getMessage());
-            }
-            createJDialog(response.getMessage());
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         createJDialog("Música registrada com sucesso!");
         logDebug("Música registrada com sucesso!");
     }

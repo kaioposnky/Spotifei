@@ -1,83 +1,71 @@
 package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
+import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 
+import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 public class UserController {
 
     private final MainFrame mainFrame;
     private final UserService userService;
-    private final JPanel view;
+    private final MusicService musicService;
     private final AppContext appContext;
+    private final JPanel view;
 
-    public UserController(JPanel view, MainFrame mainFrame, UserService userService, AppContext appContext){
+    public UserController(JPanel view, MainFrame mainFrame, AppContext appContext){
         this.mainFrame = mainFrame;
-        this.userService = userService;
+        this.userService = appContext.getUserService();
         this.view = view;
+        this.musicService = appContext.getMusicService();
         this.appContext = appContext;
-    }
-
-    public void getUserInfo(){
-        String email = "kposansky@gmail.com";
-        User user = new User();
-        user.setEmail(email);
-        Response<User> response = userService.getUsuarioByEmail(user);
-        System.out.println(response.getMessage());
-        System.out.println(response.getData().getNome());
-        System.out.println(response.getData().getEmail());
-        System.out.println(response.getData().getTelefone());
-        System.out.println(response.getData().getSenha());
     }
 
     public void handleLoginSucess(String email){
         Response<User> responseUser = userService.getUsuarioByEmail(email);
-        if(!responseUser.isSuccess()){
-            if(responseUser.isError()){
-                logError(responseUser.getMessage(), responseUser.getException());
-            } else{
-                logError(responseUser.getMessage());
-            }
-            return;
-        }
-        User user = responseUser.getData();
-        appContext.setPersonContext(user);
+        if(handleDefaultResponseIfError(responseUser)) return;
 
-        logInfo("User " + user.getNome() + " logado com sucesso! Id do usuario: " + user.getIdUsuario() + "");
+        User user = responseUser.getData();
+
+        Response<Music> responseMusic = musicService.getUserLastPlayedMusic(user.getIdUsuario());
+        if(handleDefaultResponseIfError(responseMusic)) return;
+
+        Music music = responseMusic.getData();
+
+        appContext.setPersonContext(user); // seta o usuario atual
+        appContext.setMusicContext(music); // seta a musica atual
 
         Response<Boolean> responseUserAdmin = userService.checkUserAdmin(user);
-        if(!responseUserAdmin.isSuccess()){
-            if(responseUserAdmin.isError()){
-                logError(responseUserAdmin.getMessage(), responseUserAdmin.getException());
-            } else{
-                logError(responseUserAdmin.getMessage());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(responseUserAdmin)) return;
+
         boolean isAdmin = responseUserAdmin.getData();
         if (isAdmin){
             logDebug("Administrador logado com sucesso!");
 
-            Response<Void> response = userService.updateAdminLastLoginByEmail(user.getEmail());
-            if(!response.isSuccess()){
-                if(response.isError()){
-                    logError(response.getMessage(), response.getException());
-                } else{
-                    logError(response.getMessage());
-                }
-                return;
-            }
+            Response<Void> responseUpdateAdminLogin = userService.updateAdminLastLoginByEmail(user.getEmail());
+            if(handleDefaultResponseIfError(responseUpdateAdminLogin)) return;
+
             logDebug("Último login do administrador atualizado com sucesso!");
             mainFrame.setPanel(MainFrame.ADMHOME_PANEL);
         } else{
             logDebug("Usuário logado com sucesso!");
+            mainFrame.setHUDVisible(true);
             mainFrame.setPanel(MainFrame.SEARCH_PANEL);
+
+            musicService.pauseMusic();
+            Response<Void> response = musicService.playMusic(music.getIdMusica());
+            if (!response.isSuccess()){
+                JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +
+                        "Selecione uma para começar!");
+            }
         }
     }
 }

@@ -188,4 +188,24 @@ public class MusicService {
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
     }
+
+    public Response<Music> getUserLastPlayedMusic(int userId){
+        try{
+            Music music = musicRepository.getUserLastPlayedMusic(userId);
+
+            // se retornar nulo é pq nn tem nenhuma música registrada
+            if(music == null){
+                music = new Music();
+                music.setDuracaoMs(100000000);
+                music.setNome("Selecione uma música para tocar!");
+                Artist artist = new Artist();
+                artist.setNome("Selecione uma música para tocar!");
+                music.setAutores(List.of(artist));
+            }
+
+            return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
 }

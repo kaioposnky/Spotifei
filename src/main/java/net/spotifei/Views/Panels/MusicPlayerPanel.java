@@ -83,11 +83,11 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         songInfoPanel.setOpaque(false);
         songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
 
-        musicTitle = new JLabel("Music Title");
+        musicTitle = new JLabel("Música");
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.WHITE);
 
-        musicArtist = new JLabel("Music Artist");
+        musicArtist = new JLabel("Artista");
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
 
@@ -114,6 +114,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
         musicSlider = new SpotifyLikeSlider(0, 100, 20, 400, 20);
         musicSlider.addMouseListener(getMusicSliderMouseListeners(musicSlider));
+        musicSlider.setValue(0);
 
         musicTimeNowLabel = new JLabel("0:00");
         musicTimeNowLabel.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -178,6 +179,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
         audioSlider = new SpotifyLikeSlider(0, 100, 15);
         audioSlider.addMouseListener(getAudioSliderMouseListeners(audioSlider));
+        musicSlider.setValue(50);
 
         rightPanel.add(muteButtonWrapper);
         rightPanel.add(audioSlider);

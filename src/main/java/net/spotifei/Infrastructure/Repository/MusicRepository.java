@@ -169,6 +169,20 @@ public class MusicRepository {
         }
     }
 
+    public Music getUserLastPlayedMusic(int userId) throws Exception {
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserLastPlayedMusic");
+            Music music = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Music.class));
+
+            return music;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     // fila de musica do usuario
 
     public void deleteUserQueue(int userId) throws Exception {

@@ -35,6 +35,9 @@ public class MainFrame extends JFrame{
         this.appContext.registerMusicPlayerPanelListener(this.musicPlayerPanel);
         this.redirectPanel= new RedirectPanel(this,this.appContext);
 
+        musicPlayerPanel.setVisible(false);
+        redirectPanel.setVisible(false);
+
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
 
@@ -50,7 +53,6 @@ public class MainFrame extends JFrame{
         cards.add(new ADMDelMusicPanel(this, this.appContext), ADMDELMUSIC_PANEL);
         cards.add(new ADMCadArtistPanel(this, this.appContext), ADMCADARTIST_PANEL);
 
-//        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);
         add(redirectPanel,BorderLayout.EAST);
         add(cards);
@@ -66,6 +68,10 @@ public class MainFrame extends JFrame{
     public void setPanel(String panel){
         cardLayout.show(cards, panel);
     }
-    
+
+    public void setHUDVisible(boolean visible){
+        musicPlayerPanel.setVisible(visible);
+        redirectPanel.setVisible(visible);
+    }
    
 }

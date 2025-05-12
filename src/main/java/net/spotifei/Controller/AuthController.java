@@ -11,6 +11,7 @@ import net.spotifei.Views.Panels.RegisterPanel;
 
 import javax.swing.*;
 
+import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
 public class AuthController {
@@ -30,14 +31,10 @@ public class AuthController {
         LoginPanel loginFrame = (LoginPanel) view;
         String email = loginFrame.getTxt_email_login().getText();
         String password = loginFrame.getTxt_senha_login().getText();
+        
         Response<Boolean> response = authService.validateUserLogin(email, password);
-        if (!response.isSuccess()){
-            JOptionPane.showMessageDialog(view, response.getMessage());
-            if (response.getClass() == ErrorResponse.class){
-                logError("Erro ao validar login!", response.getException());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         boolean isLoginValid = response.getData();
         if (isLoginValid){
             logInfo("Usuário com email " + email + " logou com sucesso!");
@@ -58,10 +55,8 @@ public class AuthController {
         user.setIdUsuario(1);
 
         Response<Void> response = authService.createUser(user);
-        if (!response.isSuccess()){
-            logError("Erro ao criar usuário!", response.getException());
-            return;
-        }
+        if(handleDefaultResponseIfError(response)) return;
+
         logDebug("Usuário criado com sucesso!");
         registerPanel.getMainframe().setPanel(MainFrame.LOGIN_PANEL);
     }

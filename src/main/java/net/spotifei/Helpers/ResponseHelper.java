@@ -2,7 +2,12 @@ package net.spotifei.Helpers;
 
 import net.spotifei.Models.Responses.BadResponse;
 import net.spotifei.Models.Responses.ErrorResponse;
+import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.Responses.SuccessResponse;
+
+import javax.swing.*;
+
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class ResponseHelper {
 
@@ -32,5 +37,19 @@ public class ResponseHelper {
 
     public static <T> BadResponse<T> GenerateBadResponse(String message){
         return new BadResponse<>(message);
+    }
+
+    public static boolean handleDefaultResponseIfError(Response<?> response){
+        if (!response.isSuccess()){
+            if(response.isError()){
+                logError(response.getMessage(), response.getException());
+            }else {
+                logError(response.getMessage());
+            }
+            JOptionPane.showMessageDialog(null,
+                    "Eita, deu um erro aqui! " + response.getMessage());
+            return true;
+        }
+        return false;
     }
 }

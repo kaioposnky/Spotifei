@@ -110,7 +110,7 @@ public class AppContext {
     }
 
     public UserController getUserController(JPanel view, MainFrame mainframe) {
-        return new UserController(view, mainframe, this.userService, this);
+        return new UserController(view, mainframe, this);
     }
 
     public AdminController getAdminController(JPanel view){
