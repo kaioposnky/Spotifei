@@ -1,6 +1,7 @@
 package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
+import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
 import net.spotifei.Infrastructure.Repository.AdministratorRepository;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.PersonRepository;
@@ -13,11 +14,13 @@ public class UserService {
     private final PersonRepository personRepository;
     private final AdministratorRepository administratorRepository;
     private final ArtistRepository artistRepository;
+    private final AuthService authService;
 
-    public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository, ArtistRepository artistRepository){
+    public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository, ArtistRepository artistRepository, AuthService authService){
         this.personRepository = personRepository;
         this.administratorRepository = administratorRepository;
         this.artistRepository = artistRepository;
+        this.authService = authService;
     }
 
     public Response<User> getUsuarioByEmail(User user){
@@ -89,6 +92,9 @@ public class UserService {
             artist.getEmail().isBlank() || artist.getTelefone().isBlank() || artist.getSobrenome().isBlank()){
                 return ResponseHelper.GenerateBadResponse("O artista fornecida tem dados faltando!");
             }
+
+            artist.setSenha(authService.criptographPassword(artist.getSenha())); // criptografa a senha dããã
+
             artistRepository.createArtist(artist);
 
             return ResponseHelper.GenerateSuccessResponse("Artista criado com sucesso!");

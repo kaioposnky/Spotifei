@@ -56,7 +56,7 @@ public class AppContext {
 
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
-        this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository);
+        this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository, this.authService);
         this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.genreRepository);
     }
 

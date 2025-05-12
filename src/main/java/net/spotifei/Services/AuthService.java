@@ -24,7 +24,7 @@ public class AuthService {
             }
 
             // Retorna se a senha encriptada era igual à senha inserida
-            boolean passwordMatch = criptographRepository.compareHash(senha, user.getSenha());
+            boolean passwordMatch = validatePassword(senha, user.getSenha());
 
             return ResponseHelper.GenerateSuccessResponse(
                     "Usuário validado com sucesso!",
@@ -37,7 +37,7 @@ public class AuthService {
     public Response<Void> createUser(User user){
         try{
             // Deixa a senha criptografada antes de salvar no banco
-            user.setSenha(criptographRepository.generateHash(user.getSenha()));
+            user.setSenha(criptographPassword(user.getSenha()));
 
             personRepository.createUser(user);
 
@@ -45,5 +45,13 @@ public class AuthService {
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
+    }
+
+    public boolean validatePassword(String password, String hash){
+        return criptographRepository.compareHash(password, hash);
+    }
+
+    public String criptographPassword(String password){
+        return criptographRepository.generateHash(password);
     }
 }
