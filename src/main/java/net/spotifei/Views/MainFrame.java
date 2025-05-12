@@ -12,7 +12,6 @@ public class MainFrame extends JFrame{
 
     public static final String LOGIN_PANEL = "Login";
     public static final String REGISTER_PANEL = "Register";
-    public static final String HOME_PANEL = "Home";
     public static final String SEARCH_PANEL = "Search";
     public static final String HISTORY_PANEL = "History";
     public static final String PLAYLIST_PANEL = "Playlist";
@@ -28,18 +27,19 @@ public class MainFrame extends JFrame{
 
     private final AppContext appContext;
     private final MusicPlayerPanel musicPlayerPanel;
+    private final RedirectPanel redirectPanel;
 
     public MainFrame(AppContext appContext){
         this.appContext = appContext;
         this.musicPlayerPanel = new MusicPlayerPanel(this, this.appContext);
         this.appContext.registerMusicPlayerPanelListener(this.musicPlayerPanel);
+        this.redirectPanel= new RedirectPanel(this,this.appContext);
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
 
         cards.add(new LoginPanel(this, this.appContext), LOGIN_PANEL);
         cards.add(new SearchPanel(this, this.appContext), SEARCH_PANEL);
-        cards.add(new HomePanel(this, this.appContext), HOME_PANEL);
         cards.add(new RegisterPanel(this, this.appContext), REGISTER_PANEL);
         cards.add(new HistoryPanel(this, this.appContext), HISTORY_PANEL);
         cards.add(new PlaylistPanel(this, this.appContext), PLAYLIST_PANEL);
@@ -52,6 +52,7 @@ public class MainFrame extends JFrame{
 
 //        musicPlayerPanel.setVisible(false);
         add(musicPlayerPanel, BorderLayout.SOUTH);
+        add(redirectPanel,BorderLayout.EAST);
         add(cards);
 
         setMinimumSize(new Dimension(800, 600));
@@ -65,4 +66,6 @@ public class MainFrame extends JFrame{
     public void setPanel(String panel){
         cardLayout.show(cards, panel);
     }
+    
+   
 }

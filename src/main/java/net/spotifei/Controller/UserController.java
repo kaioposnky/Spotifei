@@ -77,7 +77,7 @@ public class UserController {
             mainFrame.setPanel(MainFrame.ADMHOME_PANEL);
         } else{
             logDebug("Usuário logado com sucesso!");
-            mainFrame.setPanel(MainFrame.HOME_PANEL);
+            mainFrame.setPanel(MainFrame.SEARCH_PANEL);
         }
     }
 }
