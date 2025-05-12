@@ -4,9 +4,7 @@
  */
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
@@ -51,14 +49,6 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         this.jLabel1 = jLabel1;
     }
 
-    public JLabel getjLabel2() {
-        return jLabel2;
-    }
-
-    public void setjLabel2(JLabel jLabel2) {
-        this.jLabel2 = jLabel2;
-    }
-
     public JLabel getjLabel3() {
         return jLabel3;
     }
@@ -67,23 +57,29 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         this.jLabel3 = jLabel3;
     }
 
-    public JLabel getjLabel4() {
-        return jLabel4;
+    public JTextField getTxt_email_cadastro() {
+        return txt_email_cadastro;
     }
 
-    public void setjLabel4(JLabel jLabel4) {
-        this.jLabel4 = jLabel4;
+    public JTextField getTxt_nome_artistico() {
+        return txt_nome_artistico;
     }
 
-    public JTextField getTxt_nome_artistacad() {
-        return txt_nome_artistacad;
+    public JTextField getTxt_nome_cadastro() {
+        return txt_nome_cadastro;
     }
 
-    public void setTxt_nome_artistacad(JTextField txt_nome_artistacad) {
-        this.txt_nome_artistacad = txt_nome_artistacad;
+    public JTextField getTxt_senha_cadastro() {
+        return txt_senha_cadastro;
     }
-    
-    
+
+    public JTextField getTxt_sob_cadastro() {
+        return txt_sob_cadastro;
+    }
+
+    public JTextField getTxt_telefone_cadastro() {
+        return txt_telefone_cadastro;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,12 +91,21 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txt_nome_artistacad = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         bt_salvar = new javax.swing.JButton();
         bt_voltar = new javax.swing.JButton();
+        label_sobrenome = new javax.swing.JLabel();
+        txt_sob_cadastro = new javax.swing.JTextField();
+        txt_nome_cadastro = new javax.swing.JTextField();
+        label_sobrenome1 = new javax.swing.JLabel();
+        txt_nome_artistico = new javax.swing.JTextField();
+        label_sobrenome3 = new javax.swing.JLabel();
+        txt_telefone_cadastro = new javax.swing.JTextField();
+        label_sobrenome4 = new javax.swing.JLabel();
+        txt_email_cadastro = new javax.swing.JTextField();
+        label_sobrenome5 = new javax.swing.JLabel();
+        txt_senha_cadastro = new javax.swing.JTextField();
+        label_sobrenome6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(35, 35, 35));
 
@@ -108,24 +113,19 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
         jLabel1.setText("CADASTRAR ARTISTA");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel2.setText("Nome: ");
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("> INSIRA AS INFORMAÇÕES NECESSARIAS:");
-
-        txt_nome_artistacad.setBackground(new java.awt.Color(250, 250, 250));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel4.setText("falta colocar o resto");
 
         bt_salvar.setBackground(new java.awt.Color(0, 204, 102));
         bt_salvar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         bt_salvar.setForeground(new java.awt.Color(0, 0, 0));
         bt_salvar.setText("SALVAR");
+        bt_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_salvarActionPerformed(evt);
+            }
+        });
 
         bt_voltar.setBackground(new java.awt.Color(0, 0, 0));
         bt_voltar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -137,54 +137,134 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
             }
         });
 
+        label_sobrenome.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome.setText("Sobrenome:");
+
+        txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+
+        txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+
+        label_sobrenome1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome1.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome1.setText("Nome:");
+
+        txt_nome_artistico.setBackground(new java.awt.Color(250, 250, 250));
+
+
+        label_sobrenome3.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome3.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome3.setText("Telefone:");
+
+        txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+
+
+        label_sobrenome4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome4.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome4.setText("Email:");
+
+        txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+
+
+        label_sobrenome5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome5.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome5.setText("Senha:");
+
+        txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+
+        label_sobrenome6.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        label_sobrenome6.setForeground(new java.awt.Color(250, 250, 250));
+        label_sobrenome6.setText("Nome artístico:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(197, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(113, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nome_artistacad, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(434, Short.MAX_VALUE)
-                        .addComponent(jLabel4)))
-                .addContainerGap(231, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(label_sobrenome4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_email_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(label_sobrenome3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_telefone_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(label_sobrenome)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_sob_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(label_sobrenome1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_nome_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label_sobrenome5)
+                                .addGap(60, 60, 60))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label_sobrenome6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_nome_artistico, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                            .addComponent(txt_senha_cadastro))))
+                .addContainerGap(197, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addGap(110, 110, 110)
                 .addComponent(jLabel1)
-                .addGap(48, 48, 48)
-                .addComponent(jLabel3)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_nome_artistacad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(128, 128, 128)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_sobrenome1)
+                    .addComponent(txt_nome_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_sobrenome)
+                    .addComponent(txt_sob_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_sobrenome3)
+                    .addComponent(txt_telefone_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_sobrenome4)
+                    .addComponent(txt_email_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_sobrenome5)
+                    .addComponent(txt_senha_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_nome_artistico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_sobrenome6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(bt_salvar)
-                .addGap(86, 86, 86)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_voltar)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGap(106, 106, 106))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,15 +273,28 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
 
+    private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
+        appContext.getAdminController(this).registerArtist();
+    }//GEN-LAST:event_bt_salvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_salvar;
     private javax.swing.JButton bt_voltar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txt_nome_artistacad;
+    private javax.swing.JLabel label_sobrenome;
+    private javax.swing.JLabel label_sobrenome1;
+    private javax.swing.JLabel label_sobrenome3;
+    private javax.swing.JLabel label_sobrenome4;
+    private javax.swing.JLabel label_sobrenome5;
+    private javax.swing.JLabel label_sobrenome6;
+    private javax.swing.JTextField txt_email_cadastro;
+    private javax.swing.JTextField txt_nome_artistico;
+    private javax.swing.JTextField txt_nome_cadastro;
+    private javax.swing.JTextField txt_senha_cadastro;
+    private javax.swing.JTextField txt_sob_cadastro;
+    private javax.swing.JTextField txt_telefone_cadastro;
     // End of variables declaration//GEN-END:variables
 
     public MainFrame getMainframe() {

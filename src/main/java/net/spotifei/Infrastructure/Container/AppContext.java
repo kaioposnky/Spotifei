@@ -114,7 +114,7 @@ public class AppContext {
     }
 
     public AdminController getAdminController(JPanel view){
-        return new AdminController(view, this.musicService);
+        return new AdminController(view, this.musicService, this.userService);
     }
 
     public MusicService getMusicService() {

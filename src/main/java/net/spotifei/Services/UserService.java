@@ -84,8 +84,10 @@ public class UserService {
 
     public Response<Void> createArtist(Artist artist){
         try{
-            if (artist == null){
-                return ResponseHelper.GenerateBadResponse("O artista fornecida foi nulo!");
+            if (artist == null || artist.getNome().isBlank()
+            || artist.getNomeArtistico().isBlank() || artist.getSenha().isBlank() ||
+            artist.getEmail().isBlank() || artist.getTelefone().isBlank() || artist.getSobrenome().isBlank()){
+                return ResponseHelper.GenerateBadResponse("O artista fornecida tem dados faltando!");
             }
             artistRepository.createArtist(artist);
 
