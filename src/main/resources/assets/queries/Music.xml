@@ -83,9 +83,14 @@
         WHERE id_usuario = @idUsuario
         AND id_musica = @idMusica;
     </query>
-    <query name="CreateMusic">
+    <query name="InsertMusic">
         INSERT INTO musica(nome, duracao_ms, audio, id_genero)
         VALUES(@name, @durationMs, @audio, @idGenre)
+    </query>
+    <query name="InsertMusicAndReturnId">
+        INSERT INTO musica(nome, duracao_ms, audio, id_genero)
+        VALUES(@name, @durationMs, @audio, @idGenre)
+        RETURNING id_musica;
     </query>
     <query name="GetUserPreviousMusic">
         SELECT
@@ -126,5 +131,9 @@
     <query name="InsertMusicPlayHistory">
         INSERT INTO usuario_historico_musicas (id_usuario, id_musica)
         VALUES (@idUser, @idMusic);
+    </query>
+    <query name="InsertArtistIntoMusic">
+        INSERT INTO artista_musica(id_musica, id_artista)
+        VALUES(@idMusic, @idArtist);
     </query>
 </queries>

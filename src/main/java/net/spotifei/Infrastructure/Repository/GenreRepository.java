@@ -76,4 +76,18 @@ public class GenreRepository {
             throw e;
         }
     }
+
+    public Genre getGenreByName(String name) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("name", name);
+
+            String sql = jdbcRepository.getQueryNamed("GetGenreByName");
+            Genre genre = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Genre.class));
+
+            return genre;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

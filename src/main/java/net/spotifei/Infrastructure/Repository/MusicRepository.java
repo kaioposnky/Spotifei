@@ -122,6 +122,53 @@ public class MusicRepository {
         }
     }
 
+    public void insertMusic(Music music, byte[] audio) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("nome", music.getNome());
+            params.put("durationMs", music.getDuracaoMs());
+            params.put("audio", audio);
+            params.put("idGenre", music.getGenre().getIdGenre());
+
+            String sql = jdbcRepository.getQueryNamed("InsertMusic");
+            jdbcRepository.executeProcedure(sql, params);
+
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    public int insertMusicAndGetReturnId(Music music, byte[] audio) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("name", music.getNome());
+            params.put("durationMs", music.getDuracaoMs());
+            params.put("audio", audio);
+            params.put("idGenre", music.getGenre().getIdGenre());
+
+            ScalarHandler<Integer> handler = new ScalarHandler<>();
+            String sql = jdbcRepository.getQueryNamed("InsertMusicAndReturnId");
+            int music_id = jdbcRepository.queryProcedure(sql, params, handler);
+
+            return music_id;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    public void insertArtistIntoMusic(int musicId, int artistId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idMusic", musicId);
+            params.put("idArtist", artistId);
+
+            String sql = jdbcRepository.getQueryNamed("InsertArtistIntoMusic");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     // fila de musica do usuario
 
     public void deleteUserQueue(int userId) throws Exception {

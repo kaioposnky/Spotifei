@@ -3,27 +3,33 @@ package net.spotifei.Services;
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
+import net.spotifei.Infrastructure.Repository.GenreRepository;
 import net.spotifei.Infrastructure.Repository.MusicRepository;
 import net.spotifei.Models.Artist;
+import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
+import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.convertMP3FileToOpusBytes;
+import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.getMP3DurationInMicrosseconds;
 
 public class MusicService {
 
     private final MusicRepository musicRepository;
-    private final AudioPlayerWorker audioPlayerWorker;
     private final ArtistRepository artistRepository;
+    private final GenreRepository genreRepository;
+    private final AudioPlayerWorker audioPlayerWorker;
 
-    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository){
+    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, GenreRepository genreRepository){
         this.musicRepository = musicRepository;
         this.audioPlayerWorker = audioPlayerWorker;
         this.artistRepository = artistRepository;
+        this.genreRepository = genreRepository;
     }
 
     public Response<Music> getNextMusicInUserQueue(int userId){
@@ -137,5 +143,49 @@ public class MusicService {
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
 
+    }
+
+    public Response<Void> registerMusic(String musicFilePath, String musicName, String musicArtist, String musicGenre){
+        try{
+            String[] infos = {musicFilePath, musicName, musicArtist, musicGenre};
+            if (Arrays.stream(infos).anyMatch(info -> info == null || info.isEmpty())){
+                return ResponseHelper.GenerateBadResponse("Nenhum dos argumentos pode ser nulo ou vazio!");
+            }
+
+            File musicFile = new File(musicFilePath);
+            if (!musicFile.exists()){
+                throw new FileNotFoundException("O arquivo de música não existe!");
+            }
+            byte[] fileBytes = convertMP3FileToOpusBytes(musicFile);
+            if (fileBytes == null){
+                return ResponseHelper.GenerateBadResponse("Não foi possível obter os bytes do arquivo!");
+            }
+            Genre genre = genreRepository.getGenreByName(musicGenre);
+            if (genre == null){
+                return ResponseHelper.GenerateBadResponse("Gênero não encontrado! (" + musicGenre + ") ");
+            }
+
+            Artist artist = artistRepository.getArtistByName(musicArtist);
+            if (artist == null){
+                return ResponseHelper.GenerateBadResponse("Artista não encontrado, use o nome artístico! (" + musicArtist + ") ");
+            }
+
+            long musicDuration = getMP3DurationInMicrosseconds(musicFile);
+
+            Music music = new Music();
+            music.setNome(musicName);
+            music.setDuracaoMs(musicDuration);
+            music.setGenre(genre);
+
+            // cria a música e já retorna o id para usarmos para juntar com o artista
+            int musicId = musicRepository.insertMusicAndGetReturnId(
+                    music, fileBytes);
+
+            musicRepository.insertArtistIntoMusic(musicId, artist.getIdArtista());
+
+            return ResponseHelper.GenerateSuccessResponse("Música cadastrada com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
     }
 }

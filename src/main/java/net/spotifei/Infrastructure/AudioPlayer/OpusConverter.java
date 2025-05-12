@@ -1,6 +1,7 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
 
 import javax.sound.sampled.*;
@@ -63,6 +64,48 @@ public final class OpusConverter {
     }
 
     /**
+     * Converte um arquivo MP3 para um array de bytes no formato .opus
+     * @param mp3File O arquivo MP3 a ser convertido
+     * @return Bytes do arquivo .opus
+     * @throws Exception Gera excessão se um erro acontecer durante a conversão
+     */
+    public static byte[] convertMP3FileToOpusBytes(File mp3File) throws Exception {
+        try( FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(mp3File);
+             ByteArrayOutputStream pcmOut = new ByteArrayOutputStream()){
+
+            grabber.start(); // obter os frames pelo grabber do ffpmeg magico
+
+            int audioChannels = grabber.getAudioChannels();
+            int sampleRate = grabber.getSampleRate();
+
+            // isso grava os frames do mp3 no pcmOut que são os bytes do aúdio
+            // em formato ogg, que o opus usa tmb
+            try(FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(pcmOut, audioChannels)){
+                recorder.setFormat("ogg");
+                recorder.setSampleRate(sampleRate);
+                recorder.start();
+
+                Frame frame;
+                while((frame = grabber.grabFrame()) != null){
+                    recorder.record(frame);
+                }
+
+            }
+            // retorna os
+            return pcmOut.toByteArray();
+        }
+    }
+
+    public static long getMP3DurationInMicrosseconds(File mp3File) throws Exception {
+        try(FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(mp3File)){
+            grabber.start();
+            long duration = grabber.getLengthInTime();
+            grabber.close();
+            return duration;
+        }
+    }
+
+    /**
      * Basicamente preenche uma Stream com as samples de um buffer
      * @param src buffer de input
      * @param out Stream de output
@@ -78,4 +121,5 @@ public final class OpusConverter {
         bb.asShortBuffer().put(src); // aloca a sample no buffer
         out.write(bb.array(), 0, nSamples * 2); // escreve sample no stream de output
     }
+
 }

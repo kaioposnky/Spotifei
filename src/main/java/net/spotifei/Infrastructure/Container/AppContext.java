@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.Container;
 
+import net.spotifei.Controller.AdminController;
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Controller.UserController;
@@ -56,7 +57,7 @@ public class AppContext {
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
         this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository);
-        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository);
+        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.genreRepository);
     }
 
     /**
@@ -110,6 +111,10 @@ public class AppContext {
 
     public UserController getUserController(JPanel view, MainFrame mainframe) {
         return new UserController(view, mainframe, this.userService, this);
+    }
+
+    public AdminController getAdminController(JPanel view){
+        return new AdminController(view, this.musicService);
     }
 
     public MusicService getMusicService() {

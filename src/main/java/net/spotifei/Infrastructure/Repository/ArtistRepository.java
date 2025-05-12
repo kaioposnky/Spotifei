@@ -85,4 +85,18 @@ public class ArtistRepository {
             throw e;
         }
     }
+
+    public Artist getArtistByName(String artistName) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("artisticName", artistName);
+
+            String sql = jdbcRepository.getQueryNamed("GetArtistByName");
+            Artist artist = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Artist.class));
+
+            return artist;
+        } catch (Exception e){
+            throw e;
+        }
+    }
 }

@@ -1,20 +1,29 @@
 package net.spotifei.Models;
 
 public class Genre {
-    private String nome;
+    private String name;
+    private int idGenre;
 
-    public Genre(String nome) {
-        this.nome = nome;
+    public Genre(String name) {
+        this.name = name;
     }
 
     public Genre(){
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIdGenre() {
+        return idGenre;
+    }
+
+    public void setIdGenre(int idGenre) {
+        this.idGenre = idGenre;
     }
 }

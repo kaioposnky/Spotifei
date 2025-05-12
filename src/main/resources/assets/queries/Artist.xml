@@ -2,9 +2,17 @@
 <queries>
     <query name="GetArtistById">
         SELECT
-        nome_artistico AS nomeArtistico
+        nome_artistico AS nomeArtistico,
+        id_artista AS id idArtista
         FROM artista
         WHERE id_artista = @idArtista;
+    </query>
+    <query name="GetArtistByName">
+        SELECT
+        nome_artistico AS nomeArtistico,
+        id_artista AS idArtista
+        FROM artista
+        WHERE nome_artistico = @artisticName;
     </query>
     <query name="GetArtistsByMusicId">
         SELECT

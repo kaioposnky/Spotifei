@@ -6,13 +6,13 @@ public class Music {
     private String nome;
     private List<Artist> autores;
     private Genre genre;
-    private int duracaoMs;
+    private long duracaoMs;
     private int idMusica;
     private long likes;
     private long dislikes;
     private boolean gostou;
 
-    public Music(String nome, List<Artist> autores, Genre genre, int duracaoMs, int idMusica) {
+    public Music(String nome, List<Artist> autores, Genre genre, long duracaoMs, int idMusica) {
         this.nome = nome;
         this.autores = autores;
         this.genre = genre;
@@ -40,11 +40,11 @@ public class Music {
         this.nome = nome;
     }
 
-    public int getDuracaoMs() {
+    public long getDuracaoMs() {
         return duracaoMs;
     }
 
-    public void setDuracaoMs(int duracaoMs) {
+    public void setDuracaoMs(long duracaoMs) {
         this.duracaoMs = duracaoMs;
     }
 

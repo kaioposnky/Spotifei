@@ -6,16 +6,22 @@
     </query>
     <query name="GetGenreById">
         SELECT
-        g.nome AS name
+        g.nome AS name,
         g.id_genero AS idGenre
         FROM genero g
         WHERE g.id_genero = @idGenre
+    </query>
+    <query name="GetGenreByName">
+        SELECT
+        g.nome AS name,
+        g.id_genero AS idGenre
+        FROM genero g
+        WHERE nome = @name
     </query>
     <query name="GetAllGenres">
         SELECT
         id_genero AS idGenre,
         nome AS name,
-        data_criacao AS dataCriacao
         FROM genero
         ORDER BY nome ASC;
     </query>

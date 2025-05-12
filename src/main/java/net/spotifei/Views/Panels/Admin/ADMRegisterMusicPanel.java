@@ -4,9 +4,8 @@
  */
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
@@ -117,6 +116,8 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         txt_genero_musicacad = new javax.swing.JTextField();
         txt_artista_musicacad = new javax.swing.JTextField();
         bt_salvar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        bt_selecionar_musica = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -124,7 +125,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("CADASTRAR MÚSICAS");
+        jLabel1.setText("REGISTRAR MÚSICAS");
 
         bt_voltar.setBackground(new java.awt.Color(0, 0, 0));
         bt_voltar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -158,44 +159,60 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         bt_salvar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_salvar.setForeground(new java.awt.Color(0, 0, 0));
         bt_salvar.setText("Salvar");
+        bt_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_salvarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel5.setText("Música:");
+
+        bt_selecionar_musica.setText("Selecionar a música");
+        bt_selecionar_musica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_selecionar_musicaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 273, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(271, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(196, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(33, 33, 33)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_genero_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nome_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_artista_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+                            .addComponent(bt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_genero_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                                .addComponent(txt_nome_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                                .addComponent(txt_artista_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                                .addComponent(bt_selecionar_musica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(196, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(280, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(264, 264, 264))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(317, 317, 317))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel1)
-                .addGap(60, 60, 60)
+                .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_nome_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -207,11 +224,15 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txt_genero_musicacad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(bt_selecionar_musica))
+                .addGap(38, 38, 38)
                 .addComponent(bt_salvar)
-                .addGap(103, 103, 103)
+                .addGap(18, 18, 18)
                 .addComponent(bt_voltar)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -220,20 +241,42 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
 
+    private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
+        appContext.getAdminController(this).registerMusic();
+    }//GEN-LAST:event_bt_salvarActionPerformed
+
+    private void bt_selecionar_musicaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .mp3", "mp3");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            musicFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+            bt_selecionar_musica.setText(musicFilePath);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private String musicFilePath;
     private javax.swing.JButton bt_salvar;
+    private javax.swing.JButton bt_selecionar_musica;
     private javax.swing.JButton bt_voltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txt_artista_musicacad;
     private javax.swing.JTextField txt_genero_musicacad;
     private javax.swing.JTextField txt_nome_musicacad;
     // End of variables declaration//GEN-END:variables
 
-    public MainFrame getMainframe() {
-        return mainframe;
+
+    public String getMusicFilePath() {
+        return musicFilePath;
     }
+
+
 }
