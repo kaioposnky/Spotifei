@@ -1,5 +1,6 @@
 package net.spotifei.Views;
 
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Panels.*;
@@ -7,6 +8,8 @@ import net.spotifei.Views.Panels.Admin.*;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
 
 public class MainFrame extends JFrame{
 
@@ -57,6 +60,7 @@ public class MainFrame extends JFrame{
         add(redirectPanel,BorderLayout.EAST);
         add(cards);
 
+        setIconImage(loadImageIcon("spotifeiIcon.png").getImage());
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBackground(Color.DARK_GRAY);

@@ -38,6 +38,8 @@ dependencies {
     implementation 'org.bytedeco:javacv:1.5.8'
     implementation 'org.bytedeco:ffmpeg:5.1.2-1.5.8'
     implementation 'org.bytedeco:ffmpeg-platform:5.1.2-1.5.8'
+
+    implementation 'com.formdev:flatlaf:3.4' // Use a versão mais recente
 }
 
 test {

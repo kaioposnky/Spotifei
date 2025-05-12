@@ -1,5 +1,8 @@
 package net.spotifei;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Logger.LoggerRepository;
@@ -18,6 +21,11 @@ public class Spotifei {
         appContext.getAudioPlayerWorker().execute();
 
         SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            } catch (UnsupportedLookAndFeelException e) {
+                throw new RuntimeException(e);
+            }
             MainFrame mainframe = new MainFrame(appContext);
             mainframe.setVisible(true);
         });
