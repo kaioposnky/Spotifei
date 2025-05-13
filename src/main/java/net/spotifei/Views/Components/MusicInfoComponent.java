@@ -73,9 +73,10 @@ public class MusicInfoComponent extends JPanel{
         infoWrapperPanel.add(musicAuthors);
 
         FeedBackComponent feedBackComponent = new
-                FeedBackComponent(this.showLikeDislikeButtons, null, null);
+                FeedBackComponent(appContext, mainframe, music.isGostou(), music);
 
         musicInfoPanel.add(infoWrapperPanel);
+        musicInfoPanel.add(Box.createHorizontalStrut(20));
         musicInfoPanel.add(feedBackComponent);
 
         return musicInfoPanel;
@@ -92,6 +93,10 @@ public class MusicInfoComponent extends JPanel{
         JLabel musicTimeTotal = new JLabel(getMusicTimeTotal());
         musicTimeTotal.setFont(new Font("Arial", Font.BOLD, 12));
         musicTimeTotal.setForeground(Color.decode("#aeaeae"));
+
+        long musicSeconds = music.getDuracaoMs() / 1_000_000;
+        long musicMinutes = musicSeconds / 60;
+        musicTimeTotal.setText(String.format("%01d:%02d", musicMinutes, musicSeconds % 60));
 
         musicTimePanel.add(musicTimeTotal);
 

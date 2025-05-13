@@ -2,6 +2,7 @@ package net.spotifei.Views.Components;
 
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Music;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class FeedBackComponent extends JPanel {
     private JLabel lblDisLikeNumber = null;
@@ -18,13 +20,16 @@ public class FeedBackComponent extends JPanel {
     private JButton btnLike= null;
     private Boolean isMusicLiked = null;
     private final MusicController musicController;
+    private final Music music;
 
-    public FeedBackComponent(AppContext appContext, MainFrame mainframe) {
+    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music) {
+        this.music = music;
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
-    public FeedBackComponent(boolean isMusicLiked, AppContext appContext, MainFrame mainframe) {
+    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Boolean isMusicLiked, Music music) {
         this.isMusicLiked = isMusicLiked;
+        this.music = music;
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
@@ -81,7 +86,7 @@ public class FeedBackComponent extends JPanel {
             btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
             lblLikeNumber.setText((""+ (Integer.parseInt(lblLikeNumber.getText()) - 1) ));
         }
-        // salvar alteração no banco de dados
+        musicController.insertUserRating();
     }
 
     public void handleDislikeMusic(){
@@ -103,7 +108,7 @@ public class FeedBackComponent extends JPanel {
             btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
             lblLikeNumber.setText((""+ (Integer.parseInt(lblLikeNumber.getText()) - 1) ));
         }
-        // salvar alteração no banco de dados
+        musicController.insertUserRating();
     }
 
     public JLabel getLblDisLikeNumber() {
@@ -142,4 +147,7 @@ public class FeedBackComponent extends JPanel {
         return isMusicLiked;
     }
 
+    public Music getMusic() {
+        return music;
+    }
 }

@@ -10,7 +10,8 @@ public class Music {
     private int idMusica;
     private long likes;
     private long dislikes;
-    private boolean gostou;
+    private Boolean gostou;
+    private String artistsNames; // maneira forçada de colocar os nomes dos artistas, para não precisar encher de objetos artistas
 
     public Music(String nome, List<Artist> autores, Genre genre, long duracaoMs, int idMusica) {
         this.nome = nome;
@@ -80,15 +81,19 @@ public class Music {
         this.dislikes = dislikes;
     }
 
-    public boolean isGostou() {
+    public Boolean isGostou() {
         return gostou;
     }
 
-    public void setGostou(boolean gostou) {
+    public void setGostou(Boolean gostou) {
         this.gostou = gostou;
     }
 
     public String getAuthorNames(){
+        if((autores == null || autores.isEmpty()) && artistsNames != null){
+            return artistsNames;
+        }
+
         String names = "";
         for(int i = 0; i < autores.size(); i++){
             if(i != 0 || (i+1 != autores.size())){
@@ -97,5 +102,13 @@ public class Music {
             names += autores.get(i).getNomeArtistico() + " ";
         }
         return names;
+    }
+
+    public String getArtistsNames() {
+        return artistsNames;
+    }
+
+    public void setArtistsNames(String artistsNames) {
+        this.artistsNames = artistsNames;
     }
 }

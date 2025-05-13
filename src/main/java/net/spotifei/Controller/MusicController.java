@@ -8,10 +8,12 @@ import net.spotifei.Services.MusicService;
 import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.Panels.MusicPlayerPanel;
+import net.spotifei.Views.Panels.SearchPanel;
 
 import javax.swing.*;
 
-import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
+import java.util.List;
+
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
@@ -87,17 +89,41 @@ public class MusicController implements AudioUpdateListener {
     }
 
     public void insertUserRating(){
+        if(appContext.getPersonContext() == null) return;
+
         FeedBackComponent feedBackComponent = (FeedBackComponent) view;
-        int musicId = appContext.getMusicContext().getIdMusica();
+        if(feedBackComponent.getMusic() == null) return;
+
+        int musicId = feedBackComponent.getMusic().getIdMusica();
+        if(musicId <= 0) return; // musica 0 é pq provavelmente tá desativado, melhor ignorar
+
         int userId = appContext.getPersonContext().getIdUsuario();
         Boolean liked = feedBackComponent.isMusicLiked();
 
-        Response<Void> response = musicServices.setOrInsertMusicUserRating(userId, musicId, liked);
+        Response<Void> response = musicServices.setOrInsertMusicUserRating(musicId, userId, liked);
         if(handleDefaultResponseIfError(response)) return;
 
-        logDebug("Avaliação da música com id" + musicId +
-                " alterada para " + (liked ? "like" : "dislike") +
-                " para o usuário com id " + userId + "com sucesso!");
+        String ratingStatus = (liked == null)? "nulo"
+                : (liked ? "like" : "dislike");
+
+
+        logDebug("Avaliação da música com id " + musicId +
+                " alterada para " + ratingStatus +
+                " para o usuário com id " + userId + " com sucesso!");
+    }
+
+    public void searchMusic(){
+        SearchPanel searchPanel = (SearchPanel) view;
+        String searchTerm = searchPanel.getTxt_pesquisar().getText();
+        int userId = appContext.getPersonContext().getIdUsuario();
+
+        Response<List<Music>> response = musicServices.searchMusics(searchTerm, userId);
+        if(handleDefaultResponseIfError(response)) return;
+
+        List<Music> musics = response.getData();
+        searchPanel.getMusicListComponent().setMusics(musics);
+        searchPanel.getMusicListComponent().updateUI();
+        logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
     private boolean handlePlayMusic(MusicPlayerPanel musicPlayerPanel, Music music) {

@@ -17,16 +17,41 @@
     <query name="SearchMusicByName">
         SELECT DISTINCT
         m.id_musica AS idMusica,
-        m.nome AS nomeMusica
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs
         FROM musica m
         LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
         LEFT JOIN artista a ON am.id_artista = a.id_artista
         LEFT JOIN genero g ON m.id_genero = g.id_genero
         WHERE
-        m.nome ILIKE '%' || @nome || '%' OR
-        a.nome_artistico ILIKE '%' || @nome || '%' OR
-        g.nome ILIKE '%' || @nome || '%';
+        m.nome ILIKE '%' || @name || '%' OR
+        a.nome_artistico ILIKE '%' || @name || '%' OR
+        g.nome ILIKE '%' || @name || '%'
         ORDER BY m.nome;
+    </query>
+    <query name="SearchMusicByNameForUserWithDetails">
+        SELECT
+        m.id_musica AS idMusic,
+        m.nome AS name,
+        m.duracao_ms AS durationMs,
+        STRING_AGG(DISTINCT a.nome_artistico, ', ') AS artisticNames,
+        COUNT(CASE WHEN au_total.gostou = TRUE THEN 1 ELSE NULL END) AS likes,
+        COUNT(CASE WHEN au_total.gostou = FALSE THEN 1 ELSE NULL END) AS dislikes,
+        MAX(au_user.gostou::int)::boolean AS userGostou
+        FROM musica m
+        LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
+        LEFT JOIN artista a ON am.id_artista = a.id_artista
+        LEFT JOIN genero g ON m.id_genero = g.id_genero
+        LEFT JOIN avaliacao_usuario au_user ON m.id_musica = au_user.id_musica AND au_user.id_usuario = @idUser
+        LEFT JOIN avaliacao_usuario au_total ON m.id_musica = au_total.id_musica
+        WHERE
+        m.nome ILIKE '%' || @name || '%' OR
+        a.nome_artistico ILIKE '%' || @name || '%' OR
+        g.nome ILIKE '%' || @name || '%'
+        GROUP BY
+        m.id_musica, m.nome, m.duracao_ms
+        ORDER BY m.nome
+        LIMIT 20;
     </query>
     <query name="GetMostLikedMusics">
         SELECT
@@ -77,15 +102,15 @@
         INSERT INTO avaliacao_usuario
         (gostou, id_usuario, id_musica)
         VALUES (@liked, @idUser, @idMusic)
-        DO
-        UPDATE
+        ON CONFLICT (id_usuario, id_musica)
+        DO UPDATE
         SET gostou = EXCLUDED.gostou,
         data_avaliacao = CURRENT_TIMESTAMP;
     </query>
-    <query name="DeleteUserRating">
+    <query name="DeleteMusicUserRating">
         DELETE FROM avaliacao_usuario
-        WHERE id_usuario = @idUsuario
-        AND id_musica = @idMusica;
+        WHERE id_usuario = @idUser
+        AND id_musica = @idMusic;
     </query>
     <query name="InsertMusic">
         INSERT INTO musica(nome, duracao_ms, audio, id_genero)

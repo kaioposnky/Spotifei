@@ -93,7 +93,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
 
-        feedbackPanel = new FeedBackComponent(appContext, mainframe);
+        feedbackPanel = new FeedBackComponent(appContext, mainframe, appContext.getMusicContext());
 
         // as box deixam as infos centralizadas (é meio gambis mas funciona)
         songInfoPanel.add(Box.createVerticalGlue());

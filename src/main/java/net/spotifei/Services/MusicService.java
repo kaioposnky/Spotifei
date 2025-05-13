@@ -12,6 +12,7 @@ import net.spotifei.Models.Responses.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -191,6 +192,10 @@ public class MusicService {
 
     public Response<Music> getUserLastPlayedMusic(int userId){
         try{
+            if(userId == 0){
+                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+            }
+
             Music music = musicRepository.getUserLastPlayedMusic(userId);
 
             // se retornar nulo é pq nn tem nenhuma música registrada
@@ -209,15 +214,41 @@ public class MusicService {
         }
     }
 
-    public Response<Void> setOrInsertMusicUserRating(int userId, int musicId, Boolean liked){
+    public Response<Void> setOrInsertMusicUserRating(int musicId, int userId, Boolean liked){
         try{
             if (userId <= 0 || musicId <= 0){
                 return ResponseHelper.GenerateBadResponse("Os ids não podem ser nulos ou zero!");
             }
 
-            musicRepository.setOrInsertMusicUserRating(userId, musicId, liked);
+            // se for nulo o usuario tirou a avaliacao
+            if(liked == null){
+                musicRepository.deleteMusicUserRating(musicId, userId);
+            } else{
+                musicRepository.setOrInsertMusicUserRating(musicId, userId, liked);
+            }
 
-            return ResponseHelper.GenerateSuccessResponse("Feedback da música inserido com sucesso!");
+            return ResponseHelper.GenerateSuccessResponse("Feedback da música atualizado com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<List<Music>> searchMusics(String searchTerm, int userId){
+        try{
+            if(searchTerm.isBlank()){
+                return ResponseHelper.GenerateBadResponse("O termo de pesquisa não pode estar vazio!");
+            }
+            if(userId == 0){
+                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+            }
+
+            List<Music> musics = musicRepository.searchMusicForUserWithDetails(searchTerm, userId);
+            if(musics == null || musics.isEmpty()){
+                return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
+            }
+
+            return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
+
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
