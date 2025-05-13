@@ -12,7 +12,6 @@ import net.spotifei.Models.Responses.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,13 +69,22 @@ public class MusicService {
 
     public Response<Void> playMusic(int musicId){
         try{
+
+            Music music = musicRepository.getMusicById(musicId);
+            List<Artist> artists = artistRepository.getArtistsByMusicId(musicId);
             byte[] musicAudio = musicRepository.getMusicAsByteArray(musicId);
 
             if(musicAudio == null){
-                return ResponseHelper.GenerateBadResponse("O aúdio retornado foi nulo! Cancelando operação.");
+                return ResponseHelper.GenerateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
             }
 
+            music.setAutores(artists);
+
             audioPlayerWorker.playMusic(musicAudio);
+
+            audioPlayerWorker.pause();
+
+            audioPlayerWorker.selectMusic(music); // atualiza o UI
 
             return ResponseHelper.GenerateSuccessResponse("Música iniciada com sucesso!");
         } catch (Exception e){

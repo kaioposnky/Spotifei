@@ -60,7 +60,12 @@ public class UserController {
             mainFrame.setHUDVisible(true);
             mainFrame.setPanel(MainFrame.SEARCH_PANEL);
 
-            musicService.pauseMusic();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             Response<Void> response = musicService.playMusic(music.getIdMusica());
             if (!response.isSuccess()){
                 JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +

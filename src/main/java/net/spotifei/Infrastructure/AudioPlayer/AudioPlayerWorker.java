@@ -1,5 +1,7 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
+import net.spotifei.Models.Music;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.util.List;
@@ -59,9 +61,15 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         }
     }
 
-    public void notifyOnPlayStatusUpdate(boolean isPlaying){
+    public void notifyOnPlayingStatusUpdate(boolean isPlaying){
         for (AudioUpdateListener listener : listeners){
             listener.onMusicPlayingStatusUpdate(isPlaying);
+        }
+    }
+
+    public void notifyOnMusicSelected(Music music){
+        for (AudioUpdateListener listener : listeners){
+            listener.onSelectMusic(music);
         }
     }
 
@@ -117,12 +125,19 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // FUNCOES DOS CONTROLES DE AUDIO
 
+
+    @Override
+    public void selectMusic(Music music) {
+        notifyOnMusicSelected(music);
+    }
+
     /**
      * Toca uma música com o audioinputstream fornecido
      * @param musicAudioByteArray byte[] contendo o aúdio da música
      * @throws Exception Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
      * ao tentar tocar a música
      */
+    @Override
     public void playMusic(byte[] musicAudioByteArray) throws InterruptedException {
         commandQueue.put(() -> handlePlayMusic(musicAudioByteArray));
     }
@@ -131,7 +146,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
      * Pausa a música
      */
     public void pause() throws InterruptedException {
-        commandQueue.put(() -> handlePauseMusic(true));
+        commandQueue.put(() -> handlePauseMusic(null));
     }
 
     /**
@@ -237,7 +252,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
             isPlaying = true;
             startProgressUpdateThread();
         }
-        notifyOnPlayStatusUpdate(isPlaying); // notificar o listener de alterar status
+        notifyOnPlayingStatusUpdate(shouldPause); // notificar o listener de alterar status
     }
 
     public void publishProgress(long microseconds) {

@@ -3,6 +3,7 @@ package net.spotifei.Views.Panels;
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Music;
 import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.Components.SpotifyLikeButton;
 import net.spotifei.Views.Components.SpotifyLikeSlider;
@@ -147,7 +148,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         pausebtnWrapper.setMaximumSize(new Dimension(50, 50));
         pausebtnWrapper.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        btnPause = new SpotifyLikeButton("<html>⏸</html>", 20);
+        btnPause = new SpotifyLikeButton("<html>&#x25B6;</html>", 20);
         btnPause.addActionListener(event -> handlePauseButton());
 
         pausebtnWrapper.add(btnPause);
@@ -209,6 +210,16 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
                 musicController.setAudioVolume(audioSlider.getValue());
             }
         };
+    }
+
+    @Override
+    public void onSelectMusic(Music music) {
+        // atualiza os textos para os textos da nova música
+        musicTitle.setText(music.getNome());
+        musicArtist.setText(music.getArtistsNames());
+
+        feedbackPanel.getLblDisLikeNumber().setText(String.valueOf(music.getDislikes()));
+        feedbackPanel.getLblDisLikeNumber().setText(String.valueOf(music.getLikes()));
     }
 
     @Override

@@ -89,7 +89,7 @@ public class Music {
         this.gostou = gostou;
     }
 
-    public String getAuthorNames(){
+    public String getArtistsNames(){
         if((autores == null || autores.isEmpty()) && artistsNames != null){
             return artistsNames;
         }
@@ -102,10 +102,6 @@ public class Music {
             names += autores.get(i).getNomeArtistico() + " ";
         }
         return names;
-    }
-
-    public String getArtistsNames() {
-        return artistsNames;
     }
 
     public void setArtistsNames(String artistsNames) {

@@ -46,24 +46,16 @@ public class MusicController implements AudioUpdateListener {
     /**
      * Toca a música carregada no AppContext
      */
-    public void playMusic(){
-        MusicPlayerPanel musicPlayerPanel = (MusicPlayerPanel) view;
-        Music music = appContext.getMusicContext();
-        handleSaveMusic(musicPlayerPanel, music);
-    }
-
-    /**
-     * Toca a música pelo id dela
-     * @param musicId Id da música a ser tocada
-     */
-    public void playMusic(int musicId) {
-        MusicPlayerPanel musicPlayerPanel = (MusicPlayerPanel) view;
-        Response<Music> responseMusica = musicServices.getMusicById(musicId);
+    public void playMusic() {
+        Response<Music> responseMusica = musicServices.getMusicById(appContext.getMusicContext().getIdMusica());
 
         if(handleDefaultResponseIfError(responseMusica)) return;
 
         Music music = responseMusica.getData();
-        handleSaveMusic(musicPlayerPanel, music);
+        handlePlayMusic(music);
+        logDebug("Tocando agora: " + music.getNome());
+        handleSaveMusic(music);
+        logDebug("Música salva ao histórico com sucesso!");
     }
 
     public void setAudioVolume(float volume){
@@ -126,31 +118,24 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
-    private boolean handlePlayMusic(MusicPlayerPanel musicPlayerPanel, Music music) {
-        logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
-
+    private boolean handlePlayMusic(Music music) {
         Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica());
-        if(handleDefaultResponseIfError(responsePlay)) return true;
-
-        musicPlayerPanel.getMusicTitle().setText(music.getNome());
-        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
-        musicPlayerPanel.getFeedbackPanel().getLblLikeNumber().setText(String.valueOf(music.getLikes()));
-        musicPlayerPanel.getFeedbackPanel().getLblDisLikeNumber().setText(String.valueOf(music.getDislikes()));
-
-        logDebug("Tocando agora: " + music.getNome());
-        return false;
+        return handleDefaultResponseIfError(responsePlay);
     }
 
-    private void handleSaveMusic(MusicPlayerPanel musicPlayerPanel, Music music) {
-        if (handlePlayMusic(musicPlayerPanel, music)) return;
+    private boolean handleSaveMusic(Music music) {
         Response<Void> responseSaveMusicToHistory = musicServices.
                 addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
-        if(handleDefaultResponseIfError(responseSaveMusicToHistory)) return;
-
-        logDebug("Música salva ao histórico com sucesso!");
+        return handleDefaultResponseIfError(responseSaveMusicToHistory);
     }
 
     // Ações do Listener que é notificado em AudioPlayerWorker
+
+    /**
+     * Não aplicável para essa classe
+     */
+    @Override
+    public void onSelectMusic(Music music) {}
 
     /**
      * Não aplicável para essa classe

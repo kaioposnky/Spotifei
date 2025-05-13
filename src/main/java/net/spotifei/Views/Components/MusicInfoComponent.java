@@ -70,7 +70,7 @@ public class MusicInfoComponent extends JPanel{
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.white);
 
-        JLabel musicAuthors = new JLabel(music.getAuthorNames());
+        JLabel musicAuthors = new JLabel(music.getArtistsNames());
         musicAuthors.setFont(new Font("Arial", Font.BOLD, 12));
         musicAuthors.setForeground(Color.gray);
 
@@ -138,7 +138,7 @@ public class MusicInfoComponent extends JPanel{
     }
 
     private void handlePlayButton(){
-        musicController.playMusic(music.getIdMusica());
+        musicController.playMusic();
     }
 
     private void addHoverListeners(){

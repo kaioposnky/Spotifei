@@ -96,7 +96,8 @@
         FROM musica m
         LEFT JOIN
         avaliacao_usuario au ON m.id_musica = au.id_musica
-        WHERE m.id_musica = @idMusica;
+        WHERE m.id_musica = @idMusica
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
     </query>
     <query name="SetOrInsertMusicUserRating">
         INSERT INTO avaliacao_usuario

@@ -8,13 +8,14 @@ import javax.swing.*;
 
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Auth;
 import net.spotifei.Views.MainFrame;
 
 /**
  *
  * @author fengl
  */
-public class LoginPanel extends javax.swing.JPanel {
+public class LoginPanel extends javax.swing.JPanel implements Auth {
     
     private final MainFrame mainframe;
     private final AppContext appContext;
@@ -174,7 +175,7 @@ public class LoginPanel extends javax.swing.JPanel {
         bt_entrar.setBorderPainted(false);
         bt_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_entrarActionPerformed(evt);
+                login(evt);
             }
         });
 
@@ -257,7 +258,8 @@ public class LoginPanel extends javax.swing.JPanel {
         mainframe.setPanel(MainFrame.REGISTER_PANEL);
     }//GEN-LAST:event_bt_registrarActionPerformed
 
-    private void bt_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_entrarActionPerformed
+    @Override
+    public void login(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_entrarActionPerformed
         // TODO add your handling code here:
         ac.loginUsuario();
     }//GEN-LAST:event_bt_entrarActionPerformed
