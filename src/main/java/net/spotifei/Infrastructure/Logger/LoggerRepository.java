@@ -32,4 +32,7 @@ public class LoggerRepository {
         debugEnabled = debugStatus;
     }
 
+    public static boolean isDebugEnabled() {
+        return debugEnabled;
+    }
 }

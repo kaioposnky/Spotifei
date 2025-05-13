@@ -1,5 +1,6 @@
 package net.spotifei.Helpers;
 
+import net.spotifei.Infrastructure.Logger.LoggerRepository;
 import net.spotifei.Models.Responses.BadResponse;
 import net.spotifei.Models.Responses.ErrorResponse;
 import net.spotifei.Models.Responses.Response;
@@ -43,11 +44,12 @@ public class ResponseHelper {
         if (!response.isSuccess()){
             if(response.isError()){
                 logError(response.getMessage(), response.getException());
+                JOptionPane.showMessageDialog(null,
+                        "Ops, deu um erro aqui, tente novamente! " + (LoggerRepository.isDebugEnabled() ? response.getMessage() : ""));
             }else {
                 logError(response.getMessage());
+                JOptionPane.showMessageDialog(null, response.getMessage());
             }
-            JOptionPane.showMessageDialog(null,
-                    "Eita, deu um erro aqui! " + response.getMessage());
             return true;
         }
         return false;
