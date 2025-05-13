@@ -1,6 +1,8 @@
 package net.spotifei.Views.Components;
 
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
+import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +11,21 @@ import java.util.List;
 
 public class MusicListComponent extends JPanel {
     private List<Music> musics = new ArrayList<>();
+    private boolean showLikeDislikeButtons = true;
     private JPanel musicsInfoPanel;
+    private final AppContext appContext;
+    private final MainFrame mainframe;
 
-    public MusicListComponent(){
+    public MusicListComponent(AppContext appContext, MainFrame mainframe){
+        this.appContext = appContext;
+        this.mainframe = mainframe;
         initComponents();
     }
 
-    public MusicListComponent(List<Music> musics){
+    public MusicListComponent(List<Music> musics, boolean showLikeDislikeButtons, AppContext appContext, MainFrame mainframe){
+        this.showLikeDislikeButtons = showLikeDislikeButtons;
+        this.appContext = appContext;
+        this.mainframe = mainframe;
         initComponents();
         setMusics(musics);
     }
@@ -49,7 +59,7 @@ public class MusicListComponent extends JPanel {
             musicsInfoPanel.add(label);
         } else{
             for (Music music : musics) {
-                musicsInfoPanel.add(new MusicInfoComponent(music));
+                musicsInfoPanel.add(new MusicInfoComponent(music, showLikeDislikeButtons, appContext, mainframe));
             }
         }
     }

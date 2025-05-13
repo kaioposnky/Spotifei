@@ -183,6 +183,21 @@ public class MusicRepository {
         }
     }
 
+    public void setOrInsertMusicUserRating(int musicId, int userId, Boolean liked) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("idMusic", musicId);
+            params.put("liked", liked);
+
+            String sql = jdbcRepository.getQueryNamed("SetOrInsertMusicUserRating");
+            jdbcRepository.executeProcedure(sql, params);
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     // fila de musica do usuario
 
     public void deleteUserQueue(int userId) throws Exception {

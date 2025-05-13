@@ -1,17 +1,29 @@
 package net.spotifei.Views.Components;
 
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
+import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
-public class MusicInfoComponent extends JPanel {
+import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
+
+public class MusicInfoComponent extends JPanel{
     private final Music music;
-    public MusicInfoComponent(Music music){
+    private final boolean showLikeDislikeButtons;
+    private final AppContext appContext;
+    private final MainFrame mainframe;
+
+    public MusicInfoComponent(Music music, boolean showLikeDislikeButtons, AppContext appContext, MainFrame mainframe){
         this.music = music;
+        this.showLikeDislikeButtons = showLikeDislikeButtons;
+        this.appContext = appContext;
+        this.mainframe = mainframe;
         initComponents();
     }
 
@@ -60,7 +72,11 @@ public class MusicInfoComponent extends JPanel {
         infoWrapperPanel.add(musicTitle);
         infoWrapperPanel.add(musicAuthors);
 
+        FeedBackComponent feedBackComponent = new
+                FeedBackComponent(this.showLikeDislikeButtons, null, null);
+
         musicInfoPanel.add(infoWrapperPanel);
+        musicInfoPanel.add(feedBackComponent);
 
         return musicInfoPanel;
     }

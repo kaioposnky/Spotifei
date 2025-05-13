@@ -76,7 +76,7 @@
     <query name="SetOrInsertMusicUserRating">
         INSERT INTO avaliacao_usuario
         (gostou, id_usuario, id_musica)
-        VALUES (@liked, @idUsuario, @idMusica)
+        VALUES (@liked, @idUser, @idMusic)
         DO
         UPDATE
         SET gostou = EXCLUDED.gostou,

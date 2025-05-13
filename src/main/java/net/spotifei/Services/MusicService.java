@@ -208,4 +208,18 @@ public class MusicService {
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
     }
+
+    public Response<Void> setOrInsertMusicUserRating(int userId, int musicId, Boolean liked){
+        try{
+            if (userId <= 0 || musicId <= 0){
+                return ResponseHelper.GenerateBadResponse("Os ids não podem ser nulos ou zero!");
+            }
+
+            musicRepository.setOrInsertMusicUserRating(userId, musicId, liked);
+
+            return ResponseHelper.GenerateSuccessResponse("Feedback da música inserido com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
 }

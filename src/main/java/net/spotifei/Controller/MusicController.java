@@ -1,16 +1,17 @@
 package net.spotifei.Controller;
 
-import jdk.jshell.spi.ExecutionControl;
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
+import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
+import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
 
@@ -85,20 +86,31 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Música pausada com sucesso!");
     }
 
+    public void insertUserRating(){
+        FeedBackComponent feedBackComponent = (FeedBackComponent) view;
+        int musicId = appContext.getMusicContext().getIdMusica();
+        int userId = appContext.getPersonContext().getIdUsuario();
+        Boolean liked = feedBackComponent.isMusicLiked();
+
+        Response<Void> response = musicServices.setOrInsertMusicUserRating(userId, musicId, liked);
+        if(handleDefaultResponseIfError(response)) return;
+
+        logDebug("Avaliação da música com id" + musicId +
+                " alterada para " + (liked ? "like" : "dislike") +
+                " para o usuário com id " + userId + "com sucesso!");
+    }
+
     private boolean handlePlayMusic(MusicPlayerPanel musicPlayerPanel, Music music) {
         logDebug("Solicitação de tocar música recebido! musica:" + music.getNome());
-        musicPlayerPanel.getMusicTitle().setText(music.getNome());
-        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
 
         Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica());
-        if(!responsePlay.isSuccess()){
-            if(responsePlay.isError()){
-                logError(responsePlay.getMessage(), responsePlay.getException());
-            } else{
-                logError(responsePlay.getMessage());
-            }
-            return true;
-        }
+        if(handleDefaultResponseIfError(responsePlay)) return true;
+
+        musicPlayerPanel.getMusicTitle().setText(music.getNome());
+        musicPlayerPanel.getMusicArtist().setText(music.getAuthorNames());
+        musicPlayerPanel.getFeedbackPanel().getLblLikeNumber().setText(String.valueOf(music.getLikes()));
+        musicPlayerPanel.getFeedbackPanel().getLblDisLikeNumber().setText(String.valueOf(music.getDislikes()));
+
         logDebug("Tocando agora: " + music.getNome());
         return false;
     }
@@ -107,14 +119,8 @@ public class MusicController implements AudioUpdateListener {
         if (handlePlayMusic(musicPlayerPanel, music)) return;
         Response<Void> responseSaveMusicToHistory = musicServices.
                 addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
-        if(!responseSaveMusicToHistory.isSuccess()){
-            if(responseSaveMusicToHistory.isError()){
-                logError(responseSaveMusicToHistory.getMessage(), responseSaveMusicToHistory.getException());
-            } else{
-                logError(responseSaveMusicToHistory.getMessage());
-            }
-            return;
-        }
+        if(handleDefaultResponseIfError(responseSaveMusicToHistory)) return;
+
         logDebug("Música salva ao histórico com sucesso!");
     }
 

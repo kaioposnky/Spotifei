@@ -3,6 +3,7 @@ package net.spotifei.Views.Panels;
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.Components.SpotifyLikeButton;
 import net.spotifei.Views.Components.SpotifyLikeSlider;
 import net.spotifei.Views.MainFrame;
@@ -18,6 +19,7 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
     private final MusicController musicController;
+    private FeedBackComponent feedbackPanel;
     private SpotifyLikeSlider musicSlider;
     private SpotifyLikeSlider audioSlider;
     private JLabel musicTimeNowLabel;
@@ -76,7 +78,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
     private JPanel createLeftPanel(){
         JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS) );
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.X_AXIS) );
         leftPanel.setOpaque(false);
 
         JPanel songInfoPanel = new JPanel();
@@ -91,13 +93,17 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
 
-        songInfoPanel.add(musicTitle);
-        songInfoPanel.add(musicArtist);
+        feedbackPanel = new FeedBackComponent(appContext, mainframe);
 
         // as box deixam as infos centralizadas (é meio gambis mas funciona)
-        leftPanel.add(Box.createVerticalGlue());
+        songInfoPanel.add(Box.createVerticalGlue());
+        songInfoPanel.add(musicTitle);
+        songInfoPanel.add(musicArtist);
+        songInfoPanel.add(Box.createVerticalGlue());
+
         leftPanel.add(songInfoPanel);
-        leftPanel.add(Box.createVerticalGlue());
+        leftPanel.add(Box.createHorizontalStrut(50));
+        leftPanel.add(feedbackPanel);
 
         return leftPanel;
     }
@@ -280,4 +286,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         this.musicArtist = musicArtist;
     }
 
+    public FeedBackComponent getFeedbackPanel() {
+        return feedbackPanel;
+    }
 }

@@ -1,6 +1,7 @@
 package net.spotifei.Helpers;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -18,6 +19,15 @@ public class AssetsLoader {
             throw new FileNotFoundException("Pasta com arquivos de query não encontrada!\n"
                     + "Caminho: " + queriesPath);
         }
+    }
+
+    public static ImageIcon loadImageIcon(String iconFilename, int width, int height){
+        String iconPath = assetsPath + "/" + "icons" + "/" + iconFilename;
+        ImageIcon icon = new ImageIcon(iconPath);
+        Image image = icon.getImage();
+        image = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        return icon;
     }
 
     public static ImageIcon loadImageIcon(String iconFilename){
