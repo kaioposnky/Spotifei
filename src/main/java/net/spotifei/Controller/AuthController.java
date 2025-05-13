@@ -37,9 +37,10 @@ public class AuthController {
 
         boolean isLoginValid = response.getData();
         if (isLoginValid){
-            logInfo("Usuário com email " + email + " logou com sucesso!");
+            logDebug("Usuário com email " + email + " logou com sucesso!");
             userController.handleLoginSucess(email);
         } else {
+            logDebug("Login incorreto para usuário com email " + email + "!");
             JOptionPane.showMessageDialog(view, "Senha incorreta!");
          }
     }
