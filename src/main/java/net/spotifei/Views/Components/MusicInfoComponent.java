@@ -1,5 +1,6 @@
 package net.spotifei.Views.Components;
 
+import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
 import net.spotifei.Views.MainFrame;
@@ -18,12 +19,14 @@ public class MusicInfoComponent extends JPanel{
     private final boolean showLikeDislikeButtons;
     private final AppContext appContext;
     private final MainFrame mainframe;
+    private final MusicController musicController;
 
     public MusicInfoComponent(Music music, boolean showLikeDislikeButtons, AppContext appContext, MainFrame mainframe){
         this.music = music;
         this.showLikeDislikeButtons = showLikeDislikeButtons;
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
 
@@ -46,6 +49,8 @@ public class MusicInfoComponent extends JPanel{
 
         boxPanel.add(getMusicInfoPanel(), BorderLayout.WEST);
         boxPanel.add(Box.createHorizontalGlue()); // joga os proximos elementos pra direita
+        boxPanel.add(createMusicPlayButtonPanel());
+        boxPanel.add(Box.createHorizontalStrut(20));
         boxPanel.add(createMusicTimePanel(), BorderLayout.EAST);
 
         setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -73,10 +78,10 @@ public class MusicInfoComponent extends JPanel{
         infoWrapperPanel.add(musicAuthors);
 
         FeedBackComponent feedBackComponent = new
-                FeedBackComponent(appContext, mainframe, music.isGostou(), music);
+                FeedBackComponent(appContext, mainframe, music);
 
         musicInfoPanel.add(infoWrapperPanel);
-        musicInfoPanel.add(Box.createHorizontalStrut(20));
+        musicInfoPanel.add(Box.createHorizontalStrut(40));
         musicInfoPanel.add(feedBackComponent);
 
         return musicInfoPanel;
@@ -103,12 +108,37 @@ public class MusicInfoComponent extends JPanel{
         return musicTimePanel;
     }
 
+    private JPanel createMusicPlayButtonPanel() {
+        JPanel musicPlayButtonPanel = new JPanel();
+        musicPlayButtonPanel.setLayout(new BoxLayout(musicPlayButtonPanel, BoxLayout.X_AXIS));
+        musicPlayButtonPanel.setOpaque(false);
+
+        JButton musicPlayButton = new JButton();
+        musicPlayButton.setIcon(loadImageIcon("musicIcons/play.png", 20, 20));
+        musicPlayButton.addActionListener(event -> {
+            appContext.getMusicController(this, mainframe).playMusic();
+        });
+        musicPlayButton.setBorder(new EmptyBorder(0,0,0,5));
+        musicPlayButton.setFocusPainted(false);
+        musicPlayButton.setContentAreaFilled(false);
+        musicPlayButton.setOpaque(false);
+        musicPlayButton.addActionListener(event -> {handlePlayButton();});
+
+        musicPlayButtonPanel.add(musicPlayButton);
+
+        return musicPlayButtonPanel;
+    }
+
     private String getMusicTimeTotal(){
         long musicMicrosseconds = music.getDuracaoMs();
         long musicInSeconds = musicMicrosseconds / 1_000_000;
         long musicMinutes = musicInSeconds / 60;
         long musicSeconds = musicInSeconds % 60;
         return String.format("%01d:%02d", musicMinutes, musicSeconds);
+    }
+
+    private void handlePlayButton(){
+        musicController.playMusic(music.getIdMusica());
     }
 
     private void addHoverListeners(){
