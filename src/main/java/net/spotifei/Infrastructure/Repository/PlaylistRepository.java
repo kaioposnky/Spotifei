@@ -3,6 +3,7 @@ package net.spotifei.Infrastructure.Repository;
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Playlist;
+import net.spotifei.Models.User;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -19,11 +20,11 @@ public class PlaylistRepository {
         this.jdbcRepository = jdbcRepository;
     }
 
-    public void createPlaylist(Playlist playlist) throws Exception{
+    public void createPlaylist(Playlist playlist, int userId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("nome", playlist.getNome());
-            params.put("isPublic", playlist.isPublic());
+            params.put("userId", userId);
 
             String sql = jdbcRepository.getQueryNamed("CreatePlaylist");
             jdbcRepository.executeProcedure(sql, params);
@@ -123,6 +124,21 @@ public class PlaylistRepository {
             return lastPosition;
         } catch (Exception e){
             throw e;
+        }
+    }
+
+    public List<Playlist> getPlaylistUser(int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("userId", userId);
+
+            String sql = jdbcRepository.getQueryNamed("GetPlaylistUser");
+            List<Playlist> playlists = jdbcRepository.queryProcedure(sql,
+                    params, new BeanListHandler<>(Playlist.class));
+            return playlists;
+
+        } catch(Exception ex){
+            throw ex;
         }
     }
 

@@ -18,13 +18,13 @@ public class PlaylistService {
         this.musicRepository = musicRepository;
     }
 
-    public Response<Void> createPlaylist(Playlist playlist){
+    public Response<Void> createPlaylist(Playlist playlist, int userId){
         try{
             if (playlist == null){
                 return ResponseHelper.GenerateBadResponse("A playlist fornecida foi nula!");
             }
 
-            playlistRepository.createPlaylist(playlist);
+            playlistRepository.createPlaylist(playlist, userId);
 
             return ResponseHelper.GenerateSuccessResponse("Playlist criada com sucesso!");
         } catch (Exception ex){
@@ -133,6 +133,23 @@ public class PlaylistService {
             return ResponseHelper.GenerateSuccessResponse("Playlist obtida com sucesso!", playlist);
         } catch (Exception ex) {
             return ResponseHelper.GenerateErrorResponse("Erro ao obter playlist!", ex);
+        }
+    }
+
+    public Response<List<Playlist>> getPlaylistUser(int userId){
+        try{
+            if(userId <= 0){
+                return ResponseHelper.GenerateBadResponse("O Id do usuário deve ser >= 0!");
+            }
+            List<Playlist> playlists = playlistRepository.getPlaylistUser(userId);
+
+            if (playlists == null){
+                return ResponseHelper.GenerateBadResponse("Playlist não encontrada!");
+            }
+
+            return ResponseHelper.GenerateSuccessResponse("Playlists Obtidas com sucesso!", playlists);
+        }catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse("Erro ao obter as playlists", ex);
         }
     }
 }

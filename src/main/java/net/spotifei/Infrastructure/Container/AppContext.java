@@ -1,9 +1,6 @@
 package net.spotifei.Infrastructure.Container;
 
-import net.spotifei.Controller.AdminController;
-import net.spotifei.Controller.AuthController;
-import net.spotifei.Controller.MusicController;
-import net.spotifei.Controller.UserController;
+import net.spotifei.Controller.*;
 import net.spotifei.Infrastructure.AudioPlayer.AudioControls;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
@@ -117,6 +114,10 @@ public class AppContext {
         return new AdminController(view, this.musicService, this.userService);
     }
 
+    public PlaylistController getPlayListController(JPanel view){
+        return new PlaylistController(view, this.playlistService, this);
+    }
+
     public MusicService getMusicService() {
         return musicService;
     }
@@ -145,4 +146,6 @@ public class AppContext {
     public void setMusicContext(Music musicContext) {
         this.musicContext = musicContext;
     }
+
+
 }

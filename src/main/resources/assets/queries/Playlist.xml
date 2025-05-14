@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
     <query name="CreatePlaylist">
+        WITH new_playlist AS (
         INSERT INTO playlist (nome)
-        VALUES (@nome);
+        VALUES (@nome)
+        RETURNING id_playlist
+        )
+        INSERT INTO playlist_usuario (id_usuario, id_playlist)
+        SELECT @userId, id_playlist
+        FROM new_playlist;
     </query>
     <query name="DeletePlaylist">
         DELETE FROM playlist
@@ -49,5 +55,13 @@
         ON p.id_playlist = ups.id_playlist
         WHERE p.id_playlist = @idPlaylist
         GROUP BY p.id_playlist, p.nome;
+    </query>
+    <query name="GetPlaylistUser">
+        SELECT
+        p.id_playlist AS idPlaylist,
+        p.nome AS nome
+        FROM playlist p
+        JOIN playlist_usuario pu ON p.id_playlist = pu.id_playlist
+        WHERE pu.id_usuario = @userId;
     </query>
 </queries>
