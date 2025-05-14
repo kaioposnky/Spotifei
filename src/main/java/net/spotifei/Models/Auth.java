@@ -1,7 +1,8 @@
 package net.spotifei.Models;
 
-import java.awt.event.ActionEvent;
+import net.spotifei.Controller.AuthController;
+import net.spotifei.Views.Panels.LoginPanel;
 
 public interface Auth {
-    void login(ActionEvent evt);
+    void login(AuthController authController, LoginPanel panel);
 }

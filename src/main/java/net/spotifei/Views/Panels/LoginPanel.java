@@ -9,13 +9,14 @@ import javax.swing.*;
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Auth;
+import net.spotifei.Models.User;
 import net.spotifei.Views.MainFrame;
 
 /**
  *
  * @author fengl
  */
-public class LoginPanel extends javax.swing.JPanel implements Auth {
+public class LoginPanel extends javax.swing.JPanel {
     
     private final MainFrame mainframe;
     private final AppContext appContext;
@@ -258,10 +259,10 @@ public class LoginPanel extends javax.swing.JPanel implements Auth {
         mainframe.setPanel(MainFrame.REGISTER_PANEL);
     }//GEN-LAST:event_bt_registrarActionPerformed
 
-    @Override
     public void login(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_entrarActionPerformed
         // TODO add your handling code here:
-        ac.loginUsuario();
+        User user = new User();
+        user.login(appContext.getAuthController(this, mainframe), this);
     }//GEN-LAST:event_bt_entrarActionPerformed
 
     

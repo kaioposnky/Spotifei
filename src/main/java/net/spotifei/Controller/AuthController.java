@@ -27,8 +27,7 @@ public class AuthController {
         this.userController = userController;
     }
 
-    public void loginUsuario() {
-        LoginPanel loginFrame = (LoginPanel) view;
+    public void loginUsuario(LoginPanel loginFrame) {
         String email = loginFrame.getTxt_email_login().getText();
         String password = loginFrame.getTxt_senha_login().getText();
         
