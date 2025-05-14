@@ -42,6 +42,7 @@ public class PlaylistController {
         if(handleDefaultResponseIfError(response)) return;
         PlaylistPanel playlistPanel = ((PlaylistPanel)view);
         playlistPanel.getPlaylistListComponent().setPlaylists(response.getData());
+        playlistPanel.getPlaylistListComponent().renderPlaylists();
 
     }
 
