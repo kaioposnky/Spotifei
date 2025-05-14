@@ -58,7 +58,7 @@ public class SearchPanel extends javax.swing.JPanel {
         btnPesquisar.setAlignmentX(CENTER_ALIGNMENT);
         btnPesquisar.addActionListener(this::bt_pesquisarActionPerformed);
 
-        musicListComponent = new MusicListComponent(appContext, mainframe);
+        musicListComponent = new MusicListComponent(appContext, mainframe, false, true);
         musicListComponent.setBackground(new java.awt.Color(35, 35, 35));
         musicListComponent.setPreferredSize(new Dimension(800, 600));
         musicListComponent.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
