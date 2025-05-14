@@ -248,7 +248,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private void bt_selecionar_musicaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .mp3", "mp3");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .opus", "opus");
         fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {

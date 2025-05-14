@@ -16,7 +16,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
@@ -267,11 +266,11 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
     }
 
     public void handleNextMusicButton(){
-        musicController.playMusic();
+        musicController.playMusicFromContext();
     }
 
     public void handlePauseButton(){
-        musicController.pauseMusic();
+        musicController.togglePauseMusic();
     }
 
     public JLabel getMusicTimeNowLabel() {

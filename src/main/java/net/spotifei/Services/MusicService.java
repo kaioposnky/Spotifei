@@ -10,8 +10,11 @@ import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +27,9 @@ public class MusicService {
     private final ArtistRepository artistRepository;
     private final GenreRepository genreRepository;
     private final AudioPlayerWorker audioPlayerWorker;
+
+    private boolean isNewMusicSelected = false;
+    private int newMusicSelectedId = 0;
 
     public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, GenreRepository genreRepository){
         this.musicRepository = musicRepository;
@@ -84,6 +90,9 @@ public class MusicService {
 
             music.setAutores(artists);
             music.setGostou(userMusicRating);
+
+            isNewMusicSelected = true;
+            newMusicSelectedId = musicId;
 
             audioPlayerWorker.playMusic(musicAudio);
             audioPlayerWorker.selectMusic(music); // atualiza o UI
@@ -187,7 +196,8 @@ public class MusicService {
             if (!musicFile.exists()){
                 throw new FileNotFoundException("O arquivo de música não existe!");
             }
-            byte[] fileBytes = convertMP3FileToOpusBytes(musicFile);
+//            byte[] fileBytes = convertMP3FileToOpusBytes(musicFile);
+            byte[] fileBytes = Files.readAllBytes(Paths.get(musicFilePath));
             if (fileBytes == null){
                 return ResponseHelper.GenerateBadResponse("Não foi possível obter os bytes do arquivo!");
             }
@@ -282,5 +292,21 @@ public class MusicService {
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
+    }
+
+    public boolean isNewMusicSelected() {
+        return isNewMusicSelected;
+    }
+
+    public void setNewMusicSelected(boolean newMusicSelected) {
+        isNewMusicSelected = newMusicSelected;
+    }
+
+    public int getNewMusicSelectedId() {
+        return newMusicSelectedId;
+    }
+
+    public void setNewMusicSelectedId(int newMusicSelectedId) {
+        this.newMusicSelectedId = newMusicSelectedId;
     }
 }

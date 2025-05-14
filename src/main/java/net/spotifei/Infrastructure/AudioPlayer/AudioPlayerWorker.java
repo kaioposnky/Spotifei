@@ -188,10 +188,18 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     private void handleEndOfMusic(LineEvent event){
         // verificacao para checar se musica finalizou
-        // - 100 de intervalo extra
-        if (event.getType() == LineEvent.Type.STOP
-        && clip.getMicrosecondPosition() == clip.getMicrosecondLength() - 100){
-            notifyEndOfMusic();
+        if (event.getType() == LineEvent.Type.STOP && clip != null && isPlaying) {
+            if (clip.getMicrosecondPosition() >= clip.getMicrosecondLength() - 1000) {
+                boolean wasPlaying = isPlaying;
+                isPlaying = false;
+                stopProgressUpdateThread();
+                if (wasPlaying) {
+                    notifyEndOfMusic();
+                }
+            }
+        } else if (event.getType() == LineEvent.Type.CLOSE) {
+            isPlaying = false;
+            stopProgressUpdateThread();
         }
     }
 
@@ -266,8 +274,12 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         }
 
         if (clip.isOpen()){
+            isPlaying = false;
             stopProgressUpdateThread();
+            notifyOnPlayingStatusUpdate(false);
+            clip.stop();
             clip.close();
+            clip.flush();
         }
 
         try{
@@ -283,18 +295,13 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
                 forceSetVolume(volume);
             }
 
-            clip.setMicrosecondPosition(0);
             musicMicrosecondNow = 0;
+            clip.setMicrosecondPosition(0);
             isPlaying = true;
             clip.start();
 
             startProgressUpdateThread();
-
-            long totalSeconds = clip.getMicrosecondLength() / 1000000;
-            long minutes = totalSeconds / 60;
-            long remainingSeconds = totalSeconds % 60;
-
-            progressPublisherRunnable = new ProgressPublisherRunnable(this, this.clip);
+            notifyOnPlayingStatusUpdate(true);
         }  catch (Exception e) {
             isPlaying = false;
             logError("Erro ao tocar música!", e);

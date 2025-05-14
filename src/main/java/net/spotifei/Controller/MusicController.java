@@ -2,13 +2,11 @@ package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Infrastructure.Repository.MusicRepository;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.MainFrame;
-import net.spotifei.Views.Panels.MusicPlayerPanel;
 import net.spotifei.Views.Panels.SearchPanel;
 
 import javax.swing.*;
@@ -41,21 +39,41 @@ public class MusicController implements AudioUpdateListener {
         Music musicFound = response.getData();
         appContext.setMusicContext(musicFound);
         logDebug("Próxima música do usuário obtida: " + musicFound.getNome());
-        playMusic();
+        playMusicFromContext();
     }
 
     /**
      * Toca a música carregada no AppContext
      */
-    public void playMusic() {
+    public void playMusicFromContext() {
         Response<Music> responseMusica = musicServices.getMusicById(appContext.getMusicContext().getIdMusica());
         if(handleDefaultResponseIfError(responseMusica)) return;
 
         Music music = responseMusica.getData();
-        handlePlayMusic(music);
+        appContext.setMusicContext(music);
+        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
+                appContext.getPersonContext().getIdUsuario());
+
+        if(handleDefaultResponseIfError(responsePlay)) return;
+
         logDebug("Tocando agora: " + music.getNome());
-        handleSaveMusic(music);
-        logDebug("Música salva ao histórico com sucesso!");
+    }
+
+    /**
+     * Toca a música informada pelo id
+     * @param musicId Id da música a ser tocada
+     */
+    public void playMusicById(int musicId) {
+        Response<Music> responseMusica = musicServices.getMusicById(musicId);
+        if(handleDefaultResponseIfError(responseMusica)) return;
+
+        Music music = responseMusica.getData();
+        appContext.setMusicContext(music);
+        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
+                appContext.getPersonContext().getIdUsuario());
+        if(handleDefaultResponseIfError(responsePlay)) return;
+
+        logDebug("Tocando agora: " + music.getNome());
     }
 
     public void setAudioVolume(float volume){
@@ -72,7 +90,7 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Tempo da música alterado para " + musicTime + " com sucesso!");
     }
 
-    public void pauseMusic(){
+    public void togglePauseMusic(){
         Response<Void> response = musicServices.pauseMusic();
         if(handleDefaultResponseIfError(response)) return;
 
@@ -118,13 +136,7 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
-    private boolean handlePlayMusic(Music music) {
-        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
-                appContext.getPersonContext().getIdUsuario());
-        return handleDefaultResponseIfError(responsePlay);
-    }
-
-    private boolean handleSaveMusic(Music music) {
+    private boolean handleSaveMusicToHistory(Music music) {
         Response<Void> responseSaveMusicToHistory = musicServices.
                 addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
         return handleDefaultResponseIfError(responseSaveMusicToHistory);
@@ -132,11 +144,18 @@ public class MusicController implements AudioUpdateListener {
 
     // Ações do Listener que é notificado em AudioPlayerWorker
 
-    /**
-     * Não aplicável para essa classe
-     */
     @Override
-    public void onSelectMusic(Music music) {}
+    public void onSelectMusic(Music music) {
+        if(musicServices.isNewMusicSelected() && music != null
+        && musicServices.getNewMusicSelectedId() == music.getIdMusica()){
+            musicServices.setNewMusicSelected(false);
+            musicServices.setNewMusicSelectedId(0);
+        }
+        if (music != null) {
+            appContext.setMusicContext(music);
+            handleSaveMusicToHistory(music);
+        }
+    }
 
     /**
      * Não aplicável para essa classe
@@ -155,6 +174,17 @@ public class MusicController implements AudioUpdateListener {
      */
     @Override
     public void onEndOfMusic() {
-        playUserNextMusic();
+        Music currentContextMusic = appContext.getMusicContext();
+
+        boolean musicFinishedWasPendingSelection = musicServices.isNewMusicSelected() && currentContextMusic != null &&
+                musicServices.getNewMusicSelectedId() == currentContextMusic.getIdMusica();
+
+        // ignorar pedido se já tem um pendente
+        if(musicServices.isNewMusicSelected() && musicFinishedWasPendingSelection){
+            return;
+        }
+        musicServices.setNewMusicSelectedId(0);
+        musicServices.setNewMusicSelected(false);
+//        playUserNextMusic();
     }
 }

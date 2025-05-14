@@ -120,9 +120,6 @@ public class MusicInfoComponent extends JPanel{
 
         JButton musicPlayButton = new JButton();
         musicPlayButton.setIcon(loadImageIcon("musicIcons/play.png", 20, 20));
-        musicPlayButton.addActionListener(event -> {
-            appContext.getMusicController(this, mainframe).playMusic();
-        });
         musicPlayButton.setBorder(new EmptyBorder(0,0,0,5));
         musicPlayButton.setFocusPainted(false);
         musicPlayButton.setContentAreaFilled(false);
@@ -143,7 +140,7 @@ public class MusicInfoComponent extends JPanel{
     }
 
     private void handlePlayButton(){
-        musicController.playMusic();
+        musicController.playMusicById(music.getIdMusica());
     }
 
     private void addHoverListeners(){
