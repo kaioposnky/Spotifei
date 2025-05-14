@@ -67,11 +67,15 @@ public class MusicService {
         }
     }
 
-    public Response<Void> playMusic(int musicId){
+    public Response<Void> playMusic(int musicId, int userId){
         try{
+            if(userId == 0 || musicId == 0){
+                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+            }
 
             Music music = musicRepository.getMusicById(musicId);
             List<Artist> artists = artistRepository.getArtistsByMusicId(musicId);
+            Boolean userMusicRating = musicRepository.getUserRatingOnMusic(musicId, userId);
             byte[] musicAudio = musicRepository.getMusicAsByteArray(musicId);
 
             if(musicAudio == null){
@@ -79,17 +83,31 @@ public class MusicService {
             }
 
             music.setAutores(artists);
+            music.setGostou(userMusicRating);
 
             audioPlayerWorker.playMusic(musicAudio);
-
-            audioPlayerWorker.pause();
-
             audioPlayerWorker.selectMusic(music); // atualiza o UI
 
             return ResponseHelper.GenerateSuccessResponse("Música iniciada com sucesso!");
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse("Ocorreu um erro ao tentar" +
                     "tocar uma música!", e);
+        }
+    }
+
+    public Response<Boolean> getUserMusicRating(int musicId, int userId){
+        try{
+
+            if(userId == 0 || musicId == 0){
+                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+            }
+
+            Boolean userMusicRating = musicRepository.getUserRatingOnMusic(musicId, userId);
+
+            return ResponseHelper.GenerateSuccessResponse(
+                    "Avaliação do usuário para a música retornada com sucesso!", userMusicRating);
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
         }
     }
 
@@ -131,7 +149,11 @@ public class MusicService {
 
     public Response<Void> pauseMusic(){
         try{
-            audioPlayerWorker.pause();
+            if (audioPlayerWorker.isPlaying()){
+                audioPlayerWorker.pause();
+            } else{
+                audioPlayerWorker.resume();
+            }
 
             return ResponseHelper.GenerateSuccessResponse("Música pausada com sucesso!");
         } catch (Exception ex){

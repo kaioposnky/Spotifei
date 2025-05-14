@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
@@ -94,7 +95,15 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         musicArtist.setFont(new Font("Arial", Font.PLAIN, 12));
         musicArtist.setForeground(Color.GRAY);
 
-        feedbackPanel = new FeedBackComponent(appContext, mainframe, appContext.getMusicContext());
+        feedbackPanel = new FeedBackComponent(appContext, mainframe);
+
+        if(appContext.getMusicContext() != null){
+            feedbackPanel.setMusic(appContext.getMusicContext());
+        } else{
+            Music music = new Music();
+            music.setGostou(false);
+            feedbackPanel.setMusic(music);
+        }
 
         // as box deixam as infos centralizadas (é meio gambis mas funciona)
         songInfoPanel.add(Box.createVerticalGlue());
@@ -218,8 +227,14 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         musicTitle.setText(music.getNome());
         musicArtist.setText(music.getArtistsNames());
 
-        feedbackPanel.getLblDisLikeNumber().setText(String.valueOf(music.getDislikes()));
-        feedbackPanel.getLblDisLikeNumber().setText(String.valueOf(music.getLikes()));
+        musicTimeNowLabel.setText("0:00");
+        long musicTotalLength = music.getDuracaoMs();
+        long totalSeconds = musicTotalLength / 1_000_000;
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        this.musicTimeTotalLabel.setText(String.format("%1d:%02d", minutes, seconds));
+
+        feedbackPanel.setMusic(music);
     }
 
     @Override
@@ -234,12 +249,6 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         long minutes = currentSeconds / 60;
         long seconds = currentSeconds % 60;
         this.musicTimeNowLabel.setText(String.format("%1d:%02d", minutes, seconds));
-
-        long totalSeconds = musicTotalLength / 1_000_000;
-        minutes = totalSeconds / 60;
-        seconds = totalSeconds % 60;
-        this.musicTimeTotalLabel.setText(String.format("%1d:%02d", minutes, seconds));
-
     }
 
     @Override

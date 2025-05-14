@@ -244,6 +244,21 @@ public class MusicRepository {
         }
     }
 
+    public Boolean getUserRatingOnMusic(int musicId, int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("idMusic", musicId);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserRatingOnMusic");
+            Boolean liked = jdbcRepository.queryProcedure(sql, params, new ScalarHandler<>());
+
+            return liked;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     // fila de musica do usuario
 
     public void deleteUserQueue(int userId) throws Exception {
@@ -322,5 +337,6 @@ public class MusicRepository {
             throw e;
         }
     }
+
 
 }

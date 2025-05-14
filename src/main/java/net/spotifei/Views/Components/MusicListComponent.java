@@ -11,19 +11,23 @@ import java.util.List;
 
 public class MusicListComponent extends JPanel {
     private List<Music> musics = new ArrayList<>();
-    private boolean showLikeDislikeButtons = true;
+    private final boolean showLikeDislikeButtons;
+    private final boolean showPlayButton;
     private JPanel musicsInfoPanel;
     private final AppContext appContext;
     private final MainFrame mainframe;
 
-    public MusicListComponent(AppContext appContext, MainFrame mainframe){
+    public MusicListComponent(AppContext appContext, MainFrame mainframe, boolean showLikeDislikeButtons, boolean showPlayButton){
+        this.showLikeDislikeButtons = showLikeDislikeButtons;
+        this.showPlayButton = showPlayButton;
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
     }
 
-    public MusicListComponent(List<Music> musics, boolean showLikeDislikeButtons, AppContext appContext, MainFrame mainframe){
+    public MusicListComponent(List<Music> musics, AppContext appContext, MainFrame mainframe, boolean showLikeDislikeButtons, boolean showPlayButton){
         this.showLikeDislikeButtons = showLikeDislikeButtons;
+        this.showPlayButton = showPlayButton;
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
@@ -59,7 +63,7 @@ public class MusicListComponent extends JPanel {
             musicsInfoPanel.add(label);
         } else{
             for (Music music : musics) {
-                musicsInfoPanel.add(new MusicInfoComponent(music, showLikeDislikeButtons, appContext, mainframe));
+                musicsInfoPanel.add(new MusicInfoComponent(music, appContext, mainframe, showLikeDislikeButtons, showPlayButton));
             }
         }
     }

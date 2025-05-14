@@ -107,4 +107,19 @@ public class Music {
     public void setArtistsNames(String artistsNames) {
         this.artistsNames = artistsNames;
     }
+
+    @Override
+    public String toString() {
+        return "Music{" +
+                "nome='" + nome + '\'' +
+                ", genre=" + genre +
+                ", duracaoMs=" + duracaoMs +
+                ", idMusica=" + idMusica +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", gostou=" + gostou +
+                ", artistsNames='" + artistsNames + '\'' +
+                ", autores=" + autores +
+                '}';
+    }
 }

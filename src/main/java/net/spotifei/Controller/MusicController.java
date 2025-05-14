@@ -2,6 +2,7 @@ package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Repository.MusicRepository;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
@@ -48,7 +49,6 @@ public class MusicController implements AudioUpdateListener {
      */
     public void playMusic() {
         Response<Music> responseMusica = musicServices.getMusicById(appContext.getMusicContext().getIdMusica());
-
         if(handleDefaultResponseIfError(responseMusica)) return;
 
         Music music = responseMusica.getData();
@@ -82,7 +82,7 @@ public class MusicController implements AudioUpdateListener {
 
     public void insertUserRating(){
         if(appContext.getPersonContext() == null) return;
-
+//
         FeedBackComponent feedBackComponent = (FeedBackComponent) view;
         if(feedBackComponent.getMusic() == null) return;
 
@@ -119,7 +119,8 @@ public class MusicController implements AudioUpdateListener {
     }
 
     private boolean handlePlayMusic(Music music) {
-        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica());
+        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
+                appContext.getPersonContext().getIdUsuario());
         return handleDefaultResponseIfError(responsePlay);
     }
 

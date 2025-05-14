@@ -146,7 +146,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
      * Pausa a música
      */
     public void pause() throws InterruptedException {
-        commandQueue.put(() -> handlePauseMusic(null));
+        commandQueue.put(() -> handlePauseMusic(true));
     }
 
     /**
@@ -252,7 +252,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
             isPlaying = true;
             startProgressUpdateThread();
         }
-        notifyOnPlayingStatusUpdate(shouldPause); // notificar o listener de alterar status
+        notifyOnPlayingStatusUpdate(isPlaying); // notificar o listener de alterar status
     }
 
     public void publishProgress(long microseconds) {

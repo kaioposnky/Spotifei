@@ -7,6 +7,7 @@ import net.spotifei.Models.User;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
@@ -66,11 +67,16 @@ public class UserController {
                 throw new RuntimeException(e);
             }
 
-            Response<Void> response = musicService.playMusic(music.getIdMusica());
-            if (!response.isSuccess()){
+            Response<Void> responsePlay = musicService.playMusic(music.getIdMusica(),
+                    appContext.getPersonContext().getIdUsuario());
+            if (!responsePlay.isSuccess()){
                 JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +
                         "Selecione uma para começar!");
             }
+
+            Response<Void> responsePause = musicService.pauseMusic();
+            if(handleDefaultResponseIfError(responsePause)) return;
+            logDebug("Música pausada com sucesso! :" + appContext.getAudioPlayerWorker().isPlaying());
         }
     }
 }

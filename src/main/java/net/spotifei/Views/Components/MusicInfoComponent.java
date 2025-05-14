@@ -17,15 +17,17 @@ import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
 public class MusicInfoComponent extends JPanel{
     private final Music music;
     private final boolean showLikeDislikeButtons;
+    private final boolean showPlayButton;
     private final AppContext appContext;
     private final MainFrame mainframe;
     private final MusicController musicController;
 
-    public MusicInfoComponent(Music music, boolean showLikeDislikeButtons, AppContext appContext, MainFrame mainframe){
+    public MusicInfoComponent(Music music, AppContext appContext, MainFrame mainframe, boolean showLikeDislikeButtons, boolean showPlayButton){
         this.music = music;
         this.showLikeDislikeButtons = showLikeDislikeButtons;
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.showPlayButton = showPlayButton;
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
@@ -77,12 +79,15 @@ public class MusicInfoComponent extends JPanel{
         infoWrapperPanel.add(musicTitle);
         infoWrapperPanel.add(musicAuthors);
 
-        FeedBackComponent feedBackComponent = new
-                FeedBackComponent(appContext, mainframe, music);
-
         musicInfoPanel.add(infoWrapperPanel);
         musicInfoPanel.add(Box.createHorizontalStrut(40));
-        musicInfoPanel.add(feedBackComponent);
+
+        if (showLikeDislikeButtons){
+            FeedBackComponent feedBackComponent = new
+                    FeedBackComponent(appContext, mainframe, music);
+
+            musicInfoPanel.add(feedBackComponent);
+        }
 
         return musicInfoPanel;
     }

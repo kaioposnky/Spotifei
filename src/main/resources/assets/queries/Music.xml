@@ -177,4 +177,11 @@
         INSERT INTO artista_musica(id_musica, id_artista)
         VALUES(@idMusic, @idArtist);
     </query>
+    <query name="GetUserRatingOnMusic">
+        SELECT
+        au.gostou AS liked
+        FROM avaliacao_usuario au
+        WHERE au.id_usuario = @idUser
+        AND au.id_musica = @idMusic
+    </query>
 </queries>

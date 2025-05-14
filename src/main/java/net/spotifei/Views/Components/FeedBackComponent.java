@@ -14,29 +14,26 @@ import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
 
 public class FeedBackComponent extends JPanel {
     private JLabel lblDisLikeNumber = null;
-    private JLabel lblLikeNumber= null;
-    private JButton btnDislike= null;
+    private JLabel lblLikeNumber = null;
+    private JButton btnDislike = null;
     private JButton btnLike= null;
     private Boolean isMusicLiked = null;
     private final MusicController musicController;
-    private final Music music;
-    private final boolean showPlayButton;
+    private Music music;
 
-    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music) {
-        this.music = music;
+    public FeedBackComponent(AppContext appContext, MainFrame mainframe) {
+        this.music = appContext.getMusicContext();
         if (music == null) {
             this.isMusicLiked = null;
         } else{
             this.isMusicLiked = music.isGostou();
         }
-        this.showPlayButton = false;
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
-    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music, boolean showPlayButton) {
+    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music) {
         this.music = music;
         this.isMusicLiked = music.isGostou();
-        this.showPlayButton = showPlayButton;
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
@@ -46,7 +43,11 @@ public class FeedBackComponent extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         btnLike = new JButton();
-        btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
+        if(isMusicLiked != null && isMusicLiked){
+            btnLike.setIcon(loadImageIcon("feedback/thumbsup_filled.png", 20, 20));
+        } else{
+            btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
+        }
         btnLike.addActionListener(event -> {handleLikeMusic();});
         btnLike.setBorder(new EmptyBorder(0,0,0,5));
         btnLike.setFocusPainted(false);
@@ -57,7 +58,11 @@ public class FeedBackComponent extends JPanel {
         lblLikeNumber.setFont(new Font("Arial", Font.PLAIN, 14));
 
         btnDislike = new JButton();
-        btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_empty.png", 20, 20));
+        if (isMusicLiked != null && !isMusicLiked){
+            btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_filled.png", 20, 20));
+        } else {
+            btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_empty.png", 20, 20));
+        }
         btnDislike.addActionListener(event -> {handleDislikeMusic();});
         btnDislike.setBorder(new EmptyBorder(0,0,0,5));
         btnDislike.setFocusPainted(false);
@@ -157,4 +162,32 @@ public class FeedBackComponent extends JPanel {
     public Music getMusic() {
         return music;
     }
+
+    public void setMusic(Music music) {
+        if (music == null) {
+            return;
+        }
+
+        this.music = music;
+        this.isMusicLiked = music.isGostou();
+
+        if (isMusicLiked != null && !isMusicLiked){
+            btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_filled.png", 20, 20));
+        } else {
+            btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_empty.png", 20, 20));
+        }
+
+        if(isMusicLiked != null && isMusicLiked){
+            btnLike.setIcon(loadImageIcon("feedback/thumbsup_filled.png", 20, 20));
+        } else{
+            btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
+        }
+        
+        lblLikeNumber.setText(String.valueOf(music.getLikes()));
+        lblDisLikeNumber.setText(String.valueOf(music.getDislikes()));
+
+        revalidate();
+        repaint();
+    }
+
 }
