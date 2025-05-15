@@ -7,11 +7,12 @@ package net.spotifei.Views.Panels;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import net.spotifei.Controller.HistoryController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.PopUps.DeslikedPopUp;
 import net.spotifei.Views.PopUps.LikedPopUp;
-import net.spotifei.Views.PopUps.Top10PopUp;
+import net.spotifei.Views.PopUps.MusicsPopUp;
 
 /**
  *
@@ -21,10 +22,13 @@ public class HistoryPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
     private final AppContext appContext;
+    private final HistoryController historyController;
+    private MusicsPopUp musicsPopUp;
     
     public HistoryPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
+        this.historyController = appContext.getHistoryController(this);
         initComponents();
     }
 
@@ -67,8 +71,14 @@ public class HistoryPanel extends javax.swing.JPanel {
     public void setjLabel5(JLabel jLabel5) {
         this.jLabel5 = jLabel5;
     }
-    
-    
+
+    public MusicsPopUp getMusicsPopUp() {
+        return musicsPopUp;
+    }
+
+    public void setMusicsPopUp(MusicsPopUp musicsPopUp) {
+        this.musicsPopUp = musicsPopUp;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -175,15 +185,8 @@ public class HistoryPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_deslikesActionPerformed
 
     private void bt_top10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_top10MouseClicked
-        // TODO add your handling code here:
-        
-//        if(evt.isPopupTrigger()){
-//            jPopupMenu1.show(this, 300, 400);
-//            jPopupMenu1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-//            jPopupMenu1.setForeground(new java.awt.Color(250, 250, 250));
-//            jPopupMenu1.setToolTipText("Ultimas 10 músicas pesquisadas!");
-//        }
-    }//GEN-LAST:event_bt_top10MouseClicked
+
+    }
 
     private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_curtidasActionPerformed
         // TODO add your handling code here:
@@ -192,8 +195,9 @@ public class HistoryPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_curtidasActionPerformed
 
     private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {
-        Top10PopUp top10 = new Top10PopUp(mainframe, true);
-        top10.setVisible(true);
+//        Top10PopUp top10 = new Top10PopUp(mainframe, true);
+//        top10.setVisible(true);
+        historyController.showUserMostSearchedMusics();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

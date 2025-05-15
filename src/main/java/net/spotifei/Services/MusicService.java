@@ -20,6 +20,7 @@ import java.util.List;
 
 import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.convertMP3FileToOpusBytes;
 import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.getMP3DurationInMicrosseconds;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class MusicService {
 
@@ -291,6 +292,25 @@ public class MusicService {
 
             return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
 
+        } catch (Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<List<Music>> getUserMostSearchedMusics(int userId, int showAmount){
+        try{
+            if (userId <= 0 || showAmount <= 0){
+                return ResponseHelper.GenerateBadResponse("Os valores userId e showAmount devem ser >= 0 !");
+            }
+
+            List<Music> musics = musicRepository.getUserMostSearchedMusics(userId, showAmount);
+
+            for( Music music : musics){
+                List<Artist> artist = artistRepository.getArtistsByMusicId(music.getIdMusica());
+                music.setAutores(artist);
+            }
+
+            return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }

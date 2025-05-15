@@ -93,6 +93,34 @@ public class MusicRepository {
         }
     }
 
+    public void saveUserSearch(int userId, String searchTerm) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("searchTerm", searchTerm);
+
+            String sql = jdbcRepository.getQueryNamed("InsertMusicSearchHistory");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    public List<Music> getUserMostSearchedMusics(int userId, int showAmount) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("limit", showAmount);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserMostSearchedMusics");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+
+            return musics;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     public List<Music> getMostLikedMusics() throws Exception{
         try{
             String sql = jdbcRepository.getQueryNamed("GetMostLikedMusics");

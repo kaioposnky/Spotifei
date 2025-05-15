@@ -36,6 +36,7 @@ public class AppContext {
     private final UserService userService;
     private final PlaylistService playlistService;
 
+
     private Person personContext;
     private Music musicContext;
 
@@ -55,6 +56,7 @@ public class AppContext {
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
         this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository, this.authService);
         this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.genreRepository);
+
     }
 
     /**
@@ -118,6 +120,10 @@ public class AppContext {
         return new PlaylistController(view, this.playlistService, this);
     }
 
+    public HistoryController getHistoryController(JPanel view){
+        return new HistoryController(this, this.musicService, view);
+    }
+
     public MusicService getMusicService() {
         return musicService;
     }
@@ -146,6 +152,5 @@ public class AppContext {
     public void setMusicContext(Music musicContext) {
         this.musicContext = musicContext;
     }
-
 
 }

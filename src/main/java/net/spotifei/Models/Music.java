@@ -10,6 +10,7 @@ public class Music {
     private int idMusica;
     private long likes;
     private long dislikes;
+    private long vezesTocada;
     private Boolean gostou;
     private String artistsNames; // maneira forçada de colocar os nomes dos artistas, para não precisar encher de objetos artistas
 
@@ -121,5 +122,13 @@ public class Music {
                 ", artistsNames='" + artistsNames + '\'' +
                 ", autores=" + autores +
                 '}';
+    }
+
+    public long getVezesTocada() {
+        return vezesTocada;
+    }
+
+    public void setVezesTocada(long vezesTocada) {
+        this.vezesTocada = vezesTocada;
     }
 }
