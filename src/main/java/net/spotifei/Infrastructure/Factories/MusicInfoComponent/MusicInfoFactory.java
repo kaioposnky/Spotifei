@@ -19,9 +19,11 @@ public abstract class MusicInfoFactory {
     private Music music;
     private final AppContext appContext;
     private final MainFrame mainframe;
-    private MusicController musicController;
+    private final MusicController musicController;
 
     protected MusicInfoFactory(AppContext appContext, MainFrame mainframe){
+        // a view pode ser nula porque a única coisa que será feita é tocar a música, para isso não precisa de uma view
+        this.musicController = appContext.getMusicController(null, mainframe);
         this.appContext = appContext;
         this.mainframe = mainframe;
     }
@@ -29,8 +31,10 @@ public abstract class MusicInfoFactory {
     protected JPanel getSearchMusicInfoPanel(){
         JPanel basePanel = createContainerPanel();
 
+        basePanel.add(createMusicGenrePanel());
+        basePanel.add(Box.createHorizontalStrut(50));
         basePanel.add(createMusicFeedbackPanel());
-        basePanel.add(Box.createHorizontalStrut(20));
+        basePanel.add(Box.createHorizontalStrut(50));
         basePanel.add(createMusicPlayButtonPanel());
 
         basePanel.add(Box.createHorizontalStrut(20));
@@ -52,9 +56,6 @@ public abstract class MusicInfoFactory {
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
-
-        this.musicController = appContext.getMusicController(mainPanel, mainframe);
-
         return mainPanel;
     }
 
@@ -68,9 +69,6 @@ public abstract class MusicInfoFactory {
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
-
-        this.musicController = appContext.getMusicController(mainPanel, mainframe);
-
         return mainPanel;
     }
 
@@ -182,6 +180,20 @@ public abstract class MusicInfoFactory {
         playCountPanel.add(viewCount);
 
         return playCountPanel;
+    }
+
+    private JPanel createMusicGenrePanel(){
+        JPanel genrePanel = new JPanel();
+        genrePanel.setLayout(new BoxLayout(genrePanel, BoxLayout.X_AXIS));
+        genrePanel.setOpaque(false);
+
+        JLabel genreLabel = new JLabel(music.getGenre().getName());
+        genreLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        genreLabel.setForeground(Color.decode("#aeaeae"));
+
+        genrePanel.add(genreLabel);
+
+        return genrePanel;
     }
 
     private String getMusicTimeTotal(){

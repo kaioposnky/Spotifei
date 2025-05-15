@@ -64,6 +64,7 @@ public class MusicService {
             }
 
             putAuthorsIntoMusic(music);
+            putGenreIntoMusic(music);
 
             return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception e){
@@ -235,6 +236,8 @@ public class MusicService {
             }
 
             Music music = musicRepository.getUserLastPlayedMusic(userId);
+            putAuthorsIntoMusic(music);
+            putGenreIntoMusic(music);
 
             // se retornar nulo é pq nn tem nenhuma música registrada
             if(music == null){
@@ -280,7 +283,9 @@ public class MusicService {
                 return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
             }
 
-//            musicRepository.saveUserSearch(userId, searchTerm); // já salva a música pesquisada quando o usuário busca
+            for(Music music : musics){
+                putGenreIntoMusic(music);
+            }
 
             return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
 
@@ -380,5 +385,13 @@ public class MusicService {
             throw new IllegalStateException("Não há artistas para a música ou os artistas são nulos!");
         }
         music.setAutores(artists);
+    }
+
+    private void putGenreIntoMusic(Music music) throws Exception{
+        Genre genre = genreRepository.getGenreByMusicId(music.getIdMusica());
+        if (genre == null){
+            throw new IllegalStateException("Não há gênero musical para essa música!");
+        }
+        music.setGenre(genre);
     }
 }

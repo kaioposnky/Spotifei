@@ -25,6 +25,14 @@
         FROM genero
         ORDER BY nome ASC;
     </query>
+    <query name="GetGenreByMusicId">
+        SELECT
+        g.nome AS name,
+        g.id_genero AS idGenre
+        FROM genero g
+        LEFT JOIN musica m ON m.id_genero = g.id_genero
+        WHERE m.id_musica = @idMusic
+    </query>
 
     <query name="UpdateGenre">
         UPDATE genero

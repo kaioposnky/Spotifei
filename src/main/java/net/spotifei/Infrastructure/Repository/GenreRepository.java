@@ -90,4 +90,18 @@ public class GenreRepository {
             throw e;
         }
     }
+
+    public Genre getGenreByMusicId(int musicId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idMusic", musicId);
+
+            String sql = jdbcRepository.getQueryNamed("GetGenreByMusicId");
+            Genre genre = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Genre.class));
+
+            return genre;
+        } catch (Exception ex){
+            throw ex;
+        }
+    }
 }
