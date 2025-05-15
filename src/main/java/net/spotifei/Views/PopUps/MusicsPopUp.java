@@ -14,10 +14,8 @@ public class MusicsPopUp extends JDialog {
     private final MusicListComponent musicListComponent;
     private final String title;
 
-    public MusicsPopUp(AppContext appContext, MainFrame mainFrame, String title, List<Music> musics){
+    public MusicsPopUp(AppContext appContext, MainFrame mainFrame, String title, List<Music> musics, MusicInfoPanelBuilder panelBuilder){
         super(mainFrame, true);
-        MusicInfoPanelBuilder panelBuilder = appContext.getMusicInfoPanelBuilder(mainFrame);
-        panelBuilder.selectHistoryMusicInfoPanel();
         musicListComponent = new MusicListComponent(
                 appContext, mainFrame, musics, panelBuilder);
         this.title = title;

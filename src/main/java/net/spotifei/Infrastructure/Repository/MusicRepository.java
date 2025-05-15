@@ -167,6 +167,36 @@ public class MusicRepository {
         }
     }
 
+    public List<Music> getUserLikedMusics(int userId, int limit) throws Exception{
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("limit", limit);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserLikedMusics");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+
+            return musics;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    public List<Music> getUserDislikedMusics(int userId, int limit) throws Exception{
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("limit", limit);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserDislikedMusics");
+            List<Music> musics = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+
+            return musics;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     public Music getMusicById(int musicId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();

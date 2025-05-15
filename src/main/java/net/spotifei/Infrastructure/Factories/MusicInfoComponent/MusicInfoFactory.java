@@ -37,12 +37,10 @@ public abstract class MusicInfoFactory {
         basePanel.add(createMusicTimePanel());
         basePanel.add(Box.createHorizontalStrut(20));
 
-//        musicPanel.add(basePanel);
-
         return basePanel;
     }
 
-    protected JPanel getHistoryMusicInfoPanel(){
+    protected JPanel getMostViewedMusicInfoPanel(){
 
         JPanel mainPanel = createContainerPanel();
 
@@ -50,6 +48,22 @@ public abstract class MusicInfoFactory {
         mainPanel.add(Box.createHorizontalStrut(50));
         mainPanel.add(createPlayCountPanel());
         mainPanel.add(Box.createHorizontalStrut(40));
+        mainPanel.add(createMusicTimePanel());
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        addHoverListeners(mainPanel);
+
+        this.musicController = appContext.getMusicController(mainPanel, mainframe);
+
+        return mainPanel;
+    }
+
+    protected JPanel getUserLikedOrDislikedMusicInfoPanel(){
+
+        JPanel mainPanel = createContainerPanel();
+
+        mainPanel.add(createMusicFeedbackPanel());
+        mainPanel.add(Box.createHorizontalStrut(50));
         mainPanel.add(createMusicTimePanel());
         mainPanel.add(Box.createHorizontalStrut(20));
 

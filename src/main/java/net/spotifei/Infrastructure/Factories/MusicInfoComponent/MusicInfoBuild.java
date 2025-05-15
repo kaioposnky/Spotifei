@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public interface MusicInfoBuild {
     void selectSearchMusicInfoPanel();
-    void selectHistoryMusicInfoPanel();
+    void selectMostPlayedMusicInfoPanel();
+    void selectLikedOrDislikedMusicInfoPanel();
     JPanel buildPanel(Music music);
 }

@@ -61,7 +61,7 @@ public class MainFrame extends JFrame{
         add(cards);
 
         setIconImage(loadImageIcon("spotifeiIcon.png").getImage());
-        setMinimumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 400));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBackground(Color.DARK_GRAY);
         pack(); // tem que estar antes do setLocationRelativeTo

@@ -63,11 +63,7 @@ public class MusicService {
                 return ResponseHelper.GenerateBadResponse("A música retornada foi nula!");
             }
 
-            List<Artist> artists = artistRepository.getArtistsByMusicId(musicId);
-            if (artists == null || artists.isEmpty()){
-                return ResponseHelper.GenerateBadResponse("Os artistas da música retornados foram nulos!");
-            }
-            music.setAutores(artists);
+            putAuthorsIntoMusic(music);
 
             return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception e){
@@ -341,5 +337,48 @@ public class MusicService {
         } catch(Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
+    }
+
+    public Response<List<Music>> getUserLikedMusics(int userId, int limit){
+        try{
+            if(userId <= 0 || limit <= 0){
+                return ResponseHelper.GenerateBadResponse("O id do usuário e o limite devem ser >= 0!");
+            }
+
+            List<Music> musics = musicRepository.getUserLikedMusics(userId, limit);
+            for(Music music : musics){
+                putAuthorsIntoMusic(music);
+            }
+            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<List<Music>> getUserDislikedMusics(int userId, int limit){
+        try{
+            if(userId <= 0 || limit <= 0){
+                return ResponseHelper.GenerateBadResponse("O id do usuário e o limite devem ser >= 0!");
+            }
+
+            List<Music> musics = musicRepository.getUserDislikedMusics(userId, limit);
+            for(Music music : musics){
+                putAuthorsIntoMusic(music);
+            }
+
+            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    private void putAuthorsIntoMusic(Music music) throws Exception{
+        List<Artist> artists = artistRepository.getArtistsByMusicId(music.getIdMusica());
+        if (artists == null || artists.isEmpty()){
+            throw new IllegalStateException("Não há artistas para a música ou os artistas são nulos!");
+        }
+        music.setAutores(artists);
     }
 }

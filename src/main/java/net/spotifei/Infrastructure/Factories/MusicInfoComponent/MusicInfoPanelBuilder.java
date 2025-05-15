@@ -10,7 +10,8 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
 
     private enum PanelType {
         SEARCH,
-        HISTORY
+        MOSTPLAYED,
+        LIKEDORDISLIKED
     }
     private PanelType panelType;
 
@@ -24,9 +25,12 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
     }
 
     @Override
-    public void selectHistoryMusicInfoPanel() {
-        this.panelType = PanelType.HISTORY;
+    public void selectMostPlayedMusicInfoPanel() {
+        this.panelType = PanelType.MOSTPLAYED;
     }
+
+    @Override
+    public void selectLikedOrDislikedMusicInfoPanel(){this.panelType = PanelType.LIKEDORDISLIKED;}
 
     @Override
     public JPanel buildPanel(Music music){
@@ -38,8 +42,11 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
             case SEARCH -> {
                 return getSearchMusicInfoPanel();
             }
-            case HISTORY -> {
-                return getHistoryMusicInfoPanel();
+            case MOSTPLAYED -> {
+                return getMostViewedMusicInfoPanel();
+            }
+            case LIKEDORDISLIKED -> {
+                return getUserLikedOrDislikedMusicInfoPanel();
             }
             default -> throw new IllegalStateException("Valor inesperado: " + panelType);
         }

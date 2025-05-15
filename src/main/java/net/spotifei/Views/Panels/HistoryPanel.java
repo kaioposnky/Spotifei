@@ -109,11 +109,6 @@ public class HistoryPanel extends javax.swing.JPanel {
 
         bt_top10.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         bt_top10.setText("TOP 10 ");
-        bt_top10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_top10MouseClicked(evt);
-            }
-        });
         bt_top10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_top10ActionPerformed(evt);
@@ -183,18 +178,12 @@ public class HistoryPanel extends javax.swing.JPanel {
 
     private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_deslikesActionPerformed
         // TODO add your handling code here:
-        DeslikedPopUp deslike = new DeslikedPopUp(mainframe, true);
-        deslike.setVisible(true);
+        historyController.showUserDislikedMusics();
     }//GEN-LAST:event_bt_deslikesActionPerformed
-
-    private void bt_top10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_top10MouseClicked
-
-    }
 
     private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_curtidasActionPerformed
         // TODO add your handling code here:
-        LikedPopUp curtidas = new LikedPopUp(mainframe, true);
-        curtidas.setVisible(true);
+        historyController.showUserLikedMusics();
     }//GEN-LAST:event_bt_curtidasActionPerformed
 
     private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {

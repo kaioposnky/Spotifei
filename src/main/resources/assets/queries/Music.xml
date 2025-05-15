@@ -76,6 +76,34 @@
         ORDER BY RANDOM()
         LIMIT 1;
     </query>
+    <query name="GetUserLikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE au.id_usuario = @idUser
+        AND au.gostou = TRUE
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
+    </query>
+    <query name="GetUserDislikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE au.id_usuario = @idUser
+        AND au.gostou = FALSE
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
+    </query>
 
     <query name="GetUserPreviousMusic">
         SELECT
