@@ -193,6 +193,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
                 boolean wasPlaying = isPlaying;
                 isPlaying = false;
                 stopProgressUpdateThread();
+                notifyOnMusicUpdate(clip.getMicrosecondLength(), clip.getMicrosecondLength() + 1);
                 if (wasPlaying) {
                     notifyEndOfMusic();
                 }

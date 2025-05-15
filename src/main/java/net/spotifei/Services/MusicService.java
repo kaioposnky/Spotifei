@@ -287,6 +287,8 @@ public class MusicService {
                 return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
             }
 
+            musicRepository.saveUserSearch(userId, searchTerm); // já salva a música pesquisada quando o usuário busca
+
             return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
 
         } catch (Exception ex){

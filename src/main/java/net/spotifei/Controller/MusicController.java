@@ -21,12 +21,14 @@ public class MusicController implements AudioUpdateListener {
     private final MusicService musicServices;
     private final MainFrame mainFrame;
     private final AppContext appContext;
+    private JDialog waitDialog;
 
     public MusicController(JPanel view, MainFrame mainFrame, MusicService musicServices, AppContext appContext) {
         this.view = view;
         this.musicServices = musicServices;
         this.mainFrame = mainFrame;
         this.appContext = appContext;
+        appContext.getAudioPlayerWorker().addListener(this);
     }
 
     public void playUserNextMusic(){
@@ -51,10 +53,7 @@ public class MusicController implements AudioUpdateListener {
 
         Music music = responseMusica.getData();
         appContext.setMusicContext(music);
-        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
-                appContext.getPersonContext().getIdUsuario());
-
-        if(handleDefaultResponseIfError(responsePlay)) return;
+        playMusicInBackground(music);
 
         logDebug("Tocando agora: " + music.getNome());
     }
@@ -64,14 +63,21 @@ public class MusicController implements AudioUpdateListener {
      * @param musicId Id da música a ser tocada
      */
     public void playMusicById(int musicId) {
+        waitDialog = new JDialog();
+        JLabel messageLabel = new JLabel("Estamos preparando sua música para tocar...");
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        waitDialog.add(messageLabel);
+        waitDialog.pack();
+        waitDialog.setLocationRelativeTo(view);
+        waitDialog.setModal(false);
+        waitDialog.setVisible(true);
         Response<Music> responseMusica = musicServices.getMusicById(musicId);
         if(handleDefaultResponseIfError(responseMusica)) return;
-
         Music music = responseMusica.getData();
         appContext.setMusicContext(music);
-        Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
-                appContext.getPersonContext().getIdUsuario());
-        if(handleDefaultResponseIfError(responsePlay)) return;
+
+        playMusicInBackground(music);
 
         logDebug("Tocando agora: " + music.getNome());
     }
@@ -146,15 +152,15 @@ public class MusicController implements AudioUpdateListener {
 
     @Override
     public void onSelectMusic(Music music) {
-        if(musicServices.isNewMusicSelected() && music != null
-        && musicServices.getNewMusicSelectedId() == music.getIdMusica()){
+        if(musicServices.isNewMusicSelected() && musicServices.getNewMusicSelectedId() == music.getIdMusica()){
             musicServices.setNewMusicSelected(false);
             musicServices.setNewMusicSelectedId(0);
-        }
-        if (music != null) {
+
             appContext.setMusicContext(music);
             handleSaveMusicToHistory(music);
+            logDebug("Música" + music.getNome() + " salva ao histórico com sucesso!");
         }
+
     }
 
     /**
@@ -186,5 +192,23 @@ public class MusicController implements AudioUpdateListener {
         musicServices.setNewMusicSelectedId(0);
         musicServices.setNewMusicSelected(false);
 //        playUserNextMusic();
+    }
+
+    private void playMusicInBackground(Music music){
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),
+                        appContext.getPersonContext().getIdUsuario());
+                handleDefaultResponseIfError(responsePlay);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                waitDialog.dispose();
+            }
+        };
+        backgroundWorker.execute();
     }
 }
