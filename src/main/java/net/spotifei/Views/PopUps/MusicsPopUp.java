@@ -1,6 +1,7 @@
 package net.spotifei.Views.PopUps;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
@@ -15,8 +16,10 @@ public class MusicsPopUp extends JDialog {
 
     public MusicsPopUp(AppContext appContext, MainFrame mainFrame, String title, List<Music> musics){
         super(mainFrame, true);
+        MusicInfoPanelBuilder panelBuilder = appContext.getMusicInfoPanelBuilder(mainFrame);
+        panelBuilder.selectHistoryMusicInfoPanel();
         musicListComponent = new MusicListComponent(
-                appContext, mainFrame, musics, null);
+                appContext, mainFrame, musics, panelBuilder);
         this.title = title;
 
         initComponents();

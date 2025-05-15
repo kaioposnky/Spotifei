@@ -1,6 +1,7 @@
 package net.spotifei.Views.Components;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
 import net.spotifei.Views.MainFrame;
 
@@ -11,25 +12,16 @@ import java.util.List;
 
 public class MusicListComponent extends JPanel {
     private List<Music> musics = new ArrayList<>();
-    private final boolean showLikeDislikeButtons;
-    private final boolean showPlayButton;
     private JPanel musicsInfoPanel;
-    private final AppContext appContext;
-    private final MainFrame mainframe;
+    private final MusicInfoPanelBuilder panelBuilder;
 
-    public MusicListComponent(AppContext appContext, MainFrame mainframe, boolean showLikeDislikeButtons, boolean showPlayButton){
-        this.showLikeDislikeButtons = showLikeDislikeButtons;
-        this.showPlayButton = showPlayButton;
-        this.appContext = appContext;
-        this.mainframe = mainframe;
+    public MusicListComponent(AppContext appContext, MainFrame mainframe, MusicInfoPanelBuilder panelBuilder){
+        this.panelBuilder = panelBuilder;
         initComponents();
     }
 
-    public MusicListComponent(List<Music> musics, AppContext appContext, MainFrame mainframe, boolean showLikeDislikeButtons, boolean showPlayButton){
-        this.showLikeDislikeButtons = showLikeDislikeButtons;
-        this.showPlayButton = showPlayButton;
-        this.appContext = appContext;
-        this.mainframe = mainframe;
+    public MusicListComponent(AppContext appContext, MainFrame mainframe, List<Music> musics, MusicInfoPanelBuilder panelBuilder){
+        this.panelBuilder = panelBuilder;
         initComponents();
         setMusics(musics);
     }
@@ -60,10 +52,11 @@ public class MusicListComponent extends JPanel {
             JLabel label = new JLabel("Nenhuma música encontrada!");
             label.setFont(new Font("Arial", Font.BOLD, 14));
             label.setForeground(Color.decode("#aeaeae"));
+            label.setHorizontalAlignment(JLabel.CENTER);
             musicsInfoPanel.add(label);
         } else{
             for (Music music : musics) {
-                musicsInfoPanel.add(new MusicInfoComponent(music, appContext, mainframe, showLikeDislikeButtons, showPlayButton));
+                musicsInfoPanel.add(panelBuilder.buildPanel(music));
             }
         }
     }

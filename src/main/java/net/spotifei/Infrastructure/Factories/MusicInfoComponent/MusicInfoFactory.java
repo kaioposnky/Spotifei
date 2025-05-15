@@ -1,8 +1,9 @@
-package net.spotifei.Views.Components;
+package net.spotifei.Infrastructure.Factories.MusicInfoComponent;
 
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
+import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
@@ -13,51 +14,69 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
-public class MusicInfoComponent extends JPanel{
-    private final Music music;
-    private final boolean enableFeedbackButtonsAction;
-    private final boolean showPlayButton;
-    private final JPanel boxPanel = new JPanel();
+public abstract class MusicInfoFactory {
+    private Music music;
     private final AppContext appContext;
     private final MainFrame mainframe;
-    private final MusicController musicController;
+    private MusicController musicController;
 
-    public MusicInfoComponent(Music music, AppContext appContext, MainFrame mainframe, boolean enableFeedbackButtonsAction, boolean showPlayButton){
-        this.music = music;
-        this.enableFeedbackButtonsAction = enableFeedbackButtonsAction;
+    protected MusicInfoFactory(AppContext appContext, MainFrame mainframe){
         this.appContext = appContext;
         this.mainframe = mainframe;
-        this.showPlayButton = showPlayButton;
-        this.musicController = appContext.getMusicController(this, mainframe);
-        initComponents();
     }
 
-    private void initComponents(){
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setBackground(Color.decode("#121212"));
-        setOpaque(true);
-        addHoverListeners();
+    protected JPanel getSearchMusicInfoPanel(){
+        JPanel basePanel = createContainerPanel();
 
-        boxPanel.setLayout(new BoxLayout(boxPanel, BoxLayout.X_AXIS));
-        boxPanel.setOpaque(false);
+        basePanel.add(createMusicFeedbackPanel());
+        basePanel.add(Box.createHorizontalStrut(20));
+        basePanel.add(createMusicPlayButtonPanel());
+
+        basePanel.add(Box.createHorizontalStrut(20));
+        basePanel.add(createMusicTimePanel());
+        basePanel.add(Box.createHorizontalStrut(20));
+
+//        musicPanel.add(basePanel);
+
+        return basePanel;
+    }
+
+    protected JPanel getHistoryMusicInfoPanel(){
+
+        JPanel mainPanel = createContainerPanel();
+
+        mainPanel.add(createMusicFeedbackPanel());
+        mainPanel.add(Box.createHorizontalStrut(50));
+        mainPanel.add(createPlayCountPanel());
+        mainPanel.add(Box.createHorizontalStrut(40));
+        mainPanel.add(createMusicTimePanel());
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        addHoverListeners(mainPanel);
+
+        this.musicController = appContext.getMusicController(mainPanel, mainframe);
+
+        return mainPanel;
+    }
+
+    private JPanel createContainerPanel(){
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
+        containerPanel.setBackground(Color.decode("#121212"));
+        containerPanel.setOpaque(true);
 
         Border borderLine = new MatteBorder(0, 0, 1, 0, new Color(50, 50, 50));
         Border borderInside = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
-        boxPanel.setBorder(BorderFactory.createCompoundBorder(borderLine, borderInside));
+        containerPanel.setBorder(BorderFactory.createCompoundBorder(borderLine, borderInside));
 
-        boxPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        containerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
-        boxPanel.add(getMusicInfoPanel());
-        boxPanel.add(Box.createHorizontalGlue()); // joga os proximos elementos pra direita
-        boxPanel.add(createMusicPlayButtonPanel());
-        boxPanel.add(Box.createHorizontalStrut(20));
-        boxPanel.add(createMusicTimePanel());
+        containerPanel.add(getMusicInfoPanel());
+        containerPanel.add(Box.createHorizontalGlue()); // joga os proximos elementos pra direita
 
-        setAlignmentY(Component.CENTER_ALIGNMENT);
-        this.add(boxPanel);
+        return containerPanel;
     }
 
     private JPanel getMusicInfoPanel() {
@@ -82,12 +101,6 @@ public class MusicInfoComponent extends JPanel{
 
         musicInfoPanel.add(infoWrapperPanel);
         musicInfoPanel.add(Box.createHorizontalStrut(40));
-
-        FeedBackComponent feedBackComponent = new
-                FeedBackComponent(appContext, mainframe, music, enableFeedbackButtonsAction);
-
-        musicInfoPanel.add(feedBackComponent);
-
 
         return musicInfoPanel;
     }
@@ -124,13 +137,37 @@ public class MusicInfoComponent extends JPanel{
         musicPlayButton.setFocusPainted(false);
         musicPlayButton.setContentAreaFilled(false);
         musicPlayButton.setOpaque(false);
-        musicPlayButton.addActionListener(event -> {handlePlayButton();});
+        musicPlayButton.addActionListener(event -> handlePlayButton());
 
-        if (showPlayButton){
-            musicPlayButtonPanel.add(musicPlayButton);
-        }
+        musicPlayButtonPanel.add(musicPlayButton);
 
         return musicPlayButtonPanel;
+    }
+
+    private JPanel createMusicFeedbackPanel(){
+        JPanel feedbackPanel = new JPanel();
+        feedbackPanel.setLayout(new BoxLayout(feedbackPanel, BoxLayout.X_AXIS));
+        feedbackPanel.setOpaque(false);
+
+        FeedBackComponent feedBackComponent = new
+                FeedBackComponent(appContext, mainframe, music);
+
+        feedbackPanel.add(feedBackComponent);
+        return feedbackPanel;
+    }
+
+    private JPanel createPlayCountPanel(){
+        JPanel playCountPanel = new JPanel();
+        playCountPanel.setLayout(new BoxLayout(playCountPanel, BoxLayout.X_AXIS));
+        playCountPanel.setOpaque(false);
+
+        JLabel viewCount = new JLabel(String.valueOf(music.getVezesTocada()) + " reproduções");
+        viewCount.setFont(new Font("Arial", Font.BOLD, 12));
+        viewCount.setForeground(Color.decode("#aeaeae"));
+
+        playCountPanel.add(viewCount);
+
+        return playCountPanel;
     }
 
     private String getMusicTimeTotal(){
@@ -145,23 +182,31 @@ public class MusicInfoComponent extends JPanel{
         musicController.playMusicById(music.getIdMusica());
     }
 
-    private void addHoverListeners(){
-        addActionListeners(new MouseAdapter() {
+    private void addHoverListeners(JPanel panel){
+        addActionListeners(panel, new MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                setBackground(new Color(35, 35, 35));
+                panel.setBackground(new Color(35, 35, 35)); // Cor ao passar o mouse
                 super.mouseEntered(evt);
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                setBackground(Color.decode("#121212"));
-                super.mouseEntered(evt);
+                panel.setBackground(Color.decode("#121212")); // Cor original ao sair
+                super.mouseExited(evt); // Corrigido para mouseExited
             }
         });
     }
 
-    private void addActionListeners(MouseAdapter mouseAdapterListeners){
-        this.addMouseListener(mouseAdapterListeners);
+    private void addActionListeners(JPanel panel, MouseAdapter mouseAdapterListeners){
+        panel.addMouseListener(mouseAdapterListeners);
     }
+
+    public void setMusic(Music music) {
+        if (music == null) {
+            return;
+        }
+        this.music = music;
+    }
+
 }

@@ -16,10 +16,11 @@ public class FeedBackComponent extends JPanel {
     private JLabel lblDisLikeNumber = null;
     private JLabel lblLikeNumber = null;
     private JButton btnDislike = null;
-    private JButton btnLike= null;
+    private JButton btnLike = null;
     private Boolean isMusicLiked = null;
     private final MusicController musicController;
     private Music music;
+    private boolean feedBackActionEnabled = true;
 
     public FeedBackComponent(AppContext appContext, MainFrame mainframe) {
         this.music = appContext.getMusicContext();
@@ -31,10 +32,20 @@ public class FeedBackComponent extends JPanel {
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
+
     public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music) {
         this.music = music;
         this.isMusicLiked = music.isGostou();
         this.musicController = appContext.getMusicController(this, mainframe);
+        this.feedBackActionEnabled = false;
+        initComponents();
+    }
+
+    public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music, boolean feedBackActionEnabled) {
+        this.music = music;
+        this.isMusicLiked = music.isGostou();
+        this.musicController = appContext.getMusicController(this, mainframe);
+        this.feedBackActionEnabled = feedBackActionEnabled;
         initComponents();
     }
 
@@ -48,13 +59,13 @@ public class FeedBackComponent extends JPanel {
         } else{
             btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
         }
-        btnLike.addActionListener(event -> {handleLikeMusic();});
         btnLike.setBorder(new EmptyBorder(0,0,0,5));
         btnLike.setFocusPainted(false);
         btnLike.setContentAreaFilled(false);
         btnLike.setOpaque(false);
 
-        lblLikeNumber = new JLabel("0");
+        String likes = music != null ? String.valueOf(music.getLikes()) : "0";
+        lblLikeNumber = new JLabel(likes);
         lblLikeNumber.setFont(new Font("Arial", Font.PLAIN, 14));
 
         btnDislike = new JButton();
@@ -63,13 +74,18 @@ public class FeedBackComponent extends JPanel {
         } else {
             btnDislike.setIcon(loadImageIcon("feedback/thumbsdown_empty.png", 20, 20));
         }
-        btnDislike.addActionListener(event -> {handleDislikeMusic();});
         btnDislike.setBorder(new EmptyBorder(0,0,0,5));
         btnDislike.setFocusPainted(false);
         btnDislike.setContentAreaFilled(false);
         btnDislike.setOpaque(false);
 
-        lblDisLikeNumber = new JLabel("0");
+        if (feedBackActionEnabled){
+            btnLike.addActionListener(event -> {handleLikeMusic();});
+            btnDislike.addActionListener(event -> {handleDislikeMusic();});
+        }
+
+        String dislikes = music != null ? String.valueOf(music.getDislikes()) : "0";
+        lblDisLikeNumber = new JLabel(dislikes);
         lblDisLikeNumber.setFont(new Font("Arial", Font.PLAIN, 14));
 
         this.add(btnLike);
@@ -182,7 +198,7 @@ public class FeedBackComponent extends JPanel {
         } else{
             btnLike.setIcon(loadImageIcon("feedback/thumbsup_empty.png", 20, 20));
         }
-        
+
         lblLikeNumber.setText(String.valueOf(music.getLikes()));
         lblDisLikeNumber.setText(String.valueOf(music.getDislikes()));
 

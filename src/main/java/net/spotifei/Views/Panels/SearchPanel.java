@@ -7,6 +7,7 @@ package net.spotifei.Views.Panels;
 import javax.swing.*;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
@@ -58,7 +59,9 @@ public class SearchPanel extends javax.swing.JPanel {
         btnPesquisar.setAlignmentX(CENTER_ALIGNMENT);
         btnPesquisar.addActionListener(this::bt_pesquisarActionPerformed);
 
-        musicListComponent = new MusicListComponent(appContext, mainframe, false, true);
+        MusicInfoPanelBuilder panelBuilder = appContext.getMusicInfoPanelBuilder(mainframe);
+        panelBuilder.selectSearchMusicInfoPanel();
+        musicListComponent = new MusicListComponent(appContext, mainframe, panelBuilder);
         musicListComponent.setBackground(new java.awt.Color(35, 35, 35));
         musicListComponent.setPreferredSize(new Dimension(800, 600));
         musicListComponent.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));

@@ -4,6 +4,7 @@ import net.spotifei.Controller.*;
 import net.spotifei.Infrastructure.AudioPlayer.AudioControls;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Infrastructure.Repository.*;
 import net.spotifei.Models.Music;
@@ -35,7 +36,6 @@ public class AppContext {
     private final AuthService authService;
     private final UserService userService;
     private final PlaylistService playlistService;
-
 
     private Person personContext;
     private Music musicContext;
@@ -122,6 +122,10 @@ public class AppContext {
 
     public HistoryController getHistoryController(JPanel view){
         return new HistoryController(this, this.musicService, view);
+    }
+
+    public MusicInfoPanelBuilder getMusicInfoPanelBuilder(MainFrame mainFrame) {
+        return new MusicInfoPanelBuilder(this, mainFrame);
     }
 
     public MusicService getMusicService() {
