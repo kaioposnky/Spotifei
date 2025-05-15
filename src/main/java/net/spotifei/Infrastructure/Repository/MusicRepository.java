@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -373,6 +374,19 @@ public class MusicRepository {
             List<Music> queue = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
             return queue;
         } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public List<Music> getMusicDeleted(int idMusic) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idMusic", idMusic);
+
+            String sql = jdbcRepository.getQueryNamed("DeletedMusicFromID");
+            List<Music> music = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
+            return music;
+        } catch(Exception e){
             throw e;
         }
     }

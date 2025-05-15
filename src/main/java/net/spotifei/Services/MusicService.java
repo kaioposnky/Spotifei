@@ -10,6 +10,7 @@ import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
+import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -283,7 +284,7 @@ public class MusicService {
                 return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
             }
 
-            musicRepository.saveUserSearch(userId, searchTerm); // já salva a música pesquisada quando o usuário busca
+//            musicRepository.saveUserSearch(userId, searchTerm); // já salva a música pesquisada quando o usuário busca
 
             return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
 
@@ -325,5 +326,20 @@ public class MusicService {
 
     public void setNewMusicSelectedId(int newMusicSelectedId) {
         this.newMusicSelectedId = newMusicSelectedId;
+    }
+
+    public Response<List<Music>> deletMusic(int idMusic){
+        try{
+            if(idMusic == 0){
+                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+            }
+            List<Music> music = musicRepository.getMusicDeleted(idMusic);
+            if(music == null || music.isEmpty()){
+                return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o ID digitado!");
+            }
+            return ResponseHelper.GenerateSuccessResponse("Música Deletada com sucesso!", music);
+        } catch(Exception ex){
+            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+        }
     }
 }

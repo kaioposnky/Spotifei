@@ -8,6 +8,8 @@ import net.spotifei.Models.Responses.SuccessResponse;
 
 import javax.swing.*;
 
+import java.util.List;
+
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class ResponseHelper {
@@ -54,4 +56,5 @@ public class ResponseHelper {
         }
         return false;
     }
+
 }

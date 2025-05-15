@@ -207,14 +207,19 @@ public class RegisterPanel extends javax.swing.JPanel {
         jLabel8.setText("Senha:");
 
         txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_nome_cadastro.setForeground(new java.awt.Color(0,0,0));
 
         txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_sob_cadastro.setForeground(new java.awt.Color(0,0,0));
 
         txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_telefone_cadastro.setForeground(new java.awt.Color(0,0,0));
 
         txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_email_cadastro.setForeground(new java.awt.Color(0,0,0));
 
         txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_senha_cadastro.setForeground(new java.awt.Color(0,0,0));
 
         bt_cadastrar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         bt_cadastrar.setForeground(new java.awt.Color(0, 255, 102));

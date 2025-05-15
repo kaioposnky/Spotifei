@@ -42,21 +42,23 @@
               <EmptySpace max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="147" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="bt_top10" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
                       <Component id="bt_curtidas" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                       <Component id="bt_deslikes" min="-2" pref="118" max="-2" attributes="0"/>
-                      <EmptySpace pref="131" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="bt_sair" min="-2" pref="123" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="323" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -73,7 +75,9 @@
                   <Component id="bt_top10" alignment="3" min="-2" pref="111" max="-2" attributes="0"/>
                   <Component id="bt_deslikes" alignment="3" min="-2" pref="111" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="284" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
+              <Component id="bt_sair" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="138" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

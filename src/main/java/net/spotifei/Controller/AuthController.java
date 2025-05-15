@@ -46,12 +46,23 @@ public class AuthController {
 
     public void createUser(){
         RegisterPanel registerPanel = (RegisterPanel) view;
+        String email = registerPanel.getTxt_email_cadastro().getText();
+        String nome = registerPanel.getTxt_nome_cadastro().getText();
+        String sobrenome = registerPanel.getTxt_sob_cadastro().getText();
+        String telefone = registerPanel.getTxt_telefone_cadastro().getText();
+        String senha = registerPanel.getTxt_senha_cadastro().getText();
+
+        if (email.isEmpty() || nome.isEmpty() || sobrenome.isEmpty() || telefone.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Todos os campos são obrigatórios!", "Erro de Cadastro",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         User user = new User();
-        user.setEmail(registerPanel.getTxt_email_cadastro().getText());
-        user.setNome(registerPanel.getTxt_nome_cadastro().getText());
-        user.setSobrenome(registerPanel.getTxt_sob_cadastro().getText());
-        user.setTelefone(registerPanel.getTxt_telefone_cadastro().getText());
-        user.setSenha(registerPanel.getTxt_senha_cadastro().getText());
+        user.setEmail(email);
+        user.setNome(nome);
+        user.setSobrenome(sobrenome);
+        user.setTelefone(telefone);
+        user.setSenha(senha);
         user.setIdUsuario(1);
 
         Response<Void> response = authService.createUser(user);
@@ -59,6 +70,6 @@ public class AuthController {
 
         logDebug("Usuário criado com sucesso!");
         registerPanel.getMainframe().setPanel(MainFrame.LOGIN_PANEL);
-    }
 
-}
+    }
+    }
