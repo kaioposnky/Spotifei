@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import net.spotifei.Controller.AdminController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
@@ -137,6 +138,11 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         bt_excluir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_excluir.setForeground(new java.awt.Color(0, 0, 0));
         bt_excluir.setText("EXCLUIR");
+        bt_excluir.addActionListener(new java.awt.event.ActionListener() {;
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_excluirActionPerformed(evt);
+            }
+        });
 
         txt_area_musicas.setColumns(20);
         txt_area_musicas.setRows(5);
@@ -215,6 +221,9 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_id_musicadelActionPerformed
 
+    private void bt_excluirActionPerformed(java.awt.event.ActionEvent evt){
+        appContext.getAdminController(this).deletMusic();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_excluir;
