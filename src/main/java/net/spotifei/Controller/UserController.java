@@ -61,22 +61,27 @@ public class UserController {
             mainFrame.setHUDVisible(true);
             mainFrame.setPanel(MainFrame.SEARCH_PANEL);
 
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            Response<Void> responsePlay = musicService.playMusic(music.getIdMusica(),
-                    appContext.getPersonContext().getIdUsuario());
-            if (!responsePlay.isSuccess()){
-                JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +
-                        "Selecione uma para começar!");
-            }
+            handlePlayMusicBackground(music);
 
             Response<Void> responsePause = musicService.pauseMusic();
             if(handleDefaultResponseIfError(responsePause)) return;
             logDebug("Música pausada com sucesso! :" + appContext.getAudioPlayerWorker().isPlaying());
         }
+    }
+
+    private void handlePlayMusicBackground(Music music){
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Response<Void> responsePlay = musicService.playMusic(music.getIdMusica(),
+                        appContext.getPersonContext().getIdUsuario());
+                if(handleDefaultResponseIfError(responsePlay)){
+                    JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +
+                            "Selecione uma para começar!");
+                }
+                return null;
+            }
+        };
+        backgroundWorker.execute();
     }
 }

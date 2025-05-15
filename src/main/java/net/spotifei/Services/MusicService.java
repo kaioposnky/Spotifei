@@ -241,12 +241,7 @@ public class MusicService {
 
             // se retornar nulo é pq nn tem nenhuma música registrada
             if(music == null){
-                music = new Music();
-                music.setDuracaoMs(100000000);
-                music.setNome("Selecione uma música para tocar!");
-                Artist artist = new Artist();
-                artist.setNome("Selecione uma música para tocar!");
-                music.setAutores(List.of(artist));
+                music = musicRepository.getRandomMusic();
             }
 
             return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);

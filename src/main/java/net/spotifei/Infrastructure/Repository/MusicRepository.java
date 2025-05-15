@@ -79,6 +79,17 @@ public class MusicRepository {
         }
     }
 
+    public Music getRandomMusic() throws Exception {
+        try{
+            String sql = jdbcRepository.getQueryNamed("GetRandomMusic");
+            Music music = jdbcRepository.queryProcedure(sql, new BeanHandler<>(Music.class));
+
+            return music;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     public byte[] getMusicAsByteArray(int musicId) throws Exception {
         try{
             ScalarHandler<byte[]> handler = new ScalarHandler<>();
