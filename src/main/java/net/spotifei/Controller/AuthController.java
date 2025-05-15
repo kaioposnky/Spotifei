@@ -53,7 +53,8 @@ public class AuthController {
         String senha = registerPanel.getTxt_senha_cadastro().getText();
 
         if (email.isEmpty() || nome.isEmpty() || sobrenome.isEmpty() || telefone.isEmpty() || senha.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Todos os campos são obrigatórios!", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Todos os campos são obrigatórios!", "Erro de Cadastro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         User user = new User();

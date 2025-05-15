@@ -63,31 +63,28 @@ public class AdminController {
 
     public void registerArtist(){
         ADMCadArtistPanel cadArtistPanel = (ADMCadArtistPanel) view;
+        String email = cadArtistPanel.getTxt_email_cadastro().getText();
+        String nome = cadArtistPanel.getTxt_nome_cadastro().getText();
+        String sobrenome = cadArtistPanel.getTxt_sob_cadastro().getText();
+        String telefone = cadArtistPanel.getTxt_telefone_cadastro().getText();
+        String senha = cadArtistPanel.getTxt_senha_cadastro().getText();
+        String nomeArtistico = cadArtistPanel.getTxt_nome_artistico().getText();
+
+        if (email.isEmpty() || nome.isEmpty() || sobrenome.isEmpty() ||
+                telefone.isEmpty() || senha.isEmpty() || nomeArtistico.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Todos os campos são obrigatórios!", "Erro de Cadastro",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Artist newArtist = new Artist();
         newArtist.setNome(cadArtistPanel.getTxt_nome_cadastro().getText());
-        if (newArtist.getNome() == null || newArtist.getNome().isEmpty()){
-            createJDialog("Você deve incluir o nome do artista!");
-        }
-        newArtist.setEmail(cadArtistPanel.getTxt_email_cadastro().getText());
-        if (newArtist.getEmail() == null || newArtist.getEmail().isEmpty()){
-            createJDialog("Você deve incluir o email do artista");
-        }
-        newArtist.setSenha(cadArtistPanel.getTxt_senha_cadastro().getText());
-        if (newArtist.getSenha() == null || newArtist.getSenha().isEmpty()){
-            createJDialog("Você deve incluir a senha do artista!");
-        }
-        newArtist.setTelefone(cadArtistPanel.getTxt_telefone_cadastro().getText());
-        if(newArtist.getTelefone() == null || newArtist.getTelefone().isEmpty()){
-            createJDialog("Você deve incluir o telefone do artista!");
-        }
-        newArtist.setSobrenome(cadArtistPanel.getTxt_sob_cadastro().getText());
-        if (newArtist.getSobrenome() == null || newArtist.getSobrenome().isEmpty()){
-            createJDialog("Você deve incluir o sobrenome do artista!");
-        }
-        newArtist.setNomeArtistico(cadArtistPanel.getTxt_nome_artistico().getText());
-        if (newArtist.getNomeArtistico() == null || newArtist.getNomeArtistico().isEmpty()){
-            createJDialog("Você deve incluir o nome artístico do artista!");
-        }
+
+        newArtist.setEmail(email);
+        newArtist.setSenha(senha);
+        newArtist.setTelefone(telefone);
+        newArtist.setSobrenome(sobrenome);
+        newArtist.setNomeArtistico(nomeArtistico);
+
 
         Response<Void> response = userService.createArtist(newArtist);
         if(handleDefaultResponseIfError(response)) return;
