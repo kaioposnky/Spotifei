@@ -230,4 +230,6 @@ public class ADMSistemaPanel extends javax.swing.JPanel {
         return mainframe;
     }
 
+
+
 }

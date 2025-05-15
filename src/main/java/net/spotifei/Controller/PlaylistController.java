@@ -29,12 +29,17 @@ public class PlaylistController {
     public void createPlaylist(){
         int userId = appContext.getPersonContext().getIdUsuario();
         String nome = ((PlaylistPanel)view).getTxt_criar().getText();
+        if(nome.isEmpty()){
+            JOptionPane.showMessageDialog(view, "Não é possível criar Playlist sem nome!", "Erro de Criação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Playlist playlist = new Playlist();
         playlist.setNome(nome);
         Response<Void> response = playlistService.createPlaylist(playlist, userId);
         if(handleDefaultResponseIfError(response)) return;
 
         logDebug("Playlist com nome" + nome + " criada com sucesso!");
+
     }
 
     public void getUserPlaylists(){
