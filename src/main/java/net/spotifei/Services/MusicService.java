@@ -244,6 +244,9 @@ public class MusicService {
                 music = musicRepository.getRandomMusic();
             }
 
+            putAuthorsIntoMusic(music);
+            putGenreIntoMusic(music);
+
             return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception ex){
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
