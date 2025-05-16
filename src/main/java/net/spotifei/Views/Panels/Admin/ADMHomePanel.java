@@ -7,7 +7,6 @@ package net.spotifei.Views.Panels.Admin;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import com.sun.tools.javac.Main;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
@@ -225,7 +224,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
 
     private void bt_sistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_sistemaActionPerformed
         // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.ADMSISTEMA_PANEL);
+        mainframe.setPanel(MainFrame.ADMESTATISTICS_PANEL);
     }//GEN-LAST:event_bt_sistemaActionPerformed
 
     private void bt_consulta_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_consulta_usuarioActionPerformed

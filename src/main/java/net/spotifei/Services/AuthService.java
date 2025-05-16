@@ -20,17 +20,17 @@ public class AuthService {
         try{
             User user = personRepository.getUsuarioByEmail(email);
             if (user == null){
-                return ResponseHelper.GenerateBadResponse("Usuário não encontrado!");
+                return ResponseHelper.generateBadResponse("Usuário não encontrado!");
             }
 
             // Retorna se a senha encriptada era igual à senha inserida
             boolean passwordMatch = validatePassword(senha, user.getSenha());
 
-            return ResponseHelper.GenerateSuccessResponse(
+            return ResponseHelper.generateSuccessResponse(
                     "Usuário validado com sucesso!",
                     passwordMatch);
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
@@ -41,9 +41,9 @@ public class AuthService {
 
             personRepository.createUser(user);
 
-            return ResponseHelper.GenerateSuccessResponse("Usuário criado com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Usuário criado com sucesso!");
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 

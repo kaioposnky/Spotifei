@@ -4,8 +4,6 @@ package net.spotifei.Views.Panels.Admin;
 import javax.swing.*;
 
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Models.Playlist;
-import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.MainFrame;
 
 import java.awt.*;
@@ -75,7 +73,7 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
     }
 
     private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {
-        appContext.getAdminController(this).ConstUser();
+        appContext.getAdminController(this).constUser();
 
     }
 

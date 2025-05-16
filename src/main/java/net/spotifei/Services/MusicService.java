@@ -10,8 +10,6 @@ import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 
-import javax.swing.*;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -19,9 +17,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.convertMP3FileToOpusBytes;
 import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.getMP3DurationInMicrosseconds;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class MusicService {
 
@@ -45,12 +41,12 @@ public class MusicService {
             Music music = musicRepository.getNextMusicOnUserQueue(userId);
 
             if(music == null){
-                return ResponseHelper.GenerateBadResponse("A música retornada foi nula!");
+                return ResponseHelper.generateBadResponse("A música retornada foi nula!");
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
+            return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse("Ocorreu um erro ao tentar" +
+            return ResponseHelper.generateErrorResponse("Ocorreu um erro ao tentar" +
                     "tocar uma música!", e);
         }
     }
@@ -60,22 +56,22 @@ public class MusicService {
             Music music = musicRepository.getMusicById(musicId);
 
             if (music == null){
-                return ResponseHelper.GenerateBadResponse("A música retornada foi nula!");
+                return ResponseHelper.generateBadResponse("A música retornada foi nula!");
             }
 
             putAuthorsIntoMusic(music);
             putGenreIntoMusic(music);
 
-            return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
+            return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse("Erro ao obter música!", e);
+            return ResponseHelper.generateErrorResponse("Erro ao obter música!", e);
         }
     }
 
     public Response<Void> playMusic(int musicId, int userId){
         try{
             if(userId == 0 || musicId == 0){
-                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+                return ResponseHelper.generateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
             }
 
             Music music = musicRepository.getMusicById(musicId);
@@ -84,7 +80,7 @@ public class MusicService {
             byte[] musicAudio = musicRepository.getMusicAsByteArray(musicId);
 
             if(musicAudio == null){
-                return ResponseHelper.GenerateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
+                return ResponseHelper.generateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
             }
 
             music.setAutores(artists);
@@ -96,9 +92,9 @@ public class MusicService {
             audioPlayerWorker.playMusic(musicAudio);
             audioPlayerWorker.selectMusic(music); // atualiza o UI
 
-            return ResponseHelper.GenerateSuccessResponse("Música iniciada com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Música iniciada com sucesso!");
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse("Ocorreu um erro ao tentar" +
+            return ResponseHelper.generateErrorResponse("Ocorreu um erro ao tentar" +
                     "tocar uma música!", e);
         }
     }
@@ -107,22 +103,22 @@ public class MusicService {
         try{
 
             if(userId == 0 || musicId == 0){
-                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+                return ResponseHelper.generateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
             }
 
             Boolean userMusicRating = musicRepository.getUserRatingOnMusic(musicId, userId);
 
-            return ResponseHelper.GenerateSuccessResponse(
+            return ResponseHelper.generateSuccessResponse(
                     "Avaliação do usuário para a música retornada com sucesso!", userMusicRating);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 
     public Response<Void> setAudioVolume(float volume){
         try {
             if(volume < 0.0f || volume > 100.0f){
-                return ResponseHelper.GenerateBadResponse("O volume deve estar entre 0 e 100!");
+                return ResponseHelper.generateBadResponse("O volume deve estar entre 0 e 100!");
             }
 
             // audioplayerworker só aceita volume entre 0f e 1f
@@ -130,17 +126,17 @@ public class MusicService {
 
             audioPlayerWorker.setVolume(volume);
 
-            return ResponseHelper.GenerateSuccessResponse("Volume alterado com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Volume alterado com sucesso!");
 
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse("Erro ao tentar alterar o volume!", e);
+            return ResponseHelper.generateErrorResponse("Erro ao tentar alterar o volume!", e);
         }
     }
 
     public Response<Void> setMusicTime(float musicTime){
         try {
             if(musicTime < 0 || musicTime > 100){
-                return ResponseHelper.GenerateBadResponse("O volume deve estar entre 0 e 100!");
+                return ResponseHelper.generateBadResponse("O volume deve estar entre 0 e 100!");
             }
 
             // audioplayerworker só aceita volume entre 0f e 1f
@@ -148,10 +144,10 @@ public class MusicService {
 
             audioPlayerWorker.seek(musicTime);
 
-            return ResponseHelper.GenerateSuccessResponse("Volume alterado com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Volume alterado com sucesso!");
 
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse("Erro ao tentar alterar o volume!", e);
+            return ResponseHelper.generateErrorResponse("Erro ao tentar alterar o volume!", e);
         }
     }
 
@@ -163,23 +159,23 @@ public class MusicService {
                 audioPlayerWorker.resume();
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Música pausada com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Música pausada com sucesso!");
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse("Erro ao tentar pausar a música!", ex);
+            return ResponseHelper.generateErrorResponse("Erro ao tentar pausar a música!", ex);
         }
     }
 
     public Response<Void> addMusicToUserHistory(int userId, int musicId){
         try{
             if(userId == 0 || musicId == 0){
-                return ResponseHelper.GenerateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
+                return ResponseHelper.generateBadResponse("Os parâmetros de id não podem ser nulos ou zero");
             }
 
             musicRepository.insertMusicPlayHistory(userId, musicId);
 
-            return ResponseHelper.GenerateSuccessResponse("Música adicionada ao histórico com sucesso");
+            return ResponseHelper.generateSuccessResponse("Música adicionada ao histórico com sucesso");
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
 
     }
@@ -188,7 +184,7 @@ public class MusicService {
         try{
             String[] infos = {musicFilePath, musicName, musicArtist, musicGenre};
             if (Arrays.stream(infos).anyMatch(info -> info == null || info.isEmpty())){
-                return ResponseHelper.GenerateBadResponse("Nenhum dos argumentos pode ser nulo ou vazio!");
+                return ResponseHelper.generateBadResponse("Nenhum dos argumentos pode ser nulo ou vazio!");
             }
 
             File musicFile = new File(musicFilePath);
@@ -198,16 +194,16 @@ public class MusicService {
 //            byte[] fileBytes = convertMP3FileToOpusBytes(musicFile);
             byte[] fileBytes = Files.readAllBytes(Paths.get(musicFilePath));
             if (fileBytes == null){
-                return ResponseHelper.GenerateBadResponse("Não foi possível obter os bytes do arquivo!");
+                return ResponseHelper.generateBadResponse("Não foi possível obter os bytes do arquivo!");
             }
             Genre genre = genreRepository.getGenreByName(musicGenre);
             if (genre == null){
-                return ResponseHelper.GenerateBadResponse("Gênero não encontrado! (" + musicGenre + ") ");
+                return ResponseHelper.generateBadResponse("Gênero não encontrado! (" + musicGenre + ") ");
             }
 
             Artist artist = artistRepository.getArtistByName(musicArtist);
             if (artist == null){
-                return ResponseHelper.GenerateBadResponse("Artista não encontrado, use o nome artístico! (" + musicArtist + ") ");
+                return ResponseHelper.generateBadResponse("Artista não encontrado, use o nome artístico! (" + musicArtist + ") ");
             }
 
             long musicDuration = getMP3DurationInMicrosseconds(musicFile);
@@ -223,16 +219,16 @@ public class MusicService {
 
             musicRepository.insertArtistIntoMusic(musicId, artist.getIdArtista());
 
-            return ResponseHelper.GenerateSuccessResponse("Música cadastrada com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Música cadastrada com sucesso!");
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
     public Response<Music> getUserLastPlayedMusic(int userId){
         try{
             if(userId == 0){
-                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+                return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
             }
 
             Music music = musicRepository.getUserLastPlayedMusic(userId);
@@ -245,16 +241,16 @@ public class MusicService {
             putAuthorsIntoMusic(music);
             putGenreIntoMusic(music);
 
-            return ResponseHelper.GenerateSuccessResponse("Música obtida com sucesso!", music);
+            return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
     public Response<Void> setOrInsertMusicUserRating(int musicId, int userId, Boolean liked){
         try{
             if (userId <= 0 || musicId <= 0){
-                return ResponseHelper.GenerateBadResponse("Os ids não podem ser nulos ou zero!");
+                return ResponseHelper.generateBadResponse("Os ids não podem ser nulos ou zero!");
             }
 
             // se for nulo o usuario tirou a avaliacao
@@ -264,41 +260,41 @@ public class MusicService {
                 musicRepository.setOrInsertMusicUserRating(musicId, userId, liked);
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Feedback da música atualizado com sucesso!");
+            return ResponseHelper.generateSuccessResponse("Feedback da música atualizado com sucesso!");
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
     public Response<List<Music>> searchMusics(String searchTerm, int userId){
         try{
             if(searchTerm.isBlank()){
-                return ResponseHelper.GenerateBadResponse("O termo de pesquisa não pode estar vazio!");
+                return ResponseHelper.generateBadResponse("O termo de pesquisa não pode estar vazio!");
             }
             if(userId == 0){
-                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+                return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
             }
 
             List<Music> musics = musicRepository.searchMusicForUserWithDetails(searchTerm, userId);
             if(musics == null || musics.isEmpty()){
-                return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
+                return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
             }
 
             for(Music music : musics){
                 putGenreIntoMusic(music);
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas encontradas com sucesso!", musics);
 
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
     public Response<List<Music>> getUserMostSearchedMusics(int userId, int showAmount){
         try{
             if (userId <= 0 || showAmount <= 0){
-                return ResponseHelper.GenerateBadResponse("Os valores userId e showAmount devem ser >= 0 !");
+                return ResponseHelper.generateBadResponse("Os valores userId e showAmount devem ser >= 0 !");
             }
 
             List<Music> musics = musicRepository.getUserMostSearchedMusics(userId, showAmount);
@@ -308,9 +304,9 @@ public class MusicService {
                 music.setAutores(artist);
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Músicas encontradas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas encontradas com sucesso!", musics);
         } catch (Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
@@ -333,39 +329,39 @@ public class MusicService {
     public Response<List<Music>> deletMusic(int idMusic){
         try{
             if(idMusic == 0){
-                return ResponseHelper.GenerateBadResponse("O parâmetro de id não pode ser nulo ou zero");
+                return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
             }
             List<Music> music = musicRepository.getMusicDeleted(idMusic);
             if(music == null || music.isEmpty()){
-                return ResponseHelper.GenerateBadResponse("Nenhuma música foi encontrada com o ID digitado!");
+                return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o ID digitado!");
             }
-            return ResponseHelper.GenerateSuccessResponse("Música Deletada com sucesso!", music);
+            return ResponseHelper.generateSuccessResponse("Música Deletada com sucesso!", music);
         } catch(Exception ex){
-            return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
     public Response<List<Music>> getUserLikedMusics(int userId, int limit){
         try{
             if(userId <= 0 || limit <= 0){
-                return ResponseHelper.GenerateBadResponse("O id do usuário e o limite devem ser >= 0!");
+                return ResponseHelper.generateBadResponse("O id do usuário e o limite devem ser >= 0!");
             }
 
             List<Music> musics = musicRepository.getUserLikedMusics(userId, limit);
             for(Music music : musics){
                 putAuthorsIntoMusic(music);
             }
-            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
 
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 
     public Response<List<Music>> getUserDislikedMusics(int userId, int limit){
         try{
             if(userId <= 0 || limit <= 0){
-                return ResponseHelper.GenerateBadResponse("O id do usuário e o limite devem ser >= 0!");
+                return ResponseHelper.generateBadResponse("O id do usuário e o limite devem ser >= 0!");
             }
 
             List<Music> musics = musicRepository.getUserDislikedMusics(userId, limit);
@@ -373,19 +369,19 @@ public class MusicService {
                 putAuthorsIntoMusic(music);
             }
 
-            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
 
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 
     public Response<Long> getTotalMusics(){
         try{
             long total = musicRepository.getTotalMusics();
-            return ResponseHelper.GenerateSuccessResponse("Total de músicas obtido com sucesso.", total);
+            return ResponseHelper.generateSuccessResponse("Total de músicas obtido com sucesso.", total);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 
@@ -396,9 +392,9 @@ public class MusicService {
                 putAuthorsIntoMusic(music);
                 putGenreIntoMusic(music);
             }
-            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 
@@ -409,9 +405,9 @@ public class MusicService {
                 putAuthorsIntoMusic(music);
                 putGenreIntoMusic(music);
             }
-            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+            return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
-            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 

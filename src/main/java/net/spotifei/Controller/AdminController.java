@@ -10,7 +10,6 @@ import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.Panels.Admin.*;
 import net.spotifei.Views.Panels.HistoryPanel;
-import net.spotifei.Views.Panels.SearchPanel;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
 import javax.swing.*;
@@ -185,14 +184,6 @@ public class AdminController {
 
         statisticsPanel.setMostLikedMusics(responseMostLikedMusics.getData());
         statisticsPanel.setMostDislikedMusics(responseMostDislikedMusics.getData());
-
-        for (Music music : responseMostLikedMusics.getData() ){
-            logDebug("Música: " + music.getNome() + " com " + music.getLikes() + " curtidas");
-        }
-        for (Music music : responseMostDislikedMusics.getData() ){
-            logDebug("Música: " + music.getNome() + " com " + music.getDislikes() + " deslikes");
-        }
-
     }
 
     private void openMusicsPopUp(HistoryPanel historyPanel, List<Music> musics, MusicInfoPanelBuilder panelBuilder, String title) {
@@ -203,12 +194,7 @@ public class AdminController {
         historyPanel.getMusicsPopUp().getMusicListComponent().setMusics(musics);
     }
 
-
-
-
-
-
-    public void ConstUser() {
+    public void constUser() {
         ADMConsultUserPanel admConsultUserPanel = (ADMConsultUserPanel) view;
         String searchTerm = admConsultUserPanel.getTxt_pesquisa().getText();
 

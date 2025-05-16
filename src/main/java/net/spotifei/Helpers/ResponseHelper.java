@@ -8,37 +8,35 @@ import net.spotifei.Models.Responses.SuccessResponse;
 
 import javax.swing.*;
 
-import java.util.List;
-
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class ResponseHelper {
 
-    public static <T> ErrorResponse<T> GenerateErrorResponse(String error, Exception exception){
+    public static <T> ErrorResponse<T> generateErrorResponse(String error, Exception exception){
         return new ErrorResponse<>(error, exception);
     }
 
-    public static <T> ErrorResponse<T>  GenerateErrorResponse(String error){
+    public static <T> ErrorResponse<T> generateErrorResponse(String error){
         return new ErrorResponse<>(error, null);
     }
 
-    public static <T> ErrorResponse<T>  GenerateErrorResponse(){
+    public static <T> ErrorResponse<T> generateErrorResponse(){
         return new ErrorResponse<>(null, null);
     }
 
-    public static <T> SuccessResponse<T>  GenerateSuccessResponse(String message, T data){
+    public static <T> SuccessResponse<T> generateSuccessResponse(String message, T data){
         return new SuccessResponse<>(message, data);
     }
 
-    public static <T> SuccessResponse<T>  GenerateSuccessResponse(String message){
+    public static <T> SuccessResponse<T> generateSuccessResponse(String message){
         return new SuccessResponse<>(message, null);
     }
 
-    public static <T> SuccessResponse<T>  GenerateSuccessResponse(){
+    public static <T> SuccessResponse<T> generateSuccessResponse(){
         return new SuccessResponse<>(null, null);
     }
 
-    public static <T> BadResponse<T> GenerateBadResponse(String message){
+    public static <T> BadResponse<T> generateBadResponse(String message){
         return new BadResponse<>(message);
     }
 

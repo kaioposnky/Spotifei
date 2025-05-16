@@ -54,11 +54,19 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         totalPanel.add(Box.createHorizontalStrut(30));
         totalPanel.add(createTotalUsersPanel());
 
-        this.add(Box.createVerticalStrut(10));
+        JButton btnGoBack = new JButton("Voltar");
+        btnGoBack.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        btnGoBack.setAlignmentX(CENTER_ALIGNMENT);
+        btnGoBack.setBackground(Color.green);
+        btnGoBack.setForeground(Color.decode("#343a40"));
+        btnGoBack.addActionListener(event -> btn_voltar() );
+
         this.add(titleLabel);
-        this.add(Box.createVerticalStrut(10));
         this.add(totalPanel);
         this.add(createMostLikedAndDislikedMusicsPanel());
+        this.add(Box.createVerticalStrut(30));
+        this.add(btnGoBack);
+        this.add(Box.createVerticalStrut(30));
         addListeners();
     }
 
@@ -191,5 +199,9 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         this.mostDislikedMusics = mostDislikedMusics;
         dislikedMusicsList.setMusics(mostDislikedMusics);
         dislikedMusicsList.renderMusics();
+    }
+
+    public void btn_voltar(){
+        mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }
 }
