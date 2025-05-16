@@ -380,9 +380,9 @@ public class MusicService {
         }
     }
 
-    public Response<Integer> getTotalMusics(){
+    public Response<Long> getTotalMusics(){
         try{
-            int total = musicRepository.getTotalMusics();
+            long total = musicRepository.getTotalMusics();
             return ResponseHelper.GenerateSuccessResponse("Total de músicas obtido com sucesso.", total);
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
@@ -392,6 +392,10 @@ public class MusicService {
     public Response<List<Music>> getMostLikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostLikedMusics();
+            for (Music music : musics){
+                putAuthorsIntoMusic(music);
+                putGenreIntoMusic(music);
+            }
             return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
@@ -401,6 +405,10 @@ public class MusicService {
     public Response<List<Music>> getMostDislikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostDislikedMusics();
+            for (Music music : musics){
+                putAuthorsIntoMusic(music);
+                putGenreIntoMusic(music);
+            }
             return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);

@@ -6,6 +6,7 @@ import net.spotifei.Models.User;
 import net.spotifei.Models.UserSearch;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -94,10 +95,12 @@ public class PersonRepository {
         }
     }
 
-    public int getTotalUsers() throws Exception{
+    public long getTotalUsers() throws Exception{
         try{
+            ScalarHandler<Long> handler = new ScalarHandler<>();
+
             String sql = jdbcRepository.getQueryNamed("GetTotalUsers");
-            int totalUsers = jdbcRepository.queryProcedure(sql, new BeanHandler<>(Integer.class));
+            long totalUsers = jdbcRepository.queryProcedure(sql, handler);
 
             return totalUsers;
         } catch (Exception ex){

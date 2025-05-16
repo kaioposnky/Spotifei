@@ -155,11 +155,11 @@ public class MusicRepository {
         }
     }
 
-    public int getTotalMusics() throws Exception{
+    public long getTotalMusics() throws Exception{
         try{
-            ScalarHandler<Integer> handler = new ScalarHandler<>();
+            ScalarHandler<Long> handler = new ScalarHandler<>();
             String sql = jdbcRepository.getQueryNamed("GetTotalMusics");
-            int totalMusics = jdbcRepository.queryProcedure(sql, handler);
+            long totalMusics = jdbcRepository.queryProcedure(sql, handler);
 
             return totalMusics;
         } catch (Exception e){
