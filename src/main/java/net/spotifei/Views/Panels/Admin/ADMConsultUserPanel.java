@@ -63,6 +63,11 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
         constUserListComponent.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
         constUserListComponent.setAlignmentX(CENTER_ALIGNMENT);
 
+        JButton bt_voltar = new JButton("Voltar");
+        bt_voltar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_voltar.setAlignmentX(CENTER_ALIGNMENT);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
         this.add(titleLabel);
         this.add(Box.createVerticalStrut(10));
         this.add(greetingLabel);
@@ -72,10 +77,18 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
         this.add(bt_pesquisa);
         this.add(Box.createVerticalStrut(20));
         this.add(constUserListComponent);
+        this.add(Box.createVerticalStrut(20));
+        this.add(bt_voltar);
+        this.add(Box.createVerticalStrut(30));
     }
 
     private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {
         appContext.getAdminController(this).ConstUser();
+
+    }
+
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {
+        mainframe.setPanel(MainFrame.ADMHOME_PANEL);
 
     }
 
@@ -85,6 +98,8 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton bt_voltar;
+
 
     public MainFrame getMainframe() {
         return mainframe;

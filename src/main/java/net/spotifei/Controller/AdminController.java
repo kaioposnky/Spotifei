@@ -10,7 +10,6 @@ import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.Panels.Admin.*;
 import net.spotifei.Views.Panels.HistoryPanel;
-import net.spotifei.Views.Panels.SearchPanel;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
 import javax.swing.*;
