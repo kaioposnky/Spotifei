@@ -3,7 +3,9 @@ package net.spotifei.Controller;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Playlist;
 import net.spotifei.Models.Responses.Response;
+import net.spotifei.Services.MusicService;
 import net.spotifei.Services.PlaylistService;
+import net.spotifei.Views.Components.PlaylistInfoComponent;
 import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.Panels.PlaylistPanel;
 
@@ -20,7 +22,7 @@ public class PlaylistController {
     private final JPanel view;
     private final AppContext appContext;
 
-    public PlaylistController(JPanel view, PlaylistService playlistService, AppContext appContext){
+    public PlaylistController(JPanel view, PlaylistService playlistService, AppContext appContext, MusicService musicService){
         this.playlistService = playlistService;
         this.appContext = appContext;
         this.view = view;
@@ -37,9 +39,9 @@ public class PlaylistController {
         playlist.setNome(nome);
         Response<Void> response = playlistService.createPlaylist(playlist, userId);
         if(handleDefaultResponseIfError(response)) return;
+        getUserPlaylists();
 
-        logDebug("Playlist com nome" + nome + " criada com sucesso!");
-
+        logDebug("Playlist com nome " + nome + " criada com sucesso!");
     }
 
     public void getUserPlaylists(){
@@ -48,7 +50,29 @@ public class PlaylistController {
         PlaylistPanel playlistPanel = ((PlaylistPanel)view);
         playlistPanel.getPlaylistListComponent().setPlaylists(response.getData());
         playlistPanel.getPlaylistListComponent().renderPlaylists();
+        playlistPanel.getPlaylistListComponent().updateUI();
 
+        logDebug("Playlists do usuário " + appContext.getPersonContext().getNome() + " retornadas com sucesso!");
+    }
+
+    public void deletePlaylist(){
+        PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
+        Response<Void> response = playlistService.deletePlaylist(playlistInfoComponent.getPlaylist().getIdPlaylist());
+        if(handleDefaultResponseIfError(response)) return;
+        getUserPlaylists();
+
+        logDebug("Playlist com nome " + playlistInfoComponent.getPlaylist().getNome() + "deletada com sucesso!");
+    }
+
+    public void editPlaylist(){
+        PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
+
+        Playlist playlistUpdated = null; // implementar popup para colocar os novos dados da playlist
+        Response<Void> response = playlistService.updatePlaylist(playlistUpdated);
+    }
+
+    public void playPlaylistMusics(){
+        PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
     }
 
     public void addMusicToPlaylist(int musicId, int playlistId){

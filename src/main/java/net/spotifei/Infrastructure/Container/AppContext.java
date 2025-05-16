@@ -117,7 +117,7 @@ public class AppContext {
     }
 
     public PlaylistController getPlayListController(JPanel view){
-        return new PlaylistController(view, this.playlistService, this);
+        return new PlaylistController(view, this.playlistService, this, this.musicService);
     }
 
     public HistoryController getHistoryController(JPanel view){

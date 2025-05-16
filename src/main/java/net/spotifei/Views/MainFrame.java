@@ -18,7 +18,7 @@ public class MainFrame extends JFrame{
     public static final String PLAYLIST_PANEL = "Playlist";
     public static final String ADMHOME_PANEL = "ADMHome";
     public static final String ADMREGMUSIC_PANEL = "ADMRegMusic";
-    public static final String ADMSISTEMA_PANEL = "ADMSistema";
+    public static final String ADMESTATISTICS_PANEL = "ADMStatistics";
     public static final String ADMCONUSER_PANEL = "ADMConUser";
     public static final String ADMDELMUSIC_PANEL = "ADMDelMusic";
     public static final String ADMCADARTIST_PANEL = "ADMCadArtist";
@@ -49,7 +49,7 @@ public class MainFrame extends JFrame{
         cards.add(new PlaylistPanel(this, this.appContext), PLAYLIST_PANEL);
         cards.add(new ADMHomePanel(this, this.appContext), ADMHOME_PANEL);
         cards.add(new ADMRegisterMusicPanel(this, this.appContext), ADMREGMUSIC_PANEL);
-        cards.add(new ADMEstatisticasPanel(this, this.appContext), ADMSISTEMA_PANEL);
+        cards.add(new ADMEstatisticasPanel(this, this.appContext), ADMESTATISTICS_PANEL);
         cards.add(new ADMConsultUserPanel(this, this.appContext), ADMCONUSER_PANEL);
         cards.add(new ADMDelMusicPanel(this, this.appContext), ADMDELMUSIC_PANEL);
         cards.add(new ADMCadArtistPanel(this, this.appContext), ADMCADARTIST_PANEL);

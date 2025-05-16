@@ -36,7 +36,7 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         this.adminController = appContext.getAdminController(this);
         initComponents();
     }
-    
+
     private void initComponents() {
 
         setBackground(new java.awt.Color(35, 35, 35));

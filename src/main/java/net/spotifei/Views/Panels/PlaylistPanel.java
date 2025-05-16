@@ -47,12 +47,24 @@ public class PlaylistPanel extends javax.swing.JPanel {
         greetingLabel.setForeground(Color.white);
         greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
 
+        JPanel createPlaylistPanel = new JPanel();
+        createPlaylistPanel.setLayout(new BoxLayout(createPlaylistPanel, BoxLayout.X_AXIS));
+
+        JLabel textPlaylistName = new JLabel("Digite o nome da playlist:");
+        textPlaylistName.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        textPlaylistName.setForeground(Color.white);
+        textPlaylistName.setOpaque(false);
+
         txt_criar = new JTextField();
         txt_criar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
         txt_criar.setMinimumSize(new Dimension(300, 30));
         txt_criar.setPreferredSize(new Dimension(300, 30));
         txt_criar.setMaximumSize(new Dimension(300, 30));
         txt_criar.setAlignmentX(CENTER_ALIGNMENT);
+
+        createPlaylistPanel.add(textPlaylistName);
+        createPlaylistPanel.add(Box.createHorizontalStrut(10));
+        createPlaylistPanel.add(txt_criar);
 
         JButton bt_criar = new JButton("Criar!");
         bt_criar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
@@ -70,13 +82,15 @@ public class PlaylistPanel extends javax.swing.JPanel {
         playlistListComponent.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
         playlistListComponent.setAlignmentX(CENTER_ALIGNMENT);
 
+        this.add(Box.createVerticalStrut(10));
         this.add(titleLabel);
         this.add(Box.createVerticalStrut(10));
         this.add(greetingLabel);
         this.add(Box.createVerticalStrut(20));
-        this.add(txt_criar);
+        this.add(createPlaylistPanel);
         this.add(Box.createVerticalStrut(30));
         this.add(bt_criar);
+        this.add(Box.createVerticalStrut(20));
         this.add(bt_mostrar);
         this.add(Box.createVerticalStrut(20));
         this.add(playlistListComponent);

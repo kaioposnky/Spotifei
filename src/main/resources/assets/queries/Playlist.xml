@@ -59,9 +59,13 @@
     <query name="GetPlaylistUser">
         SELECT
         p.id_playlist AS idPlaylist,
-        p.nome AS nome
+        p.nome AS nome,
+        COUNT(pm.id_musica) AS qntMusicas
         FROM playlist p
-        JOIN playlist_usuario pu ON p.id_playlist = pu.id_playlist
-        WHERE pu.id_usuario = @userId;
+        LEFT JOIN playlist_usuario pu ON p.id_playlist = pu.id_playlist
+        LEFT JOIN playlist_musica pm ON pm.id_playlist = p.id_playlist
+        WHERE pu.id_usuario = @userId
+        GROUP BY
+        p.id_playlist, p.nome;
     </query>
 </queries>

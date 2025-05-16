@@ -7,7 +7,6 @@ import net.spotifei.Models.User;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.MainFrame;
-import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
@@ -72,15 +71,17 @@ public class UserController {
     }
 
     private void handlePlayMusicBackground(Music music){
-        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
                 Response<Void> responsePlay = musicService.playMusic(music.getIdMusica(),
                         appContext.getPersonContext().getIdUsuario());
-                if(handleDefaultResponseIfError(responsePlay)){
+                if (handleDefaultResponseIfError(responsePlay)) {
                     JOptionPane.showMessageDialog(view, "Eita, parece que você não escutou nenhuma música ainda! " +
                             "Selecione uma para começar!");
                 }
+                Response<Void> responsePause = musicService.pauseMusic();
+                handleDefaultResponseIfError(responsePause);
                 return null;
             }
         };

@@ -9,6 +9,7 @@ public class Playlist {
     private boolean isPublic;
     private int idPlaylist;
     private ArrayList<Music> musicas;
+    private long qntMusicas;
 
     public Playlist(String nome, Artist autor, ArrayList<Music> musicas, long salvamentos) {
         this.nome = nome;
