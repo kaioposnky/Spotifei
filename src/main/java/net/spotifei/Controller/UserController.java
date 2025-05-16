@@ -36,13 +36,7 @@ public class UserController {
 
         User user = responseUser.getData();
 
-        Response<Music> responseMusic = musicService.getUserLastPlayedMusic(user.getIdUsuario());
-        if(handleDefaultResponseIfError(responseMusic)) return;
-
-        Music music = responseMusic.getData();
-
         appContext.setPersonContext(user); // seta o usuario atual
-        appContext.setMusicContext(music); // seta a musica atual
 
         Response<Boolean> responseUserAdmin = userService.checkUserAdmin(user);
         if(handleDefaultResponseIfError(responseUserAdmin)) return;
@@ -58,6 +52,14 @@ public class UserController {
             mainFrame.setPanel(MainFrame.ADMHOME_PANEL);
         } else{
             logDebug("Usuário logado com sucesso!");
+
+            Response<Music> responseMusic = musicService.getUserLastPlayedMusic(user.getIdUsuario());
+            if(handleDefaultResponseIfError(responseMusic)) return;
+
+            Music music = responseMusic.getData();
+
+            appContext.setMusicContext(music); // seta a musica atual
+
             mainFrame.setHUDVisible(true);
             mainFrame.setPanel(MainFrame.SEARCH_PANEL);
 
