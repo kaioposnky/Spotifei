@@ -1,6 +1,7 @@
 package net.spotifei.Views.Panels.Admin;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import net.spotifei.Controller.AdminController;
@@ -26,6 +27,8 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
     private JLabel totalUsersNumber;
     private List<Music> mostLikedMusics = new ArrayList<>();
     private List<Music> mostDislikedMusics = new ArrayList<>();
+    private MusicListComponent likedMusicsList;
+    private MusicListComponent dislikedMusicsList;
 
     public ADMEstatisticasPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
@@ -38,7 +41,6 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(35, 35, 35));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//        setBorder(new EmptyBorder(10,10,10,10));
 
         JLabel titleLabel = new JLabel("Estatísticas do sistema");
         titleLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 36));
@@ -49,17 +51,24 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         totalPanel.setOpaque(false);
 
         totalPanel.add(createTotalMusicsPanel());
+        totalPanel.add(Box.createHorizontalStrut(30));
         totalPanel.add(createTotalUsersPanel());
 
+        this.add(Box.createVerticalStrut(10));
         this.add(titleLabel);
+        this.add(Box.createVerticalStrut(10));
         this.add(totalPanel);
         this.add(createMostLikedAndDislikedMusicsPanel());
+        addListeners();
     }
 
     private JPanel createTotalMusicsPanel(){
         JPanel totalMusics = new JPanel();
         totalMusics.setLayout(new BoxLayout(totalMusics, BoxLayout.Y_AXIS));
-        totalMusics.setBorder(new MatteBorder(5,5,5,5, Color.decode("#343a40")));
+        MatteBorder lineBorder = new MatteBorder(5,5,5,5, Color.decode("#343a40"));
+        EmptyBorder spaceBorder = new EmptyBorder(0,5,5,5);
+
+        totalMusics.setBorder(BorderFactory.createCompoundBorder(lineBorder, spaceBorder));
 
         JLabel totalMusicsText = new JLabel("Total de músicas no sistema");
         totalMusicsText.setFont(new java.awt.Font("Segoe UI Black", 1, 16));
@@ -76,9 +85,12 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
     }
 
     private JPanel createTotalUsersPanel(){
-        JPanel totalMusics = new JPanel();
-        totalMusics.setLayout(new BoxLayout(totalMusics, BoxLayout.Y_AXIS));
-        totalMusics.setBorder(new MatteBorder(5,5,5,5, Color.decode("#343a40")));
+        JPanel totalUsers = new JPanel();
+        totalUsers.setLayout(new BoxLayout(totalUsers, BoxLayout.Y_AXIS));
+        MatteBorder lineBorder = new MatteBorder(5,5,5,5, Color.decode("#343a40"));
+        EmptyBorder spaceBorder = new EmptyBorder(0,5,5,5);
+
+        totalUsers.setBorder(BorderFactory.createCompoundBorder(lineBorder, spaceBorder));
 
         JLabel totalUsersText = new JLabel("Total de usuários no sistema");
         totalUsersText.setFont(new java.awt.Font("Segoe UI Black", 1, 16));
@@ -88,31 +100,53 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         totalUsersNumber.setFont(new java.awt.Font("Segoe UI Black", 1, 26));
         totalUsersNumber.setAlignmentX(CENTER_ALIGNMENT);
 
-        totalMusics.add(totalUsersText);
-        totalMusics.add(totalUsersNumber);
+        totalUsers.add(totalUsersText);
+        totalUsers.add(totalUsersNumber);
 
-        return totalMusics;
+        return totalUsers;
     }
 
     private JPanel createMostLikedAndDislikedMusicsPanel(){
         JPanel musicsPanel = new JPanel();
         musicsPanel.setLayout(new BoxLayout(musicsPanel, BoxLayout.X_AXIS));
         musicsPanel.setOpaque(false);
+        musicsPanel.setBorder(new EmptyBorder(0,30,30,30));
+
+        JPanel mostLikedWrapper = new JPanel();
+        mostLikedWrapper.setLayout(new BoxLayout(mostLikedWrapper, BoxLayout.Y_AXIS));
+        mostLikedWrapper.setOpaque(false);
+
+        JLabel mostLikedMusicsLabel = new JLabel("Músicas com mais likes");
+        mostLikedMusicsLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 24));
+        mostLikedMusicsLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         MusicInfoPanelBuilder panelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
         panelBuilder.selectLikedOrDislikedMusicInfoPanel();
-        MusicListComponent likedMusicsList = new MusicListComponent(
+        likedMusicsList = new MusicListComponent(
                 appContext, mainframe, mostLikedMusics, panelBuilder
         );
 
-        MusicListComponent dislikedMusicsList = new MusicListComponent(
+        mostLikedWrapper.add(mostLikedMusicsLabel);
+        mostLikedWrapper.add(likedMusicsList);
+
+        JPanel mostDislikedWrapper = new JPanel();
+        mostDislikedWrapper.setLayout(new BoxLayout(mostDislikedWrapper, BoxLayout.Y_AXIS));
+        mostDislikedWrapper.setOpaque(false);
+
+        JLabel mostDislikedMusicsLabel = new JLabel("Músicas com mais dislikes");
+        mostDislikedMusicsLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 24));
+        mostDislikedMusicsLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        dislikedMusicsList = new MusicListComponent(
                 appContext, mainframe, mostDislikedMusics, panelBuilder
         );
 
+        mostDislikedWrapper.add(mostDislikedMusicsLabel);
+        mostDislikedWrapper.add(dislikedMusicsList);
 
-        musicsPanel.add(likedMusicsList);
+        musicsPanel.add(mostLikedWrapper);
         musicsPanel.add(Box.createHorizontalStrut(20));
-        musicsPanel.add(dislikedMusicsList);
+        musicsPanel.add(mostDislikedWrapper);
 
         return musicsPanel;
     }
@@ -135,11 +169,11 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         });
     }
 
-    public void setTotalMusics(int total){
+    public void setTotalMusics(long total){
         totalMusicsNumber.setText(String.valueOf(total));
     }
 
-    public void setTotalUsers(int total){
+    public void setTotalUsers(long total){
         totalUsersNumber.setText(String.valueOf(total));
     }
 
@@ -149,14 +183,13 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
 
     public void setMostLikedMusics(List<Music> mostLikedMusics) {
         this.mostLikedMusics = mostLikedMusics;
-        repaint();
-        revalidate();
+        likedMusicsList.setMusics(mostLikedMusics);
+        likedMusicsList.renderMusics();
     }
 
     public void setMostDislikedMusics(List<Music> mostDislikedMusics) {
         this.mostDislikedMusics = mostDislikedMusics;
-
-        repaint();
-        revalidate();
+        dislikedMusicsList.setMusics(mostDislikedMusics);
+        dislikedMusicsList.renderMusics();
     }
 }

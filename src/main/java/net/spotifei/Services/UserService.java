@@ -130,9 +130,9 @@ public class UserService {
 
     }
 
-    public Response<Integer> getTotalUsers(){
+    public Response<Long> getTotalUsers(){
         try{
-            int total = personRepository.getTotalUsers();
+            long total = personRepository.getTotalUsers();
             return ResponseHelper.GenerateSuccessResponse("Total de usuários obtidos com sucesso!", total);
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);

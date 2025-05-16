@@ -167,13 +167,13 @@ public class AdminController {
 
     public void loadSystemStatistics() {
         ADMEstatisticasPanel statisticsPanel = (ADMEstatisticasPanel) view;
-        Response<Integer> responseMusics = musicService.getTotalMusics();
+        Response<Long> responseMusics = musicService.getTotalMusics();
         if (handleDefaultResponseIfError(responseMusics)) return;
-        Response<Integer> responseUsers = userService.getTotalUsers();
+        Response<Long> responseUsers = userService.getTotalUsers();
         if (handleDefaultResponseIfError(responseUsers)) return;
 
-        int totalMusics = responseMusics.getData();
-        int totalUsers = responseUsers.getData();
+        long totalMusics = responseMusics.getData();
+        long totalUsers = responseUsers.getData();
         statisticsPanel.setTotalMusics(totalMusics);
         statisticsPanel.setTotalUsers(totalUsers);
 
@@ -185,6 +185,14 @@ public class AdminController {
 
         statisticsPanel.setMostLikedMusics(responseMostLikedMusics.getData());
         statisticsPanel.setMostDislikedMusics(responseMostDislikedMusics.getData());
+
+        for (Music music : responseMostLikedMusics.getData() ){
+            logDebug("Música: " + music.getNome() + " com " + music.getLikes() + " curtidas");
+        }
+        for (Music music : responseMostDislikedMusics.getData() ){
+            logDebug("Música: " + music.getNome() + " com " + music.getDislikes() + " deslikes");
+        }
+
     }
 
     private void openMusicsPopUp(HistoryPanel historyPanel, List<Music> musics, MusicInfoPanelBuilder panelBuilder, String title) {
