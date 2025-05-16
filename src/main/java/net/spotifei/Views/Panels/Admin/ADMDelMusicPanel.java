@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import net.spotifei.Controller.AdminController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
@@ -222,7 +221,7 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_id_musicadelActionPerformed
 
     private void bt_excluirActionPerformed(java.awt.event.ActionEvent evt){
-        appContext.getAdminController(this).deletMusic();
+        appContext.getAdminController(this).deleteMusic();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

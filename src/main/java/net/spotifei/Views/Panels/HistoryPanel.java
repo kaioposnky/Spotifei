@@ -10,8 +10,6 @@ import javax.swing.JLabel;
 import net.spotifei.Controller.HistoryController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
-import net.spotifei.Views.PopUps.DeslikedPopUp;
-import net.spotifei.Views.PopUps.LikedPopUp;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
 /**

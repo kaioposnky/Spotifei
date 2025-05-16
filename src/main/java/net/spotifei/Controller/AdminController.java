@@ -1,15 +1,18 @@
 package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
-import net.spotifei.Models.User;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
 import net.spotifei.Views.Panels.Admin.ADMCadArtistPanel;
 import net.spotifei.Views.Panels.Admin.ADMDelMusicPanel;
+import net.spotifei.Views.Panels.Admin.ADMEstatisticasPanel;
 import net.spotifei.Views.Panels.Admin.ADMRegisterMusicPanel;
+import net.spotifei.Views.Panels.HistoryPanel;
+import net.spotifei.Views.PopUps.MusicsPopUp;
 
 import javax.swing.*;
 
@@ -120,7 +123,7 @@ public class AdminController {
         JOptionPane.showMessageDialog(view, message);
     }
 
-    public void deletMusic(){
+    public void deleteMusic(){
         ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
         String musicIdText = admDelMusicPanel.getTxt_id_musicadel().getText();
         if (musicIdText == null || musicIdText.isEmpty()) {
@@ -142,6 +145,53 @@ public class AdminController {
             createJDialog("Erro ao tentar deletar a música.");
             logError("Erro ao deletar música", e);
         }
+    }
+
+    public void showUserDislikedMusics(){
+        HistoryPanel historyPanel = (HistoryPanel) view;
+
+        int userId = appContext.getPersonContext().getIdUsuario();
+        int limit = 10; // alterável limite
+        Response<List<Music>> response = musicService.getUserDislikedMusics(userId, limit);
+        if(handleDefaultResponseIfError(response)) return;
+
+        List<Music> musics = response.getData();
+
+        MusicInfoPanelBuilder panelBuilder = new MusicInfoPanelBuilder(appContext, historyPanel.getMainframe());
+        panelBuilder.selectLikedOrDislikedMusicInfoPanel();
+        openMusicsPopUp(historyPanel, musics, panelBuilder, "");
+
+        logDebug("Mostrando músicas curtidas pelo usuário ");
+    }
+
+    public void loadSystemStatistics(){
+        ADMEstatisticasPanel statisticsPanel = (ADMEstatisticasPanel) view;
+        Response<Integer> responseMusics = musicService.getTotalMusics();
+        if(handleDefaultResponseIfError(responseMusics)) return;
+        Response<Integer> responseUsers = userService.getTotalUsers();
+        if(handleDefaultResponseIfError(responseUsers)) return;
+
+        int totalMusics = responseMusics.getData();
+        int totalUsers = responseUsers.getData();
+        statisticsPanel.setTotalMusics(totalMusics);
+        statisticsPanel.setTotalUsers(totalUsers);
+
+        Response<List<Music>> responseMostLikedMusics = musicService.getMostLikedMusics();
+        if(handleDefaultResponseIfError(responseMostLikedMusics)) return;
+
+        Response<List<Music>> responseMostDislikedMusics = musicService.getMostDislikedMusics();
+        if(handleDefaultResponseIfError(responseMostDislikedMusics)) return;
+
+        statisticsPanel.setMostLikedMusics(responseMostLikedMusics.getData());
+        statisticsPanel.setMostDislikedMusics(responseMostDislikedMusics.getData());
+    }
+
+    private void openMusicsPopUp(HistoryPanel historyPanel, List<Music> musics, MusicInfoPanelBuilder panelBuilder, String title){
+        historyPanel.setMusicsPopUp(new MusicsPopUp(
+                appContext, historyPanel.getMainframe(), title, musics, panelBuilder));
+
+        historyPanel.getMusicsPopUp().setVisible(true);
+        historyPanel.getMusicsPopUp().getMusicListComponent().setMusics(musics);
     }
 }
 

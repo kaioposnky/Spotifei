@@ -1,7 +1,6 @@
 package net.spotifei.Services;
 
 import net.spotifei.Helpers.ResponseHelper;
-import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
 import net.spotifei.Infrastructure.Repository.AdministratorRepository;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.PersonRepository;
@@ -129,5 +128,14 @@ public class UserService {
             return ResponseHelper.GenerateErrorResponse(ex.getMessage(), ex);
         }
 
+    }
+
+    public Response<Integer> getTotalUsers(){
+        try{
+            int total = personRepository.getTotalUsers();
+            return ResponseHelper.GenerateSuccessResponse("Total de usuários obtidos com sucesso!", total);
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
     }
 }

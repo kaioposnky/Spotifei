@@ -236,8 +236,6 @@ public class MusicService {
             }
 
             Music music = musicRepository.getUserLastPlayedMusic(userId);
-            putAuthorsIntoMusic(music);
-            putGenreIntoMusic(music);
 
             // se retornar nulo é pq nn tem nenhuma música registrada
             if(music == null){
@@ -377,6 +375,33 @@ public class MusicService {
 
             return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
 
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<Integer> getTotalMusics(){
+        try{
+            int total = musicRepository.getTotalMusics();
+            return ResponseHelper.GenerateSuccessResponse("Total de músicas obtido com sucesso.", total);
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<List<Music>> getMostLikedMusics(){
+        try{
+            List<Music> musics = musicRepository.getMostLikedMusics();
+            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
+        } catch (Exception e){
+            return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<List<Music>> getMostDislikedMusics(){
+        try{
+            List<Music> musics = musicRepository.getMostDislikedMusics();
+            return ResponseHelper.GenerateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
             return ResponseHelper.GenerateErrorResponse(e.getMessage(), e);
         }

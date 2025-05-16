@@ -1,7 +1,5 @@
 package net.spotifei.Views;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Panels.*;
 import net.spotifei.Views.Panels.Admin.*;
@@ -51,7 +49,7 @@ public class MainFrame extends JFrame{
         cards.add(new PlaylistPanel(this, this.appContext), PLAYLIST_PANEL);
         cards.add(new ADMHomePanel(this, this.appContext), ADMHOME_PANEL);
         cards.add(new ADMRegisterMusicPanel(this, this.appContext), ADMREGMUSIC_PANEL);
-        cards.add(new ADMSistemaPanel(this, this.appContext), ADMSISTEMA_PANEL);
+        cards.add(new ADMEstatisticasPanel(this, this.appContext), ADMSISTEMA_PANEL);
         cards.add(new ADMConsultaUsuarioPanel(this, this.appContext), ADMCONUSER_PANEL);
         cards.add(new ADMDelMusicPanel(this, this.appContext), ADMDELMUSIC_PANEL);
         cards.add(new ADMCadArtistPanel(this, this.appContext), ADMCADARTIST_PANEL);
