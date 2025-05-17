@@ -1,33 +1,155 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package net.spotifei.Views.Panels;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import net.spotifei.Controller.HistoryController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
+import java.awt.*;
+
 /**
  *
  * @author fengl
  */
 public class HistoryPanel extends javax.swing.JPanel {
-
     private final MainFrame mainframe;
     private final AppContext appContext;
     private final HistoryController historyController;
     private MusicsPopUp musicsPopUp;
-    
+
     public HistoryPanel(MainFrame mainframe, AppContext appContext) {
-        this.mainframe = mainframe;
         this.appContext = appContext;
+        this.mainframe = mainframe;
         this.historyController = appContext.getHistoryController(this);
         initComponents();
+    }
+
+    private void initComponents(){
+        setBackground(new Color(35, 35, 35));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel titleLabel = new JLabel("HISTÓRICO");
+        titleLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 36));
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel greetingLabel = new JLabel("Aqui está seu histórico!");
+        greetingLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 28));
+        greetingLabel.setForeground(Color.white);
+        greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        this.add(Box.createVerticalGlue());
+        this.add(titleLabel);
+        this.add(Box.createVerticalStrut(50));
+        this.add(greetingLabel);
+        this.add(Box.createVerticalStrut(30));
+        JPanel buttonsPanel = historybuttons();
+        this.add(buttonsPanel);
+
+        setMaximumSize(new Dimension(1920, 1080));
+        setMinimumSize(new Dimension(800, 600));
+    }
+
+    private JPanel historybuttons(){
+        JPanel historyButton = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        historyButton.setBackground(new Color(35, 35, 35));
+
+        Dimension buttonSize = new Dimension(150, 150);
+
+        JButton bt_top10 = new JButton("TOP 10");
+        bt_top10.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
+        bt_top10.setAlignmentX(CENTER_ALIGNMENT);
+        bt_top10.addActionListener(this::bt_top10ActionPerformed);
+        bt_top10.setPreferredSize(buttonSize);
+
+        JButton bt_curtidas = new JButton("CURTIDAS");
+        bt_curtidas.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
+        bt_curtidas.setAlignmentX(CENTER_ALIGNMENT);
+        bt_curtidas.addActionListener(this::bt_curtidasActionPerformed);
+        bt_curtidas.setPreferredSize(buttonSize);
+
+        JButton bt_deslikes = new JButton("DESCURTIDAS");
+        bt_deslikes.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
+        bt_deslikes.setAlignmentX(CENTER_ALIGNMENT);
+        bt_deslikes.addActionListener(this::bt_deslikesActionPerformed);
+        bt_deslikes.setPreferredSize(buttonSize);
+
+        historyButton.add(bt_top10);
+        historyButton.add(Box.createHorizontalStrut(20));
+        historyButton.add(bt_curtidas);
+        historyButton.add(Box.createHorizontalStrut(30));
+        historyButton.add(bt_deslikes);
+        historyButton.add(Box.createHorizontalStrut(20));
+
+        return historyButton;
+    }
+
+    private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {
+        historyController.showUserMostSearchedMusics();
+
+    }
+
+    private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {
+        historyController.showUserLikedMusics();
+
+    }
+    private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {
+        historyController.showUserDislikedMusics();
+
+    }
+
+
+    private javax.swing.JButton bt_top10;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JLabel greetingLabel;
+    private javax.swing.JButton bt_curtidas;
+    private javax.swing.JButton bt_deslikes;
+
+
+    public MainFrame getMainframe() {
+        return mainframe;
+    }
+
+    public AppContext getAppContext() {
+        return appContext;
+    }
+
+    public HistoryController getHistoryController() {
+        return historyController;
+    }
+
+    public MusicsPopUp getMusicsPopUp() {
+        return musicsPopUp;
+    }
+
+    public void setMusicsPopUp(MusicsPopUp musicsPopUp) {
+        this.musicsPopUp = musicsPopUp;
+    }
+
+    public JButton getBt_top10() {
+        return bt_top10;
+    }
+
+    public void setBt_top10(JButton bt_top10) {
+        this.bt_top10 = bt_top10;
+    }
+
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    public void setTitleLabel(JLabel titleLabel) {
+        this.titleLabel = titleLabel;
+    }
+
+    public JLabel getGreetingLabel() {
+        return greetingLabel;
+    }
+
+    public void setGreetingLabel(JLabel greetingLabel) {
+        this.greetingLabel = greetingLabel;
     }
 
     public JButton getBt_curtidas() {
@@ -45,163 +167,4 @@ public class HistoryPanel extends javax.swing.JPanel {
     public void setBt_deslikes(JButton bt_deslikes) {
         this.bt_deslikes = bt_deslikes;
     }
-
-    public JButton getBt_top10() {
-        return bt_top10;
-    }
-
-    public void setBt_top10(JButton bt_top10) {
-        this.bt_top10 = bt_top10;
-    }
-
-    public JLabel getjLabel4() {
-        return jLabel4;
-    }
-
-    public void setjLabel4(JLabel jLabel4) {
-        this.jLabel4 = jLabel4;
-    }
-
-    public JLabel getjLabel5() {
-        return jLabel5;
-    }
-
-    public void setjLabel5(JLabel jLabel5) {
-        this.jLabel5 = jLabel5;
-    }
-
-    public MusicsPopUp getMusicsPopUp() {
-        return musicsPopUp;
-    }
-
-    public void setMusicsPopUp(MusicsPopUp musicsPopUp) {
-        this.musicsPopUp = musicsPopUp;
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jLabel4 = new javax.swing.JLabel();
-        bt_top10 = new javax.swing.JButton();
-        bt_deslikes = new javax.swing.JButton();
-        bt_curtidas = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-
-        jMenu1.setText("jMenu1");
-        jPopupMenu1.add(jMenu1);
-
-        setBackground(new java.awt.Color(35, 35, 35));
-
-        jLabel4.setBackground(new java.awt.Color(250, 250, 250));
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel4.setText("HISTÓRICO");
-
-        bt_top10.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_top10.setText("TOP 10 ");
-        bt_top10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_top10ActionPerformed(evt);
-            }
-        });
-
-        bt_deslikes.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_deslikes.setText("DESLIKES");
-        bt_deslikes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_deslikesActionPerformed(evt);
-            }
-        });
-
-        bt_curtidas.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        bt_curtidas.setText("CURTIDAS");
-        bt_curtidas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_curtidasActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel5.setText("Aqui está seu histórico!");
-
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(147, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(128, 128, 128)
-                        .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(133, 133, 133)
-                        .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(323, 323, 323))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(43, 43, 43)
-                .addComponent(jLabel5)
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_curtidas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_top10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_deslikes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(119, 119, 119)
-                .addContainerGap(138, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_deslikesActionPerformed
-        // TODO add your handling code here:
-        historyController.showUserDislikedMusics();
-    }//GEN-LAST:event_bt_deslikesActionPerformed
-
-    private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_curtidasActionPerformed
-        // TODO add your handling code here:
-        historyController.showUserLikedMusics();
-    }//GEN-LAST:event_bt_curtidasActionPerformed
-
-    private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {
-//        Top10PopUp top10 = new Top10PopUp(mainframe, true);
-//        top10.setVisible(true);
-        historyController.showUserMostSearchedMusics();
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_curtidas;
-    private javax.swing.JButton bt_deslikes;
-    private javax.swing.JButton bt_top10;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    // End of variables declaration//GEN-END:variables
-
-    public MainFrame getMainframe() {
-        return mainframe;
-    }
-
 }

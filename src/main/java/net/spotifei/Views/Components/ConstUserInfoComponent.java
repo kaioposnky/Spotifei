@@ -46,7 +46,7 @@ public class ConstUserInfoComponent extends JPanel {
         boxPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
         boxPanel.add(getConstUserInfoPanel(), BorderLayout.WEST);
-        boxPanel.add(Box.createHorizontalGlue()); // joga os proximos elementos pra direita
+        boxPanel.add(Box.createHorizontalGlue());
         boxPanel.add(Box.createHorizontalStrut(20));
 
         setAlignmentY(Component.CENTER_ALIGNMENT);
