@@ -2,8 +2,8 @@ package net.spotifei.Models;
 
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Views.Panels.LoginPanel;
+//import net.spotifei.Views.Panels.LoginPanel;
 
-import java.awt.event.ActionEvent;
 
 public class User extends Person implements Auth {
 
@@ -19,4 +19,5 @@ public class User extends Person implements Auth {
     public void login(AuthController authController, LoginPanel panel) {
         authController.loginUsuario(panel);
     }
+
 }
