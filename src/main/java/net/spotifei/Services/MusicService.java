@@ -5,6 +5,7 @@ import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.GenreRepository;
 import net.spotifei.Infrastructure.Repository.MusicRepository;
+import net.spotifei.Infrastructure.Repository.PlaylistRepository;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
@@ -23,16 +24,18 @@ public class MusicService {
 
     private final MusicRepository musicRepository;
     private final ArtistRepository artistRepository;
+    private final PlaylistRepository playlistRepository;
     private final GenreRepository genreRepository;
     private final AudioPlayerWorker audioPlayerWorker;
 
     private boolean isNewMusicSelected = false;
     private int newMusicSelectedId = 0;
 
-    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, GenreRepository genreRepository){
+    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository){
         this.musicRepository = musicRepository;
         this.audioPlayerWorker = audioPlayerWorker;
         this.artistRepository = artistRepository;
+        this.playlistRepository = playlistRepository;
         this.genreRepository = genreRepository;
     }
 
@@ -266,7 +269,7 @@ public class MusicService {
         }
     }
 
-    public Response<List<Music>> searchMusics(String searchTerm, int userId){
+    public Response<List<Music>> searchMusicsWithUserDetails(String searchTerm, int userId){
         try{
             if(searchTerm.isBlank()){
                 return ResponseHelper.generateBadResponse("O termo de pesquisa não pode estar vazio!");
@@ -281,6 +284,29 @@ public class MusicService {
             }
 
             for(Music music : musics){
+                putGenreIntoMusic(music);
+            }
+
+            return ResponseHelper.generateSuccessResponse("Músicas encontradas com sucesso!", musics);
+
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<List<Music>> searchMusics(String searchTerm){
+        try{
+            if(searchTerm.isBlank()){
+                return ResponseHelper.generateBadResponse("O termo de pesquisa não pode estar vazio!");
+            }
+
+            List<Music> musics = musicRepository.searchMusics(searchTerm);
+            if(musics == null || musics.isEmpty()){
+                return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o termo de pesquisa: " + searchTerm);
+            }
+
+            for(Music music : musics){
+                putAuthorsIntoMusic(music);
                 putGenreIntoMusic(music);
             }
 
@@ -408,6 +434,24 @@ public class MusicService {
             return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
             return ResponseHelper.generateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<List<Music>> getMusicsFromPlaylist(int playlistId) {
+        try {
+            if (playlistId <= 0) {
+                return ResponseHelper.generateBadResponse("O id da playlist deve ser >= 0!");
+            }
+
+            List<Music> musics = playlistRepository.getMusicsFromPlaylist(playlistId);
+            for(Music music : musics){
+                putAuthorsIntoMusic(music);
+                putGenreIntoMusic(music);
+            }
+
+            return ResponseHelper.generateSuccessResponse("Músicas da playlist obtidas com sucesso!", musics);
+        } catch (Exception ex) {
+            return ResponseHelper.generateErrorResponse("Erro ao obter músicas da playlist!", ex);
         }
     }
 

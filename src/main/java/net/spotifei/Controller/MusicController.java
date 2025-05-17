@@ -128,12 +128,12 @@ public class MusicController implements AudioUpdateListener {
                 " para o usuário com id " + userId + " com sucesso!");
     }
 
-    public void searchMusic(){
+    public void searchMusicWithUserInfo(){
         SearchPanel searchPanel = (SearchPanel) view;
         String searchTerm = searchPanel.getTxt_pesquisar().getText();
         int userId = appContext.getPersonContext().getIdUsuario();
 
-        Response<List<Music>> response = musicServices.searchMusics(searchTerm, userId);
+        Response<List<Music>> response = musicServices.searchMusicsWithUserDetails(searchTerm, userId);
         if(handleDefaultResponseIfError(response)) return;
 
         List<Music> musics = response.getData();

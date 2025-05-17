@@ -1,20 +1,16 @@
 package net.spotifei.Infrastructure.Repository;
 
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 public class MusicRepository {
 
@@ -24,7 +20,7 @@ public class MusicRepository {
         this.jdbcRepository = jdbcRepository;
     }
 
-    public List<Music> searchMusic(String searchTerm) throws Exception{
+    public List<Music> searchMusics(String searchTerm) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("name", searchTerm);

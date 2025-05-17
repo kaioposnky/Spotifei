@@ -81,7 +81,8 @@ public class PlaylistService {
                 position++;
             }
 
-            playlistRepository.addMusicToPlaylist(music, playlistId, position);
+            // ultima posicao +1 para ser um depois da última posição
+            playlistRepository.addMusicToPlaylist(music, playlistId, position + 1);
 
             return ResponseHelper.generateSuccessResponse("Música adicionada à playlist com sucesso!");
         } catch (Exception ex){
@@ -101,20 +102,6 @@ public class PlaylistService {
             return ResponseHelper.generateSuccessResponse("Música removida da playlist com sucesso!");
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse("Erro ao remover música da playlist!", ex);
-        }
-    }
-
-    public Response<List<Music>> getMusicsFromPlaylist(int playlistId) {
-        try {
-            if (playlistId <= 0) {
-                return ResponseHelper.generateBadResponse("O id da playlist deve ser >= 0!");
-            }
-
-            List<Music> musics = playlistRepository.getMusicsFromPlaylist(playlistId);
-
-            return ResponseHelper.generateSuccessResponse("Músicas da playlist obtidas com sucesso!", musics);
-        } catch (Exception ex) {
-            return ResponseHelper.generateErrorResponse("Erro ao obter músicas da playlist!", ex);
         }
     }
 

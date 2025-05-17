@@ -55,7 +55,7 @@ public class AppContext {
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
         this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository, this.authService);
-        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.genreRepository);
+        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.playlistRepository, this.genreRepository);
 
     }
 
@@ -116,8 +116,12 @@ public class AppContext {
         return new AdminController(view, this.musicService, this.userService, this);
     }
 
-    public PlaylistController getPlayListController(JPanel view){
-        return new PlaylistController(view, this.playlistService, this, this.musicService);
+    public PlaylistController getPlayListController(JPanel view, MainFrame mainframe){
+        return new PlaylistController(view, this.playlistService, this, this.musicService, mainframe);
+    }
+
+    public PlaylistController getPlayListController(JDialog viewDialog, MainFrame mainframe){
+        return new PlaylistController(viewDialog, this.playlistService, this, this.musicService, mainframe);
     }
 
     public HistoryController getHistoryController(JPanel view){

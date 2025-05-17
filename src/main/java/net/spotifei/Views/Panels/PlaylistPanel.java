@@ -6,12 +6,14 @@ package net.spotifei.Views.Panels;
 
 import javax.swing.*;
 
+import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Models.Playlist;
 import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.MainFrame;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  *
@@ -23,12 +25,15 @@ public class PlaylistPanel extends javax.swing.JPanel {
     private final AppContext appContext;
     private PlaylistListComponent playlistListComponent;
     private JTextField txt_criar;
+    private final PlaylistController playlistController;
 
 
     public PlaylistPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.playlistController = appContext.getPlayListController(this, mainframe);
         initComponents();
+        addShowListeners();
     }
 
     private void initComponents(){
@@ -71,7 +76,7 @@ public class PlaylistPanel extends javax.swing.JPanel {
         bt_criar.setAlignmentX(CENTER_ALIGNMENT);
         bt_criar.addActionListener(this::bt_criarActionPerformed);
 
-        JButton bt_mostrar = new JButton("Ver playlists");
+        JButton bt_mostrar = new JButton("Atualizar");
         bt_mostrar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
         bt_mostrar.setAlignmentX(CENTER_ALIGNMENT);
         bt_mostrar.addActionListener(this::bt_mostrarActionPerformed);
@@ -97,12 +102,12 @@ public class PlaylistPanel extends javax.swing.JPanel {
     }
 
     private void bt_criarActionPerformed(java.awt.event.ActionEvent evt) {
-        appContext.getPlayListController(this).createPlaylist();
+        playlistController.createPlaylist();
 
     }
 
     private void bt_mostrarActionPerformed(java.awt.event.ActionEvent evt){
-        appContext.getPlayListController(this).getUserPlaylists();
+        playlistController.getUserPlaylists();
     }
 
 
@@ -132,6 +137,17 @@ public class PlaylistPanel extends javax.swing.JPanel {
 
     public void setPlaylistListComponent(PlaylistListComponent playlistListComponent) {
         this.playlistListComponent = playlistListComponent;
+    }
+
+    private void addShowListeners(){
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                playlistController.getUserPlaylists();
+                super.componentShown(e);
+            }
+        });
     }
 
 }

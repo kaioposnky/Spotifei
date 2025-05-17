@@ -61,7 +61,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
         MusicInfoPanelBuilder panelBuilder = appContext.getMusicInfoPanelBuilder(mainframe);
         panelBuilder.selectSearchMusicInfoPanel();
-        musicListComponent = new MusicListComponent(appContext, mainframe, panelBuilder);
+        musicListComponent = new MusicListComponent(panelBuilder);
         musicListComponent.setBackground(new java.awt.Color(35, 35, 35));
         musicListComponent.setPreferredSize(new Dimension(800, 600));
         musicListComponent.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
@@ -87,7 +87,7 @@ public class SearchPanel extends javax.swing.JPanel {
 //    }
 
     private void bt_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {
-        appContext.getMusicController(this, mainframe).searchMusic();
+        appContext.getMusicController(this, mainframe).searchMusicWithUserInfo();
     }
 
     private javax.swing.JButton bt_pesquisar;

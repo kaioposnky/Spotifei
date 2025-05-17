@@ -131,7 +131,7 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         MusicInfoPanelBuilder panelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
         panelBuilder.selectLikedOrDislikedMusicInfoPanel();
         likedMusicsList = new MusicListComponent(
-                appContext, mainframe, mostLikedMusics, panelBuilder
+                mostLikedMusics, panelBuilder
         );
 
         mostLikedWrapper.add(mostLikedMusicsLabel);
@@ -146,7 +146,7 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         mostDislikedMusicsLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         dislikedMusicsList = new MusicListComponent(
-                appContext, mainframe, mostDislikedMusics, panelBuilder
+                mostDislikedMusics, panelBuilder
         );
 
         mostDislikedWrapper.add(mostDislikedMusicsLabel);

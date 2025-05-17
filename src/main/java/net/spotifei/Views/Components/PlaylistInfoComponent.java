@@ -4,7 +4,6 @@ import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Helpers.AssetsLoader;
 import net.spotifei.Models.Playlist;
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Services.MusicService;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
@@ -22,7 +21,7 @@ public class PlaylistInfoComponent extends JPanel {
         this.playlist = playlist;
         this.appContext = appContext;
         this.mainframe = mainframe;
-        this.playlistController = appContext.getPlayListController(this);
+        this.playlistController = appContext.getPlayListController(this, mainframe);
         initComponents();
     }
 
@@ -119,7 +118,7 @@ public class PlaylistInfoComponent extends JPanel {
 
         JButton deleteButton = new JButton();
         deleteButton.setIcon(AssetsLoader.loadImageIcon("pencil_icon.png", 20, 20));
-        deleteButton.addActionListener(event -> playlistController.editPlaylist());
+        deleteButton.addActionListener(event -> playlistController.showEditPlaylistPopUp());
         deleteButton.setFocusPainted(false);
         deleteButton.setContentAreaFilled(false);
         deleteButton.setOpaque(false);

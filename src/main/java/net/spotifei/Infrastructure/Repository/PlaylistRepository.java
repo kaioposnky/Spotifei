@@ -36,8 +36,11 @@ public class PlaylistRepository {
 
     public void deletePlaylist(int playlistId) throws Exception{
         try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+
             String sql = jdbcRepository.getQueryNamed("DeletePlaylist");
-            jdbcRepository.executeProcedure(sql, String.valueOf(playlistId));
+            jdbcRepository.executeProcedure(sql, params);
         } catch (Exception e){
             e.getCause();
             throw e;
@@ -48,7 +51,7 @@ public class PlaylistRepository {
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("nome", playlist.getNome());
-            params.put("isPublic", playlist.isPublic());
+            params.put("idPlaylist", playlist.getIdPlaylist());
 
             String sql = jdbcRepository.getQueryNamed("UpdatePlaylist");
             jdbcRepository.executeProcedure(sql, params);
@@ -89,9 +92,12 @@ public class PlaylistRepository {
 
     public List<Music> getMusicsFromPlaylist(int playlistId) throws Exception {
         try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+
             String sql = jdbcRepository.getQueryNamed("GetMusicsFromPlaylist");
             List<Music> musics = jdbcRepository.queryProcedure(sql,
-                    String.valueOf(playlistId), new BeanListHandler<>(Music.class));
+                    params, new BeanListHandler<>(Music.class));
 
             return musics;
         } catch (Exception e){
@@ -102,9 +108,12 @@ public class PlaylistRepository {
 
     public Playlist getPlaylistById(int playlistId) throws Exception {
         try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+
             String sql = jdbcRepository.getQueryNamed("GetPlaylistById");
             Playlist playlist = jdbcRepository.queryProcedure(
-                    sql, String.valueOf(playlistId), new BeanHandler<>(Playlist.class));
+                    sql, params, new BeanHandler<>(Playlist.class));
 
             return playlist;
         } catch (Exception e){

@@ -61,6 +61,7 @@ public class PlaylistListComponent extends JPanel{
                 playlistInfoComponent.add(new PlaylistInfoComponent(playlist, appContext, mainframe));
             }
         }
+        updateUI();
     }
 
     public List<Playlist> getPlaylists(){

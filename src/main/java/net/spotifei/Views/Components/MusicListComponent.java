@@ -1,9 +1,7 @@
 package net.spotifei.Views.Components;
 
-import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
-import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +13,12 @@ public class MusicListComponent extends JPanel {
     private JPanel musicsInfoPanel;
     private final MusicInfoPanelBuilder panelBuilder;
 
-    public MusicListComponent(AppContext appContext, MainFrame mainframe, MusicInfoPanelBuilder panelBuilder){
+    public MusicListComponent(MusicInfoPanelBuilder panelBuilder){
         this.panelBuilder = panelBuilder;
         initComponents();
     }
 
-    public MusicListComponent(AppContext appContext, MainFrame mainframe, List<Music> musics, MusicInfoPanelBuilder panelBuilder){
+    public MusicListComponent(List<Music> musics, MusicInfoPanelBuilder panelBuilder){
         this.panelBuilder = panelBuilder;
         initComponents();
         setMusics(musics);
