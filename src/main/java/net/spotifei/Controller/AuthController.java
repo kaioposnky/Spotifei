@@ -5,6 +5,7 @@ import net.spotifei.Models.User;
 import net.spotifei.Services.AuthService;
 import net.spotifei.Views.Panels.LoginPanel;
 import net.spotifei.Views.MainFrame;
+//import net.spotifei.Views.Panels.RegisterPanel;
 import net.spotifei.Views.Panels.RegisterPanel;
 
 import javax.swing.*;

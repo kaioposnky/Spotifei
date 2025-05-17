@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import net.spotifei.Controller.HistoryController;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Responses.Response;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
@@ -40,6 +41,14 @@ public class HistoryPanel extends javax.swing.JPanel {
         greetingLabel.setForeground(Color.white);
         greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
 
+        JButton bt_sair = new JButton("Voltar");
+        bt_sair.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_sair.setAlignmentX(CENTER_ALIGNMENT);
+        bt_sair.addActionListener(this::bt_sairActionPerformed);
+        bt_sair.setMaximumSize(new Dimension(200, 50));
+        bt_sair.setBackground(Color.BLACK);
+        bt_sair.setForeground(Color.white);
+
         this.add(Box.createVerticalGlue());
         this.add(titleLabel);
         this.add(Box.createVerticalStrut(50));
@@ -47,6 +56,10 @@ public class HistoryPanel extends javax.swing.JPanel {
         this.add(Box.createVerticalStrut(30));
         JPanel buttonsPanel = historybuttons();
         this.add(buttonsPanel);
+        this.add(Box.createVerticalStrut(30));
+        this.add(bt_sair);
+        this.add(Box.createVerticalGlue());
+
 
         setMaximumSize(new Dimension(1920, 1080));
         setMinimumSize(new Dimension(800, 600));
@@ -97,6 +110,14 @@ public class HistoryPanel extends javax.swing.JPanel {
     }
     private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {
         historyController.showUserDislikedMusics();
+
+    }
+    private void bt_sairActionPerformed(java.awt.event.ActionEvent evt) {
+        mainframe.setHUDVisible(false);
+        if (appContext.getAudioPlayerWorker().isPlaying()) {
+            appContext.getMusicService().pauseMusic();
+        }
+        mainframe.setPanel(MainFrame.LOGIN_PANEL);
 
     }
 

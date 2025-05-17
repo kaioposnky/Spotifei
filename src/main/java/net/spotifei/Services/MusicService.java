@@ -168,6 +168,7 @@ public class MusicService {
         }
     }
 
+
     public Response<Void> addMusicToUserHistory(int userId, int musicId){
         try{
             if(userId == 0 || musicId == 0){

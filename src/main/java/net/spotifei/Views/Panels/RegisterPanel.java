@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package net.spotifei.Views.Panels;
 
 import javax.swing.*;
@@ -10,16 +6,28 @@ import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
-/**
- *
- * @author fengl
- */
-public class RegisterPanel extends javax.swing.JPanel {
+import java.awt.*;
 
+public class RegisterPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
     private final AppContext appContext;
     private final AuthController ac;
+
+    private JLabel titleLabel;
+    private JLabel greetingLabel;
+    private JLabel infoLabel1;
+    private JLabel infoLabel2;
+    private JLabel infoLabel3;
+    private JLabel infoLabel4;
+    private JLabel infoLabel5;
+    private JTextField txt_nome_cadastro;
+    private JTextField txt_sob_cadastro;
+    private JTextField txt_telefone_cadastro;
+    private JTextField txt_email_cadastro;
+    private JTextField txt_senha_cadastro;
+    private JButton bt_cadastrar;
+    private JButton bt_voltar_login;
 
     public RegisterPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
@@ -28,84 +36,285 @@ public class RegisterPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public JButton getBt_cadastrar() {
-        return bt_cadastrar;
+    private void initComponents() {
+        setBackground(new Color(35, 35, 35));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(null);
+        setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel titleLabel = new JLabel("REGISTRO");
+        titleLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 36));
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel greetingLabel = new JLabel("Vamos realizar seu cadastro?");
+        greetingLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 28));
+        greetingLabel.setForeground(Color.white);
+        greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        JPanel nomeRegisterInfo = nomeRegisterInfo();
+        JPanel sobrenomeRegisterInfo = sobrenomeRegisterInfo();
+        JPanel telefoneRegisterInfo = telefoneRegisterInfo();
+        JPanel emailRegisterInfo = emailRegisterInfo();
+        JPanel senhaRegisterInfo = emailRegisterInfo();
+        JPanel registerConfirm = registerConfirm();
+
+
+        this.add(Box.createVerticalGlue());
+        this.add(titleLabel);
+        this.add(Box.createVerticalStrut(50));
+        this.add(greetingLabel);
+        this.add(Box.createVerticalStrut(20));
+        this.add(nomeRegisterInfo());
+        this.add(Box.createVerticalStrut(20));
+        this.add(sobrenomeRegisterInfo());
+        this.add(Box.createVerticalStrut(20));
+        this.add(telefoneRegisterInfo());
+        this.add(Box.createVerticalStrut(20));
+        this.add(emailRegisterInfo());
+        this.add(Box.createVerticalStrut(20));
+        this.add(senhaRegisterInfo());
+        this.add(Box.createVerticalStrut(30));
+        this.add(registerConfirm());
+        this.add(Box.createVerticalGlue());
+
+
+
+        setMaximumSize(new Dimension(1920, 1080));
+        setMinimumSize(new Dimension(800, 600));
+
     }
 
-    public void setBt_cadastrar(JButton bt_cadastrar) {
-        this.bt_cadastrar = bt_cadastrar;
+    private JPanel nomeRegisterInfo(){
+        JPanel nomeRegisterInfo = new JPanel();
+        nomeRegisterInfo.setLayout(new BoxLayout(nomeRegisterInfo, BoxLayout.X_AXIS));
+        nomeRegisterInfo.setBackground(new Color(35, 35, 35));
+
+        JLabel infoLabel1 = new JLabel("Nome: ");
+        infoLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        infoLabel1.setForeground(Color.white);
+        infoLabel1.setAlignmentX(CENTER_ALIGNMENT);
+
+        txt_nome_cadastro = new JTextField("");
+        txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_nome_cadastro.setForeground(new java.awt.Color(35, 35, 35));
+        txt_nome_cadastro.setPreferredSize(new Dimension(200, 30));
+        txt_nome_cadastro.setMaximumSize(new Dimension(250, 30));
+        txt_nome_cadastro.setAlignmentX(CENTER_ALIGNMENT);
+
+        nomeRegisterInfo.setMaximumSize(new Dimension(300, nomeRegisterInfo.getPreferredSize().height));
+        nomeRegisterInfo.add(infoLabel1);
+        nomeRegisterInfo.add(txt_nome_cadastro);
+
+        return nomeRegisterInfo;
     }
 
-    public JButton getBt_voltar_login() {
-        return bt_voltar_login;
+    private JPanel sobrenomeRegisterInfo(){
+        JPanel sobrenomeRegisterInfo = new JPanel();
+        sobrenomeRegisterInfo.setLayout(new BoxLayout(sobrenomeRegisterInfo, BoxLayout.X_AXIS));
+        sobrenomeRegisterInfo.setBackground(new Color(35, 35, 35));
+
+        JLabel infoLabel2 = new JLabel("Sobrenome: ");
+        infoLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        infoLabel2.setForeground(Color.white);
+        infoLabel2.setAlignmentX(CENTER_ALIGNMENT);
+
+        txt_sob_cadastro = new JTextField("");
+        txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_sob_cadastro.setForeground(new java.awt.Color(35, 35, 35));
+        txt_sob_cadastro.setPreferredSize(new Dimension(200, 30));
+        txt_sob_cadastro.setMaximumSize(new Dimension(250, 30));
+        txt_sob_cadastro.setAlignmentX(CENTER_ALIGNMENT);
+
+
+        sobrenomeRegisterInfo.setMaximumSize(new Dimension(300, sobrenomeRegisterInfo.getPreferredSize().height));
+        sobrenomeRegisterInfo.add(infoLabel2);
+        sobrenomeRegisterInfo.add(txt_sob_cadastro);
+
+        return sobrenomeRegisterInfo;
     }
 
-    public void setBt_voltar_login(JButton bt_voltar_login) {
-        this.bt_voltar_login = bt_voltar_login;
+    private JPanel telefoneRegisterInfo(){
+        JPanel telefoneRegisterInfo = new JPanel();
+        telefoneRegisterInfo.setLayout(new BoxLayout(telefoneRegisterInfo, BoxLayout.X_AXIS));
+        telefoneRegisterInfo.setBackground(new Color(35, 35, 35));
+
+        JLabel infoLabel3 = new JLabel("Telefone: ");
+        infoLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        infoLabel3.setForeground(Color.white);
+        infoLabel3.setAlignmentX(CENTER_ALIGNMENT);
+
+        txt_telefone_cadastro = new JTextField("");
+        txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_telefone_cadastro.setForeground(new java.awt.Color(35, 35, 35));
+        txt_telefone_cadastro.setPreferredSize(new Dimension(200, 30));
+        txt_telefone_cadastro.setMaximumSize(new Dimension(250, 30));
+        txt_telefone_cadastro.setAlignmentX(CENTER_ALIGNMENT);
+
+        telefoneRegisterInfo.setMaximumSize(new Dimension(300, telefoneRegisterInfo.getPreferredSize().height));
+        telefoneRegisterInfo.add(infoLabel3);
+        telefoneRegisterInfo.add(txt_telefone_cadastro);
+
+        return telefoneRegisterInfo;
     }
 
-    public JLabel getjLabel2() {
-        return jLabel2;
+    private JPanel emailRegisterInfo(){
+        JPanel emailRegisterInfo = new JPanel();
+        emailRegisterInfo.setLayout(new BoxLayout(emailRegisterInfo, BoxLayout.X_AXIS));
+        emailRegisterInfo.setBackground(new Color(35, 35, 35));
+
+        JLabel infoLabel4 = new JLabel("E-mail: ");
+        infoLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        infoLabel4.setForeground(Color.white);
+        infoLabel4.setAlignmentX(CENTER_ALIGNMENT);
+
+        txt_email_cadastro = new JTextField("");
+        txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_email_cadastro.setForeground(new java.awt.Color(35, 35, 35));
+        txt_email_cadastro.setPreferredSize(new Dimension(200, 30));
+        txt_email_cadastro.setMaximumSize(new Dimension(250, 30));
+        txt_email_cadastro.setAlignmentX(CENTER_ALIGNMENT);
+
+
+        emailRegisterInfo.setMaximumSize(new Dimension(300, emailRegisterInfo.getPreferredSize().height));
+        emailRegisterInfo.add(infoLabel4);
+        emailRegisterInfo.add(txt_email_cadastro);
+
+        return emailRegisterInfo;
     }
 
-    public void setjLabel2(JLabel jLabel2) {
-        this.jLabel2 = jLabel2;
+    private JPanel senhaRegisterInfo(){
+        JPanel senhaRegisterInfo = new JPanel();
+        senhaRegisterInfo.setLayout(new BoxLayout(senhaRegisterInfo, BoxLayout.X_AXIS));
+        senhaRegisterInfo.setBackground(new Color(35, 35, 35));
+
+        JLabel infoLabel5 = new JLabel("Senha: ");
+        infoLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        infoLabel5.setForeground(Color.white);
+        infoLabel5.setAlignmentX(CENTER_ALIGNMENT);
+
+        txt_senha_cadastro = new JTextField("");
+        txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
+        txt_senha_cadastro.setForeground(new java.awt.Color(35, 35, 35));
+        txt_senha_cadastro.setPreferredSize(new Dimension(200, 30));
+        txt_senha_cadastro.setMaximumSize(new Dimension(250, 30));
+        txt_senha_cadastro.setAlignmentX(CENTER_ALIGNMENT);
+
+
+        senhaRegisterInfo.add(infoLabel5);
+        senhaRegisterInfo.setMaximumSize(new Dimension(300, senhaRegisterInfo.getPreferredSize().height));
+        senhaRegisterInfo.add(txt_senha_cadastro);
+
+        return senhaRegisterInfo;
     }
 
-    public JLabel getjLabel3() {
-        return jLabel3;
+    private JPanel registerConfirm(){
+        JPanel registerConfirm = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        registerConfirm.setLayout(new BoxLayout(registerConfirm, BoxLayout.Y_AXIS));
+        registerConfirm.setBackground(new Color(35, 35, 35));
+
+        JButton bt_cadastrar = new JButton("Cadastrar");
+        bt_cadastrar.setFont(new java.awt.Font("Segoe UI Black", 1, 24));
+        bt_cadastrar.setAlignmentX(CENTER_ALIGNMENT);
+        bt_cadastrar.addActionListener(this::bt_cadastrarActionPerformed);
+        bt_cadastrar.setPreferredSize(new Dimension(150, 30));
+        bt_cadastrar.setMaximumSize(new Dimension(300, 30));
+        bt_cadastrar.setBackground(Color.BLACK);
+        bt_cadastrar.setForeground(new Color(0,109,170));
+        bt_cadastrar.setContentAreaFilled(false);
+        bt_cadastrar.setBorderPainted(false);
+
+
+        JButton bt_voltar_login = new JButton("Voltar");
+        bt_voltar_login.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_voltar_login.setAlignmentX(CENTER_ALIGNMENT);
+        bt_voltar_login.addActionListener(this::bt_voltar_loginActionPerformed);
+        bt_voltar_login.setMaximumSize(new Dimension(200, 50));
+        bt_voltar_login.setBackground(Color.BLACK);
+        bt_voltar_login.setForeground(Color.white);
+
+        registerConfirm.add(bt_cadastrar);
+        registerConfirm.add(Box.createVerticalStrut(50));
+        registerConfirm.add(bt_voltar_login);
+
+        return registerConfirm;
     }
 
-    public void setjLabel3(JLabel jLabel3) {
-        this.jLabel3 = jLabel3;
+    private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
+        // TODO add your handling code here:
+        ac.createUser();
     }
 
-    public JLabel getjLabel4() {
-        return jLabel4;
+    private void bt_voltar_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltar_loginActionPerformed
+        // TODO add your handling code here:
+        mainframe.setPanel(MainFrame.LOGIN_PANEL);
     }
 
-    public void setjLabel4(JLabel jLabel4) {
-        this.jLabel4 = jLabel4;
+    public MainFrame getMainframe() {
+        return mainframe;
     }
 
-    public JLabel getjLabel5() {
-        return jLabel5;
+    public AppContext getAppContext() {
+        return appContext;
     }
 
-    public void setjLabel5(JLabel jLabel5) {
-        this.jLabel5 = jLabel5;
+    public AuthController getAc() {
+        return ac;
     }
 
-    public JLabel getjLabel6() {
-        return jLabel6;
+    public JLabel getTitleLabel() {
+        return titleLabel;
     }
 
-    public void setjLabel6(JLabel jLabel6) {
-        this.jLabel6 = jLabel6;
+    public void setTitleLabel(JLabel titleLabel) {
+        this.titleLabel = titleLabel;
     }
 
-    public JLabel getjLabel7() {
-        return jLabel7;
+    public JLabel getGreetingLabel() {
+        return greetingLabel;
     }
 
-    public void setjLabel7(JLabel jLabel7) {
-        this.jLabel7 = jLabel7;
+    public void setGreetingLabel(JLabel greetingLabel) {
+        this.greetingLabel = greetingLabel;
     }
 
-    public JLabel getjLabel8() {
-        return jLabel8;
+    public JLabel getInfoLabel1() {
+        return infoLabel1;
     }
 
-    public void setjLabel8(JLabel jLabel8) {
-        this.jLabel8 = jLabel8;
+    public void setInfoLabel1(JLabel infoLabel1) {
+        this.infoLabel1 = infoLabel1;
     }
 
-    public JTextField getTxt_email_cadastro() {
-        return txt_email_cadastro;
+    public JLabel getInfoLabel2() {
+        return infoLabel2;
     }
 
-    public void setTxt_email_cadastro(JTextField txt_email_cadastro) {
-        this.txt_email_cadastro = txt_email_cadastro;
+    public void setInfoLabel2(JLabel infoLabel2) {
+        this.infoLabel2 = infoLabel2;
+    }
+
+    public JLabel getInfoLabel3() {
+        return infoLabel3;
+    }
+
+    public void setInfoLabel3(JLabel infoLabel3) {
+        this.infoLabel3 = infoLabel3;
+    }
+
+    public JLabel getInfoLabel4() {
+        return infoLabel4;
+    }
+
+    public void setInfoLabel4(JLabel infoLabel4) {
+        this.infoLabel4 = infoLabel4;
+    }
+
+    public JLabel getInfoLabel5() {
+        return infoLabel5;
+    }
+
+    public void setInfoLabel5(JLabel infoLabel5) {
+        this.infoLabel5 = infoLabel5;
     }
 
     public JTextField getTxt_nome_cadastro() {
@@ -114,14 +323,6 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     public void setTxt_nome_cadastro(JTextField txt_nome_cadastro) {
         this.txt_nome_cadastro = txt_nome_cadastro;
-    }
-
-    public JTextField getTxt_senha_cadastro() {
-        return txt_senha_cadastro;
-    }
-
-    public void setTxt_senha_cadastro(JPasswordField txt_senha_cadastro) {
-        this.txt_senha_cadastro = txt_senha_cadastro;
     }
 
     public JTextField getTxt_sob_cadastro() {
@@ -139,201 +340,36 @@ public class RegisterPanel extends javax.swing.JPanel {
     public void setTxt_telefone_cadastro(JTextField txt_telefone_cadastro) {
         this.txt_telefone_cadastro = txt_telefone_cadastro;
     }
-    
-    
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        bt_voltar_login = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txt_nome_cadastro = new javax.swing.JTextField();
-        txt_sob_cadastro = new javax.swing.JTextField();
-        txt_telefone_cadastro = new javax.swing.JTextField();
-        txt_email_cadastro = new javax.swing.JTextField();
-        txt_senha_cadastro = new javax.swing.JPasswordField();
-        bt_cadastrar = new javax.swing.JButton();
-
-        setBackground(new java.awt.Color(35, 35, 35));
-        setMaximumSize(new java.awt.Dimension(1920, 1080));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-
-        jLabel2.setBackground(new java.awt.Color(250, 250, 250));
-        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel2.setText("VAMOS REALIZAR SEU CADASTRO!");
-
-        bt_voltar_login.setBackground(new java.awt.Color(0, 0, 0));
-        bt_voltar_login.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        bt_voltar_login.setForeground(new java.awt.Color(250, 250, 250));
-        bt_voltar_login.setText("Voltar");
-        bt_voltar_login.setBorderPainted(false);
-        bt_voltar_login.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_voltar_loginActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setBackground(new java.awt.Color(250, 250, 250));
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel3.setText("REGISTRO");
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel4.setText("Nome:");
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel5.setText("Sobrenome:");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel6.setText("Telefone:");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel7.setText("E-mail:");
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel8.setText("Senha:");
-
-        txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_nome_cadastro.setForeground(new java.awt.Color(0,0,0));
-
-        txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_sob_cadastro.setForeground(new java.awt.Color(0,0,0));
-
-        txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_telefone_cadastro.setForeground(new java.awt.Color(0,0,0));
-
-        txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_email_cadastro.setForeground(new java.awt.Color(0,0,0));
-
-        txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_senha_cadastro.setForeground(new java.awt.Color(0,0,0));
-
-        bt_cadastrar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        bt_cadastrar.setForeground(new java.awt.Color(0, 255, 102));
-        bt_cadastrar.setText("Cadastrar");
-        bt_cadastrar.setBorderPainted(false);
-        bt_cadastrar.setContentAreaFilled(false);
-        bt_cadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_cadastrarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_telefone_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_nome_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txt_sob_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_email_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_senha_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bt_voltar_login, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(bt_voltar_login, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(jLabel2)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_nome_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_sob_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_telefone_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txt_email_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txt_senha_cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(142, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
-        // TODO add your handling code here:
-        ac.createUser();
-    }//GEN-LAST:event_bt_cadastrarActionPerformed
-
-    private void bt_voltar_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltar_loginActionPerformed
-        // TODO add your handling code here:
-        mainframe.setPanel(MainFrame.LOGIN_PANEL);
-    }//GEN-LAST:event_bt_voltar_loginActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_cadastrar;
-    private javax.swing.JButton bt_voltar_login;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField txt_email_cadastro;
-    private javax.swing.JTextField txt_nome_cadastro;
-    private javax.swing.JPasswordField txt_senha_cadastro;
-    private javax.swing.JTextField txt_sob_cadastro;
-    private javax.swing.JTextField txt_telefone_cadastro;
-    // End of variables declaration//GEN-END:variables
-
-    public MainFrame getMainframe() {
-        return mainframe;
+    public JTextField getTxt_email_cadastro() {
+        return txt_email_cadastro;
     }
 
+    public void setTxt_email_cadastro(JTextField txt_email_cadastro) {
+        this.txt_email_cadastro = txt_email_cadastro;
+    }
+
+    public JTextField getTxt_senha_cadastro() {
+        return txt_senha_cadastro;
+    }
+
+    public void setTxt_senha_cadastro(JTextField txt_senha_cadastro) {
+        this.txt_senha_cadastro = txt_senha_cadastro;
+    }
+
+    public JButton getBt_cadastrar() {
+        return bt_cadastrar;
+    }
+
+    public void setBt_cadastrar(JButton bt_cadastrar) {
+        this.bt_cadastrar = bt_cadastrar;
+    }
+
+    public JButton getBt_voltar_login() {
+        return bt_voltar_login;
+    }
+
+    public void setBt_voltar_login(JButton bt_voltar_login) {
+        this.bt_voltar_login = bt_voltar_login;
+    }
 }
