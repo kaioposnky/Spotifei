@@ -4,7 +4,6 @@ import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 import net.spotifei.Services.AuthService;
 import net.spotifei.Views.Panels.LoginPanel;
-//import net.spotifei.Views.Panels.LoginPanel;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.Panels.RegisterPanel;
 
