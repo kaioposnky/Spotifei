@@ -147,23 +147,6 @@ public class AdminController {
         }
     }
 
-    public void showUserDislikedMusics() {
-        HistoryPanel historyPanel = (HistoryPanel) view;
-
-        int userId = appContext.getPersonContext().getIdUsuario();
-        int limit = 10; // alterável limite
-        Response<List<Music>> response = musicService.getUserDislikedMusics(userId, limit);
-        if (handleDefaultResponseIfError(response)) return;
-
-        List<Music> musics = response.getData();
-
-        MusicInfoPanelBuilder panelBuilder = new MusicInfoPanelBuilder(appContext, historyPanel.getMainframe());
-        panelBuilder.selectLikedOrDislikedMusicInfoPanel();
-        openMusicsPopUp(historyPanel, musics, panelBuilder, "");
-
-        logDebug("Mostrando músicas curtidas pelo usuário ");
-    }
-
     public void loadSystemStatistics() {
         ADMEstatisticasPanel statisticsPanel = (ADMEstatisticasPanel) view;
         Response<Long> responseMusics = musicService.getTotalMusics();
