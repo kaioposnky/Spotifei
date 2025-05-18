@@ -20,8 +20,12 @@ dependencies {
     // https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
     implementation("io.github.cdimascio:dotenv-java:3.2.0")
 
-    // https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm
-    implementation("de.mkammerer:argon2-jvm:2.1")
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
+    implementation("org.springframework.security:spring-security-crypto:5.8.16")
+
+    // tive que colocar isso por causa que é dependência do crypto
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    implementation("commons-logging:commons-logging:1.3.0")
 
     implementation 'org.postgresql:postgresql:42.7.5'
 

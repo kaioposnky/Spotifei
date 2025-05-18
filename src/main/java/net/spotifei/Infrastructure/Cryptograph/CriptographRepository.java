@@ -1,17 +1,17 @@
 package net.spotifei.Infrastructure.Cryptograph;
 
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class CriptographRepository {
-    private final Argon2 argon2 = Argon2Factory.create(32, 16);
+    private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
 
     /**
      * @param string Recebe a string a ser encriptada
      * @return Retorna a string encriptada
      */
     public String generateHash(String string){
-        return argon2.hash(1, 8196, 1, string);
+        return bcrypt.encode(string);
     }
 
     /**
@@ -21,6 +21,6 @@ public class CriptographRepository {
      * @return Retorna se a string pertence ao hash
      */
     public boolean compareHash(String string, String hash){
-        return argon2.verify(hash, string);
+        return bcrypt.matches(string, hash);
     }
 }
