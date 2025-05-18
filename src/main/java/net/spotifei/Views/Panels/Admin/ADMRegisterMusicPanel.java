@@ -149,12 +149,6 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(250, 250, 250));
         jLabel4.setText("Genero:");
 
-        txt_nome_musicacad.setBackground(new java.awt.Color(250, 250, 250));
-
-        txt_genero_musicacad.setBackground(new java.awt.Color(250, 250, 250));
-
-        txt_artista_musicacad.setBackground(new java.awt.Color(250, 250, 250));
-
         bt_salvar.setBackground(new java.awt.Color(0, 204, 102));
         bt_salvar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_salvar.setForeground(new java.awt.Color(0, 0, 0));

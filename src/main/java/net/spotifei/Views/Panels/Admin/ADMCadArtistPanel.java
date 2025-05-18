@@ -140,37 +140,22 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         label_sobrenome.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome.setForeground(new java.awt.Color(250, 250, 250));
         label_sobrenome.setText("Sobrenome:");
-
-        txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-
-        txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-
         label_sobrenome1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome1.setForeground(new java.awt.Color(250, 250, 250));
         label_sobrenome1.setText("Nome:");
-
-        txt_nome_artistico.setBackground(new java.awt.Color(250, 250, 250));
 
 
         label_sobrenome3.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome3.setForeground(new java.awt.Color(250, 250, 250));
         label_sobrenome3.setText("Telefone:");
 
-        txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-
-
         label_sobrenome4.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome4.setForeground(new java.awt.Color(250, 250, 250));
         label_sobrenome4.setText("Email:");
 
-        txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-
-
         label_sobrenome5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome5.setForeground(new java.awt.Color(250, 250, 250));
         label_sobrenome5.setText("Senha:");
-
-        txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
 
         label_sobrenome6.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         label_sobrenome6.setForeground(new java.awt.Color(250, 250, 250));

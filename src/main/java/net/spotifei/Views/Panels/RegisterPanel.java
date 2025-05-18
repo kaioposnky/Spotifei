@@ -95,8 +95,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         infoLabel1.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_nome_cadastro = new JTextField("");
-        txt_nome_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_nome_cadastro.setForeground(new java.awt.Color(35, 35, 35));
         txt_nome_cadastro.setPreferredSize(new Dimension(200, 30));
         txt_nome_cadastro.setMaximumSize(new Dimension(250, 30));
         txt_nome_cadastro.setAlignmentX(CENTER_ALIGNMENT);
@@ -119,8 +117,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         infoLabel2.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_sob_cadastro = new JTextField("");
-        txt_sob_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_sob_cadastro.setForeground(new java.awt.Color(35, 35, 35));
         txt_sob_cadastro.setPreferredSize(new Dimension(200, 30));
         txt_sob_cadastro.setMaximumSize(new Dimension(250, 30));
         txt_sob_cadastro.setAlignmentX(CENTER_ALIGNMENT);
@@ -144,8 +140,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         infoLabel3.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_telefone_cadastro = new JTextField("");
-        txt_telefone_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_telefone_cadastro.setForeground(new java.awt.Color(35, 35, 35));
         txt_telefone_cadastro.setPreferredSize(new Dimension(200, 30));
         txt_telefone_cadastro.setMaximumSize(new Dimension(250, 30));
         txt_telefone_cadastro.setAlignmentX(CENTER_ALIGNMENT);
@@ -168,8 +162,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         infoLabel4.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_email_cadastro = new JTextField("");
-        txt_email_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_email_cadastro.setForeground(new java.awt.Color(35, 35, 35));
         txt_email_cadastro.setPreferredSize(new Dimension(200, 30));
         txt_email_cadastro.setMaximumSize(new Dimension(250, 30));
         txt_email_cadastro.setAlignmentX(CENTER_ALIGNMENT);
@@ -193,8 +185,6 @@ public class RegisterPanel extends javax.swing.JPanel {
         infoLabel5.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_senha_cadastro = new JTextField("");
-        txt_senha_cadastro.setBackground(new java.awt.Color(250, 250, 250));
-        txt_senha_cadastro.setForeground(new java.awt.Color(35, 35, 35));
         txt_senha_cadastro.setPreferredSize(new Dimension(200, 30));
         txt_senha_cadastro.setMaximumSize(new Dimension(250, 30));
         txt_senha_cadastro.setAlignmentX(CENTER_ALIGNMENT);

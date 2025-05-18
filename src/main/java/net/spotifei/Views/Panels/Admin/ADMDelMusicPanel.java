@@ -126,7 +126,6 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("> Digite o ID da música que deseja excluir:");
 
-        txt_id_musicadel.setBackground(new java.awt.Color(250, 250, 250));
         txt_id_musicadel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_id_musicadelActionPerformed(evt);

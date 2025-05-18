@@ -4,8 +4,7 @@
  */
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
@@ -114,14 +113,20 @@ public class ADMHomePanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
         jLabel1.setText("ADMINISTRADOR");
+        jLabel1.setAlignmentX(CENTER_ALIGNMENT);
+
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(250, 250, 250));
         jLabel2.setText("BEM-VINDO ADM!");
+        jLabel2.setAlignmentX(CENTER_ALIGNMENT);
+
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("> O QUE DESEJA FAZER?");
+        jLabel3.setAlignmentX(CENTER_ALIGNMENT);
+
 
         bt_cad_musica.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -132,6 +137,8 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 bt_cad_musicaActionPerformed(evt);
             }
         });
+        bt_cad_musica.setAlignmentX(CENTER_ALIGNMENT);
+
 
         bt_excluir_musica.setBackground(new java.awt.Color(0, 0, 0));
         bt_excluir_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -142,6 +149,8 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 bt_excluir_musicaActionPerformed(evt);
             }
         });
+        bt_excluir_musica.setAlignmentX(CENTER_ALIGNMENT);
+
 
         bt_cad_artista.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_artista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -152,6 +161,8 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 bt_cad_artistaActionPerformed(evt);
             }
         });
+        bt_cad_artista.setAlignmentX(CENTER_ALIGNMENT);
+
 
         bt_consulta_usuario.setBackground(new java.awt.Color(0, 0, 0));
         bt_consulta_usuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -162,6 +173,8 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 bt_consulta_usuarioActionPerformed(evt);
             }
         });
+        bt_consulta_usuario.setAlignmentX(CENTER_ALIGNMENT);
+
 
         bt_sistema.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         bt_sistema.setForeground(new java.awt.Color(0, 204, 102));
@@ -173,49 +186,45 @@ public class ADMHomePanel extends javax.swing.JPanel {
                 bt_sistemaActionPerformed(evt);
             }
         });
+        bt_sistema.setAlignmentX(CENTER_ALIGNMENT);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_sistema, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_excluir_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_consulta_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_cad_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_cad_musica, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(314, 314, 314)
-                .addContainerGap(332, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(47, 47, 47)
-                .addComponent(jLabel2)
-                .addGap(42, 42, 42)
-                .addComponent(jLabel3)
-                .addGap(15, 15, 15)
-                .addComponent(bt_cad_musica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_excluir_musica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_cad_artista)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_consulta_usuario)
-                .addGap(76, 76, 76)
-                .addComponent(bt_sistema)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
+        bt_cad_genero = new javax.swing.JButton();
+        bt_cad_genero.setBackground(new java.awt.Color(0, 0, 0));
+        bt_cad_genero.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bt_cad_genero.setForeground(new java.awt.Color(250, 250, 250));
+        bt_cad_genero.setText("Cadastrar Gênero");
+        bt_cad_genero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cad_generoActionPerformed();
+            }
+        });
+        bt_cad_genero.setAlignmentX(CENTER_ALIGNMENT);
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(CENTER_ALIGNMENT);
+
+        add(Box.createVerticalStrut(20));
+        add(jLabel1);
+        add(Box.createVerticalStrut(20));
+        add(jLabel2);
+        add(Box.createVerticalStrut(20));
+        add(jLabel3);
+        add(Box.createVerticalStrut(100));
+        add(bt_cad_musica);
+        add(Box.createVerticalStrut(20));
+        add(bt_excluir_musica);
+        add(Box.createVerticalStrut(20));
+        add(bt_cad_artista);
+        add(Box.createVerticalStrut(20));
+        add(bt_consulta_usuario);
+        add(Box.createVerticalStrut(20));
+        add(bt_cad_genero);
+        add(Box.createVerticalStrut(20));
+        add(bt_sistema);
+        add(Box.createVerticalStrut(40));
+
+
+    }
 
     private void bt_cad_musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cad_musicaActionPerformed
         // TODO add your handling code here:
@@ -243,12 +252,17 @@ public class ADMHomePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_cad_artistaActionPerformed
 
 
+    private void bt_cad_generoActionPerformed(){
+        mainframe.setPanel(MainFrame.ADMCADGENRE_PANEL);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cad_artista;
     private javax.swing.JButton bt_cad_musica;
     private javax.swing.JButton bt_consulta_usuario;
     private javax.swing.JButton bt_excluir_musica;
     private javax.swing.JButton bt_sistema;
+    private JButton bt_cad_genero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -259,3 +273,8 @@ public class ADMHomePanel extends javax.swing.JPanel {
     }
 
 }
+
+
+
+
+

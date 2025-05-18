@@ -76,8 +76,6 @@ public class LoginPanel extends javax.swing.JPanel {
         infoLabel1.setAlignmentX(CENTER_ALIGNMENT);
 
         txt_email_login = new JTextField("");
-        txt_email_login.setBackground(new java.awt.Color(250, 250, 250));
-        txt_email_login.setForeground(new java.awt.Color(35, 35, 35));
         txt_email_login.setPreferredSize(new Dimension(200, 30));
         txt_email_login.setMaximumSize(new Dimension(250, 30));
         txt_email_login.setAlignmentX(CENTER_ALIGNMENT);
@@ -100,8 +98,6 @@ public class LoginPanel extends javax.swing.JPanel {
 
         txt_senha_login = new JPasswordField("");
         txt_senha_login.setPreferredSize(new Dimension(200, 30));
-        txt_senha_login.setBackground(new java.awt.Color(250, 250, 250));
-        txt_senha_login.setForeground(new java.awt.Color(35, 35, 35));
         txt_senha_login.setPreferredSize(new Dimension(200, 30));
         txt_senha_login.setMaximumSize(new Dimension(250, 30));
         txt_senha_login.setAlignmentX(CENTER_ALIGNMENT);

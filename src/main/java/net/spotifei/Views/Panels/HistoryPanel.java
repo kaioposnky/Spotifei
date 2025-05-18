@@ -41,7 +41,7 @@ public class HistoryPanel extends javax.swing.JPanel {
         greetingLabel.setForeground(Color.white);
         greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-        JButton bt_sair = new JButton("Voltar");
+        JButton bt_sair = new JButton("Deslogar");
         bt_sair.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
         bt_sair.setAlignmentX(CENTER_ALIGNMENT);
         bt_sair.addActionListener(this::bt_sairActionPerformed);
