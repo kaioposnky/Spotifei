@@ -132,7 +132,7 @@ public class AdminController {
         }
         try {
             int musicIdToDelete = Integer.parseInt(musicIdText);
-            Response<List<Music>> response = musicService.deletMusic(musicIdToDelete);
+            Response<List<Music>> response = musicService.deleteMusic(musicIdToDelete);
             if (handleDefaultResponseIfError(response)) {
                 return;
             }
@@ -167,14 +167,6 @@ public class AdminController {
 
         statisticsPanel.setMostLikedMusics(responseMostLikedMusics.getData());
         statisticsPanel.setMostDislikedMusics(responseMostDislikedMusics.getData());
-    }
-
-    private void openMusicsPopUp(HistoryPanel historyPanel, List<Music> musics, MusicInfoPanelBuilder panelBuilder, String title) {
-        historyPanel.setMusicsPopUp(new MusicsPopUp(
-                appContext, historyPanel.getMainframe(), title, musics, panelBuilder));
-
-        historyPanel.getMusicsPopUp().setVisible(true);
-        historyPanel.getMusicsPopUp().getMusicListComponent().setMusics(musics);
     }
 
     public void constUser() {

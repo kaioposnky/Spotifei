@@ -44,7 +44,8 @@ public class MusicService {
             Music music = musicRepository.getNextMusicOnUserQueue(userId);
 
             if(music == null){
-                return ResponseHelper.generateBadResponse("A música retornada foi nula!");
+                // uma alternativa inteligente de lidar com quando a próxima música "não existe"
+                music = musicRepository.getRandomMusic();
             }
 
             return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
@@ -167,7 +168,6 @@ public class MusicService {
             return ResponseHelper.generateErrorResponse("Erro ao tentar pausar a música!", ex);
         }
     }
-
 
     public Response<Void> addMusicToUserHistory(int userId, int musicId){
         try{
@@ -353,7 +353,7 @@ public class MusicService {
         this.newMusicSelectedId = newMusicSelectedId;
     }
 
-    public Response<List<Music>> deletMusic(int idMusic){
+    public Response<List<Music>> deleteMusic(int idMusic){
         try{
             if(idMusic == 0){
                 return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
