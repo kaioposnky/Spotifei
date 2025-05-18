@@ -128,6 +128,10 @@ public class AppContext {
         return new HistoryController(this, this.musicService, view);
     }
 
+    public GenreController getGenreController(JPanel view, MainFrame mainframe){
+        return new GenreController(view, mainframe, this.musicService);
+    }
+
     public MusicInfoPanelBuilder getMusicInfoPanelBuilder(MainFrame mainFrame) {
         return new MusicInfoPanelBuilder(this, mainFrame);
     }
