@@ -456,6 +456,17 @@ public class MusicService {
         }
     }
 
+    // sim criei isso no music service porque estou com preguiça de criar um outro service para colocar 1 funçao...
+    public Response<Void> createGenre(String name){
+        try{
+            genreRepository.createGenre(name);
+
+            return ResponseHelper.generateSuccessResponse("Gênero criado com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
     private void putAuthorsIntoMusic(Music music) throws Exception{
         List<Artist> artists = artistRepository.getArtistsByMusicId(music.getIdMusica());
         if (artists == null || artists.isEmpty()){
