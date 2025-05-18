@@ -71,19 +71,19 @@ public class HistoryPanel extends javax.swing.JPanel {
 
         Dimension buttonSize = new Dimension(150, 150);
 
-        JButton bt_top10 = new JButton("TOP 10");
+        JButton bt_top10 = new JButton("Últimas");
         bt_top10.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
         bt_top10.setAlignmentX(CENTER_ALIGNMENT);
         bt_top10.addActionListener(this::bt_top10ActionPerformed);
         bt_top10.setPreferredSize(buttonSize);
 
-        JButton bt_curtidas = new JButton("CURTIDAS");
+        JButton bt_curtidas = new JButton("Mais likes");
         bt_curtidas.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
         bt_curtidas.setAlignmentX(CENTER_ALIGNMENT);
         bt_curtidas.addActionListener(this::bt_curtidasActionPerformed);
         bt_curtidas.setPreferredSize(buttonSize);
 
-        JButton bt_deslikes = new JButton("DESCURTIDAS");
+        JButton bt_deslikes = new JButton("Mais deslikes");
         bt_deslikes.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
         bt_deslikes.setAlignmentX(CENTER_ALIGNMENT);
         bt_deslikes.addActionListener(this::bt_deslikesActionPerformed);

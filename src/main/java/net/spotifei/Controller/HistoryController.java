@@ -28,7 +28,7 @@ public class HistoryController {
         HistoryPanel historyPanel = (HistoryPanel) view;
 
         int userId = appContext.getPersonContext().getIdUsuario();
-        int limit = 10; // alterável limite
+        int limit = 50; // alterável limite
         Response<List<Music>> response = musicService.getUserMostSearchedMusics(userId, limit);
         if(handleDefaultResponseIfError(response)) return;
 
@@ -36,7 +36,7 @@ public class HistoryController {
 
         MusicInfoPanelBuilder panelBuilder = new MusicInfoPanelBuilder(appContext, historyPanel.getMainframe());
         panelBuilder.selectMostPlayedMusicInfoPanel();
-        openMusicsPopUp(historyPanel, musics, panelBuilder, "Músicas que você mais escutou");
+        openMusicsPopUp(historyPanel, musics, panelBuilder, "Últimas músicas tocadas");
 
         logDebug("Mostrando 10 músicas mais buscadas do usuário!");
     }
@@ -45,7 +45,7 @@ public class HistoryController {
         HistoryPanel historyPanel = (HistoryPanel) view;
 
         int userId = appContext.getPersonContext().getIdUsuario();
-        int limit = 10; // alterável limite
+        int limit = 50; // alterável limite
         Response<List<Music>> response = musicService.getUserLikedMusics(userId, limit);
         if(handleDefaultResponseIfError(response)) return;
 
@@ -62,7 +62,7 @@ public class HistoryController {
         HistoryPanel historyPanel = (HistoryPanel) view;
 
         int userId = appContext.getPersonContext().getIdUsuario();
-        int limit = 10; // alterável limite
+        int limit = 50; // alterável limite
         Response<List<Music>> response = musicService.getUserDislikedMusics(userId, limit);
         if(handleDefaultResponseIfError(response)) return;
 
