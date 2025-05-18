@@ -69,6 +69,7 @@ public class AuthController {
 
         logDebug("Usuário criado com sucesso!");
         registerPanel.getMainframe().setPanel(MainFrame.LOGIN_PANEL);
+        JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso!");
 
     }
-    }
+}
