@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.example'
+group = 'net.spotifei'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,8 +10,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.7")
@@ -35,13 +33,24 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
 
     // TUDO ISSO para poder tocar o aúdio .opus ;)
-    implementation 'org.bytedeco:javacv:1.5.8'
-    implementation 'org.bytedeco:ffmpeg:5.1.2-1.5.8'
-    implementation 'org.bytedeco:ffmpeg-platform:5.1.2-1.5.8'
+    implementation 'org.bytedeco:javacv:1.5.10'
+    implementation 'org.bytedeco:ffmpeg:6.1.1-1.5.10'
+    implementation 'org.bytedeco:ffmpeg:6.1.1-1.5.10:windows-x86_64'
 
-    implementation 'com.formdev:flatlaf:3.4' // Use a versão mais recente
+    implementation 'com.formdev:flatlaf:3.6' // update para a 3.6
 }
 
-test {
-    useJUnitPlatform()
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.spotifei.Spotifei'
+    }
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_14
+    targetCompatibility = JavaVersion.VERSION_14
+}
+
