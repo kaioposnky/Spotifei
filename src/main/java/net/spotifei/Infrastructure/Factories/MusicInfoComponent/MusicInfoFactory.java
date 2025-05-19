@@ -18,12 +18,11 @@ import java.awt.event.MouseAdapter;
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
 
 public abstract class MusicInfoFactory {
-    private Music music;
     private Playlist playlist;
     private final AppContext appContext;
     private final MainFrame mainframe;
-    private MusicController musicController;
-    private PlaylistController playlistController;
+    private final MusicController musicController;
+    private final PlaylistController playlistController;
 
     protected MusicInfoFactory(AppContext appContext, MainFrame mainframe){
         // a view pode ser nula porque a única coisa que será feita é tocar a música, para isso não precisa de uma view
@@ -33,85 +32,85 @@ public abstract class MusicInfoFactory {
         this.mainframe = mainframe;
     }
 
-    protected JPanel getSearchMusicInfoPanel(){
-        JPanel basePanel = createContainerPanel();
+    protected JPanel getSearchMusicInfoPanel(Music music){
+        JPanel basePanel = createContainerPanel(music);
 
-        basePanel.add(createMusicGenrePanel());
+        basePanel.add(createMusicGenrePanel(music));
         basePanel.add(Box.createHorizontalStrut(50));
-        basePanel.add(createMusicFeedbackPanel());
+        basePanel.add(createMusicFeedbackPanel(music));
         basePanel.add(Box.createHorizontalStrut(50));
-        basePanel.add(createMusicPlayButtonPanel());
+        basePanel.add(createMusicPlayButtonPanel(music));
 
         basePanel.add(Box.createHorizontalStrut(20));
-        basePanel.add(createMusicTimePanel());
+        basePanel.add(createMusicTimePanel(music));
         basePanel.add(Box.createHorizontalStrut(20));
 
         return basePanel;
     }
 
-    protected JPanel getMostViewedMusicInfoPanel(){
+    protected JPanel getMostViewedMusicInfoPanel(Music music){
 
-        JPanel mainPanel = createContainerPanel();
+        JPanel mainPanel = createContainerPanel(music);
 
-        mainPanel.add(createMusicFeedbackPanel());
+        mainPanel.add(createMusicFeedbackPanel(music));
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createPlayCountPanel());
+        mainPanel.add(createPlayCountPanel(music));
         mainPanel.add(Box.createHorizontalStrut(40));
-        mainPanel.add(createMusicTimePanel());
+        mainPanel.add(createMusicTimePanel(music));
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
         return mainPanel;
     }
 
-    protected JPanel getUserLikedOrDislikedMusicInfoPanel(){
+    protected JPanel getUserLikedOrDislikedMusicInfoPanel(Music music){
 
-        JPanel mainPanel = createContainerPanel();
+        JPanel mainPanel = createContainerPanel(music);
 
-        mainPanel.add(createMusicFeedbackPanel());
+        mainPanel.add(createMusicFeedbackPanel(music));
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createMusicTimePanel());
+        mainPanel.add(createMusicTimePanel(music));
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
         return mainPanel;
     }
 
-    protected JPanel getSearchMusicInfoForPlaylistPanel(){
-        JPanel mainPanel = createContainerPanel();
+    protected JPanel getSearchMusicInfoForPlaylistPanel(Music music){
+        JPanel mainPanel = createContainerPanel(music);
         mainPanel.add(Box.createHorizontalStrut(20));
 
-        mainPanel.add(createMusicGenrePanel()); // genero
+        mainPanel.add(createMusicGenrePanel(music)); // genero
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createMusicFeedbackPanel()); // feedback
+        mainPanel.add(createMusicFeedbackPanel(music)); // feedback
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createAddMusicToPlaylistButton()); // add to playlist
+        mainPanel.add(createAddMusicToPlaylistButton(music)); // add to playlist
         mainPanel.add(Box.createHorizontalStrut(20));
-        mainPanel.add(createMusicTimePanel()); // musictime
+        mainPanel.add(createMusicTimePanel(music)); // musictime
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
         return mainPanel;
     }
 
-    protected JPanel getMusicInfoFromPlaylistEditorPanel(){
-        JPanel mainPanel = createContainerPanel();
+    protected JPanel getMusicInfoFromPlaylistEditorPanel(Music music){
+        JPanel mainPanel = createContainerPanel(music);
         mainPanel.add(Box.createHorizontalStrut(20));
 
-        mainPanel.add(createMusicGenrePanel()); // genero
+        mainPanel.add(createMusicGenrePanel(music)); // genero
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createMusicFeedbackPanel()); // feedback
+        mainPanel.add(createMusicFeedbackPanel(music)); // feedback
         mainPanel.add(Box.createHorizontalStrut(50));
-        mainPanel.add(createRemoveMusicFromPlaylistButton()); // remove playlist
+        mainPanel.add(createRemoveMusicFromPlaylistButton(music)); // remove playlist
         mainPanel.add(Box.createHorizontalStrut(20));
-        mainPanel.add(createMusicTimePanel()); // musictime
+        mainPanel.add(createMusicTimePanel(music)); // musictime
         mainPanel.add(Box.createHorizontalStrut(20));
 
         addHoverListeners(mainPanel);
         return mainPanel;
     }
 
-    private JPanel createContainerPanel(){
+    private JPanel createContainerPanel(Music music){
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
         containerPanel.setBackground(Color.decode("#121212"));
@@ -124,13 +123,13 @@ public abstract class MusicInfoFactory {
 
         containerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
-        containerPanel.add(createMusicInfoPanel());
+        containerPanel.add(createMusicInfoPanel(music));
         containerPanel.add(Box.createHorizontalGlue()); // joga os proximos elementos pra direita
 
         return containerPanel;
     }
 
-    private JPanel createMusicInfoPanel() {
+    private JPanel createMusicInfoPanel(Music music) {
         JPanel musicInfoPanel = new JPanel();
         musicInfoPanel.setLayout(new BoxLayout(musicInfoPanel, BoxLayout.X_AXIS));
         musicInfoPanel.setOpaque(false);
@@ -156,7 +155,7 @@ public abstract class MusicInfoFactory {
         return musicInfoPanel;
     }
 
-    private JPanel createMusicTimePanel() {
+    private JPanel createMusicTimePanel(Music music) {
         JPanel musicTimePanel = new JPanel();
         musicTimePanel.setLayout(new BoxLayout(musicTimePanel, BoxLayout.X_AXIS));
         musicTimePanel.setOpaque(false);
@@ -164,7 +163,7 @@ public abstract class MusicInfoFactory {
         musicTimePanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         musicTimePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        JLabel musicTimeTotal = new JLabel(getMusicTimeTotal());
+        JLabel musicTimeTotal = new JLabel(getMusicTimeTotal(music));
         musicTimeTotal.setFont(new Font("Arial", Font.BOLD, 12));
         musicTimeTotal.setForeground(Color.decode("#aeaeae"));
 
@@ -177,7 +176,7 @@ public abstract class MusicInfoFactory {
         return musicTimePanel;
     }
 
-    private JPanel createMusicPlayButtonPanel() {
+    private JPanel createMusicPlayButtonPanel(Music music) {
         JPanel musicPlayButtonPanel = new JPanel();
         musicPlayButtonPanel.setLayout(new BoxLayout(musicPlayButtonPanel, BoxLayout.X_AXIS));
         musicPlayButtonPanel.setOpaque(false);
@@ -188,14 +187,14 @@ public abstract class MusicInfoFactory {
         musicPlayButton.setFocusPainted(false);
         musicPlayButton.setContentAreaFilled(false);
         musicPlayButton.setOpaque(false);
-        musicPlayButton.addActionListener(event -> handlePlayButton());
+        musicPlayButton.addActionListener(event -> handlePlayButton(music));
 
         musicPlayButtonPanel.add(musicPlayButton);
 
         return musicPlayButtonPanel;
     }
 
-    private JPanel createMusicFeedbackPanel(){
+    private JPanel createMusicFeedbackPanel(Music music){
         JPanel feedbackPanel = new JPanel();
         feedbackPanel.setLayout(new BoxLayout(feedbackPanel, BoxLayout.X_AXIS));
         feedbackPanel.setOpaque(false);
@@ -208,7 +207,7 @@ public abstract class MusicInfoFactory {
         return feedbackPanel;
     }
 
-    private JPanel createPlayCountPanel(){
+    private JPanel createPlayCountPanel(Music music){
         JPanel playCountPanel = new JPanel();
         playCountPanel.setLayout(new BoxLayout(playCountPanel, BoxLayout.X_AXIS));
         playCountPanel.setOpaque(false);
@@ -222,7 +221,7 @@ public abstract class MusicInfoFactory {
         return playCountPanel;
     }
 
-    private JPanel createMusicGenrePanel(){
+    private JPanel createMusicGenrePanel(Music music){
         JPanel genrePanel = new JPanel();
         genrePanel.setLayout(new BoxLayout(genrePanel, BoxLayout.X_AXIS));
         genrePanel.setOpaque(false);
@@ -236,27 +235,27 @@ public abstract class MusicInfoFactory {
         return genrePanel;
     }
 
-    private JButton createRemoveMusicFromPlaylistButton(){
+    private JButton createRemoveMusicFromPlaylistButton(Music music){
         JButton removeMusicFromPlaylistButton = new JButton();
         removeMusicFromPlaylistButton.setIcon(loadImageIcon("trashcan_icon.png", 20, 20));
-        removeMusicFromPlaylistButton.addActionListener(event -> handleRemoveMusicFromPlaylist());
+        removeMusicFromPlaylistButton.addActionListener(event -> handleRemoveMusicFromPlaylist(music));
         removeMusicFromPlaylistButton.setContentAreaFilled(false);
         removeMusicFromPlaylistButton.setOpaque(false);
 
         return removeMusicFromPlaylistButton;
     }
 
-    private JButton createAddMusicToPlaylistButton(){
+    private JButton createAddMusicToPlaylistButton(Music music){
         JButton addMusicToPlaylistButton = new JButton();
         addMusicToPlaylistButton.setIcon(loadImageIcon("add_icon.png", 20, 20));
-        addMusicToPlaylistButton.addActionListener(event -> handleAddMusicToPlaylist());
+        addMusicToPlaylistButton.addActionListener(event -> handleAddMusicToPlaylist(music));
         addMusicToPlaylistButton.setContentAreaFilled(false);
         addMusicToPlaylistButton.setOpaque(false);
 
         return addMusicToPlaylistButton;
     }
 
-    private String getMusicTimeTotal(){
+    private String getMusicTimeTotal(Music music){
         long musicMicrosseconds = music.getDuracaoMs();
         long musicInSeconds = musicMicrosseconds / 1_000_000;
         long musicMinutes = musicInSeconds / 60;
@@ -264,15 +263,15 @@ public abstract class MusicInfoFactory {
         return String.format("%01d:%02d", musicMinutes, musicSeconds);
     }
 
-    private void handlePlayButton(){
+    private void handlePlayButton(Music music){
         musicController.playMusicById(music.getIdMusica());
     }
 
-    private void handleRemoveMusicFromPlaylist(){
+    private void handleRemoveMusicFromPlaylist(Music music){
         playlistController.removeMusicFromPlaylist(music.getIdMusica(), playlist.getIdPlaylist());
     }
 
-    private void handleAddMusicToPlaylist(){
+    private void handleAddMusicToPlaylist(Music music){
         playlistController.addMusicToPlaylist(music.getIdMusica(), playlist.getIdPlaylist());
     }
 
@@ -294,13 +293,6 @@ public abstract class MusicInfoFactory {
 
     private void addActionListeners(JPanel panel, MouseAdapter mouseAdapterListeners){
         panel.addMouseListener(mouseAdapterListeners);
-    }
-
-    public void setMusic(Music music) {
-        if (music == null) {
-            return;
-        }
-        this.music = music;
     }
 
     public void setPlaylist(Playlist playlist) {

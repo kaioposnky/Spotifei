@@ -253,7 +253,6 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
     @Override
     public void onMusicPlayingStatusUpdate(boolean isPlaying) {
-        logDebug("Play update acionado! " + isPlaying);
         if (isPlaying) {
             this.btnPause.setText("<html>⏸</html>");
         } else{

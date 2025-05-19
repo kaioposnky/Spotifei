@@ -134,7 +134,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
     /**
      * Toca uma música com o audioinputstream fornecido
      * @param musicAudioByteArray byte[] contendo o aúdio da música
-     * @throws Exception Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
+     * @throws InterruptedException Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
      * ao tentar tocar a música
      */
     @Override

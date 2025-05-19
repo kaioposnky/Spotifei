@@ -33,11 +33,10 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
 
     @Override
     public JPanel buildPanel(Music music){
-        super.setMusic(music);
         if (panelType == null){
             throw new IllegalStateException("Você deve selecionar o tipo de painel para construir!");
         }
-        return generatePanel();
+        return generatePanel(music);
     }
 
     @Override
@@ -54,22 +53,22 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
         this.panelType = PanelType.PLAYLISTADD;
     }
 
-    private JPanel generatePanel(){
+    private JPanel generatePanel(Music music){
         switch (panelType){
             case SEARCH -> {
-                return getSearchMusicInfoPanel();
+                return getSearchMusicInfoPanel(music);
             }
             case MOSTPLAYED -> {
-                return getMostViewedMusicInfoPanel();
+                return getMostViewedMusicInfoPanel(music);
             }
             case LIKEDORDISLIKED -> {
-                return getUserLikedOrDislikedMusicInfoPanel();
+                return getUserLikedOrDislikedMusicInfoPanel(music);
             }
             case PLAYLISTEDIT -> {
-                return getMusicInfoFromPlaylistEditorPanel();
+                return getMusicInfoFromPlaylistEditorPanel(music);
             }
             case PLAYLISTADD -> {
-                return getSearchMusicInfoForPlaylistPanel();
+                return getSearchMusicInfoForPlaylistPanel(music);
             }
             default -> throw new IllegalStateException("Valor inesperado: " + panelType);
         }
