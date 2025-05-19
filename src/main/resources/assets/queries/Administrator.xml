@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+    <query name="GetAdminIdByEmail">
+        SELECT
+        a.id_administrador
+        FROM administrador a
+        LEFT JOIN usuario u ON id_usuario = id_administrador
+        WHERE u.email = @email
+    </query>
+    <query name="CheckUserAdminById">
+        SELECT 1
+        FROM administrador
+        WHERE id_administrador = @idUser
+    </query>
+    <query name="UpdateAdminLastLoginById">
+        UPDATE administrador
+        SET ultimo_login = @lastLogin
+        WHERE id_administrador = @idAdministrator
+    </query>
+    <query name="Top5MostLikedMusic">
+        SELECT m.nome AS nome_musica, COUNT(av.gostou) AS numero_curtidas
+        FROM musica m
+        LEFT JOIN avaliacao_usuario av ON m.id_musica = av.id_musica AND av.gostou = TRUE
+        GROUP BY m.id_musica, m.nome
+        ORDER BY numero_curtidas DESC
+        LIMIT 5;
+    </query>
+    <query name="Top5MostDislikedMusic">
+        SELECT m.nome AS nome_musica, COUNT(av.gostou) AS numero_curtidas
+        FROM musica m
+        LEFT JOIN avaliacao_usuario av ON m.id_musica = av.id_musica AND av.gostou = FALSE
+        GROUP BY m.id_musica, m.nome
+        ORDER BY numero_curtidas DESC
+        LIMIT 5;
+    </query>
+    <query name="TotalUser">
+        SELECT COUNT(*) AS total_usuarios
+        FROM usuario;
+    </query>
+    <query name="TotalMusics">
+        SELECT COUNT(*) AS total_musicas
+        FROM musica;
+    </query>
+    <query name="DeletedMusicFromID">
+        DELETE FROM musica
+        WHERE id_musica = @idMusic;
+    </query>
+</queries>

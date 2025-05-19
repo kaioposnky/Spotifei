@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<queries>
+
+    <query name="GetMusicAudioByMusicId">
+        SELECT audio
+        FROM musica
+        WHERE id_musica = @idMusica;
+    </query>
+    <query name="GetUserRatingOnMusic">
+        SELECT
+        au.gostou AS liked
+        FROM avaliacao_usuario au
+        WHERE au.id_usuario = @idUser
+        AND au.id_musica = @idMusic
+    </query>
+    <query name="GetMostLikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 ELSE NULL END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 ELSE NULL END) AS dislikes
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        GROUP BY m.id_musica, m.nome
+        ORDER BY likes DESC
+        LIMIT 10;
+    </query>
+    <query name="GetMostDislikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 ELSE NULL END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 ELSE NULL END) AS dislikes
+        FROM avaliacao_usuario au
+        JOIN musica m ON au.id_musica = m.id_musica
+        GROUP BY m.id_musica, m.nome
+        ORDER BY dislikes DESC
+        LIMIT 10;
+    </query>
+    <query name="GetTotalMusics">
+        SELECT COUNT(*) AS total
+        FROM musica;
+    </query>
+    <query name="GetMusicById">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE m.id_musica = @idMusica
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
+    </query>
+    <query name="GetRandomMusic">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        GROUP BY m.id_musica, m.nome, m.duracao_ms
+        ORDER BY RANDOM()
+        LIMIT 1;
+    </query>
+    <query name="GetUserLikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE au.id_usuario = @idUser
+        AND au.gostou = TRUE
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
+    </query>
+    <query name="GetUserDislikedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE au.id_usuario = @idUser
+        AND au.gostou = FALSE
+        GROUP BY m.id_musica, m.nome, m.duracao_ms;
+    </query>
+
+    <query name="GetUserPreviousMusic">
+        m.id_musica AS idMusica,
+        m.nome AS nomeMusica,
+        m.duracao_ms AS duracaoMs,
+        (SELECT COUNT(*) FROM avaliacao_usuario WHERE id_musica = m.id_musica AND gostou = TRUE) AS likes,
+        (SELECT COUNT(*) FROM avaliacao_usuario WHERE id_musica = m.id_musica AND gostou = FALSE) AS dislike
+        FROM
+        musica m
+        JOIN (
+        SELECT
+        id_musica
+        FROM
+        usuario_historico_musicas
+        WHERE
+        id_usuario = @idUser
+        ORDER BY
+        data_tocada DESC
+        LIMIT 1 OFFSET 1
+        )
+    </query>
+    <query name="GetUserLastPlayedMusic">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM
+        usuario_historico_musicas uhm
+        JOIN
+        musica m ON uhm.id_musica = m.id_musica
+        LEFT JOIN
+        avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE
+        uhm.id_usuario = @idUser
+        GROUP BY
+        m.id_musica,
+        m.nome,
+        m.duracao_ms,
+        uhm.data_tocada
+        ORDER BY
+        uhm.data_tocada DESC
+        LIMIT 1;
+    </query>
+    <query name="GetUserMostSearchedMusics">
+        SELECT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COALESCE(likes.total_likes, 0) AS likes,
+        COALESCE(dislikes.total_dislikes, 0) AS dislikes,
+        COALESCE(uhm_user.vezesTocada, 0) AS vezesTocada
+        FROM musica m
+        LEFT JOIN (
+        SELECT id_musica, COUNT(CASE WHEN gostou = TRUE THEN 1 ELSE NULL END) AS total_likes
+        FROM avaliacao_usuario
+        GROUP BY id_musica
+        ) AS likes ON m.id_musica = likes.id_musica
+        LEFT JOIN (
+        SELECT id_musica, COUNT(CASE WHEN gostou = FALSE THEN 1 ELSE NULL END) AS total_dislikes
+        FROM avaliacao_usuario
+        GROUP BY id_musica
+        ) AS dislikes ON m.id_musica = dislikes.id_musica
+        JOIN (
+        SELECT
+        id_musica,
+        COUNT(id_historico_musica) AS vezesTocada,
+        MAX(data_tocada) AS ultimaVezTocada
+        FROM usuario_historico_musicas
+        WHERE id_usuario = @idUser
+        GROUP BY id_musica
+        ) AS uhm_user ON m.id_musica = uhm_user.id_musica
+        ORDER BY uhm_user.ultimaVezTocada DESC
+        LIMIT @limit;
+    </query>
+
+    <query name="SearchMusicByName">
+        SELECT DISTINCT
+        m.id_musica AS idMusica,
+        m.nome AS nome,
+        m.duracao_ms AS duracaoMs,
+        COUNT(CASE WHEN au.gostou = TRUE THEN 1 END) AS likes,
+        COUNT(CASE WHEN au.gostou = FALSE THEN 1 END) AS dislikes
+        FROM musica m
+        LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
+        LEFT JOIN artista a ON am.id_artista = a.id_artista
+        LEFT JOIN genero g ON m.id_genero = g.id_genero
+        LEFT JOIN avaliacao_usuario au ON m.id_musica = au.id_musica
+        WHERE
+        m.nome ILIKE '%' || @name || '%' OR
+        a.nome_artistico ILIKE '%' || @name || '%' OR
+        g.nome ILIKE '%' || @name || '%'
+        GROUP BY
+        m.id_musica
+        ORDER BY m.nome;
+    </query>
+    <query name="SearchMusicByNameForUserWithDetails">
+        SELECT
+        m.id_musica AS idMusic,
+        m.nome AS name,
+        m.duracao_ms AS durationMs,
+        STRING_AGG(DISTINCT a.nome_artistico, ', ') AS artisticNames,
+        COUNT(CASE WHEN au_total.gostou = TRUE THEN 1 ELSE NULL END) AS likes,
+        COUNT(CASE WHEN au_total.gostou = FALSE THEN 1 ELSE NULL END) AS dislikes,
+        MAX(au_user.gostou::int)::boolean AS userGostou
+        FROM musica m
+        LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
+        LEFT JOIN artista a ON am.id_artista = a.id_artista
+        LEFT JOIN genero g ON m.id_genero = g.id_genero
+        LEFT JOIN avaliacao_usuario au_user ON m.id_musica = au_user.id_musica AND au_user.id_usuario = @idUser
+        LEFT JOIN avaliacao_usuario au_total ON m.id_musica = au_total.id_musica
+        WHERE
+        m.nome ILIKE '%' || @name || '%' OR
+        a.nome_artistico ILIKE '%' || @name || '%' OR
+        g.nome ILIKE '%' || @name || '%'
+        GROUP BY
+        m.id_musica, m.nome, m.duracao_ms
+        ORDER BY m.nome
+        LIMIT 20;
+    </query>
+
+    <query name="UpdateMusicAudio">
+        UPDATE musica
+        SET audio = @audio
+        WHERE id_musica = @idMusica;
+    </query>
+
+    <query name="SetOrInsertMusicUserRating">
+        INSERT INTO avaliacao_usuario
+        (gostou, id_usuario, id_musica)
+        VALUES (@liked, @idUser, @idMusic)
+        ON CONFLICT (id_usuario, id_musica)
+        DO UPDATE
+        SET gostou = EXCLUDED.gostou,
+        data_avaliacao = CURRENT_TIMESTAMP;
+    </query>
+
+    <query name="DeleteMusicUserRating">
+        DELETE FROM avaliacao_usuario
+        WHERE id_usuario = @idUser
+        AND id_musica = @idMusic;
+    </query>
+    <query name="DeleteMusic">
+        DELETE FROM music
+        WHERE id_musica = @idMusic
+    </query>
+
+    <query name="InsertMusic">
+        INSERT INTO musica(nome, duracao_ms, audio, id_genero)
+        VALUES(@name, @durationMs, @audio, @idGenre)
+    </query>
+    <query name="InsertMusicAndReturnId">
+        INSERT INTO musica(nome, duracao_ms, audio, id_genero)
+        VALUES(@name, @durationMs, @audio, @idGenre)
+        RETURNING id_musica;
+    </query>
+    <query name="InsertMusicPlayHistory">
+        INSERT INTO usuario_historico_musicas (id_usuario, id_musica)
+        VALUES (@idUser, @idMusic);
+    </query>
+    <query name="InsertArtistIntoMusic">
+        INSERT INTO artista_musica(id_musica, id_artista)
+        VALUES(@idMusic, @idArtist);
+    </query>
+    <query name="InsertMusicSearchHistory">
+        INSERT INTO usuario_historico_buscas (id_usuario, busca)
+        VALUES (@idUser, @searchTerm);
+    </query>
+
+</queries>

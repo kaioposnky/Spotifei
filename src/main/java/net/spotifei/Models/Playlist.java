@@ -4,16 +4,21 @@ import java.util.ArrayList;
 
 public class Playlist {
     private String nome;
-    private Pessoa autor;
-    private ArrayList<Musica> musicas;
+    private Artist autor;
     private long salvamentos;
+    private boolean isPublic;
+    private int idPlaylist;
+    private ArrayList<Music> musicas;
+    private long qntMusicas;
 
-    public Playlist(String nome, Pessoa autor, ArrayList<Musica> musicas, long salvamentos) {
+    public Playlist(String nome, Artist autor, ArrayList<Music> musicas, long salvamentos) {
         this.nome = nome;
         this.autor = autor;
         this.musicas = musicas;
         this.salvamentos = salvamentos;
     }
+
+    public Playlist(){}
 
     public String getNome() {
         return nome;
@@ -23,20 +28,20 @@ public class Playlist {
         this.nome = nome;
     }
 
-    public Pessoa getAutor() {
+    public Person getAutor() {
         return autor;
     }
 
-    public void setAutor(Pessoa autor) {
+    public void setAutor(Artist autor) {
         this.autor = autor;
     }
 
-    public ArrayList<Musica> getMusicas() {
+    public ArrayList<Music> getMusicas() {
         return musicas;
     }
 
-    public void setMusicas(ArrayList<Musica> musicas) {
-        this.musicas = musicas;
+    public void setMusicas(ArrayList<Music> music) {
+        this.musicas = music;
     }
 
     public long getSalvamentos() {
@@ -46,4 +51,21 @@ public class Playlist {
     public void setSalvamentos(long salvamentos) {
         this.salvamentos = salvamentos;
     }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public int getIdPlaylist() {
+        return idPlaylist;
+    }
+
+    public void setIdPlaylist(int idPlaylist) {
+        this.idPlaylist = idPlaylist;
+    }
+
 }

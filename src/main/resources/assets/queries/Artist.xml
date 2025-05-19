@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+    <query name="GetArtistById">
+        SELECT
+        nome_artistico AS nomeArtistico,
+        id_artista AS id idArtista
+        FROM artista
+        WHERE id_artista = @idArtista;
+    </query>
+    <query name="GetArtistByName">
+        SELECT
+        nome_artistico AS nomeArtistico,
+        id_artista AS idArtista
+        FROM artista
+        WHERE nome_artistico = @artisticName;
+    </query>
+    <query name="GetArtistsByMusicId">
+        SELECT
+        a.nome_artistico AS nomeArtistico,
+        a.id_artista AS idArtista
+        FROM artista_musica am
+        JOIN artista a ON a.id_artista = am.id_artista
+        WHERE am.id_musica = @idMusica;
+    </query>
+    <query name="SetUserArtist">
+        INSERT INTO artista(id_artista, nome_artistico)
+        VALUES (@idUser, @artisticName)
+    </query>
+    <query name="CreateArtist">
+        WITH new_user AS (
+        INSERT INTO usuario (nome, sobrenome, email, telefone, senha)
+        VALUES (@nome, @sobrenome, @email, @telefone, @senha)
+        RETURNING id_usuario
+        )
+        INSERT INTO artista (id_artista, nome_artistico)
+        SELECT id_usuario, @nomeArtistico
+        FROM new_user;
+    </query>
+    <query name="DeleteArtist">
+        DELETE FROM usuario
+        WHERE id_usuario = @idUsuario;
+    </query>
+</queries>
