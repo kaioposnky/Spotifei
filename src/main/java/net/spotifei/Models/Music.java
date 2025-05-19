@@ -8,6 +8,7 @@ public class Music {
     private Genre genre;
     private long duracaoMs;
     private int idMusica;
+    private int idMusicaFila;
     private long likes;
     private long dislikes;
     private long vezesTocada;
@@ -88,6 +89,14 @@ public class Music {
 
     public void setGostou(Boolean gostou) {
         this.gostou = gostou;
+    }
+
+    public int getIdMusicaFila() {
+        return idMusicaFila;
+    }
+
+    public void setIdMusicaFila(int idMusicaFila) {
+        this.idMusicaFila = idMusicaFila;
     }
 
     public String getArtistsNames(){

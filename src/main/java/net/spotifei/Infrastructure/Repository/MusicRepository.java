@@ -65,7 +65,7 @@ public class MusicRepository {
     public Music getNextMusicOnUserQueue(int userId) throws Exception {
         try{
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
 
             String sql = jdbcRepository.getQueryNamed("GetNextMusicOnUserQueueByUserId");
             Music music = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Music.class));
@@ -210,8 +210,8 @@ public class MusicRepository {
     public void insertMusicPlayHistory(int userId, int musicId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
-            params.put("idUser", userId); // Check if parameter name in XML is idUser or idUsuario
-            params.put("idMusic", musicId); // Check if parameter name in XML is idMusic or idMusica
+            params.put("idUser", userId);
+            params.put("idMusic", musicId);
 
             String sql = jdbcRepository.getQueryNamed("InsertMusicPlayHistory");
             jdbcRepository.executeProcedure(sql, params);
@@ -330,7 +330,7 @@ public class MusicRepository {
     public void deleteUserQueue(int userId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
 
             String sql = jdbcRepository.getQueryNamed("DeleteUserQueue");
             jdbcRepository.executeProcedure(sql, params);
@@ -355,7 +355,7 @@ public class MusicRepository {
     public void insertMusicIntoQueue(int userId, int musicId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
             params.put("idMusica", musicId);
 
             String sql = jdbcRepository.getQueryNamed("InsertMusicIntoQueue");
@@ -368,7 +368,7 @@ public class MusicRepository {
     public void deleteMusicFromQueueByPosition(int userId, int position) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
             params.put("posicao", position);
 
             String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueByPosition");
@@ -381,7 +381,7 @@ public class MusicRepository {
     public void deleteMusicFromQueueByMusicId(int userId, int musicId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
             params.put("idMusica", musicId);
 
             String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueByMusicId");
@@ -394,7 +394,7 @@ public class MusicRepository {
     public List<Music> getUserQueue(int userId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("idUsuario", userId);
+            params.put("idUser", userId);
 
             String sql = jdbcRepository.getQueryNamed("GetUserQueue");
             List<Music> queue = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
@@ -413,6 +413,18 @@ public class MusicRepository {
             List<Music> music = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
             return music;
         } catch(Exception e){
+            throw e;
+        }
+    }
+
+    public void deleteMusicFromQueueById(int musicQueueId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("musicQueueId", musicQueueId);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueById");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e){
             throw e;
         }
     }

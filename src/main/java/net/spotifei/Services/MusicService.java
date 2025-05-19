@@ -41,11 +41,14 @@ public class MusicService {
 
     public Response<Music> getNextMusicInUserQueue(int userId){
         try{
+
             Music music = musicRepository.getNextMusicOnUserQueue(userId);
 
             if(music == null){
                 // uma alternativa inteligente de lidar com quando a próxima música "não existe"
                 music = musicRepository.getRandomMusic();
+            } else{
+                musicRepository.deleteMusicFromQueueById(music.getIdMusicaFila());
             }
 
             return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);

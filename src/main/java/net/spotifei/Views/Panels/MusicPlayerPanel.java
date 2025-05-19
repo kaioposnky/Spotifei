@@ -147,7 +147,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         musicControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         SpotifyLikeButton btnSkip = new SpotifyLikeButton("<html>&#x23ED;</html>", 16);
-        btnSkip.addActionListener(event -> handleNextMusicButton());
+        btnSkip.addActionListener(event -> handleSkipButton());
 
         JPanel pausebtnWrapper = new JPanel();
         pausebtnWrapper.setOpaque(false);
@@ -162,6 +162,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         pausebtnWrapper.add(btnPause);
 
         SpotifyLikeButton btnPrevious = new SpotifyLikeButton("<html>&#x23EE;</html>", 16);
+        btnPrevious.addActionListener(event -> handlePreviousButton());
 
         musicControlPanel.add(btnPrevious, BorderLayout.WEST);
         musicControlPanel.add(pausebtnWrapper, BorderLayout.CENTER);
@@ -265,8 +266,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
     }
 
-    public void handleNextMusicButton(){
-        musicController.playMusicFromContext();
+    public void handleSkipButton(){
+        musicController.skipMusic();
+    }
+
+    public void handlePreviousButton(){
+        musicController.previousMusic();
     }
 
     public void handlePauseButton(){

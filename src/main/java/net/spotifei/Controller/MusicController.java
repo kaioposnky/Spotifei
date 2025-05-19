@@ -63,19 +63,9 @@ public class MusicController implements AudioUpdateListener {
      * @param musicId Id da música a ser tocada
      */
     public void playMusicById(int musicId) {
-        waitDialog = new JDialog();
-        JLabel messageLabel = new JLabel("Estamos preparando sua música para tocar...");
-        messageLabel.setHorizontalAlignment(JLabel.CENTER);
-        messageLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        waitDialog.add(messageLabel);
-        waitDialog.pack();
-        waitDialog.setLocationRelativeTo(view);
-        waitDialog.setModal(false);
-        waitDialog.setVisible(true);
         Response<Music> responseMusica = musicServices.getMusicById(musicId);
         if(handleDefaultResponseIfError(responseMusica)) return;
         Music music = responseMusica.getData();
-        appContext.setMusicContext(music);
 
         playMusicInBackground(music);
 
@@ -142,6 +132,29 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
+    public void skipMusic(){
+        Response<Music> response = musicServices.getNextMusicInUserQueue(appContext.getPersonContext().getIdUsuario());
+        if(handleDefaultResponseIfError(response)) return;
+
+        Music musicFound = response.getData();
+
+        playMusicInBackground(musicFound);
+
+        logDebug("Tocando a próxima música!");
+    }
+
+    public void previousMusic(){
+        Response<Music> response = musicServices.getUserLastPlayedMusic(appContext.getPersonContext().getIdUsuario());
+        if(handleDefaultResponseIfError(response)) return;
+
+        Music musicFound = response.getData();
+
+        appContext.setMusicContext(musicFound);
+        playMusicInBackground(musicFound);
+
+        logDebug("Tocando a música anterior!");
+    }
+
     private boolean handleSaveMusicToHistory(Music music) {
         Response<Void> responseSaveMusicToHistory = musicServices.
                 addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
@@ -158,7 +171,7 @@ public class MusicController implements AudioUpdateListener {
 
             appContext.setMusicContext(music);
             handleSaveMusicToHistory(music);
-            logDebug("Música" + music.getNome() + " salva ao histórico com sucesso!");
+            logDebug("Música " + music.getNome() + " salva ao histórico com sucesso!");
         }
 
     }
@@ -195,6 +208,15 @@ public class MusicController implements AudioUpdateListener {
     }
 
     private void playMusicInBackground(Music music){
+        waitDialog = new JDialog();
+        JLabel messageLabel = new JLabel("Estamos preparando sua música para tocar...");
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        waitDialog.add(messageLabel);
+        waitDialog.pack();
+        waitDialog.setLocationRelativeTo(null);
+        waitDialog.setModal(false);
+        waitDialog.setVisible(true);
         SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {

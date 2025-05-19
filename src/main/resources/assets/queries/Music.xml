@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
-    <query name="GetNextMusicOnUserQueueByUserId">
-        SELECT nome,
-        duracao_ms AS duracaoMs,
-        id_musica AS idMusica
-        FROM usuario_fila
-        WHERE id_usuario = @idUsuario
-        ORDER BY posicao ASC
-        LIMIT 1;
-    </query>
+
     <query name="GetMusicAudioByMusicId">
         SELECT audio
         FROM musica
@@ -160,22 +152,25 @@
         COALESCE(uhm_user.vezesTocada, 0) AS vezesTocada
         FROM musica m
         LEFT JOIN (
-        SELECT id_musica, COUNT(CASE WHEN gostou = TRUE THEN 1 END) AS total_likes
+        SELECT id_musica, COUNT(CASE WHEN gostou = TRUE THEN 1 ELSE NULL END) AS total_likes
         FROM avaliacao_usuario
         GROUP BY id_musica
         ) AS likes ON m.id_musica = likes.id_musica
         LEFT JOIN (
-        SELECT id_musica, COUNT(CASE WHEN gostou = FALSE THEN 1 END) AS total_dislikes
+        SELECT id_musica, COUNT(CASE WHEN gostou = FALSE THEN 1 ELSE NULL END) AS total_dislikes
         FROM avaliacao_usuario
         GROUP BY id_musica
         ) AS dislikes ON m.id_musica = dislikes.id_musica
-        LEFT JOIN (
-        SELECT id_musica, COUNT(id_historico_musica) AS vezesTocada
+        JOIN (
+        SELECT
+        id_musica,
+        COUNT(id_historico_musica) AS vezesTocada,
+        MAX(data_tocada) AS ultimaVezTocada
         FROM usuario_historico_musicas
         WHERE id_usuario = @idUser
         GROUP BY id_musica
         ) AS uhm_user ON m.id_musica = uhm_user.id_musica
-        ORDER BY vezesTocada DESC
+        ORDER BY uhm_user.ultimaVezTocada DESC
         LIMIT @limit;
     </query>
 

@@ -1,6 +1,5 @@
 package net.spotifei.Controller;
 
-import jdk.jshell.spi.ExecutionControl;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
@@ -56,19 +55,19 @@ public class PlaylistController {
         playlist.setNome(nome);
         Response<Void> response = playlistService.createPlaylist(playlist, userId);
         if(handleDefaultResponseIfError(response)) return;
-        getUserPlaylists();
+        getUserUpdatedPlaylists();
 
         logDebug("Playlist com nome " + nome + " criada com sucesso!");
     }
 
-    public void getUserPlaylists(){
+    public void getUserUpdatedPlaylists(){
         Response<List<Playlist>> response = playlistService.getPlaylistUser(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
+
         PlaylistPanel playlistPanel = ((PlaylistPanel)view);
         playlistPanel.getPlaylistListComponent().setPlaylists(response.getData());
         playlistPanel.getPlaylistListComponent().updateUI();
 
-        logDebug("Playlists do usuário " + appContext.getPersonContext().getNome() + " retornadas com sucesso!");
     }
 
     public void deletePlaylist(){
@@ -76,7 +75,10 @@ public class PlaylistController {
         Response<Void> response = playlistService.deletePlaylist(playlistInfoComponent.getPlaylist().getIdPlaylist());
         if(handleDefaultResponseIfError(response)) return;
 
-        logDebug("Playlist com nome " + playlistInfoComponent.getPlaylist().getNome() + "deletada com sucesso!");
+        JOptionPane.showMessageDialog(view,
+                "Playlist " + playlistInfoComponent.getPlaylist().getNome() + " deletada com sucesso!");
+
+        logDebug("Playlist com nome " + playlistInfoComponent.getPlaylist().getNome() + " deletada com sucesso!");
     }
 
     public void showEditPlaylistPopUp(){
@@ -146,8 +148,20 @@ public class PlaylistController {
 
     public void playPlaylistMusics() {
         PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
-        logError("Não implementado", new ExecutionControl.NotImplementedException("Ainda não implementado!"));
-        JOptionPane.showMessageDialog(null, "Quer tocar a playlist ? implementa então bonzão");
+
+        int playlistId = playlistInfoComponent.getPlaylist().getIdPlaylist();
+        int userId = appContext.getPersonContext().getIdUsuario();
+        Response<Void> responsePlayPlaylist = playlistService.setPlaylistAsQueueForUser(playlistId, userId);
+        if(handleDefaultResponseIfError(responsePlayPlaylist)) return;
+
+        Response<Music> responseGetQueueFirstMusic = musicService.getNextMusicInUserQueue(userId);
+        if(handleDefaultResponseIfError(responseGetQueueFirstMusic)) return;
+
+        Music music = responseGetQueueFirstMusic.getData();
+        Response<Void> responsePlayMusic = musicService.playMusic(music.getIdMusica(), userId);
+        if(handleDefaultResponseIfError(responsePlayMusic)) return;
+
+        logDebug("Playlist " + playlistInfoComponent.getPlaylist().getNome() + " tocada com sucesso!");
     }
 
     public void addMusicToPlaylist(int musicId, int playlistId){

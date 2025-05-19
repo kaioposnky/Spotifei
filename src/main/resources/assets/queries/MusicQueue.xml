@@ -2,38 +2,43 @@
 <queries>
     <query name="DeleteUserQueue">
         DELETE FROM usuario_fila
-        WHERE id_usuario = @idUsuario;
+        WHERE id_usuario = @idUser;
     </query>
 
-    <query name="GetPlaylistMusicForQueueById">
+    <query name="SetPlaylistAsQueueForUser">
+        WITH playlist_music_ordered AS (
         SELECT
-        pm.id_musica AS idMusica,
-        pm.posicao AS posicaoPlaylist
-        FROM
-        playlist_musica pm
-        WHERE
-        pm.id_playlist = @idPlaylist
-        ORDER BY
-        pm.posicao ASC;
+        pm.id_musica,
+        pm.posicao
+        FROM playlist_musica pm
+        WHERE pm.id_playlist = @idPlaylist
+        ORDER BY pm.posicao ASC
+        )
+        INSERT INTO usuario_fila (id_usuario, id_musica, posicao)
+        SELECT
+        @idUser,
+        pmo.id_musica,
+        pmo.posicao
+        FROM playlist_music_ordered pmo;
     </query>
 
     <query name="InsertMusicIntoQueue">
         INSERT INTO usuario_fila (id_usuario, id_musica, posicao)
         VALUES (
-        @idUsuario,
+        @idUser,
         @idMusica,
-        (SELECT COALESCE(MAX(posicao), 0) + 1 FROM usuario_fila WHERE id_usuario = @idUsuario)
+        0
         );
     </query>
 
     <query name="DeleteMusicFromQueueByPosition">
         DELETE FROM usuario_fila
-        WHERE id_usuario = @idUsuario AND posicao = @posicao;
+        WHERE id_usuario = @idUser AND posicao = @posicao;
     </query>
 
     <query name="DeleteMusicFromQueueByMusicId">
         DELETE FROM usuario_fila
-        WHERE id_usuario = @idUsuario AND id_musica = @idMusica;
+        WHERE id_usuario = @idUser AND id_musica = @idMusica;
     </query>
 
     <query name="GetUserQueue">
@@ -48,9 +53,26 @@
         JOIN
         musica m ON uf.id_musica = m.id_musica
         WHERE
-        uf.id_usuario = @idUsuario
+        uf.id_usuario = @idUser
         ORDER BY
         uf.posicao ASC;
     </query>
 
+    <query name="GetNextMusicOnUserQueueByUserId">
+        SELECT
+        uf.id_musica_fila AS idMusicaFila,
+        m.id_musica AS idMusica,
+        m.duracao_ms AS duracaoMs,
+        m.nome AS nome
+        FROM musica m
+        JOIN usuario_fila uf ON uf.id_musica = m.id_musica
+        WHERE uf.id_usuario = @idUser
+        ORDER BY uf.posicao ASC
+        LIMIT 1;
+    </query>
+
+    <query name="DeleteMusicFromQueueById">
+        DELETE FROM usuario_fila
+        WHERE id_musica_fila = @musicQueueId;
+    </query>
 </queries>

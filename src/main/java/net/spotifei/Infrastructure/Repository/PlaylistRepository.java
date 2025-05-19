@@ -121,6 +121,7 @@ public class PlaylistRepository {
             throw e;
         }
     }
+
     public int getLastPlaylistPosition(int playlistId) throws Exception{
         try {
             ScalarHandler<Integer> handler = new ScalarHandler<>();
@@ -147,6 +148,19 @@ public class PlaylistRepository {
             return playlists;
 
         } catch(Exception ex){
+            throw ex;
+        }
+    }
+
+    public void setPlaylistAsQueueForUser(int playlistId, int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idPlaylist", playlistId);
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("SetPlaylistAsQueueForUser");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception ex){
             throw ex;
         }
     }

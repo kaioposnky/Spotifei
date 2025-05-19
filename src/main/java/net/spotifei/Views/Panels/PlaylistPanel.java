@@ -15,6 +15,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
+
 /**
  *
  * @author fengl
@@ -24,8 +26,9 @@ public class PlaylistPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
     private PlaylistListComponent playlistListComponent;
-    private JTextField txt_criar;
     private final PlaylistController playlistController;
+    private SwingWorker<Void, Void> updaterWorker;
+    private JTextField txt_criar;
 
 
     public PlaylistPanel(MainFrame mainframe, AppContext appContext) {
@@ -71,15 +74,15 @@ public class PlaylistPanel extends javax.swing.JPanel {
         createPlaylistPanel.add(Box.createHorizontalStrut(10));
         createPlaylistPanel.add(txt_criar);
 
-        JButton bt_criar = new JButton("Criar!");
-        bt_criar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
-        bt_criar.setAlignmentX(CENTER_ALIGNMENT);
-        bt_criar.addActionListener(this::bt_criarActionPerformed);
+        JButton bt_create = new JButton("Criar!");
+        bt_create.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_create.setAlignmentX(CENTER_ALIGNMENT);
+        bt_create.addActionListener(this::bt_createActionPerformed);
 
-        JButton bt_mostrar = new JButton("Atualizar");
-        bt_mostrar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
-        bt_mostrar.setAlignmentX(CENTER_ALIGNMENT);
-        bt_mostrar.addActionListener(this::bt_mostrarActionPerformed);
+        JButton bt_update = new JButton("Atualizar");
+        bt_update.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_update.setAlignmentX(CENTER_ALIGNMENT);
+        bt_update.addActionListener(this::bt_updateActionPerformed);
 
         playlistListComponent = new PlaylistListComponent(appContext, mainframe);
         playlistListComponent.setBackground(new java.awt.Color(35, 35, 35));
@@ -94,30 +97,21 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.add(Box.createVerticalStrut(20));
         this.add(createPlaylistPanel);
         this.add(Box.createVerticalStrut(30));
-        this.add(bt_criar);
+        this.add(bt_create);
         this.add(Box.createVerticalStrut(20));
-        this.add(bt_mostrar);
+        this.add(bt_update);
         this.add(Box.createVerticalStrut(20));
         this.add(playlistListComponent);
     }
 
-    private void bt_criarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bt_createActionPerformed(java.awt.event.ActionEvent evt) {
         playlistController.createPlaylist();
 
     }
 
-    private void bt_mostrarActionPerformed(java.awt.event.ActionEvent evt){
-        playlistController.getUserPlaylists();
+    private void bt_updateActionPerformed(java.awt.event.ActionEvent evt){
+        playlistController.getUserUpdatedPlaylists();
     }
-
-
-    private javax.swing.JButton bt_criar;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txt_criar_playlist;
-    private javax.swing.JButton bt_mostrar;
 
     public MainFrame getMainframe() {
         return mainframe;
@@ -139,13 +133,37 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.playlistListComponent = playlistListComponent;
     }
 
+    private void startPlaylistUpdateWorker(){
+        updaterWorker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground(){
+                try{
+                    while(true){
+                        playlistController.getUserUpdatedPlaylists();
+                        Thread.sleep(1500);
+                    }
+                } catch (InterruptedException e){
+                    return null;
+                }
+            }
+        };
+        updaterWorker.execute();
+    }
+
     private void addShowListeners(){
         this.addComponentListener(new ComponentAdapter() {
 
             @Override
             public void componentShown(ComponentEvent e) {
-                playlistController.getUserPlaylists();
+                startPlaylistUpdateWorker();
                 super.componentShown(e);
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                if (updaterWorker == null) return;
+                updaterWorker.cancel(true);
+                super.componentHidden(e);
             }
         });
     }

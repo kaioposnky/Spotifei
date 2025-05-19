@@ -139,4 +139,22 @@ public class PlaylistService {
             return ResponseHelper.generateErrorResponse("Erro ao obter as playlists", ex);
         }
     }
+
+    public Response<Void> setPlaylistAsQueueForUser(int playlistId, int userId){
+        try{
+
+            List<Music> musics = playlistRepository.getMusicsFromPlaylist(playlistId);
+
+            if (musics == null || musics.isEmpty()){
+                return ResponseHelper.generateBadResponse("A playlist não tem músicas para tocar!");
+            }
+            musicRepository.deleteUserQueue(userId);
+
+            playlistRepository.setPlaylistAsQueueForUser(playlistId, userId);
+
+            return ResponseHelper.generateSuccessResponse("Playlist colocada na Fila do usuário com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
 }
