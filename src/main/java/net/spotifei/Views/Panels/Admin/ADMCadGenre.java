@@ -45,6 +45,8 @@ public class ADMCadGenre extends JPanel {
 
         JButton bt_cadastrar = new JButton("Cadastrar");
         bt_cadastrar.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_cadastrar.setBackground(new Color(0, 109, 170));
+        bt_cadastrar.setForeground(new Color(0,0,0));
         bt_cadastrar.setAlignmentX(CENTER_ALIGNMENT);
         bt_cadastrar.addActionListener(event -> handleGenreCreate());
 

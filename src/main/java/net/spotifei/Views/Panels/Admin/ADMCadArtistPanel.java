@@ -117,7 +117,7 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("> INSIRA AS INFORMAÇÕES NECESSARIAS:");
 
-        bt_salvar.setBackground(new java.awt.Color(0, 204, 102));
+        bt_salvar.setBackground(new java.awt.Color(0, 109, 170));
         bt_salvar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         bt_salvar.setForeground(new java.awt.Color(0, 0, 0));
         bt_salvar.setText("SALVAR");

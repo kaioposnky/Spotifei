@@ -9,6 +9,8 @@ import javax.swing.*;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
+import java.awt.*;
+
 /**
  *
  * @author fengl
@@ -128,6 +130,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         jLabel3.setAlignmentX(CENTER_ALIGNMENT);
 
 
+        bt_cad_musica.setMaximumSize(new Dimension(300, bt_cad_musica.getPreferredSize().height));
         bt_cad_musica.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_cad_musica.setForeground(new java.awt.Color(250, 250, 250));
@@ -140,6 +143,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_cad_musica.setAlignmentX(CENTER_ALIGNMENT);
 
 
+        bt_excluir_musica.setMaximumSize(new Dimension(300, bt_excluir_musica.getPreferredSize().height));
         bt_excluir_musica.setBackground(new java.awt.Color(0, 0, 0));
         bt_excluir_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_excluir_musica.setForeground(new java.awt.Color(250, 250, 250));
@@ -152,6 +156,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_excluir_musica.setAlignmentX(CENTER_ALIGNMENT);
 
 
+        bt_cad_artista.setMaximumSize(new Dimension(300, bt_cad_artista.getPreferredSize().height));
         bt_cad_artista.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_artista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_cad_artista.setForeground(new java.awt.Color(250, 250, 250));
@@ -164,6 +169,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_cad_artista.setAlignmentX(CENTER_ALIGNMENT);
 
 
+        bt_consulta_usuario.setMaximumSize(new Dimension(300, bt_consulta_usuario.getPreferredSize().height));
         bt_consulta_usuario.setBackground(new java.awt.Color(0, 0, 0));
         bt_consulta_usuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_consulta_usuario.setForeground(new java.awt.Color(250, 250, 250));
@@ -176,8 +182,9 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_consulta_usuario.setAlignmentX(CENTER_ALIGNMENT);
 
 
+        bt_sistema.setMaximumSize(new Dimension(300, bt_sistema.getPreferredSize().height));
         bt_sistema.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        bt_sistema.setForeground(new java.awt.Color(0, 204, 102));
+        bt_sistema.setForeground(new java.awt.Color(0, 109, 170));
         bt_sistema.setText("Estátisticas do Sistema");
         bt_sistema.setBorderPainted(false);
         bt_sistema.setContentAreaFilled(false);
@@ -189,6 +196,7 @@ public class ADMHomePanel extends javax.swing.JPanel {
         bt_sistema.setAlignmentX(CENTER_ALIGNMENT);
 
         bt_cad_genero = new javax.swing.JButton();
+        bt_cad_genero.setMaximumSize(new Dimension(300, bt_cad_genero.getPreferredSize().height));
         bt_cad_genero.setBackground(new java.awt.Color(0, 0, 0));
         bt_cad_genero.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_cad_genero.setForeground(new java.awt.Color(250, 250, 250));
@@ -203,25 +211,25 @@ public class ADMHomePanel extends javax.swing.JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(CENTER_ALIGNMENT);
 
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalGlue());
         add(jLabel1);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(jLabel2);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(jLabel3);
-        add(Box.createVerticalStrut(100));
+        add(Box.createVerticalStrut(50));
         add(bt_cad_musica);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(bt_excluir_musica);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(bt_cad_artista);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(bt_consulta_usuario);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(10));
         add(bt_cad_genero);
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(30));
         add(bt_sistema);
-        add(Box.createVerticalStrut(40));
+        add(Box.createVerticalGlue());
 
 
     }

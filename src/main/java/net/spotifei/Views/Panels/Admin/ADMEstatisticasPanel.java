@@ -57,8 +57,8 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         JButton btnGoBack = new JButton("Voltar");
         btnGoBack.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
         btnGoBack.setAlignmentX(CENTER_ALIGNMENT);
-        btnGoBack.setBackground(Color.green);
-        btnGoBack.setForeground(Color.decode("#343a40"));
+        btnGoBack.setBackground(new Color(0, 109, 170));
+        btnGoBack.setForeground(new Color(0,0,0));
         btnGoBack.addActionListener(event -> btn_voltar() );
 
         this.add(titleLabel);

@@ -52,6 +52,8 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
 
         JButton bt_pesquisa = new JButton("Pesquisar");
         bt_pesquisa.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_pesquisa.setForeground(new Color(0,0,0));
+        bt_pesquisa.setBackground(new Color(0, 109, 170));
         bt_pesquisa.setAlignmentX(CENTER_ALIGNMENT);
         bt_pesquisa.addActionListener(this::bt_pesquisaActionPerformed);
 

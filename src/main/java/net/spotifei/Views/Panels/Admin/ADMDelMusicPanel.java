@@ -132,7 +132,7 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
             }
         });
 
-        bt_excluir.setBackground(new java.awt.Color(0, 204, 102));
+        bt_excluir.setBackground(new java.awt.Color(0, 109, 170));
         bt_excluir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_excluir.setForeground(new java.awt.Color(0, 0, 0));
         bt_excluir.setText("EXCLUIR");
