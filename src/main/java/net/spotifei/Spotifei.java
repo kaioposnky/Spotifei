@@ -17,8 +17,8 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logWarn;
 public class Spotifei {
     private static final Dotenv dotenv = Dotenv.configure().load();
 
-    public static void main(String[] args) throws Exception {
-        LoggerRepository.setDebugEnabled(true);
+    public static void main(String[] args) {
+        LoggerRepository.setDebugEnabled(false);
         AppContext appContext = new AppContext();
         appContext.getAudioPlayerWorker().execute();
 

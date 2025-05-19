@@ -244,6 +244,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos .opus", "opus");
         fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             musicFilePath = fileChooser.getSelectedFile().getAbsolutePath();

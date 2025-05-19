@@ -132,7 +132,7 @@ public class AdminController {
         }
         try {
             int musicIdToDelete = Integer.parseInt(musicIdText);
-            Response<List<Music>> response = musicService.deleteMusic(musicIdToDelete);
+            Response<Void> response = musicService.deleteMusic(musicIdToDelete);
             if (handleDefaultResponseIfError(response)) {
                 return;
             }

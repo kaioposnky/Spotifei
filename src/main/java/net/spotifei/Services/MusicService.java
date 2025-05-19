@@ -10,6 +10,7 @@ import net.spotifei.Models.Artist;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
+import org.postgresql.util.PSQLException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,6 +56,16 @@ public class MusicService {
         } catch (Exception e){
             return ResponseHelper.generateErrorResponse("Ocorreu um erro ao tentar" +
                     "tocar uma música!", e);
+        }
+    }
+
+    public Response<Music> getUserPreviousMusic(int userId){
+        try{
+            Music music = musicRepository.getPreviousMusicFromUser(userId);
+
+            return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 
@@ -356,16 +367,20 @@ public class MusicService {
         this.newMusicSelectedId = newMusicSelectedId;
     }
 
-    public Response<List<Music>> deleteMusic(int idMusic){
+    public Response<Void> deleteMusic(int idMusic){
         try{
             if(idMusic == 0){
                 return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
             }
+
             List<Music> music = musicRepository.getMusicDeleted(idMusic);
             if(music == null || music.isEmpty()){
                 return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o ID digitado!");
             }
-            return ResponseHelper.generateSuccessResponse("Música Deletada com sucesso!", music);
+
+            return ResponseHelper.generateSuccessResponse("Música Deletada com sucesso!");
+        } catch (PSQLException ex){
+          return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o ID digitado! (" + idMusic + ") ");
         } catch(Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }

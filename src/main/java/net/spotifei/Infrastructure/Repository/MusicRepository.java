@@ -76,6 +76,20 @@ public class MusicRepository {
         }
     }
 
+    public Music getPreviousMusicFromUser(int userId) throws Exception {
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("GetUserPreviousMusic");
+            Music music = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Music.class));
+
+            return music;
+        } catch (Exception ex){
+            throw ex;
+        }
+    }
+
     public Music getRandomMusic() throws Exception {
         try{
             String sql = jdbcRepository.getQueryNamed("GetRandomMusic");

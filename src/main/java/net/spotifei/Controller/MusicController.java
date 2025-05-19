@@ -144,7 +144,7 @@ public class MusicController implements AudioUpdateListener {
     }
 
     public void previousMusic(){
-        Response<Music> response = musicServices.getUserLastPlayedMusic(appContext.getPersonContext().getIdUsuario());
+        Response<Music> response = musicServices.getUserPreviousMusic(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
 
         Music musicFound = response.getData();
