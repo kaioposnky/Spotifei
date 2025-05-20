@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.Factories.MusicInfoComponent;
 
+import net.spotifei.Controller.AdminController;
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Infrastructure.Container.AppContext;
@@ -23,6 +24,7 @@ public abstract class MusicInfoFactory {
     private final MainFrame mainframe;
     private final MusicController musicController;
     private final PlaylistController playlistController;
+    private final AdminController adminController;
 
     protected MusicInfoFactory(AppContext appContext, MainFrame mainframe){
         // a view pode ser nula porque a única coisa que será feita é tocar a música, para isso não precisa de uma view
@@ -30,6 +32,7 @@ public abstract class MusicInfoFactory {
         this.playlistController = appContext.getPlayListController((JPanel) null,  mainframe);
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.adminController = appContext.getAdminController(null);
     }
 
     protected JPanel getSearchMusicInfoPanel(Music music){
@@ -108,6 +111,34 @@ public abstract class MusicInfoFactory {
 
         addHoverListeners(mainPanel);
         return mainPanel;
+    }
+
+    protected JPanel getMusicsFromPlaylist(Music music){
+        JPanel mainPanel = createContainerPanel(music);
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        mainPanel.add(createMusicGenrePanel(music)); //genero
+        mainPanel.add(Box.createHorizontalStrut(50));
+        mainPanel.add(createMusicFeedbackPanel(music)); //feedback
+        mainPanel.add(Box.createHorizontalStrut(50));
+        mainPanel.add(createMusicTimePanel(music)); //time
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        addHoverListeners(mainPanel);
+        return mainPanel;
+    }
+
+    protected JPanel getMusicDeleted(Music music){
+        JPanel mainPanel = createContainerPanel(music);
+        mainPanel.add(Box.createHorizontalStrut(20));
+        mainPanel.add(createMusicGenrePanel(music));
+        mainPanel.add(Box.createHorizontalStrut(20));
+        mainPanel.add(createRemoveMusic(music));
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        addHoverListeners(mainPanel);
+        return mainPanel;
+
     }
 
     private JPanel createContainerPanel(Music music){
@@ -245,6 +276,16 @@ public abstract class MusicInfoFactory {
         return removeMusicFromPlaylistButton;
     }
 
+    private JButton createRemoveMusic(Music music){
+        JButton removeMusicFromPlaylistButton = new JButton();
+        removeMusicFromPlaylistButton.setIcon(loadImageIcon("trashcan_icon.png", 20, 20));
+        removeMusicFromPlaylistButton.addActionListener(event -> handleRemoveMusic(music));
+        removeMusicFromPlaylistButton.setContentAreaFilled(false);
+        removeMusicFromPlaylistButton.setOpaque(false);
+
+        return removeMusicFromPlaylistButton;
+    }
+
     private JButton createAddMusicToPlaylistButton(Music music){
         JButton addMusicToPlaylistButton = new JButton();
         addMusicToPlaylistButton.setIcon(loadImageIcon("add_icon.png", 20, 20));
@@ -269,6 +310,10 @@ public abstract class MusicInfoFactory {
 
     private void handleRemoveMusicFromPlaylist(Music music){
         playlistController.removeMusicFromPlaylist(music.getIdMusica(), playlist.getIdPlaylist());
+    }
+
+    private void handleRemoveMusic(Music music){
+        adminController.deleteMusic();
     }
 
     private void handleAddMusicToPlaylist(Music music){
@@ -297,5 +342,9 @@ public abstract class MusicInfoFactory {
 
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
+    }
+
+    public MusicController getMusicController() {
+        return musicController;
     }
 }

@@ -9,5 +9,7 @@ public interface MusicInfoBuild {
     void selectSearchMusicInfoPanel();
     void selectMostPlayedMusicInfoPanel();
     void selectLikedOrDislikedMusicInfoPanel();
+    void selectMusicsFromPlaylist();
+    void selectMusicDeleted();
     JPanel buildPanel(Music music);
 }

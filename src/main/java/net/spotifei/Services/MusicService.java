@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -488,6 +489,15 @@ public class MusicService {
         }
     }
 
+    public List<Music> getAllMusics() {
+        try {
+            return musicRepository.getAllMusics();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Response<List<Music>> getMostLikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostLikedMusics();
@@ -498,6 +508,18 @@ public class MusicService {
             return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e){
             return ResponseHelper.generateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public Response<List<Music>> getUserQueue(int userId){
+        try {
+            if(userId == 0){
+                return ResponseHelper.generateBadResponse("Ignorado por userId ser 0!");
+            }
+            List<Music> musics = musicRepository.getUserQueue(userId);
+            return ResponseHelper.generateSuccessResponse("Musicas obtidas com sucesso", musics);
+        } catch(Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
     }
 

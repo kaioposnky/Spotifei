@@ -1,6 +1,7 @@
 package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoFactory;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
@@ -8,6 +9,8 @@ import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
+import net.spotifei.Views.Components.MusicListComponent;
+import net.spotifei.Views.Components.PlaylistInfoComponent;
 import net.spotifei.Views.Panels.Admin.*;
 import net.spotifei.Views.Panels.HistoryPanel;
 import net.spotifei.Views.PopUps.MusicsPopUp;
@@ -124,28 +127,18 @@ public class AdminController {
     }
 
     public void deleteMusic() {
-        ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
-        String musicIdText = admDelMusicPanel.getTxt_id_musicadel().getText();
-        if (musicIdText == null || musicIdText.isEmpty()) {
-            createJDialog("Você deve incluir o ID da música a ser deletada!");
-            return;
-        }
-        try {
-            int musicIdToDelete = Integer.parseInt(musicIdText);
-            Response<Void> response = musicService.deleteMusic(musicIdToDelete);
-            if (handleDefaultResponseIfError(response)) {
-                return;
-            }
-            createJDialog("Música deletada com sucesso!");
-            logDebug("Música deletada com sucesso!");
-        } catch (NumberFormatException e) {
-            createJDialog("O ID da música deve ser um número inteiro válido!");
-            logError("Erro ao deletar música", e);
-        } catch (Exception e) {
-            createJDialog("Erro ao tentar deletar a música.");
-            logError("Erro ao deletar música", e);
-        }
+//        ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
+//        List<Music> response = musicService.deleteMusic(//logica de pegar o botao la);
+//        if (response == null) {
+//            createJDialog("Você deve incluir o ID da música a ser deletada!");
+//            return;
+//        }
+//        admDelMusicPanel.getMusicListComponent().setMusics(response);
+//        admDelMusicPanel.getMusicListComponent().updateUI();
+//        logDebug("Músicas encontradas!");
+
     }
+
 
     public void loadSystemStatistics() {
         ADMEstatisticasPanel statisticsPanel = (ADMEstatisticasPanel) view;
