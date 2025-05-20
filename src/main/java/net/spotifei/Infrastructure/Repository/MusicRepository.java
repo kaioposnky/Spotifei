@@ -1,17 +1,13 @@
 package net.spotifei.Infrastructure.Repository;
 
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import net.spotifei.Models.Artist;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import org.bytedeco.ffmpeg.avutil.Callback_Pointer_int_BytePointer_Pointer;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -458,14 +454,13 @@ public class MusicRepository {
         }
     }
 
-    public List<Music> getMusicDeleted(int idMusic) throws Exception{
+    public void deleteMusic(int idMusic) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("idMusic", idMusic);
 
             String sql = jdbcRepository.getQueryNamed("DeleteMusic");
-            List<Music> music = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
-            return music;
+            jdbcRepository.executeProcedure(sql, params);
         } catch(Exception e){
             throw e;
         }

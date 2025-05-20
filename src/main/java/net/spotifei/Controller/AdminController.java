@@ -1,19 +1,13 @@
 package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoFactory;
-import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Services.UserService;
-import net.spotifei.Views.Components.MusicListComponent;
-import net.spotifei.Views.Components.PlaylistInfoComponent;
 import net.spotifei.Views.Panels.Admin.*;
-import net.spotifei.Views.Panels.HistoryPanel;
-import net.spotifei.Views.PopUps.MusicsPopUp;
 
 import javax.swing.*;
 
@@ -126,17 +120,23 @@ public class AdminController {
         JOptionPane.showMessageDialog(view, message);
     }
 
-    public void deleteMusic() {
-//        ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
-//        List<Music> response = musicService.deleteMusic(//logica de pegar o botao la);
-//        if (response == null) {
-//            createJDialog("Você deve incluir o ID da música a ser deletada!");
-//            return;
-//        }
-//        admDelMusicPanel.getMusicListComponent().setMusics(response);
-//        admDelMusicPanel.getMusicListComponent().updateUI();
-//        logDebug("Músicas encontradas!");
+    public void deleteMusic(Music music) {
+        Response<Void> responseDelete = musicService.deleteMusic(music.getIdMusica());
+        if (handleDefaultResponseIfError(responseDelete)) return;
 
+        JOptionPane.showMessageDialog(view, "Música " + music.getNome() + " deletada com sucesso!");
+        logDebug("Músicas encontradas!");
+    }
+
+    public void loadAllMusicsForDelete(){
+        ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
+
+        Response<List<Music>> responseMusics = musicService.getAllMusics();
+        if(handleDefaultResponseIfError(responseMusics)) return;
+
+        admDelMusicPanel.getMusicListComponent().setMusics(responseMusics.getData());
+        admDelMusicPanel.getMusicListComponent().updateUI();
+        logDebug("Músicas encontradas!");
     }
 
 

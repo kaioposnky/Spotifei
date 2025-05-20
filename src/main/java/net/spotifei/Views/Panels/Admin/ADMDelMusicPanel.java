@@ -6,20 +6,16 @@ package net.spotifei.Views.Panels.Admin;
 
 import javax.swing.*;
 
-import net.spotifei.Controller.MusicController;
+import net.spotifei.Controller.AdminController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
-import net.spotifei.Models.Music;
-import net.spotifei.Models.Responses.Response;
 import net.spotifei.Views.Components.MusicListComponent;
-import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.MainFrame;
 
 import java.awt.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,13 +26,15 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
     private MusicListComponent musicListComponent;
-    private final MusicController musicController;
+    private final AdminController adminController;
+    private SwingWorker<Void, Void> updaterWorker;
 
     public ADMDelMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
-        this.musicController = appContext.getMusicController(this, mainframe);
+        this.adminController = appContext.getAdminController(this);
         initComponents();
+        addShowListeners();
     }
 
     public JButton getBt_excluir() {
@@ -136,10 +134,8 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         MusicInfoPanelBuilder musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
         musicInfoPanelBuilder.selectMusicDeleted();
 
-
-        List<Music> musics = appContext.getMusicService().getAllMusics();
-        MusicListComponent musicListComponent = new MusicListComponent(musicInfoPanelBuilder);
-        musicListComponent.setMusics(musics);
+        musicListComponent = new MusicListComponent(musicInfoPanelBuilder);
+        musicListComponent.setMusics(new ArrayList<>());
         musicListComponent.setMaximumSize(new Dimension(700, 400));
         musicListComponent.setMinimumSize(new Dimension(700, 400));
         musicListComponent.setPreferredSize(new Dimension(700,400));
@@ -185,11 +181,43 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_id_musicadel;
     // End of variables declaration//GEN-END:variables
 
+    private void startMusicUpdateWorker(){
+        updaterWorker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground(){
+                try{
+                    while(true){
+                        adminController.loadAllMusicsForDelete();
+                        Thread.sleep(1500);
+                    }
+                } catch (InterruptedException e){
+                    return null;
+                }
+            }
+        };
+        updaterWorker.execute();
+    }
+
+    private void addShowListeners(){
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                startMusicUpdateWorker();
+                super.componentShown(e);
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                if (updaterWorker == null) return;
+                updaterWorker.cancel(true);
+                super.componentHidden(e);
+            }
+        });
+    }
+
     public MainFrame getMainframe() {
         return mainframe;
     }
-
-
-
 
 }
