@@ -255,7 +255,47 @@ public class MusicService {
                     music, fileBytes);
 
             musicRepository.insertArtistIntoMusic(musicId, artist.getIdArtista());
+            fileBytes = null;
+            return ResponseHelper.generateSuccessResponse("Música cadastrada com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
 
+    public Response<Void> registerMusic(String musicFilePath, String musicName, int artistId, String musicGenre){
+        try{
+            String[] infos = {musicFilePath, musicName, musicGenre};
+            if (Arrays.stream(infos).anyMatch(info -> info == null || info.isEmpty())){
+                return ResponseHelper.generateBadResponse("Nenhum dos argumentos pode ser nulo ou vazio!");
+            }
+
+            File musicFile = new File(musicFilePath);
+            if (!musicFile.exists()){
+                throw new FileNotFoundException("O arquivo de música não existe!");
+            }
+
+            byte[] fileBytes = Files.readAllBytes(Paths.get(musicFilePath));
+            if (fileBytes == null){
+                return ResponseHelper.generateBadResponse("Não foi possível obter os bytes do arquivo!");
+            }
+            Genre genre = genreRepository.getGenreByName(musicGenre);
+            if (genre == null){
+                return ResponseHelper.generateBadResponse("Gênero não encontrado! (" + musicGenre + ") ");
+            }
+
+            long musicDuration = getMP3DurationInMicrosseconds(musicFile);
+
+            Music music = new Music();
+            music.setNome(musicName);
+            music.setDuracaoMs(musicDuration);
+            music.setGenre(genre);
+
+            // cria a música e já retorna o id para usarmos para juntar com o artista
+            int musicId = musicRepository.insertMusicAndGetReturnId(
+                    music, fileBytes);
+
+            musicRepository.insertArtistIntoMusic(musicId, artistId);
+            fileBytes = null;
             return ResponseHelper.generateSuccessResponse("Música cadastrada com sucesso!");
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);

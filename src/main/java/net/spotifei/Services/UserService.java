@@ -72,6 +72,22 @@ public class UserService {
         }
     }
 
+    public Response<Boolean> checkUserArtist(User user){
+        try{
+            if (user == null || user.getIdUsuario() == 0){
+                return ResponseHelper.generateBadResponse("Os campos user e idUsuario não podem ser nulos ou zero!");
+            }
+
+            int isUserAdmin = artistRepository.checkUserArtistById(user.getIdUsuario());
+            boolean isAdmin = isUserAdmin == 1;
+
+            return ResponseHelper.generateSuccessResponse("Usuário checado com sucesso!", isAdmin);
+
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
     public Response<Void> updateAdminLastLoginByEmail(String email){
         try{
             int adminId = administratorRepository.getAdminIdByEmail(email);
