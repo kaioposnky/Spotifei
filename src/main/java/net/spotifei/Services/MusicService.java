@@ -40,6 +40,23 @@ public class MusicService {
         this.genreRepository = genreRepository;
     }
 
+    public Response<Music> getFirstMusicInUserQueue(int userId){
+        try{
+
+            Music music = musicRepository.getNextMusicOnUserQueue(userId);
+
+            if(music == null){
+                // uma alternativa inteligente de lidar com quando a próxima música "não existe"
+                music = musicRepository.getRandomMusic();
+            }
+
+            return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
+        } catch (Exception e){
+            return ResponseHelper.generateErrorResponse("Ocorreu um erro ao tentar" +
+                    "tocar uma música!", e);
+        }
+    }
+
     public Response<Music> getNextMusicInUserQueue(int userId){
         try{
 
@@ -50,6 +67,7 @@ public class MusicService {
                 music = musicRepository.getRandomMusic();
             } else{
                 musicRepository.deleteMusicFromQueueById(music.getIdMusicaFila());
+                music = musicRepository.getNextMusicOnUserQueue(userId);
             }
 
             return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);

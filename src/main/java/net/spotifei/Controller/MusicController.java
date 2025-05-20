@@ -207,7 +207,7 @@ public class MusicController implements AudioUpdateListener {
 //        playUserNextMusic();
     }
 
-    private void playMusicInBackground(Music music){
+    public void playMusicInBackground(Music music){
         waitDialog = new JDialog();
         JLabel messageLabel = new JLabel("Estamos preparando sua música para tocar...");
         messageLabel.setHorizontalAlignment(JLabel.CENTER);

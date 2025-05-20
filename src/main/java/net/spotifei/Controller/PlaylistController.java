@@ -26,6 +26,7 @@ public class PlaylistController {
     private final MainFrame mainFrame;
     private JPanel view;
     private JDialog viewDialog;
+    private final MusicController musicController;
     private final AppContext appContext;
 
     public PlaylistController(JPanel view, PlaylistService playlistService, AppContext appContext, MusicService musicService, MainFrame mainFrame){
@@ -33,6 +34,7 @@ public class PlaylistController {
         this.appContext = appContext;
         this.musicService = musicService;
         this.mainFrame = mainFrame;
+        this.musicController = appContext.getMusicController(null, mainFrame);
         this.view = view;
     }
 
@@ -41,6 +43,7 @@ public class PlaylistController {
         this.appContext = appContext;
         this.viewDialog = view;
         this.musicService = musicService;
+        this.musicController = appContext.getMusicController(null, mainFrame);
         this.mainFrame = mainFrame;
     }
 
@@ -154,12 +157,11 @@ public class PlaylistController {
         Response<Void> responsePlayPlaylist = playlistService.setPlaylistAsQueueForUser(playlistId, userId);
         if(handleDefaultResponseIfError(responsePlayPlaylist)) return;
 
-        Response<Music> responseGetQueueFirstMusic = musicService.getNextMusicInUserQueue(userId);
+        Response<Music> responseGetQueueFirstMusic = musicService.getFirstMusicInUserQueue(userId);
         if(handleDefaultResponseIfError(responseGetQueueFirstMusic)) return;
 
         Music music = responseGetQueueFirstMusic.getData();
-        Response<Void> responsePlayMusic = musicService.playMusic(music.getIdMusica(), userId);
-        if(handleDefaultResponseIfError(responsePlayMusic)) return;
+        musicController.playMusicInBackground(music);
 
         logDebug("Playlist " + playlistInfoComponent.getPlaylist().getNome() + " tocada com sucesso!");
     }
