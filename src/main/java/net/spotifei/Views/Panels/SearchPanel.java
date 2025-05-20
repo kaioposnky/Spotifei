@@ -6,6 +6,7 @@ package net.spotifei.Views.Panels;
 
 import javax.swing.*;
 
+import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Views.Components.MusicListComponent;
@@ -22,14 +23,16 @@ public class SearchPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
     private MusicListComponent musicListComponent;
+    private final MusicController musicController;
     private JTextField txt_pesquisar;
 
     public SearchPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
+        this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
+        startInitialSearch();
     }
-
 
     private void initComponents() {
         setBackground(new java.awt.Color(35, 35, 35));
@@ -78,24 +81,15 @@ public class SearchPanel extends javax.swing.JPanel {
         this.add(musicListComponent);
     }
 
-//    private JPanel createLowerButtonsPanel(){
-//        JPanel lowerButtonsPanel = new JPanel();
-//        lowerButtonsPanel.setLayout(new );
-//
-//        JButton btn_search = new JButton("Pessquisar");
-//
-//    }
-
-    private void bt_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {
-        appContext.getMusicController(this, mainframe).searchMusicWithUserInfo();
+    private void startInitialSearch(){
+        txt_pesquisar.setText("a");
+        musicController.searchMusic();
+        txt_pesquisar.setText("");
     }
 
-    private javax.swing.JButton bt_pesquisar;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txt_pesquisar_musica;
+    private void bt_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {
+        musicController.searchMusicWithUserInfo();
+    }
 
     public MainFrame getMainframe() {
         return mainframe;

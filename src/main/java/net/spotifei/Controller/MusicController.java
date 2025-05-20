@@ -132,6 +132,19 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
+    public void searchMusic(){
+        SearchPanel searchPanel = (SearchPanel) view;
+        String searchTerm = searchPanel.getTxt_pesquisar().getText();
+
+        Response<List<Music>> response = musicServices.searchMusics(searchTerm);
+        if(handleDefaultResponseIfError(response)) return;
+
+        List<Music> musics = response.getData();
+        searchPanel.getMusicListComponent().setMusics(musics);
+        searchPanel.getMusicListComponent().updateUI();
+        logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
+    }
+
     public void skipMusic(){
         Response<Music> response = musicServices.getNextMusicInUserQueue(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
