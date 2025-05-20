@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -432,14 +431,9 @@ public class MusicService {
                 return ResponseHelper.generateBadResponse("O parâmetro de id não pode ser nulo ou zero");
             }
 
-            List<Music> music = musicRepository.getMusicDeleted(idMusic);
-            if(music == null || music.isEmpty()){
-                return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o ID digitado!");
-            }
+            musicRepository.deleteMusic(idMusic);
 
             return ResponseHelper.generateSuccessResponse("Música Deletada com sucesso!");
-        } catch (PSQLException ex){
-          return ResponseHelper.generateBadResponse("Nenhuma música foi encontrada com o ID digitado! (" + idMusic + ") ");
         } catch(Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
@@ -489,12 +483,14 @@ public class MusicService {
         }
     }
 
-    public List<Music> getAllMusics() {
+    public Response<List<Music>> getAllMusics() {
         try {
-            return musicRepository.getAllMusics();
+
+            List<Music> musics = musicRepository.getAllMusics();
+
+            return ResponseHelper.generateSuccessResponse("Músicas obtidas com sucesso!", musics);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
         }
     }
 

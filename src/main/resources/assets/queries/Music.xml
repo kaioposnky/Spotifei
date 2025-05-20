@@ -241,7 +241,7 @@
         AND id_musica = @idMusic;
     </query>
     <query name="DeleteMusic">
-        DELETE FROM music
+        DELETE FROM musica
         WHERE id_musica = @idMusic
     </query>
 

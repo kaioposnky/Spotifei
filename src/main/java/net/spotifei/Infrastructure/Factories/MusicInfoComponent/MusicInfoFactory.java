@@ -313,7 +313,7 @@ public abstract class MusicInfoFactory {
     }
 
     private void handleRemoveMusic(Music music){
-        adminController.deleteMusic();
+        adminController.deleteMusic(music);
     }
 
     private void handleAddMusicToPlaylist(Music music){
