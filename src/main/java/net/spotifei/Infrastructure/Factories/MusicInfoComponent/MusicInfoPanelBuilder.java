@@ -14,7 +14,8 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
         MOSTPLAYED,
         LIKEDORDISLIKED,
         PLAYLISTEDIT,
-        PLAYLISTADD
+        PLAYLISTADD,
+        MUSICSPLAYLIST
     }
     private PanelType panelType;
 
@@ -53,6 +54,11 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
         this.panelType = PanelType.PLAYLISTADD;
     }
 
+    @Override
+    public void selectMusicsFromPlaylist(){
+        this.panelType = PanelType.MUSICSPLAYLIST;
+    }
+
     private JPanel generatePanel(Music music){
         switch (panelType){
             case SEARCH -> {
@@ -69,6 +75,9 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
             }
             case PLAYLISTADD -> {
                 return getSearchMusicInfoForPlaylistPanel(music);
+            }
+            case MUSICSPLAYLIST -> {
+                return getMusicsFromPlaylist(music);
             }
             default -> throw new IllegalStateException("Valor inesperado: " + panelType);
         }

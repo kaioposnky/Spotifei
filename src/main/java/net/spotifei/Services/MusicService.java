@@ -461,6 +461,18 @@ public class MusicService {
         }
     }
 
+    public Response<List<Music>> getUserQueue(int userId){
+        try {
+            if(userId == 0){
+                return ResponseHelper.generateBadResponse("Ignorado por userId ser 0!");
+            }
+            List<Music> musics = musicRepository.getUserQueue(userId);
+            return ResponseHelper.generateSuccessResponse("Musicas obtidas com sucesso", musics);
+        } catch(Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
     public Response<List<Music>> getMostDislikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostDislikedMusics();

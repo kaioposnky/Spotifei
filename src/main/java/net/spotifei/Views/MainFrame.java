@@ -30,15 +30,18 @@ public class MainFrame extends JFrame{
     private final AppContext appContext;
     private final MusicPlayerPanel musicPlayerPanel;
     private final RedirectPanel redirectPanel;
+    private final QueueMusicInfoPanel queueMusicInfoPanel;
 
     public MainFrame(AppContext appContext){
         this.appContext = appContext;
         this.musicPlayerPanel = new MusicPlayerPanel(this, this.appContext);
         this.appContext.registerMusicPlayerPanelListener(this.musicPlayerPanel);
         this.redirectPanel= new RedirectPanel(this,this.appContext);
+        this.queueMusicInfoPanel = new QueueMusicInfoPanel(this, appContext);
 
         musicPlayerPanel.setVisible(false);
         redirectPanel.setVisible(false);
+        queueMusicInfoPanel.setVisible(false);
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);
@@ -58,6 +61,7 @@ public class MainFrame extends JFrame{
 
         add(musicPlayerPanel, BorderLayout.SOUTH);
         add(redirectPanel,BorderLayout.EAST);
+        add(queueMusicInfoPanel, BorderLayout.WEST);
         add(cards);
 
         setIconImage(loadImageIcon("spotifeiIcon.png").getImage());
@@ -76,6 +80,7 @@ public class MainFrame extends JFrame{
     public void setHUDVisible(boolean visible){
         musicPlayerPanel.setVisible(visible);
         redirectPanel.setVisible(visible);
+        queueMusicInfoPanel.setVisible(visible);
     }
    
 }

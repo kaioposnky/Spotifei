@@ -110,6 +110,21 @@ public abstract class MusicInfoFactory {
         return mainPanel;
     }
 
+    protected JPanel getMusicsFromPlaylist(Music music){
+        JPanel mainPanel = createContainerPanel(music);
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        mainPanel.add(createMusicGenrePanel(music)); //genero
+        mainPanel.add(Box.createHorizontalStrut(50));
+        mainPanel.add(createMusicFeedbackPanel(music)); //feedback
+        mainPanel.add(Box.createHorizontalStrut(50));
+        mainPanel.add(createMusicTimePanel(music)); //time
+        mainPanel.add(Box.createHorizontalStrut(20));
+
+        addHoverListeners(mainPanel);
+        return mainPanel;
+    }
+
     private JPanel createContainerPanel(Music music){
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
