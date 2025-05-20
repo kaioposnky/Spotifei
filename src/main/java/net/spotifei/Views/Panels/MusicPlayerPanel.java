@@ -36,6 +36,7 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         this.mainframe = mainframe;
         this.appContext = appContext;
         this.musicController = appContext.getMusicController(this, mainframe);
+        appContext.getAudioPlayerWorker().addListener(musicController);
         initComponents();
     }
 

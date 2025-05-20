@@ -28,7 +28,6 @@ public class MusicController implements AudioUpdateListener {
         this.musicServices = musicServices;
         this.mainFrame = mainFrame;
         this.appContext = appContext;
-        appContext.getAudioPlayerWorker().addListener(this);
     }
 
     public void playUserNextMusic(){
@@ -217,7 +216,7 @@ public class MusicController implements AudioUpdateListener {
         }
         musicServices.setNewMusicSelectedId(0);
         musicServices.setNewMusicSelected(false);
-//        playUserNextMusic();
+        playUserNextMusic();
     }
 
     public void playMusicInBackground(Music music){
