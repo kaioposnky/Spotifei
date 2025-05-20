@@ -1,12 +1,17 @@
 package net.spotifei.Infrastructure.Repository;
 
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
+import net.spotifei.Models.Artist;
+import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.bytedeco.ffmpeg.avutil.Callback_Pointer_int_BytePointer_Pointer;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,6 +167,42 @@ public class MusicRepository {
             return musics;
         } catch (Exception e){
             throw e;
+        }
+    }
+
+    public List<Music> getAllMusics() {
+        try {
+            String sql = jdbcRepository.getQueryNamed("getMusics");
+            List<Map<String, Object>> results = jdbcRepository.queryProcedure(sql, new MapListHandler());
+            Map<Integer, Music> musicMap = new HashMap<>();
+
+            for (Map<String, Object> row : results) {
+                Integer idMusica = (Integer) row.get("id_musica");
+                if (idMusica == null) {
+                    continue;
+                }
+
+                Music music = musicMap.get(idMusica);
+                if (music == null) {
+                    music = new Music();
+                    music.setIdMusica(idMusica);
+                    music.setNome((String) row.get("nome"));
+                    music.setAutores(new ArrayList<>());
+                    Genre genre = new Genre();
+                    genre.setName((String) row.get("genero"));
+                    music.setGenre(genre);
+                    musicMap.put(idMusica, music);
+                }
+
+                String artista = (String) row.get("artista");
+                if (artista != null && !music.getAutores().contains(artista)) {
+                    music.getAutores();
+                }
+            }
+            return new ArrayList<>(musicMap.values());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -339,7 +380,6 @@ public class MusicRepository {
         }
     }
 
-    // fila de musica do usuario
 
     public void deleteUserQueue(int userId) throws Exception {
         try {
@@ -423,7 +463,7 @@ public class MusicRepository {
             Map<String, Object> params = new HashMap<>();
             params.put("idMusic", idMusic);
 
-            String sql = jdbcRepository.getQueryNamed("DeletedMusicFromID");
+            String sql = jdbcRepository.getQueryNamed("DeleteMusic");
             List<Music> music = jdbcRepository.queryProcedure(sql, params, new BeanListHandler<>(Music.class));
             return music;
         } catch(Exception e){

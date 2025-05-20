@@ -4,27 +4,38 @@
  */
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
+import net.spotifei.Models.Music;
+import net.spotifei.Models.Responses.Response;
+import net.spotifei.Views.Components.MusicListComponent;
+import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.MainFrame;
+
+import java.awt.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author fengl
- */
+ * */
 public class ADMDelMusicPanel extends javax.swing.JPanel {
 
     private final MainFrame mainframe;
     private final AppContext appContext;
+    private MusicListComponent musicListComponent;
+    private final MusicController musicController;
 
     public ADMDelMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
+        this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
     }
 
@@ -76,13 +87,6 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         this.jScrollPane1 = jScrollPane1;
     }
 
-    public JTextArea getTxt_area_musicas() {
-        return txt_area_musicas;
-    }
-
-    public void setTxt_area_musicas(JTextArea txt_area_musicas) {
-        this.txt_area_musicas = txt_area_musicas;
-    }
 
     public JTextField getTxt_id_musicadel() {
         return txt_id_musicadel;
@@ -91,8 +95,18 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     public void setTxt_id_musicadel(JTextField txt_id_musicadel) {
         this.txt_id_musicadel = txt_id_musicadel;
     }
-    
-    
+
+    public AppContext getAppContext() {
+        return appContext;
+    }
+
+    public MusicListComponent getMusicListComponent() {
+        return musicListComponent;
+    }
+
+    public void setMusicListComponent(MusicListComponent musicListComponent) {
+        this.musicListComponent = musicListComponent;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,119 +123,57 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         txt_id_musicadel = new javax.swing.JTextField();
         bt_excluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txt_area_musicas = new javax.swing.JTextArea();
         bt_voltar = new javax.swing.JButton();
+
 
         setBackground(new java.awt.Color(35, 35, 35));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
         jLabel1.setText("EXCLUIR MÚSICA");
+        jLabel1.setAlignmentX(CENTER_ALIGNMENT);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel2.setText("ID da música:");
+        MusicInfoPanelBuilder musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
+        musicInfoPanelBuilder.selectMusicDeleted();
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel3.setText("> Digite o ID da música que deseja excluir:");
 
-        txt_id_musicadel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_id_musicadelActionPerformed(evt);
-            }
-        });
-
-        bt_excluir.setBackground(new java.awt.Color(0, 109, 170));
-        bt_excluir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        bt_excluir.setForeground(new java.awt.Color(0, 0, 0));
-        bt_excluir.setText("EXCLUIR");
-        bt_excluir.addActionListener(new java.awt.event.ActionListener() {;
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_excluirActionPerformed(evt);
-            }
-        });
-
-        txt_area_musicas.setColumns(20);
-        txt_area_musicas.setRows(5);
-        jScrollPane1.setViewportView(txt_area_musicas);
+        List<Music> musics = appContext.getMusicService().getAllMusics();
+        MusicListComponent musicListComponent = new MusicListComponent(musicInfoPanelBuilder);
+        musicListComponent.setMusics(musics);
+        musicListComponent.setMaximumSize(new Dimension(700, 400));
+        musicListComponent.setMinimumSize(new Dimension(700, 400));
+        musicListComponent.setPreferredSize(new Dimension(700,400));
+        musicListComponent.setAlignmentX(CENTER_ALIGNMENT);
+        musicListComponent.renderMusics();
 
         bt_voltar.setBackground(new java.awt.Color(0, 0, 0));
         bt_voltar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         bt_voltar.setForeground(new java.awt.Color(250, 250, 250));
         bt_voltar.setText("VOLTAR");
+        bt_voltar.setAlignmentX(CENTER_ALIGNMENT);
         bt_voltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_voltarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, 0)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(185, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_id_musicadel, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(186, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(48, 48, 48)
-                .addComponent(jLabel3)
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_id_musicadel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
-                .addComponent(bt_excluir)
-                .addGap(78, 78, 78)
-                .addComponent(bt_voltar)
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(CENTER_ALIGNMENT);
+
+        add(Box.createVerticalGlue());
+        add(jLabel1);
+        add(Box.createVerticalStrut(10));
+        add(musicListComponent);
+        add(Box.createVerticalStrut(30));
+        add(bt_voltar);
+        add(Box.createVerticalGlue());
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
-
-    private void txt_id_musicadelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id_musicadelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_id_musicadelActionPerformed
-
-    private void bt_excluirActionPerformed(java.awt.event.ActionEvent evt){
-        appContext.getAdminController(this).deleteMusic();
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_excluir;
@@ -230,13 +182,14 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txt_area_musicas;
     private javax.swing.JTextField txt_id_musicadel;
     // End of variables declaration//GEN-END:variables
 
     public MainFrame getMainframe() {
         return mainframe;
     }
+
+
 
 
 }

@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -445,6 +446,15 @@ public class MusicService {
             return ResponseHelper.generateSuccessResponse("Total de músicas obtido com sucesso.", total);
         } catch (Exception e){
             return ResponseHelper.generateErrorResponse(e.getMessage(), e);
+        }
+    }
+
+    public List<Music> getAllMusics() {
+        try {
+            return musicRepository.getAllMusics();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

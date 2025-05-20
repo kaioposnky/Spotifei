@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queries>
-
     <query name="GetMusicAudioByMusicId">
         SELECT audio
         FROM musica
@@ -267,5 +266,14 @@
         INSERT INTO usuario_historico_buscas (id_usuario, busca)
         VALUES (@idUser, @searchTerm);
     </query>
-
+    <query name="getMusics">
+        SELECT m.id_musica AS id_musica,
+        m.nome AS nome,
+        a.nome_artistico AS artista,
+        g.nome AS genero
+        FROM musica m
+        LEFT JOIN genero g ON m.id_genero = g.id_genero
+        LEFT JOIN artista_musica am ON m.id_musica = am.id_musica
+        LEFT JOIN artista a ON am.id_artista = a.id_artista;
+    </query>
 </queries>

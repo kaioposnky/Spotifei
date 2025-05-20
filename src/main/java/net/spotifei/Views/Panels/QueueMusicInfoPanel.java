@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
+import net.spotifei.Models.Music;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
