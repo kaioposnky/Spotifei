@@ -4,6 +4,7 @@ import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Models.Artist;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.bytedeco.libfreenect._freenect_context;
 
 import java.util.HashMap;
@@ -95,6 +96,22 @@ public class ArtistRepository {
             Artist artist = jdbcRepository.queryProcedure(sql, params, new BeanHandler<>(Artist.class));
 
             return artist;
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    public int checkUserArtistById(int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+
+            ScalarHandler<Integer> scalar = new ScalarHandler<>();
+
+            String sql = jdbcRepository.getQueryNamed("CheckUserArtistById");
+            Integer isUserAdmin = jdbcRepository.queryProcedure(sql, params, scalar);
+
+            return isUserAdmin == null ? 0 : isUserAdmin;
         } catch (Exception e){
             throw e;
         }

@@ -136,6 +136,10 @@ public class AppContext {
         return new MusicInfoPanelBuilder(this, mainFrame);
     }
 
+    public ArtistController getArtistController(JPanel view, MainFrame mainframe){
+        return new ArtistController(view, this.musicService, this.userService, this);
+    }
+
     public MusicService getMusicService() {
         return musicService;
     }

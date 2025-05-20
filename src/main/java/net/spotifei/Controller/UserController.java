@@ -1,6 +1,7 @@
 package net.spotifei.Controller;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
 import net.spotifei.Models.User;
@@ -50,6 +51,24 @@ public class UserController {
             logDebug("Último login do administrador atualizado com sucesso!");
             mainFrame.setPanel(MainFrame.ADMHOME_PANEL);
         } else{
+            Response<Boolean> responseUserArtist = userService.checkUserArtist(user);
+            if(handleDefaultResponseIfError(responseUserArtist)) return;
+
+            boolean isArtist = responseUserArtist.getData();
+            if(isArtist){
+                Response<Artist> responseGetArtist = userService.getArtistById(user.getIdUsuario());
+                if(handleDefaultResponseIfError(responseGetArtist)) return;
+
+                Artist artist = responseGetArtist.getData();
+                artist.setEmail(user.getEmail());
+                artist.setNome(user.getNome());
+                artist.setSobrenome(user.getSobrenome());
+                artist.setSenha(user.getSenha());
+                artist.setIdUsuario(user.getIdUsuario());
+                artist.setTelefone(user.getTelefone());
+                appContext.setPersonContext(artist); // agora o personcontext tem a classe de artista carregada
+            }
+
             logDebug("Usuário logado com sucesso!");
 
             Response<Music> responseMusic = musicService.getUserLastPlayedMusic(user.getIdUsuario());

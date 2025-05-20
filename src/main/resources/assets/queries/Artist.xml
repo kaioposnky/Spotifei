@@ -3,9 +3,14 @@
     <query name="GetArtistById">
         SELECT
         nome_artistico AS nomeArtistico,
-        id_artista AS id idArtista
+        id_artista AS idArtista
         FROM artista
         WHERE id_artista = @idArtista;
+    </query>
+    <query name="CheckUserArtistById">
+        SELECT 1
+        FROM artista
+        WHERE id_artista = @idUser
     </query>
     <query name="GetArtistByName">
         SELECT

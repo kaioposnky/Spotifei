@@ -3,11 +3,15 @@ package net.spotifei.Views.Panels;
 import javax.swing.*;
 
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Artist;
 import net.spotifei.Views.MainFrame;
 
 import java.awt.*;
+import java.awt.event.ComponentEvent;
 
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 
 public class RedirectPanel extends javax.swing.JPanel{
@@ -21,13 +25,14 @@ public class RedirectPanel extends javax.swing.JPanel{
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private JLabel createMusicLabel;
+    private JButton bt_createMusic;
 
     public RedirectPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
         initComponents();
-
-
+        addStartListener();
     }
 
     private void initComponents() {
@@ -75,6 +80,20 @@ public class RedirectPanel extends javax.swing.JPanel{
         jLabel4.setForeground(new java.awt.Color(250, 250, 250));
         jLabel4.setAlignmentX(CENTER_ALIGNMENT);
 
+        createMusicLabel = new JLabel("CRIAR MÚSICA");
+        createMusicLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        createMusicLabel.setForeground(new java.awt.Color(250, 250, 250));
+        createMusicLabel.setAlignmentX(CENTER_ALIGNMENT);
+        createMusicLabel.setVisible(false);
+
+        bt_createMusic = new JButton();
+        bt_createMusic.setBackground(new java.awt.Color(0,109,170));
+        bt_createMusic.setIcon(loadImageIcon("historyImg.png"));
+        bt_createMusic.addActionListener(this::bt_createMusicActionPerformed);
+        bt_createMusic.setPreferredSize(buttonSize);
+        bt_createMusic.setAlignmentX(CENTER_ALIGNMENT);
+        bt_createMusic.setVisible(false);
+
         this.add(Box.createVerticalGlue());
         this.add(bt_pesquisa);
         this.add(jLabel2);
@@ -84,9 +103,10 @@ public class RedirectPanel extends javax.swing.JPanel{
         this.add(Box.createVerticalStrut(30));
         this.add(bt_historico);
         this.add(jLabel4);
+        this.add(Box.createVerticalStrut(30));
+        this.add(bt_createMusic);
+        this.add(createMusicLabel);
         this.add(Box.createVerticalGlue());
-
-
 
         setMaximumSize(new Dimension(100, 600));
         setMinimumSize(new Dimension(100, 600));
@@ -98,6 +118,10 @@ public class RedirectPanel extends javax.swing.JPanel{
         mainframe.setPanel(MainFrame.SEARCH_PANEL);
     }
 
+    private void bt_createMusicActionPerformed(java.awt.event.ActionEvent evt) {
+        mainframe.setPanel(MainFrame.ARTISTREGMUSIC_PANEL);
+    }
+
     private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
@@ -106,6 +130,22 @@ public class RedirectPanel extends javax.swing.JPanel{
     private void bt_historicoActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.HISTORY_PANEL);
+    }
+
+    private void addStartListener(){
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                if (appContext.getPersonContext() instanceof Artist){
+                    createMusicLabel.setVisible(true);
+                    bt_createMusic.setVisible(true);
+                } else{
+                    createMusicLabel.setVisible(false);
+                    bt_createMusic.setVisible(false);
+                }
+                super.componentShown(e);
+            }
+        });
     }
 
     public MainFrame getMainframe() {

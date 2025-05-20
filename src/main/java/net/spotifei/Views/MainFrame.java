@@ -3,6 +3,7 @@ package net.spotifei.Views;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Panels.*;
 import net.spotifei.Views.Panels.Admin.*;
+import net.spotifei.Views.Panels.Artist.RegisterMusicPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class MainFrame extends JFrame{
     public static final String SEARCH_PANEL = "Search";
     public static final String HISTORY_PANEL = "History";
     public static final String PLAYLIST_PANEL = "Playlist";
+    public static final String ARTISTREGMUSIC_PANEL = "ArtistRegMusic";
     public static final String ADMHOME_PANEL = "ADMHome";
     public static final String ADMCADGENRE_PANEL = "ADMCadGenre";
     public static final String ADMREGMUSIC_PANEL = "ADMRegMusic";
@@ -48,6 +50,7 @@ public class MainFrame extends JFrame{
         cards.add(new RegisterPanel(this, this.appContext), REGISTER_PANEL);
         cards.add(new HistoryPanel(this, this.appContext), HISTORY_PANEL);
         cards.add(new PlaylistPanel(this, this.appContext), PLAYLIST_PANEL);
+        cards.add(new RegisterMusicPanel(this, this.appContext), ARTISTREGMUSIC_PANEL);
         cards.add(new ADMHomePanel(this, this.appContext), ADMHOME_PANEL);
         cards.add(new ADMCadGenre(this, this.appContext), ADMCADGENRE_PANEL);
         cards.add(new ADMRegisterMusicPanel(this, this.appContext), ADMREGMUSIC_PANEL);
