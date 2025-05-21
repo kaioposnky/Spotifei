@@ -128,7 +128,7 @@ public abstract class MusicInfoFactory {
         return mainPanel;
     }
 
-    protected JPanel getMusicDeleted(Music music){
+    protected JPanel getMusicInfoFromDeletePanel(Music music){
         JPanel mainPanel = createContainerPanel(music);
         mainPanel.add(Box.createHorizontalStrut(20));
         mainPanel.add(createMusicGenrePanel(music));
@@ -138,7 +138,17 @@ public abstract class MusicInfoFactory {
 
         addHoverListeners(mainPanel);
         return mainPanel;
+    }
 
+    protected JPanel getMusicInfoFromQueuePanel(Music music){
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.setOpaque(false);
+
+        mainPanel.add(createMusicInfoPanel(music));
+        mainPanel.add(Box.createHorizontalGlue());
+
+        return mainPanel;
     }
 
     private JPanel createContainerPanel(Music music){

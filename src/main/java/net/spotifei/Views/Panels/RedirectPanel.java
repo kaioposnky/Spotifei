@@ -36,7 +36,7 @@ public class RedirectPanel extends javax.swing.JPanel{
     }
 
     private void initComponents() {
-        setBackground(new Color(0, 0, 0));
+        setBackground(new Color(23, 22, 22));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(null);
         setAlignmentX(CENTER_ALIGNMENT);
@@ -108,9 +108,9 @@ public class RedirectPanel extends javax.swing.JPanel{
         this.add(createMusicLabel);
         this.add(Box.createVerticalGlue());
 
-        setMaximumSize(new Dimension(100, 600));
-        setMinimumSize(new Dimension(100, 600));
-        setPreferredSize(new Dimension(100, 600));
+        setMaximumSize(new Dimension(150, 600));
+        setMinimumSize(new Dimension(150, 600));
+        setPreferredSize(new Dimension(150, 600));
     }
 
     private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {

@@ -132,7 +132,7 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         jLabel1.setAlignmentX(CENTER_ALIGNMENT);
 
         MusicInfoPanelBuilder musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
-        musicInfoPanelBuilder.selectMusicDeleted();
+        musicInfoPanelBuilder.selectMusicInfoFromDeletePanel();
 
         musicListComponent = new MusicListComponent(musicInfoPanelBuilder);
         musicListComponent.setMusics(new ArrayList<>());

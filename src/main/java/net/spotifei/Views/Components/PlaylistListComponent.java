@@ -3,6 +3,8 @@ package net.spotifei.Views.Components;
 import net.spotifei.Models.Playlist;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.util.List;
 
 
 public class PlaylistListComponent extends JPanel{
+    private static final Logger log = LoggerFactory.getLogger(PlaylistListComponent.class);
     private List<Playlist> playlists = new ArrayList<>();
     private JPanel playlistInfoComponent;
     private final AppContext appContext;
@@ -54,6 +57,7 @@ public class PlaylistListComponent extends JPanel{
         if(playlists == null || playlists.isEmpty()){
             JLabel label = new JLabel("Nenhuma playlist encontrada!");
             label.setFont(new Font("Arial", Font.BOLD, 14));
+            label.setHorizontalAlignment(JLabel.CENTER);
             label.setForeground(Color.decode("#aeaeae"));
             playlistInfoComponent.add(label);
         } else{

@@ -7,6 +7,7 @@ import net.spotifei.Models.Responses.Response;
 import net.spotifei.Services.MusicService;
 import net.spotifei.Views.Components.FeedBackComponent;
 import net.spotifei.Views.MainFrame;
+import net.spotifei.Views.Panels.QueueMusicInfoPanel;
 import net.spotifei.Views.Panels.SearchPanel;
 
 import javax.swing.*;
@@ -165,6 +166,18 @@ public class MusicController implements AudioUpdateListener {
         playMusicInBackground(musicFound);
 
         logDebug("Tocando a música anterior!");
+    }
+
+    public void loadUserMusicQueue(){
+        QueueMusicInfoPanel queueMusicInfoPanel = (QueueMusicInfoPanel) view;
+        int userId = appContext.getPersonContext().getIdUsuario();
+
+        Response<List<Music>> responseUserMusicQueue = musicServices.getUserQueue(userId);
+        if (handleDefaultResponseIfError(responseUserMusicQueue)) return;
+
+        queueMusicInfoPanel.getMusicsQueue().setMusics(responseUserMusicQueue.getData());
+
+        logDebug("Músicas da fila obtidas com sucesso!");
     }
 
     private boolean handleSaveMusicToHistory(Music music) {
