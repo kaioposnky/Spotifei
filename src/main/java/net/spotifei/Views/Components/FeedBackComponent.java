@@ -1,5 +1,6 @@
 package net.spotifei.Views.Components;
 
+//imports
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
@@ -7,7 +8,6 @@ import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
@@ -22,6 +22,12 @@ public class FeedBackComponent extends JPanel {
     private Music music;
     private boolean feedBackActionEnabled = true;
 
+    /**
+     * Construtor para o componente de feedback, pegando a música do contexto da aplicação.
+     *
+     * @param appContext O contexto da aplicação.
+     * @param mainframe A instância do `MainFrame` (janela principal).
+     */
     public FeedBackComponent(AppContext appContext, MainFrame mainframe) {
         this.music = appContext.getMusicContext();
         if (music == null) {
@@ -33,6 +39,13 @@ public class FeedBackComponent extends JPanel {
         initComponents();
     }
 
+    /**
+     * Construtor para o componente de feedback com uma música específica.
+     *
+     * @param appContext O contexto da aplicação.
+     * @param mainframe A instância do `MainFrame` (janela principal).
+     * @param music A música para a qual o feedback será exibido.
+     */
     public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music) {
         this.music = music;
         this.isMusicLiked = music.isGostou();
@@ -41,6 +54,14 @@ public class FeedBackComponent extends JPanel {
         initComponents();
     }
 
+    /**
+     * Construtor completo para o componente de feedback, com música específica e controle de ativação das ações.
+     *
+     * @param appContext O contexto da aplicação.
+     * @param mainframe A instância do `MainFrame` (janela principal).
+     * @param music A música para a qual o feedback será exibido.
+     * @param feedBackActionEnabled `true` para habilitar as ações de like/dislike, `false` para desabilitar.
+     */
     public FeedBackComponent(AppContext appContext, MainFrame mainframe, Music music, boolean feedBackActionEnabled) {
         this.music = music;
         this.isMusicLiked = music.isGostou();
@@ -49,6 +70,9 @@ public class FeedBackComponent extends JPanel {
         initComponents();
     }
 
+    /**
+     * Método para inicializar e configurar os componentes visuais do painel.
+     */
     public void initComponents(){
         this.setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -95,6 +119,10 @@ public class FeedBackComponent extends JPanel {
         this.add(lblDisLikeNumber);
     }
 
+    /**
+     * Lida com a ação de "curtir" uma música.
+     * Atualiza o estado visual do botão e os contadores, e notifica o controlador.
+     */
     public void handleLikeMusic(){
         if (isMusicLiked == null){
             isMusicLiked = true;
@@ -117,6 +145,10 @@ public class FeedBackComponent extends JPanel {
         musicController.insertUserRating();
     }
 
+    /**
+     * Lida com a ação de "não curtir" uma música.
+     * Atualiza o estado visual do botão e os contadores, e notifica o controlador.
+     */
     public void handleDislikeMusic(){
         if (isMusicLiked == null){
             isMusicLiked = false;
@@ -139,6 +171,9 @@ public class FeedBackComponent extends JPanel {
         musicController.insertUserRating();
     }
 
+    /**
+     * Getters e Setters.
+     */
     public JLabel getLblDisLikeNumber() {
         return lblDisLikeNumber;
     }
@@ -179,6 +214,11 @@ public class FeedBackComponent extends JPanel {
         return music;
     }
 
+    /**
+     * Atualiza a música associada a este componente de feedback e redesenha a UI.
+     *
+     * @param music A nova música a ser exibida.
+     */
     public void setMusic(Music music) {
         if (music == null) {
             return;

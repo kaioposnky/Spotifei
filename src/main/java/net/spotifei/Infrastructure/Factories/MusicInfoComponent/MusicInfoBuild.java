@@ -1,10 +1,10 @@
 package net.spotifei.Infrastructure.Factories.MusicInfoComponent;
 
 import net.spotifei.Models.Music;
-import net.spotifei.Models.Playlist;
 
 import javax.swing.*;
 
+//Interface de funções para as informação das musicas.
 public interface MusicInfoBuild {
     void selectSearchMusicInfoPanel();
     void selectMostPlayedMusicInfoPanel();

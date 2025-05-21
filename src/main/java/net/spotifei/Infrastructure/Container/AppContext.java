@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.Container;
 
+//imports
 import net.spotifei.Controller.*;
 import net.spotifei.Infrastructure.AudioPlayer.AudioControls;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
@@ -18,8 +19,13 @@ import net.spotifei.Views.Panels.MusicPlayerPanel;
 
 import javax.swing.*;
 
+/**
+ * O AppContext atua como um Container de Injeção de Dependências
+ * para os componentes da aplicação do Spotifei.
+ * Ele é responsável por instanciar e gerenciar as dependências
+ * e fornecer acesso a elas para os controladores e outras partes da aplicação.
+ */
 public class AppContext {
-
 
     private final JDBCRepository jdbcRepository;
     private final CriptographRepository criptographRepository;
@@ -32,6 +38,7 @@ public class AppContext {
     private final AdministratorRepository administratorRepository;
     private final GenreRepository genreRepository;
 
+
     private final MusicService musicService;
     private final AuthService authService;
     private final UserService userService;
@@ -40,6 +47,10 @@ public class AppContext {
     private Person personContext;
     private Music musicContext;
 
+    /**
+     * Construtor do AppContext.
+     * Aqui todas as dependências são instanciadas e injetadas umas nas outras.
+     */
     public AppContext() {
         this.audioPlayerWorker = new AudioPlayerWorker();
         this.jdbcRepository = new JDBCRepository();

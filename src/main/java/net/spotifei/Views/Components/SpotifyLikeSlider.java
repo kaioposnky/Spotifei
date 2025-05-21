@@ -1,5 +1,6 @@
 package net.spotifei.Views.Components;
 
+//imports
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
@@ -9,6 +10,13 @@ import java.awt.geom.RoundRectangle2D;
 
 public class SpotifyLikeSlider extends JSlider {
 
+    /**
+     * Construtor para o `SpotifyLikeSlider` com dimensões padrões.
+     *
+     * @param min O valor mínimo do slider.
+     * @param max O valor máximo do slider.
+     * @param value O valor inicial do slider.
+     */
     public SpotifyLikeSlider(int min, int max, int value) {
         super(min, max, value);
         this.setPreferredSize(new Dimension(100, 15));
@@ -17,6 +25,15 @@ public class SpotifyLikeSlider extends JSlider {
         this.setUI(new SpotifyLikeSliderUI(this));
     }
 
+    /**
+     * Construtor para o `SpotifyLikeSlider` com dimensões personalizadas.
+     *
+     * @param min O valor mínimo do slider.
+     * @param max O valor máximo do slider.
+     * @param value O valor inicial do slider.
+     * @param width A largura preferencial do slider.
+     * @param height A altura preferencial do slider.
+     */
     public SpotifyLikeSlider(int min, int max, int value, int width, int height) {
         super(min, max, value);
         this.setPreferredSize(new Dimension(width, height));
@@ -32,10 +49,20 @@ public class SpotifyLikeSlider extends JSlider {
         private final Color hoveredFilledColor = new Color(30, 215, 96);
         private boolean isMouseHovering = false;
 
+        /**
+         * Construtor da UI customizada do slider.
+         *
+         * @param b O `JSlider` ao qual esta UI será aplicada.
+         */
         public SpotifyLikeSliderUI(JSlider b) {
             super(b);
         }
 
+        /**
+         * Sobrescreve `installUI` para adicionar um `MouseListener` ao slider.
+         *
+         * @param c O componente ao qual esta UI está sendo instalada (o `JSlider`).
+         */
         @Override
         public void installUI(JComponent c) {
             super.installUI(c);
@@ -58,6 +85,11 @@ public class SpotifyLikeSlider extends JSlider {
             slider.addMouseListener(hoverListener);
         }
 
+        /**
+         * Sobrescreve `paintTrack` para desenhar o "trilho" do slider.
+         *
+         * @param g O contexto gráfico.
+         */
         @Override // socorro onde eu fui me meter
         public void paintTrack(Graphics g) { // repintar a linha do slider
             Graphics2D g2d = (Graphics2D) g.create();
@@ -82,6 +114,11 @@ public class SpotifyLikeSlider extends JSlider {
             g2d.fill(slideFilled);
         }
 
+        /**
+         * Sobrescreve `paintThumb` para desenhar o círculo que o usuário arrasta do slider.
+         *
+         * @param g O contexto gráfico.
+         */
         @Override
         public void paintThumb(Graphics g){ // repintar o "thumb" do slider
             if (!isMouseHovering && !slider.getValueIsAdjusting()) return;

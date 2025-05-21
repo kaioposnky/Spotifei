@@ -1,9 +1,10 @@
 package net.spotifei.Views;
 
+//imports
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Views.Panels.*;
 import net.spotifei.Views.Panels.Admin.*;
 import net.spotifei.Views.Panels.Artist.RegisterMusicPanel;
+import net.spotifei.Views.Panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,11 @@ public class MainFrame extends JFrame{
     private final RedirectPanel redirectPanel;
     private final QueueMusicInfoPanel queueMusicInfoPanel;
 
+    /**
+     * Construtor da classe `MainFrame`.
+     *
+     * @param appContext O contexto da aplicação, que é usado para inicializar os painéis e registradores.
+     */
     public MainFrame(AppContext appContext){
         this.appContext = appContext;
         this.musicPlayerPanel = new MusicPlayerPanel(this, this.appContext);
@@ -76,10 +82,20 @@ public class MainFrame extends JFrame{
         setPanel(LOGIN_PANEL);
     }
 
+    /**
+     * Alterna para o painel especificado pelo nome.
+     *
+     * @param panel O nome (constante String) do painel a ser exibido.
+     */
     public void setPanel(String panel){
         cardLayout.show(cards, panel);
     }
 
+    /**
+     * Controla a visibilidade dos painéis de "HUD".
+     *
+     * @param visible `true` para tornar os painéis visíveis, `false` para torná-los invisíveis.
+     */
     public void setHUDVisible(boolean visible){
         musicPlayerPanel.setVisible(visible);
         redirectPanel.setVisible(visible);

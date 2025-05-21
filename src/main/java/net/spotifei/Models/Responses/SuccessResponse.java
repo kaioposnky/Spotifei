@@ -2,6 +2,7 @@ package net.spotifei.Models.Responses;
 
 import net.spotifei.Exceptions.NotApplicableMethodException;
 
+//Classe onde armazena as possiveis respostas de sucesso
 public class SuccessResponse<T> implements Response<T> {
     private final String message;
     private final T data;

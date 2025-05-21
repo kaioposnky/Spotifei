@@ -1,13 +1,12 @@
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Controller.HistoryController;
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Models.Responses.Response;
 import net.spotifei.Views.MainFrame;
 import net.spotifei.Views.PopUps.MusicsPopUp;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -20,6 +19,12 @@ public class HistoryPanel extends javax.swing.JPanel {
     private final HistoryController historyController;
     private MusicsPopUp musicsPopUp;
 
+    /**
+     * Construtor da classe `HistoryPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public HistoryPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -27,6 +32,9 @@ public class HistoryPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents(){
         setBackground(new Color(35, 35, 35));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,6 +73,11 @@ public class HistoryPanel extends javax.swing.JPanel {
         setMinimumSize(new Dimension(800, 600));
     }
 
+    /**
+     * Cria e retorna um JPanel contendo os botões de opções de histórico.
+     *
+     * @return Um JPanel com os botões "Últimas", "Mais likes" e "Mais deslikes".
+     */
     private JPanel historybuttons(){
         JPanel historyButton = new JPanel(new FlowLayout(FlowLayout.CENTER));
         historyButton.setBackground(new Color(35, 35, 35));
@@ -99,19 +112,41 @@ public class HistoryPanel extends javax.swing.JPanel {
         return historyButton;
     }
 
+    /**
+     * Método acionado pelo botão "Últimas".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_top10ActionPerformed(java.awt.event.ActionEvent evt) {
         historyController.showUserMostSearchedMusics();
 
     }
 
+    /**
+     * Método acionado pelo botão "Mais likes".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_curtidasActionPerformed(java.awt.event.ActionEvent evt) {
         historyController.showUserLikedMusics();
 
     }
+
+    /**
+     * Método acionado pelo botão "Mais deslikes".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_deslikesActionPerformed(java.awt.event.ActionEvent evt) {
         historyController.showUserDislikedMusics();
 
     }
+
+    /**
+     * Método acionado pelo botão "Deslogar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_sairActionPerformed(java.awt.event.ActionEvent evt) {
         mainframe.setHUDVisible(false);
         if (appContext.getAudioPlayerWorker().isPlaying()) {
@@ -121,7 +156,7 @@ public class HistoryPanel extends javax.swing.JPanel {
 
     }
 
-
+    // Variáveis de Declaração de Componentes
     private javax.swing.JButton bt_top10;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JLabel greetingLabel;
@@ -129,6 +164,7 @@ public class HistoryPanel extends javax.swing.JPanel {
     private javax.swing.JButton bt_deslikes;
 
 
+    // Métodos Getters e Setters para as variáveis de instância
     public MainFrame getMainframe() {
         return mainframe;
     }

@@ -1,9 +1,6 @@
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-
+//imports
 import net.spotifei.Controller.AdminController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
@@ -11,10 +8,12 @@ import net.spotifei.Models.Music;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,12 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
     private MusicListComponent likedMusicsList;
     private MusicListComponent dislikedMusicsList;
 
+    /**
+     * Construtor da classe `ADMEstatisticasPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public ADMEstatisticasPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -37,6 +42,10 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         setBackground(new java.awt.Color(35, 35, 35));
@@ -70,6 +79,11 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         addListeners();
     }
 
+    /**
+     * Cria e retorna um JPanel para exibir o total de músicas no sistema.
+     *
+     * @return JPanel contendo o rótulo e o número total de músicas.
+     */
     private JPanel createTotalMusicsPanel(){
         JPanel totalMusics = new JPanel();
         totalMusics.setLayout(new BoxLayout(totalMusics, BoxLayout.Y_AXIS));
@@ -92,6 +106,11 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         return totalMusics;
     }
 
+    /**
+     * Cria e retorna um JPanel para exibir o total de usuários no sistema.
+     *
+     * @return JPanel contendo o rótulo e o número total de usuários.
+     */
     private JPanel createTotalUsersPanel(){
         JPanel totalUsers = new JPanel();
         totalUsers.setLayout(new BoxLayout(totalUsers, BoxLayout.Y_AXIS));
@@ -114,6 +133,11 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         return totalUsers;
     }
 
+    /**
+     * Cria e retorna um JPanel que contém as listas de músicas mais curtidas e menos curtidas.
+     *
+     * @return JPanel com as listas de músicas.
+     */
     private JPanel createMostLikedAndDislikedMusicsPanel(){
         JPanel musicsPanel = new JPanel();
         musicsPanel.setLayout(new BoxLayout(musicsPanel, BoxLayout.X_AXIS));
@@ -159,6 +183,9 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         return musicsPanel;
     }
 
+    /**
+     * Adiciona um `ComponentListener` ao painel para carregar as estatísticas.
+     */
     private void addListeners(){
         this.addComponentListener(new ComponentAdapter() {
 
@@ -177,6 +204,7 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         });
     }
 
+    //Getters e Setters
     public void setTotalMusics(long total){
         totalMusicsNumber.setText(String.valueOf(total));
     }
@@ -189,18 +217,31 @@ public class ADMEstatisticasPanel extends javax.swing.JPanel {
         return mainframe;
     }
 
+    /**
+     * Define a lista de músicas mais curtidas.
+     *
+     * @param mostLikedMusics A lista de músicas mais curtidas.
+     */
     public void setMostLikedMusics(List<Music> mostLikedMusics) {
         this.mostLikedMusics = mostLikedMusics;
         likedMusicsList.setMusics(mostLikedMusics);
         likedMusicsList.renderMusics();
     }
 
+    /**
+     * Define a lista de músicas menos curtidas.
+     *
+     * @param mostDislikedMusics A lista de músicas menos curtidas.
+     */
     public void setMostDislikedMusics(List<Music> mostDislikedMusics) {
         this.mostDislikedMusics = mostDislikedMusics;
         dislikedMusicsList.setMusics(mostDislikedMusics);
         dislikedMusicsList.renderMusics();
     }
 
+    /**
+     * Método acionado pelo botão "Voltar".
+     */
     public void btn_voltar(){
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }

@@ -1,11 +1,11 @@
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class RegisterPanel extends javax.swing.JPanel {
@@ -29,6 +29,12 @@ public class RegisterPanel extends javax.swing.JPanel {
     private JButton bt_cadastrar;
     private JButton bt_voltar_login;
 
+    /**
+     * Construtor da classe `RegisterPanel`.
+     *
+     * @param mainframe A instância da janela principal (`MainFrame`).
+     * @param appContext O contexto da aplicação.
+     */
     public RegisterPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -36,6 +42,9 @@ public class RegisterPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents() {
         setBackground(new Color(35, 35, 35));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -84,6 +93,11 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada do nome.
+     *
+     * @return Um JPanel contendo o rótulo "Nome:" e o campo de texto.
+     */
     private JPanel nomeRegisterInfo(){
         JPanel nomeRegisterInfo = new JPanel();
         nomeRegisterInfo.setLayout(new BoxLayout(nomeRegisterInfo, BoxLayout.X_AXIS));
@@ -106,6 +120,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         return nomeRegisterInfo;
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada do sobrenome.
+     *
+     * @return Um JPanel contendo o rótulo "Sobrenome:" e o campo de texto.
+     */
     private JPanel sobrenomeRegisterInfo(){
         JPanel sobrenomeRegisterInfo = new JPanel();
         sobrenomeRegisterInfo.setLayout(new BoxLayout(sobrenomeRegisterInfo, BoxLayout.X_AXIS));
@@ -129,6 +148,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         return sobrenomeRegisterInfo;
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada do telefone.
+     *
+     * @return Um JPanel contendo o rótulo "Telefone:" e o campo de texto.
+     */
     private JPanel telefoneRegisterInfo(){
         JPanel telefoneRegisterInfo = new JPanel();
         telefoneRegisterInfo.setLayout(new BoxLayout(telefoneRegisterInfo, BoxLayout.X_AXIS));
@@ -151,6 +175,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         return telefoneRegisterInfo;
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada do e-mail.
+     *
+     * @return Um JPanel contendo o rótulo "E-mail:" e o campo de texto.
+     */
     private JPanel emailRegisterInfo(){
         JPanel emailRegisterInfo = new JPanel();
         emailRegisterInfo.setLayout(new BoxLayout(emailRegisterInfo, BoxLayout.X_AXIS));
@@ -174,6 +203,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         return emailRegisterInfo;
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada da senha.
+     *
+     * @return Um JPanel contendo o rótulo "Senha:" e o campo de texto.
+     */
     private JPanel senhaRegisterInfo(){
         JPanel senhaRegisterInfo = new JPanel();
         senhaRegisterInfo.setLayout(new BoxLayout(senhaRegisterInfo, BoxLayout.X_AXIS));
@@ -197,6 +231,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         return senhaRegisterInfo;
     }
 
+    /**
+     * Cria e retorna um JPanel para os botões de confirmação de registro e retorno ao login.
+     *
+     * @return Um JPanel contendo os botões "Cadastrar" e "Voltar".
+     */
     private JPanel registerConfirm(){
         JPanel registerConfirm = new JPanel(new FlowLayout(FlowLayout.CENTER));
         registerConfirm.setLayout(new BoxLayout(registerConfirm, BoxLayout.Y_AXIS));
@@ -229,16 +268,27 @@ public class RegisterPanel extends javax.swing.JPanel {
         return registerConfirm;
     }
 
+    /**
+     * Método acionado pelo botão "Cadastrar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
         // TODO add your handling code here:
         ac.createUser();
     }
 
+    /**
+     * Método acionado pelo botão "Voltar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_voltar_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltar_loginActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.LOGIN_PANEL);
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public MainFrame getMainframe() {
         return mainframe;
     }

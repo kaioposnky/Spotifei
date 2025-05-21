@@ -1,26 +1,29 @@
 
 package net.spotifei.Views.Components;
 
-import net.spotifei.Controller.MusicController;
+//import
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.User;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import net.spotifei.Controller.AdminController;
-
-import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
-import net.spotifei.Models.User;
 
 public class ConstUserInfoComponent extends JPanel {
     private final User user;
     private final AppContext appContext;
     private final MainFrame mainframe;
 
+    /**
+     * Construtor do componente `ConstUserInfoComponent`.
+     * Recebe as informações do usuário, o contexto da aplicação e a referência ao MainFrame.
+     *
+     * @param user O objeto `User` contendo os dados a serem exibidos.
+     * @param appContext O contexto da aplicação.
+     * @param mainframe A instância do `MainFrame`.
+     */
     public ConstUserInfoComponent(User user, AppContext appContext,
                                   MainFrame mainframe){
         this.user = user;
@@ -29,6 +32,9 @@ public class ConstUserInfoComponent extends JPanel {
         initComponents();
     }
 
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents(){
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Color.decode("#121212"));
@@ -53,6 +59,11 @@ public class ConstUserInfoComponent extends JPanel {
         this.add(boxPanel);
     }
 
+    /**
+     * Método privado que constrói o painel contendo as Labels com as informações do usuário.
+     *
+     * @return Um `JPanel` com as informações do usuário formatadas.
+     */
     private JPanel getConstUserInfoPanel() {
         JPanel constUserInfoPanel = new JPanel();
         constUserInfoPanel.setLayout(new BoxLayout(constUserInfoPanel, BoxLayout.X_AXIS));

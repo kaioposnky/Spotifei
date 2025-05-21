@@ -1,12 +1,13 @@
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-import java.awt.*;
-
+//imports
 import net.spotifei.Controller.AuthController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.User;
 import net.spotifei.Views.MainFrame;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class LoginPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
@@ -23,6 +24,12 @@ public class LoginPanel extends javax.swing.JPanel {
     private JTextField txt_email_login;
     private JPasswordField txt_senha_login;
 
+    /**
+     * Construtor da classe `LoginPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação, para acesso aos controladores.
+     */
     public LoginPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -30,6 +37,9 @@ public class LoginPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel de login.
+     */
     private void initComponents(){
         setBackground(new Color(35, 35, 35));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,6 +75,11 @@ public class LoginPanel extends javax.swing.JPanel {
         setMinimumSize(new Dimension(800, 600));
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada de e-mail.
+     *
+     * @return Um JPanel contendo o rótulo "E-mail:" e o campo de texto `txt_email_login`.
+     */
     private JPanel emailLoginInfo(){
         JPanel emailLoginInfoPanel = new JPanel();
         emailLoginInfoPanel.setLayout(new BoxLayout(emailLoginInfoPanel, BoxLayout.X_AXIS));
@@ -86,6 +101,11 @@ public class LoginPanel extends javax.swing.JPanel {
         return emailLoginInfoPanel;
     }
 
+    /**
+     * Cria e retorna um JPanel para o campo de entrada de senha.
+     *
+     * @return Um JPanel contendo o rótulo "Senha:" e o campo de senha `txt_senha_login`.
+     */
     private JPanel senhaLoginInfo(){
         JPanel senhaLoginInfoPanel = new JPanel();
         senhaLoginInfoPanel.setLayout(new BoxLayout(senhaLoginInfoPanel, BoxLayout.X_AXIS));
@@ -108,6 +128,11 @@ public class LoginPanel extends javax.swing.JPanel {
         return senhaLoginInfoPanel;
     }
 
+    /**
+     * Cria e retorna um JPanel contendo os botões "ENTRAR" e "Registrar".
+     *
+     * @return Um JPanel com os botões de ação para login e registro.
+     */
     private JPanel loginConfirm(){
         JPanel loginConfirmPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         loginConfirmPanel.setLayout(new BoxLayout(loginConfirmPanel, BoxLayout.Y_AXIS));
@@ -146,15 +171,26 @@ public class LoginPanel extends javax.swing.JPanel {
         return loginConfirmPanel;
     }
 
+    /**
+     * Método acionado pelo botão "ENTRAR".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_entrarActionPerformed(java.awt.event.ActionEvent evt) {
         User user = new User();
         user.login(ac, this);
     }
 
+    /**
+     * Método acionado pelo botão "Registrar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_registerActionPerformed(java.awt.event.ActionEvent evt) {
         mainframe.setPanel(MainFrame.REGISTER_PANEL);
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public MainFrame getMainframe() {
         return mainframe;
     }

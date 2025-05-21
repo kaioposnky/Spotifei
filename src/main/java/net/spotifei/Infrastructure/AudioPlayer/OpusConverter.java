@@ -1,10 +1,13 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
+//imports
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -18,6 +21,7 @@ public final class OpusConverter {
      * os arquivos de aúdios mais leves que existem, bom para guardar
      * e receber do banco, portanto, somos forçados a criar um hardcode
      * para converter esse tipo de arquivo para usar no projeto...
+     *
      * @param opusBytes Bytes do arquivo .opus
      * @return AudioInputStream gerado pelos bytes
      * @throws Exception Gera uma excessão se ocorrer qualquer erro na conversão
@@ -65,6 +69,7 @@ public final class OpusConverter {
 
     /**
      * Converte um arquivo MP3 para um array de bytes no formato .opus
+     *
      * @param mp3File O arquivo MP3 a ser convertido
      * @return Bytes do arquivo .opus
      * @throws Exception Gera excessão se um erro acontecer durante a conversão
@@ -96,6 +101,13 @@ public final class OpusConverter {
         }
     }
 
+    /**
+     * Obtém a duração de um arquivo MP3 em microssegundos.
+     *
+     * @param mp3File O arquivo MP3 cuja duração será obtida.
+     * @return A duração do arquivo MP3 em microssegundos.
+     * @throws Exception Se ocorrer um erro ao acessar o arquivo MP3 ou obter sua duração.
+     */
     public static long getMP3DurationInMicrosseconds(File mp3File) throws Exception {
         try(FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(mp3File)){
             grabber.start();
@@ -107,6 +119,7 @@ public final class OpusConverter {
 
     /**
      * Basicamente preenche uma Stream com as samples de um buffer
+     *
      * @param src buffer de input
      * @param out Stream de output
      * @throws IOException Gera uma excessão caso não seja possível acessar os bytes

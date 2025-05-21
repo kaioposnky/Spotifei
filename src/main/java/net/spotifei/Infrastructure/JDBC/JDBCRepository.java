@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.JDBC;
 
+//imports
 import net.spotifei.Exceptions.NullParameterException;
 import net.spotifei.Exceptions.QueryNotFoundException;
 import net.spotifei.Models.User;
@@ -32,6 +33,7 @@ import static net.spotifei.Helpers.ParametersHelper.getParametersFromObject;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Spotifei.getDotEnv;
 
+
 public class JDBCRepository {
     private final ConcurrentMap<String, String> queriesCache = new ConcurrentHashMap<>();
     private static final Pattern PARAM_PATTERN = Pattern.compile("@(\\w+)");
@@ -42,6 +44,11 @@ public class JDBCRepository {
     private String password;
     private Connection connection;
 
+    /**
+     * Construtor da classe.
+     * Inicializa as configurações de conexão com o banco de dados.
+     * Carrega todas as queries SQL de arquivos XML para o cache.
+     */
     public JDBCRepository() {
         this.url = getDotEnv().get("DATABASE_URL");
         this.user = getDotEnv().get("DATABASE_USER");
@@ -55,6 +62,12 @@ public class JDBCRepository {
         }
     }
 
+    /**
+     * Obtém uma conexão com o banco de dados.
+     *
+     * @return Uma instância de `Connection` ativa.
+     * @throws SQLException Se ocorrer um erro ao abrir ou verificar a conexão.
+     */
     private Connection getConnection() throws SQLException {
         if(connection == null || connection.isClosed()){
             openConnection();
@@ -62,16 +75,32 @@ public class JDBCRepository {
         return connection;
     }
 
+    /**
+     * Abre uma nova conexão com o banco de dados.
+     *
+     * @throws SQLException Se a conexão não puder ser estabelecida.
+     */
     private void openConnection() throws SQLException {
         connection = DriverManager.getConnection(
                 url, user, password
         );
     }
 
+    /**
+     * Fecha a conexão com o banco de dados.
+     *
+     * @throws SQLException Se a conexão não puder ser fechada.
+     */
     private void closeConnection() throws SQLException {
         connection.close();
     }
 
+    /**
+     * Carrega as queries SQL de arquivos XML localizados no diretório.
+     *
+     * @throws FileNotFoundException Se os arquivos XML de query não forem encontrados.
+     * @throws RuntimeException Se houver um erro de parsing nos arquivos XML.
+     */
     private void loadQueriesCache() throws FileNotFoundException {
         try{
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -251,6 +280,15 @@ public class JDBCRepository {
         return prepareStatementFromMap(sqlRaw, paramsMap);
     }
 
+    /**
+     * Método auxiliar interno para preencher um `PreparedStatement` a partir de um mapa de parâmetros.
+     *
+     * @param sqlRaw O código SQL cru com parâmetros nomeados.
+     * @param paramsMap Mapa de nomes de parâmetros para seus valores.
+     * @return Um `PreparedStatement` com os parâmetros já definidos.
+     * @throws SQLException Se houver um erro de banco de dados.
+     * @throws IllegalArgumentException Se um parâmetro nomeado na query não for encontrado no mapa.
+     */
     private PreparedStatement prepareStatementFromMap(String sqlRaw, Map<String, Object> paramsMap)
             throws SQLException {
         // guarda os parâmetros da query
@@ -282,6 +320,14 @@ public class JDBCRepository {
 
     }
 
+
+    /**
+     * Obtém uma query SQL pelo seu nome do cache.
+     * @param queryName O nome da query (definido no atributo 'name' do XML).
+     * @return A string SQL correspondente.
+     * @throws QueryNotFoundException Se a query não for encontrada no cache.
+     * @throws FileNotFoundException Se o cache estiver vazio e os arquivos não puderem ser recarregados.
+     */
     public String getQueryNamed(String queryName) throws QueryNotFoundException, FileNotFoundException {
         if (queriesCache.isEmpty()){
             loadQueriesCache();

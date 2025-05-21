@@ -1,5 +1,6 @@
 package net.spotifei.Views.PopUps;
 
+//imports
 import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
@@ -23,6 +24,16 @@ public class PlaylistEditPopUp extends JDialog {
     private JTextField searchField;
     private JLabel titleLabel;
 
+    /**
+     * Construtor da classe `PlaylistEditPopUp`.
+     *
+     * @param appContext O contexto da aplicação.
+     * @param mainFrame A janela principal que será a proprietária deste diálogo.
+     * @param musics A lista inicial de músicas que estão na playlist (para `musicFromPlaylistListComponent`).
+     * @param playlist A instância da `Playlist` que está sendo editada.
+     * @param panelBuilderPlaylist O builder usado para criar os painéis de informação para músicas da playlist.
+     * @param panelBuilderSearch O builder usado para criar os painéis de informação para músicas de busca.
+     */
     public PlaylistEditPopUp(AppContext appContext, MainFrame mainFrame, List<Music> musics, Playlist playlist,
                              MusicInfoPanelBuilder panelBuilderPlaylist, MusicInfoPanelBuilder panelBuilderSearch){
         super(mainFrame, true);
@@ -38,6 +49,9 @@ public class PlaylistEditPopUp extends JDialog {
         startPlaylistUpdateWorker();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais dentro do pop-up.
+     */
     private void initComponents() {
         this.setMinimumSize(new Dimension(500, 500));
         JPanel contentPanel = new JPanel();
@@ -72,6 +86,11 @@ public class PlaylistEditPopUp extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Cria um JPanel para a área de edição do nome da playlist.
+     *
+     * @return Um JPanel contendo o rótulo "Nome:" e o campo de texto para o nome da playlist.
+     */
     private JPanel createChangePlaylistNameWrapper(){
         JPanel changePlaylistNameWrapper = new JPanel();
         changePlaylistNameWrapper.setLayout(new BoxLayout(changePlaylistNameWrapper, BoxLayout.X_AXIS));
@@ -96,6 +115,11 @@ public class PlaylistEditPopUp extends JDialog {
         return changePlaylistNameWrapper;
     }
 
+    /**
+     * Cria um JPanel que envolve os dois painéis de lista de músicas (playlist e pesquisa).
+     *
+     * @return Um JPanel contendo `createMusicsFromPanel()` e `createSearchMusicsPanel()`.
+     */
     private JPanel createMusicListsPanelWrapper(){
         JPanel musicListsPanelWrapper = new JPanel();
         musicListsPanelWrapper.setLayout(new BoxLayout(musicListsPanelWrapper, BoxLayout.X_AXIS));
@@ -108,6 +132,11 @@ public class PlaylistEditPopUp extends JDialog {
         return musicListsPanelWrapper;
     }
 
+    /**
+     * Cria o JPanel para exibir as músicas que já estão na playlist.
+     *
+     * @return Um JPanel com o título "Músicas da playlist" e o `musicFromPlaylistListComponent`.
+     */
     private JPanel createMusicsFromPanel(){
         JPanel playlistMusicsPanel = new JPanel();
         playlistMusicsPanel.setLayout(new BoxLayout(playlistMusicsPanel, BoxLayout.Y_AXIS));
@@ -129,6 +158,11 @@ public class PlaylistEditPopUp extends JDialog {
         return playlistMusicsPanel;
     }
 
+    /**
+     * Cria o JPanel para a área de pesquisa de músicas (para adicionar à playlist).
+     *
+     * @return Um JPanel com o campo de pesquisa, botão e o `musicFromSearchListComponent`.
+     */
     private JPanel createSearchMusicsPanel(){
         JPanel searchMusicsPanel = new JPanel();
         searchMusicsPanel.setLayout(new BoxLayout(searchMusicsPanel, BoxLayout.Y_AXIS));
@@ -164,16 +198,25 @@ public class PlaylistEditPopUp extends JDialog {
         return searchMusicsPanel;
     }
 
+    /**
+     * Método acionado pelo botão "Pesquisar" na área de busca de músicas.
+     */
     private void handleSearchMusics(){
         playlistController.searchMusicsToPlaylist();
     }
 
+    /**
+     * Método acionado pelo botão "Salvar" para o nome da playlist.
+     */
     private void handleSavePlaylistName(){
         playlistController.savePlaylistName();
         playlist.setNome(playlistNameTextArea.getText());
         titleLabel.setText("Editando a playlist " + playlist.getNome());
     }
 
+    /**
+     * Inicia um `SwingWorker` em segundo plano para atualizar periodicamente a lista de músicas da playlist.
+     */
     private void startPlaylistUpdateWorker(){
         SwingWorker<Void, Void> updaterWorker = new SwingWorker<>() {
             @Override
@@ -191,6 +234,7 @@ public class PlaylistEditPopUp extends JDialog {
         updaterWorker.execute();
     }
 
+    //  Métodos Getters para os componentes
     public MusicListComponent getMusicFromPlaylistListComponent() {
         return musicFromPlaylistListComponent;
     }

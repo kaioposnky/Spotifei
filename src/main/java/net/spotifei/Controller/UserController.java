@@ -1,5 +1,6 @@
 package net.spotifei.Controller;
 
+// Importes Otimizados
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
@@ -12,7 +13,7 @@ import net.spotifei.Views.MainFrame;
 import javax.swing.*;
 
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class UserController {
 
@@ -22,6 +23,15 @@ public class UserController {
     private final AppContext appContext;
     private final JPanel view;
 
+    /**
+     * Construtor da classe.
+     * Inicializa o controlador de usuário com as dependências necessárias para gerenciar
+     * o fluxo de login e pós-login
+     *
+     * @param view O painel da interface gráfica atual.
+     * @param mainFrame A janela principal da aplicação, usada para navegação entre painéis.
+     * @param appContext O contexto da aplicação, que armazena informações do usuário logado e da música atual.
+     */
     public UserController(JPanel view, MainFrame mainFrame, AppContext appContext){
         this.mainFrame = mainFrame;
         this.userService = appContext.getUserService();
@@ -30,6 +40,13 @@ public class UserController {
         this.appContext = appContext;
     }
 
+    /**
+     * Lida com o fluxo após um login bem-sucedido.
+     * Baseado no email fornecido, recupera os detalhes do usuário, e verifica seu tipo
+     * direcionando a interface para o painel apropriado.
+     *
+     * @param email O email do usuário que efetuou o login com sucesso.
+     */
     public void handleLoginSucess(String email){
         Response<User> responseUser = userService.getUsuarioByEmail(email);
         if(handleDefaultResponseIfError(responseUser)) return;
@@ -89,6 +106,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Tenta iniciar a reprodução de uma música em segundo plano.
+     * Em caso de erro (ex: nenhuma música tocada anteriormente), exibe uma mensagem ao usuário.
+     * A música é pausada logo após ser preparada para que o usuário possa controlá-la.
+     *
+     * @param music A música a ser potencialmente reproduzida (geralmente a última tocada).
+     */
     private void handlePlayMusicBackground(Music music){
         SwingWorker<Void, Void> backgroundWorker = new SwingWorker<>() {
             @Override

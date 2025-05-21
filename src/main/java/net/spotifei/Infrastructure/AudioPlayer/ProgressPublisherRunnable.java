@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
+//imports
 import javax.sound.sampled.Clip;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
@@ -11,11 +12,21 @@ public class ProgressPublisherRunnable implements Runnable {
     private boolean stopThread = false;
     private final Clip clip;
 
+    /**
+     * Construtor para o ProgressPublisherRunnable.
+     *
+     * @param audioPlayerWorker A instância do AudioPlayerWorker que publicará as atualizações de progresso.
+     * @param clip O Clip de áudio que está sendo monitorado.
+     */
     public ProgressPublisherRunnable(AudioPlayerWorker audioPlayerWorker, Clip clip) {
         this.audioPlayerWorker = audioPlayerWorker;
         this.clip = clip;
     }
 
+    /**
+     * Contém a lógica principal da thread.
+     * Ele monitora a posição atual do Clip e a publica para o AudioPlayerWorker.
+     */
     @Override
     public void run() {
         try{
@@ -37,6 +48,9 @@ public class ProgressPublisherRunnable implements Runnable {
         }
     }
 
+    /**
+     * Sinaliza para a thread parar sua execução no próximo ciclo.
+     */
     public void stopPublisher(){
         this.stopThread = true;
     }

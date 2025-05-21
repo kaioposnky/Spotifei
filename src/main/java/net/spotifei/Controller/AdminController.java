@@ -1,5 +1,6 @@
 package net.spotifei.Controller;
 
+// Importes Otimizados
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
@@ -10,13 +11,12 @@ import net.spotifei.Services.UserService;
 import net.spotifei.Views.Panels.Admin.*;
 
 import javax.swing.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
+
 
 public class AdminController {
     private final JPanel view;
@@ -24,6 +24,15 @@ public class AdminController {
     private final UserService userService;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe.
+     * Inicializa o controlador com suas dependências necessárias.
+     *
+     * @param view O painel da interface gráfica onde as ações ocorrem.
+     * @param musicService O serviço responsável pela lógica de negócios de músicas.
+     * @param userService O serviço responsável pela lógica de negócios de usuários.
+     * @param appContext O contexto da aplicação.
+     */
     public AdminController(JPanel view, MusicService musicService, UserService userService, AppContext appContext) {
         this.view = view;
         this.musicService = musicService;
@@ -31,6 +40,11 @@ public class AdminController {
         this.appContext = appContext;
     }
 
+    /**
+     * Registra uma nova música no sistema.
+     * Valida se todos os campos obrigatórios foram preenchidos.
+     * Em caso de sucesso, exibe uma mensagem de confirmação; caso contrário, exibe uma mensagem de erro.
+     */
     public void registerMusic() {
         ADMRegisterMusicPanel registerMusicPanel = (ADMRegisterMusicPanel) view;
         String musicFilePath = registerMusicPanel.getMusicFilePath();
@@ -61,6 +75,12 @@ public class AdminController {
         logDebug("Música registrada com sucesso!");
     }
 
+    /**
+     * Cadastra um novo artista no sistema.
+     * Garante que todos os campos obrigatórios estejam preenchidos.
+     * Se a validação for bem-sucedida, um novo artista é criado.
+     * Exibe mensagens de sucesso ou erro ao usuário.
+     */
     public void registerArtist() {
         ADMCadArtistPanel cadArtistPanel = (ADMCadArtistPanel) view;
         String email = cadArtistPanel.getTxt_email_cadastro().getText();
@@ -116,10 +136,22 @@ public class AdminController {
 
     }
 
+    /**
+     * Função auxiliar para exibir mensagens em uma caixa de diálogo JOptionPane.
+     *
+     * @param message A mensagem a ser exibida.
+     */
     private void createJDialog(String message) {
         JOptionPane.showMessageDialog(view, message);
     }
 
+    /**
+     * Exclui uma música existente do sistema.
+     * Recebe um objeto Music como parâmetro e utiliza o musicService para remover a música.
+     * Exibe uma mensagem de sucesso se a exclusão for bem-sucedida.
+     *
+     * @param music O objeto Music a ser deletado.
+     */
     public void deleteMusic(Music music) {
         Response<Void> responseDelete = musicService.deleteMusic(music.getIdMusica());
         if (handleDefaultResponseIfError(responseDelete)) return;
@@ -128,6 +160,9 @@ public class AdminController {
         logDebug("Músicas encontradas!");
     }
 
+    /**
+     * Carrega e exibe todas as músicas disponíveis no painel de exclusão de músicas.
+     */
     public void loadAllMusicsForDelete(){
         ADMDelMusicPanel admDelMusicPanel = (ADMDelMusicPanel) view;
 
@@ -139,7 +174,10 @@ public class AdminController {
         logDebug("Músicas encontradas!");
     }
 
-
+    /**
+     * Carrega e exibe estatísticas do sistema.
+     * Atualiza o painel de estatísticas com os dados obtidos.
+     */
     public void loadSystemStatistics() {
         ADMEstatisticasPanel statisticsPanel = (ADMEstatisticasPanel) view;
         Response<Long> responseMusics = musicService.getTotalMusics();
@@ -162,6 +200,9 @@ public class AdminController {
         statisticsPanel.setMostDislikedMusics(responseMostDislikedMusics.getData());
     }
 
+    /**
+     * Consulta um usuário no sistema.
+     */
     public void constUser() {
         ADMConsultUserPanel admConsultUserPanel = (ADMConsultUserPanel) view;
         String searchTerm = admConsultUserPanel.getTxt_pesquisa().getText();

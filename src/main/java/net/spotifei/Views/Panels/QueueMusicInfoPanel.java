@@ -1,15 +1,15 @@
 package net.spotifei.Views.Panels;
 
+//imports
+import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
+import net.spotifei.Views.Components.MusicListComponent;
+import net.spotifei.Views.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
-import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
-import net.spotifei.Models.Music;
-import net.spotifei.Views.Components.MusicListComponent;
-import net.spotifei.Views.MainFrame;
 
 /**
  *
@@ -21,6 +21,12 @@ public class QueueMusicInfoPanel extends JPanel {
     private final AppContext appContext;
     private int userId;
 
+    /**
+     * Construtor da classe `QueueMusicInfoPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public QueueMusicInfoPanel(MainFrame mainframe, AppContext appContext){
         this.mainframe = mainframe;
         this.appContext = appContext;
@@ -30,6 +36,9 @@ public class QueueMusicInfoPanel extends JPanel {
 
     private JLabel jLabel;
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents() {
         setBackground(new Color(0, 0, 0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,6 +74,10 @@ public class QueueMusicInfoPanel extends JPanel {
         setPreferredSize(new Dimension(300, 600));
     }
 
+    /**
+     * Adiciona um listener de componente que é ativado quando o painel é mostrado.
+     * Quando mostrado, ele obtém o ID do usuário logado.
+     */
     private void addStartListener(){
         this.addComponentListener(new ComponentAdapter(){
             @Override

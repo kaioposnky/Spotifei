@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.Repository;
 
+//imports
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
@@ -17,10 +18,23 @@ public class MusicRepository {
 
     private final JDBCRepository jdbcRepository;
 
+    /**
+     * Construtor da classe.
+     * Injeta a dependência do JDBCRepository, que é a ferramenta de acesso ao banco de dados.
+     *
+     * @param jdbcRepository A instância do JDBCRepository a ser utilizada para as operações de banco de dados.
+     */
     public MusicRepository(JDBCRepository jdbcRepository) {
         this.jdbcRepository = jdbcRepository;
     }
 
+    /**
+     * Realiza uma busca por músicas com base em um termo de pesquisa.
+     *
+     * @param searchTerm O termo a ser pesquisado no nome da música.
+     * @return Uma lista de objetos Music que correspondem ao termo de pesquisa.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> searchMusics(String searchTerm) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -35,6 +49,15 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Realiza uma busca por músicas com base em um termo de pesquisa, inclui detalhes importantes como
+     * artistas, likes, dislikes e se o usuário gostou.
+     *
+     * @param searchTerm O termo a ser pesquisado no nome da música.
+     * @param userId O ID do usuário para personalizar os detalhes (ex: se o usuário já curtiu a música).
+     * @return Uma lista de objetos Music com informações detalhadas, incluindo dados de artistas e avaliações do usuário.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> searchMusicForUserWithDetails(String searchTerm, int userId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -63,6 +86,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém a próxima música na fila de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return O objeto Music correspondente à próxima música na fila, ou null se a fila estiver vazia ou não houver próxima música.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Music getNextMusicOnUserQueue(int userId) throws Exception {
         try{
             Map<String, Object> params = new HashMap<>();
@@ -77,6 +107,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém a música anterior reproduzida por um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return O objeto Music da música anterior, ou null se não houver registro.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Music getPreviousMusicFromUser(int userId) throws Exception {
         try{
             Map<String, Object> params = new HashMap<>();
@@ -91,6 +128,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma música aleatória do banco de dados.
+     *
+     * @return Um objeto Music aleatório.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Music getRandomMusic() throws Exception {
         try{
             String sql = jdbcRepository.getQueryNamed("GetRandomMusic");
@@ -102,6 +145,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Recupera o arquivo de áudio de uma música como um array de bytes.
+     *
+     * @param musicId O ID da música cujo áudio será recuperado.
+     * @return Um array de bytes contendo os dados do áudio da música.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public byte[] getMusicAsByteArray(int musicId) throws Exception {
         try{
             ScalarHandler<byte[]> handler = new ScalarHandler<>();
@@ -116,6 +166,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Salva o histórico de pesquisa de um usuário.
+     *
+     * @param userId O ID do usuário que realizou a pesquisa.
+     * @param searchTerm O termo que foi pesquisado.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void saveUserSearch(int userId, String searchTerm) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -129,6 +186,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém as músicas mais pesquisadas por um usuário específico.
+     *
+     * @param userId O ID do usuário.
+     * @param showAmount O número máximo de músicas a serem retornadas.
+     * @return Uma lista das músicas mais pesquisadas pelo usuário.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getUserMostSearchedMusics(int userId, int showAmount) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -144,6 +209,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas mais curtidas no sistema.
+     *
+     * @return Uma lista de objetos Music ordenados pelas mais curtidas.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getMostLikedMusics() throws Exception{
         try{
             String sql = jdbcRepository.getQueryNamed("GetMostLikedMusics");
@@ -155,6 +226,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas mais descurtidas no sistema.
+     *
+     * @return Uma lista de objetos Music ordenados pelas mais descurtidas.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getMostDislikedMusics() throws Exception{
         try{
             String sql = jdbcRepository.getQueryNamed("GetMostDislikedMusics");
@@ -166,6 +243,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém todas as músicas do banco de dados, incluindo seus gêneros e artistas.
+     *
+     * @return Uma lista de objetos Music com todos os detalhes de gênero e artistas.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getAllMusics() {
         try {
             String sql = jdbcRepository.getQueryNamed("getMusics");
@@ -202,6 +285,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém o número total de músicas cadastradas no banco de dados.
+     *
+     * @return O número total de músicas como um valor long.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public long getTotalMusics() throws Exception{
         try{
             ScalarHandler<Long> handler = new ScalarHandler<>();
@@ -214,6 +303,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas que um usuário curtiu.
+     *
+     * @param userId O ID do usuário.
+     * @param limit O número máximo de músicas a serem retornadas.
+     * @return Uma lista de objetos Music que o usuário curtiu.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getUserLikedMusics(int userId, int limit) throws Exception{
         try {
             Map<String, Object> params = new HashMap<>();
@@ -229,6 +326,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas que um usuário descurtiu.
+     *
+     * @param userId O ID do usuário.
+     * @param limit O número máximo de músicas a serem retornadas.
+     * @return Uma lista de objetos Music que o usuário descurtiu.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getUserDislikedMusics(int userId, int limit) throws Exception{
         try {
             Map<String, Object> params = new HashMap<>();
@@ -244,6 +349,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém um objeto Music do banco de dados pelo seu ID.
+     *
+     * @param musicId O ID da música a ser pesquisada.
+     * @return O objeto Music correspondente ao ID, ou null se não for encontrada.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Music getMusicById(int musicId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -258,6 +370,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Insere um registro no histórico de reproduções do usuário.
+     *
+     * @param userId O ID do usuário que reproduziu a música.
+     * @param musicId O ID da música reproduzida.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void insertMusicPlayHistory(int userId, int musicId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -272,6 +391,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Insere uma nova música no banco de dados, incluindo seus dados de áudio.
+     *
+     * @param music O objeto Music com os metadados da música (nome, duração, gênero).
+     * @param audio O array de bytes contendo os dados de áudio da música.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void insertMusic(Music music, byte[] audio) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -288,6 +414,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Insere uma nova música no banco de dados e retorna o ID gerado para ela.
+     *
+     * @param music O objeto Music com os metadados da música (nome, duração, gênero).
+     * @param audio O array de bytes contendo os dados de áudio da música.
+     * @return O ID inteiro da música recém-inserida.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public int insertMusicAndGetReturnId(Music music, byte[] audio) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -306,6 +440,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Associa um artista a uma música no banco de dados.
+     *
+     * @param musicId O ID da música.
+     * @param artistId O ID do artista a ser associado à música.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void insertArtistIntoMusic(int musicId, int artistId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -319,6 +460,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém a última música reproduzida por um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return O objeto Music da última música reproduzida, ou null se não houver histórico.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Music getUserLastPlayedMusic(int userId) throws Exception {
         try{
             Map<String, Object> params = new HashMap<>();
@@ -333,6 +481,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Define ou atualiza a avaliação de um usuário para uma música (curtida/descurtida).
+     *
+     * @param musicId O ID da música avaliada.
+     * @param userId O ID do usuário que fez a avaliação.
+     * @param liked Um valor booleano: true para curtir, false para descurtir.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void setOrInsertMusicUserRating(int musicId, int userId, Boolean liked) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -348,6 +504,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Exclui a avaliação de um usuário para uma música.
+     *
+     * @param musicId O ID da música.
+     * @param userId O ID do usuário.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteMusicUserRating(int musicId, int userId) throws Exception {
         try{
             Map<String, Object> params = new HashMap<>();
@@ -361,6 +524,14 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém a avaliação de um usuário para uma música específica.
+     *
+     * @param musicId O ID da música.
+     * @param userId O ID do usuário.
+     * @return `true` se o usuário curtiu, `false` se descurtiu, ou `null` se não houver avaliação registrada.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public Boolean getUserRatingOnMusic(int musicId, int userId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -376,7 +547,12 @@ public class MusicRepository {
         }
     }
 
-
+    /**
+     * Limpa a fila de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário cuja fila será limpa.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteUserQueue(int userId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -389,6 +565,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém uma lista de músicas de uma playlist específica para ser usada como fila de reprodução.
+     *
+     * @param playlistId O ID da playlist.
+     * @return Uma lista de objetos Music contendo as músicas da playlist.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getPlaylistMusicForQueue(int playlistId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -402,6 +585,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Insere uma música na fila de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @param musicId O ID da música a ser inserida na fila.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void insertMusicIntoQueue(int userId, int musicId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -415,6 +605,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Exclui uma música da fila de reprodução de um usuário com base na sua posição na fila.
+     *
+     * @param userId O ID do usuário.
+     * @param position A posição da música na fila (ex: 1 para a primeira, 2 para a segunda, etc.).
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteMusicFromQueueByPosition(int userId, int position) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -428,6 +625,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Exclui uma música da fila de reprodução de um usuário com base no ID da música.
+     *
+     * @param userId O ID do usuário.
+     * @param musicId O ID da música a ser removida da fila.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteMusicFromQueueByMusicId(int userId, int musicId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -441,6 +645,13 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Obtém a fila de reprodução atual de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma lista de objetos Music que representam a fila de reprodução do usuário.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public List<Music> getUserQueue(int userId) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
@@ -454,6 +665,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Exclui uma música permanentemente do banco de dados pelo seu ID.
+     *
+     * @param idMusic O ID da música a ser excluída.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteMusic(int idMusic) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -466,6 +683,12 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Exclui uma entrada da fila de reprodução de um usuário pelo ID específico da entrada da fila.
+     *
+     * @param musicQueueId O ID da entrada na fila de reprodução (identificador único da posição da música na fila).
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteMusicFromQueueById(int musicQueueId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();

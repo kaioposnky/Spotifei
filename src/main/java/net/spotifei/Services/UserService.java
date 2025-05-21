@@ -1,5 +1,6 @@
 package net.spotifei.Services;
 
+//imports
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.Repository.AdministratorRepository;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
@@ -15,6 +16,15 @@ public class UserService {
     private final ArtistRepository artistRepository;
     private final AuthService authService;
 
+    /**
+     * Construtor da classe `UserService`.
+     * Injeta as dependências dos repositórios e do `AuthService`.
+     *
+     * @param personRepository A instância de `PersonRepository` a ser utilizada.
+     * @param administratorRepository A instância de `AdministratorRepository` a ser utilizada.
+     * @param artistRepository A instância de `ArtistRepository` a ser utilizada.
+     * @param authService A instância de `AuthService` a ser utilizada para operações de autenticação.
+     */
     public UserService(PersonRepository personRepository, AdministratorRepository administratorRepository, ArtistRepository artistRepository, AuthService authService){
         this.personRepository = personRepository;
         this.administratorRepository = administratorRepository;
@@ -22,6 +32,12 @@ public class UserService {
         this.authService = authService;
     }
 
+    /**
+     * Obtém um usuário pelo seu endereço de e-mail, recebendo um objeto `User` como entrada.
+     *
+     * @param user O objeto `User` contendo o e-mail a ser pesquisado.
+     * @return Uma `Response<User>` contendo o objeto `User` encontrado ou uma mensagem de erro.
+     */
     public Response<User> getUsuarioByEmail(User user){
         try{
             User usuario = personRepository.getUsuarioByEmail(user.getEmail());
@@ -39,6 +55,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Obtém um usuário pelo seu endereço de e-mail.
+     *
+     * @param email A string do endereço de e-mail a ser pesquisado.
+     * @return Uma `Response<User>` contendo o objeto `User` encontrado ou uma mensagem de erro.
+     */
     public Response<User> getUsuarioByEmail(String email){
         try{
             User usuario = personRepository.getUsuarioByEmail(email);
@@ -56,6 +78,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Verifica se um determinado `User` possui privilégios de administrador.
+     *
+     * @param user O objeto `User` a ser verificado.
+     * @return Uma `Response<Boolean>` indicando se o usuário é administrador (`true`) ou não (`false`).
+     */
     public Response<Boolean> checkUserAdmin(User user){
         try{
             if (user == null || user.getIdUsuario() == 0){
@@ -72,6 +100,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Verifica se um determinado `User` possui privilégios de artista.
+     *
+     * @param user O objeto `User` a ser verificado.
+     * @return Uma `Response<Boolean>` indicando se o usuário é artista (`true`) ou não (`false`).
+     */
     public Response<Boolean> checkUserArtist(User user){
         try{
             if (user == null || user.getIdUsuario() == 0){
@@ -88,6 +122,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Atualiza a data do último login de um administrador pelo seu e-mail.
+     *
+     * @param email O e-mail do administrador.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> updateAdminLastLoginByEmail(String email){
         try{
             int adminId = administratorRepository.getAdminIdByEmail(email);
@@ -100,6 +140,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Cria um novo artista no sistema. A senha do artista é criptografada antes de ser salva.
+     *
+     * @param artist O objeto `Artist` contendo os dados do novo artista.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> createArtist(Artist artist){
         try{
             if (artist == null || artist.getNome().isBlank()
@@ -118,6 +164,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Obtém um artista pelo seu ID.
+     *
+     * @param artistId O ID do artista.
+     * @return Uma `Response<Artist>` contendo o objeto `Artist` encontrado ou uma mensagem de erro.
+     */
     public Response<Artist> getArtistById(int artistId){
         try{
             if (artistId <= 0){
@@ -131,6 +183,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Deleta um artista do sistema pelo seu ID.
+     *
+     * @param artistId O ID do artista a ser deletado.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> deleteArtist(int artistId){
         try {
             if (artistId <= 0){
@@ -146,6 +204,11 @@ public class UserService {
 
     }
 
+    /**
+     * Obtém o número total de usuários registrados no sistema.
+     *
+     * @return Uma `Response<Long>` contendo o total de usuários.
+     */
     public Response<Long> getTotalUsers(){
         try{
             long total = personRepository.getTotalUsers();

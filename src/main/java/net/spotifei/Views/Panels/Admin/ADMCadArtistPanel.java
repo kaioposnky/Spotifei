@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
+
+import javax.swing.*;
 
 /**
  *
@@ -19,12 +17,19 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe `ADMCadArtistPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public ADMCadArtistPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
     }
 
+    // Métodos Getters e Setters para os componentes visuais,
     public JButton getBt_salvar() {
         return bt_salvar;
     }
@@ -88,6 +93,10 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -253,11 +262,22 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Listener para o botão "VOLTAR".
+     * Navega de volta para o painel `ADMHOME_PANEL` no `MainFrame`.
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
 
+    /**
+     * Listener para o botão "SALVAR".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
         appContext.getAdminController(this).registerArtist();
     }//GEN-LAST:event_bt_salvarActionPerformed
@@ -282,6 +302,10 @@ public class ADMCadArtistPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_telefone_cadastro;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Getter para a instância do `MainFrame`.
+     * @return A instância do `MainFrame`.
+     */
     public MainFrame getMainframe() {
         return mainframe;
     }

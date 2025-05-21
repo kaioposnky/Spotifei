@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels.Artist;
 
+//import
 import net.spotifei.Controller.ArtistController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 
@@ -23,6 +20,12 @@ public class RegisterMusicPanel extends JPanel {
     private final AppContext appContext;
     private final ArtistController artistController;
 
+    /**
+     * Construtor da classe `RegisterMusicPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação, para acesso aos controladores.
+     */
     public RegisterMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -30,6 +33,7 @@ public class RegisterMusicPanel extends JPanel {
         initComponents();
     }
 
+    // Métodos Getters e Setters para os componentes visuais.
     public JLabel getjLabel1() {
         return jLabel1;
     }
@@ -86,6 +90,10 @@ public class RegisterMusicPanel extends JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         jLabel1 = new JLabel();
@@ -188,6 +196,7 @@ public class RegisterMusicPanel extends JPanel {
         musicWrapper.add(Box.createHorizontalStrut(10));
         musicWrapper.add(bt_selecionar_musica);
 
+        this.add(Box.createVerticalGlue());
         this.add(jLabel1);
         this.add(Box.createVerticalStrut(150));
         this.add(nameWrapper);
@@ -197,13 +206,24 @@ public class RegisterMusicPanel extends JPanel {
         this.add(musicWrapper);
         this.add(Box.createVerticalStrut(50));
         this.add(bt_salvar);
+        this.add(Box.createVerticalGlue());
 
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método acionado pelo botão "Salvar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
         artistController.registerMusic();
     }//GEN-LAST:event_bt_salvarActionPerformed
 
+    /**
+     * Método acionado pelo botão "Selecionar a música".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_selecionar_musicaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -231,6 +251,11 @@ public class RegisterMusicPanel extends JPanel {
     // End of variables declaration//GEN-END:variables
 
 
+    /**
+     * Getter para o caminho do arquivo de música selecionado.
+     *
+     * @return O caminho absoluto do arquivo de música selecionado.
+     */
     public String getMusicFilePath() {
         return musicFilePath;
     }

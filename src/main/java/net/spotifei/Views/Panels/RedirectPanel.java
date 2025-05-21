@@ -1,17 +1,15 @@
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Artist;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 
 import static net.spotifei.Helpers.AssetsLoader.loadImageIcon;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 
 public class RedirectPanel extends javax.swing.JPanel{
@@ -28,6 +26,12 @@ public class RedirectPanel extends javax.swing.JPanel{
     private JLabel createMusicLabel;
     private JButton bt_createMusic;
 
+    /**
+     * Construtor da classe `RedirectPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public RedirectPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
@@ -35,6 +39,9 @@ public class RedirectPanel extends javax.swing.JPanel{
         addStartListener();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents() {
         setBackground(new Color(0, 0, 0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -88,7 +95,7 @@ public class RedirectPanel extends javax.swing.JPanel{
 
         bt_createMusic = new JButton();
         bt_createMusic.setBackground(new java.awt.Color(0,109,170));
-        bt_createMusic.setIcon(loadImageIcon("historyImg.png"));
+        bt_createMusic.setIcon(loadImageIcon("create_music.png"));
         bt_createMusic.addActionListener(this::bt_createMusicActionPerformed);
         bt_createMusic.setPreferredSize(buttonSize);
         bt_createMusic.setAlignmentX(CENTER_ALIGNMENT);
@@ -113,25 +120,50 @@ public class RedirectPanel extends javax.swing.JPanel{
         setPreferredSize(new Dimension(100, 600));
     }
 
+    /**
+     * Método acionado pelo botão "Pesquisa".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.SEARCH_PANEL);
     }
 
+    /**
+     * Método acionado pelo botão "Criar Música".
+     * .
+     * @param evt O evento de ação.
+     */
     private void bt_createMusicActionPerformed(java.awt.event.ActionEvent evt) {
         mainframe.setPanel(MainFrame.ARTISTREGMUSIC_PANEL);
     }
 
+    /**
+     * Método acionado pelo botão "Playlist".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_playlistActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.PLAYLIST_PANEL);
     }
 
+    /**
+     * Método acionado pelo botão "Histórico".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_historicoActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.HISTORY_PANEL);
     }
 
+    /**
+     * Adiciona um listener de componente que é ativado quando o painel é mostrado.
+     * Este listener verifica o tipo de usuário e exibe/oculta o botão "Criar Música"
+     * e seu rótulo, conforme apropriado para um artista.
+     */
     private void addStartListener(){
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -148,6 +180,7 @@ public class RedirectPanel extends javax.swing.JPanel{
         });
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public MainFrame getMainframe() {
         return mainframe;
     }

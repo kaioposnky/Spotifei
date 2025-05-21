@@ -1,17 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -26,6 +23,12 @@ public class SearchPanel extends javax.swing.JPanel {
     private final MusicController musicController;
     private JTextField txt_pesquisar;
 
+    /**
+     * Construtor da classe `SearchPanel`.
+     *
+     * @param mainframe A instância da janela principal (`MainFrame`).
+     * @param appContext O contexto da aplicação.
+     */
     public SearchPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -34,6 +37,9 @@ public class SearchPanel extends javax.swing.JPanel {
         startInitialSearch();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents() {
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -81,16 +87,25 @@ public class SearchPanel extends javax.swing.JPanel {
         this.add(musicListComponent);
     }
 
+    /**
+     * Realiza uma pesquisa inicial ao carregar o painel.
+     */
     private void startInitialSearch(){
         txt_pesquisar.setText("a");
         musicController.searchMusic();
         txt_pesquisar.setText("");
     }
 
+    /**
+     * Método acionado pelo botão "Pesquisar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {
         musicController.searchMusicWithUserInfo();
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public MainFrame getMainframe() {
         return mainframe;
     }

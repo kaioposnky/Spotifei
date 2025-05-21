@@ -1,5 +1,6 @@
 package net.spotifei.Controller;
 
+// Importes Otimizados
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
@@ -13,12 +14,10 @@ import net.spotifei.Views.Panels.PlaylistPanel;
 import net.spotifei.Views.PopUps.PlaylistEditPopUp;
 
 import javax.swing.*;
-
 import java.util.List;
 
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class PlaylistController {
     private final PlaylistService playlistService;
@@ -29,6 +28,16 @@ public class PlaylistController {
     private final MusicController musicController;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe PlaylistController para uso com um JPanel (painel de visualização principal).
+     * Inicializa o controlador com as dependências necessárias para gerenciar playlists em um painel principal.
+     *
+     * @param view O JPanel associado a este controlador (ex: PlaylistPanel).
+     * @param playlistService O serviço responsável pela lógica de negócios de playlists.
+     * @param appContext O contexto da aplicação, contendo informações do usuário e da música atual.
+     * @param musicService O serviço responsável pela lógica de negócios de músicas.
+     * @param mainFrame A janela principal da aplicação.
+     */
     public PlaylistController(JPanel view, PlaylistService playlistService, AppContext appContext, MusicService musicService, MainFrame mainFrame){
         this.playlistService = playlistService;
         this.appContext = appContext;
@@ -38,6 +47,16 @@ public class PlaylistController {
         this.view = view;
     }
 
+    /**
+     * Construtor da classe PlaylistController para uso com um JDialog (pop-up).
+     * Inicializa o controlador com as dependências necessárias para gerenciar playlists em um diálogo pop-up.
+     *
+     * @param view O JDialog associado a este controlador (ex: PlaylistEditPopUp).
+     * @param playlistService O serviço responsável pela lógica de negócios de playlists.
+     * @param appContext O contexto da aplicação, contendo informações do usuário e da música atual.
+     * @param musicService O serviço responsável pela lógica de negócios de músicas.
+     * @param mainFrame A janela principal da aplicação.
+     */
     public PlaylistController(JDialog view, PlaylistService playlistService, AppContext appContext, MusicService musicService, MainFrame mainFrame){
         this.playlistService = playlistService;
         this.appContext = appContext;
@@ -47,6 +66,12 @@ public class PlaylistController {
         this.mainFrame = mainFrame;
     }
 
+    /**
+     * Cria uma nova playlist para o usuário logado.
+     * Obtém o nome da playlist do campo de texto no PlaylistPanel.
+     * Valida se o nome não está vazio antes de tentar criar a playlist através do playlistService.
+     * Após a criação bem-sucedida, atualiza a lista de playlists do usuário na interface.
+     */
     public void createPlaylist(){
         int userId = appContext.getPersonContext().getIdUsuario();
         String nome = ((PlaylistPanel)view).getTxt_criar().getText();
@@ -63,6 +88,10 @@ public class PlaylistController {
         logDebug("Playlist com nome " + nome + " criada com sucesso!");
     }
 
+    /**
+     * Obtém e atualiza a lista de playlists do usuário logado na interface.
+     * Solicita as playlists do usuário ao playlistService e as exibe no PlaylistListComponent do PlaylistPanel.
+     */
     public void getUserUpdatedPlaylists(){
         Response<List<Playlist>> response = playlistService.getPlaylistUser(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
@@ -73,6 +102,10 @@ public class PlaylistController {
 
     }
 
+    /**
+     * Exclui uma playlist selecionada.
+     * Chama o playlistService para remover a playlist e exibe uma mensagem de sucesso ao usuário.
+     */
     public void deletePlaylist(){
         PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
         Response<Void> response = playlistService.deletePlaylist(playlistInfoComponent.getPlaylist().getIdPlaylist());
@@ -84,6 +117,12 @@ public class PlaylistController {
         logDebug("Playlist com nome " + playlistInfoComponent.getPlaylist().getNome() + " deletada com sucesso!");
     }
 
+    /**
+     * Abre um pop-up para edição de uma playlist específica.
+     * Obtém a playlist a ser editada e suas músicas.
+     * Configura dois MusicInfoPanelBuilders para diferentes tipos de visualização de músicas (na playlist e na busca).
+     * Cria e exibe o PlaylistEditPopUp com as músicas e a playlist para edição.
+     */
     public void showEditPlaylistPopUp(){
         PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
         int playlistId = playlistInfoComponent.getPlaylist().getIdPlaylist();
@@ -112,6 +151,10 @@ public class PlaylistController {
         logDebug("PopUp de edição de playlist criado com sucesso!");
     }
 
+    /**
+     * Atualiza a lista de músicas exibidas dentro do pop-up de edição de playlist.
+     * Recupera as músicas atualizadas da playlist e as renderiza no MusicFromPlaylistListComponent.
+     */
     public void updateMusicsFromPlaylistMusicsPopUp(){
         PlaylistEditPopUp playlistEditPopUp = (PlaylistEditPopUp) viewDialog;
         int playlistId = playlistEditPopUp.getPlaylist().getIdPlaylist();
@@ -125,6 +168,11 @@ public class PlaylistController {
         playlistEditPopUp.getMusicFromPlaylistListComponent().updateUI();
     }
 
+    /**
+     * Realiza uma busca por músicas para serem adicionadas a uma playlist.
+     * Obtém o termo de pesquisa do campo de busca do PlaylistEditPopUp.
+     * Busca as músicas através do musicService e as exibe no MusicFromSearchListComponent.
+     */
     public void searchMusicsToPlaylist(){
         PlaylistEditPopUp playlistEditPopUp = (PlaylistEditPopUp) viewDialog;
         String searchTerm = playlistEditPopUp.getSearchField().getText();
@@ -139,6 +187,11 @@ public class PlaylistController {
         logDebug("Músicas obtidas pelo termo de pesquisa: " + searchTerm + " retornadas com sucesso!");
     }
 
+    /**
+     * Salva as alterações no nome de uma playlist.
+     * Obtém o nome atualizado do campo de texto no PlaylistEditPopUp.
+     * Chama o playlistService para atualizar o nome da playlist no sistema.
+     */
     public void savePlaylistName(){
         PlaylistEditPopUp playlistPopUp = (PlaylistEditPopUp) viewDialog;
         Playlist updatedPlaylist = playlistPopUp.getPlaylist();
@@ -149,6 +202,11 @@ public class PlaylistController {
         logDebug("Nome da playlist atualizado com sucesso!");
     }
 
+    /**
+     * Inicia a reprodução de uma playlist completa.
+     * Define a playlist selecionada como a fila de reprodução do usuário.
+     * Obtém a primeira música dessa fila e a passa para o MusicController para iniciar a reprodução.
+     */
     public void playPlaylistMusics() {
         PlaylistInfoComponent playlistInfoComponent = (PlaylistInfoComponent) view;
 
@@ -166,6 +224,13 @@ public class PlaylistController {
         logDebug("Playlist " + playlistInfoComponent.getPlaylist().getNome() + " tocada com sucesso!");
     }
 
+    /**
+     * Adiciona uma música a uma playlist.
+     * Chama o playlistService para adicionar a música na última posição da playlist.
+     *
+     * @param musicId O ID da música a ser adicionada.
+     * @param playlistId O ID da playlist onde a música será adicionada.
+     */
     public void addMusicToPlaylist(int musicId, int playlistId){
         Response<Void> response = playlistService.addMusicToLastPositionInPlaylist(musicId, playlistId);
         if(handleDefaultResponseIfError(response)) return;
@@ -173,6 +238,13 @@ public class PlaylistController {
         logDebug("Música adicionada na playlist com sucesso!");
     }
 
+    /**
+     * Remove uma música de uma playlist.
+     * Chama o playlistService para remover a música da playlist.
+     *
+     * @param musicId O ID da música a ser removida.
+     * @param playlistId O ID da playlist de onde a música será removida.
+     */
     public void removeMusicFromPlaylist(int musicId, int playlistId){
         Response<Void> response = playlistService.removeMusicFromPlaylist(musicId, playlistId);
         if(handleDefaultResponseIfError(response)) return;

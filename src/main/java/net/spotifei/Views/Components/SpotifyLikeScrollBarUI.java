@@ -9,6 +9,11 @@ public class SpotifyLikeScrollBarUI extends BasicScrollBarUI {
     private final Color thumbColor = Color.decode("#555555"); // Cor do "polegar" (a parte que você arrasta)
     private final Color thumbHighlightColor = Color.decode("#777777"); // Cor do polegar ao passar o mouse (opcional)
 
+    /**
+     * Método auxiliar privado para criar botões "vazios".
+     *
+     * @return Um `JButton` invisível e sem tamanho.
+     */
     private JButton emptybutton() {
         JButton button = new JButton();
         button.setPreferredSize(new Dimension(0, 0));
@@ -18,17 +23,35 @@ public class SpotifyLikeScrollBarUI extends BasicScrollBarUI {
         return button;
     }
 
+    /**
+     * Sobrescreve o método para criar o botão de diminuir.
+     *
+     * @param orientation A orientação da barra de rolagem (vertical ou horizontal).
+     * @return Um `JButton` vazio.
+     */
     @Override
     protected JButton createDecreaseButton(int orientation) {
         return emptybutton();
     }
 
+    /**
+     * Sobrescreve o método para criar o botão de aumentar.
+     *
+     * @param orientation A orientação da barra de rolagem (vertical ou horizontal).
+     * @return Um `JButton` vazio.
+     */
     @Override
     protected JButton createIncreaseButton(int orientation) {
         return emptybutton();
     }
 
-    // barra que se mexe
+    /**
+     * Sobrescreve o método para pintar a barra de rolagem.
+     *
+     * @param g O contexto gráfico.
+     * @param c O componente (`JScrollBar`).
+     * @param thumbBounds Os limites da barra de rolagem.
+     */
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -41,7 +64,13 @@ public class SpotifyLikeScrollBarUI extends BasicScrollBarUI {
         g2d.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width - 5, thumbBounds.height - 1, 5, 5);
     }
 
-    // "background da barra que se mexe"
+    /**
+     * Sobrescreve o método para pintar o fundo da barra de rolagem.
+     *
+     * @param g O contexto gráfico.
+     * @param c O componente (`JScrollBar`).
+     * @param trackBounds Os limites do fundo.
+     */
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
         Graphics2D g2d = (Graphics2D) g.create();

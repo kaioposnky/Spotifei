@@ -2,6 +2,7 @@ package net.spotifei.Models.Responses;
 
 import net.spotifei.Exceptions.NotApplicableMethodException;
 
+//Classe onde armazena as possiveis respostas de falha
 public class BadResponse<T> implements Response<T> {
     private final String message;
 
