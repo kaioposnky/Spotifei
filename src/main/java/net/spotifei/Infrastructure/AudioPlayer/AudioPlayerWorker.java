@@ -119,8 +119,10 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         try {
             get(); // da throw em qualquer excessão lançada durante o worker
         } catch (Exception e) {
-            clip.close();
-            e.getCause(); // Da throw novamente na Exception
+            if(clip != null){
+                clip.close();
+            }
+            e.printStackTrace(); // Da throw novamente na Exception
         }
     }
 
@@ -133,7 +135,15 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
      */
     @Override
     protected String doInBackground() throws Exception {
-        clip = AudioSystem.getClip();
+        try {
+            clip = AudioSystem.getClip();
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(null,
+                    "Seu dispositivo está com o aúdio desabilitado! Não será" +
+                            "possível tocar músicas. Habilite o aúdio do dispositivo e" +
+                            "abra o aplicativo novamente.");
+            throw new IllegalStateException("O aúdio do sistema está desabilitado!");
+        }
         // listener para checar quando for o fim da música
         clip.addLineListener(this::handleEndOfMusic);
 
