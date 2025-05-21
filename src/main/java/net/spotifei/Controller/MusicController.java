@@ -226,7 +226,8 @@ public class MusicController implements AudioUpdateListener {
 
         queueMusicInfoPanel.getMusicsQueue().setMusics(responseUserMusicQueue.getData());
 
-        logDebug("Músicas da fila obtidas com sucesso!");
+        // log removido por spamar muito no console por conta do worker de queue
+//        logDebug("Músicas da fila obtidas com sucesso!");
     }
 
     /**

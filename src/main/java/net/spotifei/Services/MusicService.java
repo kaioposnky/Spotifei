@@ -698,6 +698,11 @@ public class MusicService {
                 return ResponseHelper.generateBadResponse("Ignorado por userId ser 0!");
             }
             List<Music> musics = musicRepository.getUserQueue(userId);
+
+            for (Music music : musics){
+                putAuthorsIntoMusic(music);
+                putGenreIntoMusic(music);
+            }
             return ResponseHelper.generateSuccessResponse("Musicas obtidas com sucesso", musics);
         } catch(Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);

@@ -19,6 +19,7 @@ import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 
 public class QueueMusicInfoPanel extends JPanel {
@@ -26,7 +27,8 @@ public class QueueMusicInfoPanel extends JPanel {
     private final AppContext appContext;
     private MusicListComponent musicsQueue;
     private MusicInfoPanelBuilder musicInfoPanelBuilder;
-    private JPanel musicInfoPanel;
+    private JLabel musicTitle;
+    private JLabel musicAuthors;
     private final MusicController musicController;
     private SwingWorker<Void, Void> updaterWorker;
 
@@ -80,9 +82,11 @@ public class QueueMusicInfoPanel extends JPanel {
         musicPlayingPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         musicPlayingPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         musicPlayingPanel.setAlignmentX(CENTER_ALIGNMENT);
+        musicPlayingPanel.setOpaque(false);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setOpaque(false);
 
         JLabel musicPlaying = new JLabel("Tocando agora");
         musicPlaying.setFont(new Font("Segoe UI", 1, 16));
@@ -92,6 +96,7 @@ public class QueueMusicInfoPanel extends JPanel {
         Music music = new Music();
         music.setNome("Carregando...");
         music.setArtistsNames("Carregando...");
+        JPanel musicInfoPanel;
         musicInfoPanel = createMusicInfoPanel(music);
         musicInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
         musicInfoPanel.setOpaque(false);
@@ -115,23 +120,32 @@ public class QueueMusicInfoPanel extends JPanel {
         musicsQueuePanel.setMaximumSize(new Dimension(140, Integer.MAX_VALUE));
         musicsQueuePanel.setMinimumSize(new Dimension(140, Integer.MAX_VALUE));
 
-        JLabel queueMusics = new JLabel("Próximas");
-        queueMusics.setFont(new Font("Segoe UI", 1, 16));
-        queueMusics.setForeground(new Color(250, 250, 250));
-        queueMusics.setAlignmentX(LEFT_ALIGNMENT);
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setOpaque(false);
 
-        MusicInfoPanelBuilder musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
+        JLabel queueMusicsLabel = new JLabel("Próximas");
+        queueMusicsLabel.setFont(new Font("Segoe UI", 1, 16));
+        queueMusicsLabel.setForeground(new Color(250, 250, 250));
+        queueMusicsLabel.setAlignmentX(LEFT_ALIGNMENT);
+
+        musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
         musicInfoPanelBuilder.selectMusicInfoFromQueuePanel();
 
         musicsQueue = new MusicListComponent(musicInfoPanelBuilder);
-        musicsQueue.setAlignmentX(LEFT_ALIGNMENT);
         musicsQueue.setOpaque(false);
         musicsQueue.setBackground(null);
+        musicsQueue.setPreferredSize(new Dimension(140, Integer.MAX_VALUE));
+        musicsQueue.setMaximumSize(new Dimension(140, Integer.MAX_VALUE));
+        musicsQueue.setMinimumSize(new Dimension(140, Integer.MAX_VALUE));
+        musicsQueue.setAlignmentX(LEFT_ALIGNMENT);
 
-        musicsQueuePanel.add(Box.createVerticalStrut(10));
-        musicsQueuePanel.add(queueMusics);
-        musicsQueuePanel.add(Box.createVerticalStrut(20));
-        musicsQueuePanel.add(musicsQueue);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(queueMusicsLabel);
+        contentPanel.add(Box.createVerticalStrut(30));
+        contentPanel.add(musicsQueue);
+
+        musicsQueuePanel.add(contentPanel);
 
         return musicsQueuePanel;
     }
@@ -145,11 +159,11 @@ public class QueueMusicInfoPanel extends JPanel {
         infoWrapperPanel.setLayout(new BoxLayout(infoWrapperPanel, BoxLayout.Y_AXIS));
         infoWrapperPanel.setOpaque(false);
 
-        JLabel musicTitle = new JLabel(music.getNome());
+        musicTitle = new JLabel(music.getNome());
         musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
         musicTitle.setForeground(Color.white);
 
-        JLabel musicAuthors = new JLabel(music.getArtistsNames());
+        musicAuthors = new JLabel(music.getArtistsNames());
         musicAuthors.setFont(new Font("Arial", Font.BOLD, 12));
         musicAuthors.setForeground(Color.gray);
 
@@ -165,16 +179,21 @@ public class QueueMusicInfoPanel extends JPanel {
             @Override
             protected Void doInBackground(){
                 try{
-                    logDebug("Thread ativado");
                     while(true){
-                        musicController.loadUserMusicQueue();
-                        musicInfoPanel = musicInfoPanelBuilder.buildPanel(appContext.getMusicContext());
-                        updateUI();
-                        repaint();
-                        revalidate();
-                        Thread.sleep(1500);
+                        try{
+                            Thread.sleep(2000);
+                            if(appContext.getMusicContext() == null || appContext.getPersonContext() == null) continue;
+                            musicController.loadUserMusicQueue();
+                            musicTitle.setText(appContext.getMusicContext().getNome());
+                            musicAuthors.setText(appContext.getMusicContext().getArtistsNames());
+                            updateUI();
+                            repaint();
+                            revalidate();
+                        } catch (Exception e){
+                            logError(e.getMessage(), e);
+                        }
                     }
-                } catch (InterruptedException e){
+                } catch (Exception e){
                     return null;
                 }
             }
@@ -191,7 +210,6 @@ public class QueueMusicInfoPanel extends JPanel {
 
             @Override
             public void componentShown(ComponentEvent e) {
-                logDebug("Chamando Thread");
                 startPlaylistUpdateWorker();
                 super.componentShown(e);
             }
