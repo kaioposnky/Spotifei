@@ -1,5 +1,6 @@
 package net.spotifei.Controller;
 
+// Importes Otimizados
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Music;
@@ -11,11 +12,11 @@ import net.spotifei.Views.Panels.QueueMusicInfoPanel;
 import net.spotifei.Views.Panels.SearchPanel;
 
 import javax.swing.*;
-
 import java.util.List;
 
 import static net.spotifei.Helpers.ResponseHelper.handleDefaultResponseIfError;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.*;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 public class MusicController implements AudioUpdateListener {
     private final JPanel view;
@@ -24,6 +25,15 @@ public class MusicController implements AudioUpdateListener {
     private final AppContext appContext;
     private JDialog waitDialog;
 
+    /**
+     * Construtor da classe.
+     * Inicializa o controlador de música com as dependências necessárias.
+     *
+     * @param view O painel da interface gráfica atual.
+     * @param mainFrame A janela principal da aplicação.
+     * @param musicServices O serviço responsável pela lógica de negócios de músicas.
+     * @param appContext O contexto da aplicação, contendo informações do usuário e da música atual.
+     */
     public MusicController(JPanel view, MainFrame mainFrame, MusicService musicServices, AppContext appContext) {
         this.view = view;
         this.musicServices = musicServices;
@@ -31,6 +41,10 @@ public class MusicController implements AudioUpdateListener {
         this.appContext = appContext;
     }
 
+    /**
+     * Toca a próxima música na fila de reprodução do usuário.
+     * Obtém o ID do usuário do AppContext e solicita a próxima música.
+     */
     public void playUserNextMusic(){
         int userId = appContext.getPersonContext().getIdUsuario();
         Response<Music> response = musicServices.getNextMusicInUserQueue(userId);
@@ -60,6 +74,7 @@ public class MusicController implements AudioUpdateListener {
 
     /**
      * Toca a música informada pelo id
+     *
      * @param musicId Id da música a ser tocada
      */
     public void playMusicById(int musicId) {
@@ -72,6 +87,11 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Tocando agora: " + music.getNome());
     }
 
+    /**
+     * Define o volume do áudio.
+     *
+     * @param volume O valor do volume a ser definido.
+     */
     public void setAudioVolume(float volume){
         Response<Void> response = musicServices.setAudioVolume(volume);
         if(handleDefaultResponseIfError(response)) return;
@@ -79,6 +99,11 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Volume alterado para " + volume + " com sucesso!");
     }
 
+    /**
+     * Define o tempo de reprodução atual da música.
+     *
+     * @param musicTime O tempo (em segundos ou milissegundos, dependendo da implementação do serviço) para o qual pular.
+     */
     public void setMusicTime(float musicTime){
         Response<Void> response = musicServices.setMusicTime(musicTime);
         if(handleDefaultResponseIfError(response)) return;
@@ -86,6 +111,9 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Tempo da música alterado para " + musicTime + " com sucesso!");
     }
 
+    /**
+     * Alterna o estado de pausa da música (pausa se estiver tocando, despausa se estiver pausada).
+     */
     public void togglePauseMusic(){
         Response<Void> response = musicServices.pauseMusic();
         if(handleDefaultResponseIfError(response)) return;
@@ -94,6 +122,11 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Música pausada com sucesso!");
     }
 
+    /**
+     * Insere ou atualiza a avaliação (like/dislike) do usuário para a música atual.
+     * Obtém o ID da música e se ela foi curtida ou não do FeedBackComponent.
+     * Chama o musicServices para registrar a avaliação do usuário.
+     */
     public void insertUserRating(){
         if(appContext.getPersonContext() == null) return;
 //
@@ -118,6 +151,10 @@ public class MusicController implements AudioUpdateListener {
                 " para o usuário com id " + userId + " com sucesso!");
     }
 
+    /**
+     * Realiza uma busca por músicas, incluindo detalhes de preferência do usuário (se ele curtiu ou não).
+     * Chama o musicServices para pesquisar as músicas e atualiza a lista de músicas na interface.
+     */
     public void searchMusicWithUserInfo(){
         SearchPanel searchPanel = (SearchPanel) view;
         String searchTerm = searchPanel.getTxt_pesquisar().getText();
@@ -132,6 +169,10 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
+    /**
+     * Realiza uma busca genérica por músicas.
+     * Chama o musicServices para pesquisar as músicas e atualiza a lista de músicas na interface.
+     */
     public void searchMusic(){
         SearchPanel searchPanel = (SearchPanel) view;
         String searchTerm = searchPanel.getTxt_pesquisar().getText();
@@ -145,6 +186,10 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas encontradas para a pesquisa \"" + searchTerm + "\": " + musics.size());
     }
 
+    /**
+     * Pula para a próxima música na fila de reprodução do usuário.
+     * Solicita a próxima música ao musicServices e inicia sua reprodução.
+     */
     public void skipMusic(){
         Response<Music> response = musicServices.getNextMusicInUserQueue(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
@@ -156,6 +201,10 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Tocando a próxima música!");
     }
 
+    /**
+     * Volta para a música anterior na fila de reprodução do usuário.
+     * Solicita a música anterior ao musicServices e inicia sua reprodução.
+     */
     public void previousMusic(){
         Response<Music> response = musicServices.getUserPreviousMusic(appContext.getPersonContext().getIdUsuario());
         if(handleDefaultResponseIfError(response)) return;
@@ -180,6 +229,12 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Músicas da fila obtidas com sucesso!");
     }
 
+    /**
+     * Função auxiliar privada para salvar a música atualmente em reprodução no histórico do usuário.
+     *
+     * @param music A música a ser salva no histórico.
+     * @return true se a música foi salva com sucesso no histórico, false caso contrário.
+     */
     private boolean handleSaveMusicToHistory(Music music) {
         Response<Void> responseSaveMusicToHistory = musicServices.
                 addMusicToUserHistory(appContext.getPersonContext().getIdUsuario(), music.getIdMusica());
@@ -188,6 +243,12 @@ public class MusicController implements AudioUpdateListener {
 
     // Ações do Listener que é notificado em AudioPlayerWorker
 
+    /**
+     * Método de callback chamado quando uma nova música é selecionada para reprodução.
+     * Atualiza o contexto da música no AppContext e a salva no histórico.
+     *
+     * @param music A música selecionada.
+     */
     @Override
     public void onSelectMusic(Music music) {
         if(musicServices.isNewMusicSelected() && musicServices.getNewMusicSelectedId() == music.getIdMusica()){
@@ -232,6 +293,12 @@ public class MusicController implements AudioUpdateListener {
         playUserNextMusic();
     }
 
+    /**
+     * Inicia a reprodução de uma música em segundo plano.
+     * Exibe um JDialog de "aguarde" enquanto a música é carregada e preparada para tocar.
+     *
+     * @param music A música a ser reproduzida.
+     */
     public void playMusicInBackground(Music music){
         waitDialog = new JDialog();
         JLabel messageLabel = new JLabel("Estamos preparando sua música para tocar...");

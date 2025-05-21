@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels.Admin;
+
+//import
+import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Views.MainFrame;
 
 /**
  *
@@ -19,12 +17,19 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe `ADMRegisterMusicPanel`.
+     *
+     * @param mainframe A instância da janela principal (`MainFrame`).
+     * @param appContext O contexto da aplicação.
+     */
     public ADMRegisterMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
     }
 
+    // Métodos Getters e Setters para os componentes visuais.
     public JButton getBt_voltar() {
         return bt_voltar;
     }
@@ -105,6 +110,10 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -158,6 +167,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 bt_salvarActionPerformed(evt);
             }
         });
+        bt_salvar.setAlignmentX(CENTER_ALIGNMENT);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
@@ -230,15 +240,30 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método acionado pelo botão "VOLTAR".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
 
+    /**
+     * Método acionado pelo botão "Salvar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
         appContext.getAdminController(this).registerMusic();
     }//GEN-LAST:event_bt_salvarActionPerformed
 
+    /**
+     * Método acionado pelo botão "Selecionar a música".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_selecionar_musicaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -268,7 +293,11 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_nome_musicacad;
     // End of variables declaration//GEN-END:variables
 
-
+    /**
+     * Getter para o caminho do arquivo de música selecionado.
+     *
+     * @return O caminho absoluto do arquivo de música.
+     */
     public String getMusicFilePath() {
         return musicFilePath;
     }

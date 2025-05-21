@@ -1,5 +1,6 @@
 package net.spotifei.Services;
 
+//imports
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
@@ -10,7 +11,6 @@ import net.spotifei.Models.Artist;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
-import org.postgresql.util.PSQLException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,6 +32,16 @@ public class MusicService {
     private boolean isNewMusicSelected = false;
     private int newMusicSelectedId = 0;
 
+    /**
+     * Construtor da classe `MusicService`.
+     * Injeta as dependências dos repositórios e do AudioPlayerWorker.
+     *
+     * @param musicRepository Repositório para operações com músicas.
+     * @param audioPlayerWorker Componente para controle de áudio.
+     * @param artistRepository Repositório para operações com artistas.
+     * @param playlistRepository Repositório para operações com playlists.
+     * @param genreRepository Repositório para operações com gêneros.
+     */
     public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository){
         this.musicRepository = musicRepository;
         this.audioPlayerWorker = audioPlayerWorker;
@@ -40,6 +50,12 @@ public class MusicService {
         this.genreRepository = genreRepository;
     }
 
+    /**
+     * Obtém a primeira música na fila de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo o objeto `Music` a ser tocado.
+     */
     public Response<Music> getFirstMusicInUserQueue(int userId){
         try{
 
@@ -57,6 +73,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém a próxima música na fila de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo o objeto `Music` a ser tocado.
+     */
     public Response<Music> getNextMusicInUserQueue(int userId){
         try{
 
@@ -77,6 +99,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém a música anterior na fila de reprodução do usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo o objeto `Music` anterior.
+     */
     public Response<Music> getUserPreviousMusic(int userId){
         try{
             Music music = musicRepository.getPreviousMusicFromUser(userId);
@@ -87,6 +115,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém os detalhes de uma música pelo seu ID.
+     *
+     * @param musicId O ID da música.
+     * @return Uma `Response` contendo o objeto `Music` completo.
+     */
     public Response<Music> getMusicById(int musicId){
         try{
             Music music = musicRepository.getMusicById(musicId);
@@ -104,6 +138,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Inicia a reprodução de uma música para um usuário.
+     *
+     * @param musicId O ID da música a ser tocada.
+     * @param userId O ID do usuário que está solicitando a reprodução.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> playMusic(int musicId, int userId){
         try{
             if(userId == 0 || musicId == 0){
@@ -135,6 +176,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém a avaliação de um usuário para uma música.
+     *
+     * @param musicId O ID da música.
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo um `Boolean` (true para curtiu, false para descurtiu, null para não avaliou).
+     */
     public Response<Boolean> getUserMusicRating(int musicId, int userId){
         try{
 
@@ -151,6 +199,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Define o volume de reprodução do áudio.
+     *
+     * @param volume O volume desejado (0 a 100).
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> setAudioVolume(float volume){
         try {
             if(volume < 0.0f || volume > 100.0f){
@@ -169,6 +223,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Define o tempo de reprodução atual da música.
+     *
+     * @param musicTime O tempo desejado em percentual (0 a 100).
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> setMusicTime(float musicTime){
         try {
             if(musicTime < 0 || musicTime > 100){
@@ -187,6 +247,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Pausa ou retoma a reprodução da música.
+     *
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> pauseMusic(){
         try{
             if (audioPlayerWorker.isPlaying()){
@@ -201,6 +266,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Adiciona um registro da música ao histórico de reprodução de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @param musicId O ID da música.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> addMusicToUserHistory(int userId, int musicId){
         try{
             if(userId == 0 || musicId == 0){
@@ -216,6 +288,15 @@ public class MusicService {
 
     }
 
+    /**
+     * Registra uma nova música no sistema.
+     *
+     * @param musicFilePath O caminho completo para o arquivo de áudio da música (MP3).
+     * @param musicName O nome da música.
+     * @param musicArtist O nome artístico do autor da música.
+     * @param musicGenre O nome do gênero da música.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> registerMusic(String musicFilePath, String musicName, String musicArtist, String musicGenre){
         try{
             String[] infos = {musicFilePath, musicName, musicArtist, musicGenre};
@@ -261,6 +342,15 @@ public class MusicService {
         }
     }
 
+    /**
+     * Sobrecarga do método `registerMusic`, que aceita o ID do artista em vez do nome.
+     *
+     * @param musicFilePath O caminho completo para o arquivo de áudio da música (MP3).
+     * @param musicName O nome da música.
+     * @param artistId O ID do artista autor da música.
+     * @param musicGenre O nome do gênero da música.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> registerMusic(String musicFilePath, String musicName, int artistId, String musicGenre){
         try{
             String[] infos = {musicFilePath, musicName, musicGenre};
@@ -301,6 +391,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém a última música tocada por um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo a última música tocada.
+     */
     public Response<Music> getUserLastPlayedMusic(int userId){
         try{
             if(userId == 0){
@@ -323,6 +419,14 @@ public class MusicService {
         }
     }
 
+    /**
+     * Define ou atualiza a avaliação de um usuário para uma música.
+     *
+     * @param musicId O ID da música.
+     * @param userId O ID do usuário.
+     * @param liked `Boolean.TRUE` para curtir, `Boolean.FALSE` para descurtir, `null` para remover avaliação.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> setOrInsertMusicUserRating(int musicId, int userId, Boolean liked){
         try{
             if (userId <= 0 || musicId <= 0){
@@ -342,6 +446,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Realiza uma busca por músicas, retornando detalhes específicos para um usuário.
+     *
+     * @param searchTerm O termo de pesquisa.
+     * @param userId O ID do usuário (para personalização ou detalhes de avaliação).
+     * @return Uma `Response` contendo uma lista de objetos `Music`.
+     */
     public Response<List<Music>> searchMusicsWithUserDetails(String searchTerm, int userId){
         try{
             if(searchTerm.isBlank()){
@@ -367,6 +478,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Realiza uma busca genérica por músicas, sem detalhes específicos de usuário.
+     *
+     * @param searchTerm O termo de pesquisa.
+     * @return Uma `Response` contendo uma lista de objetos `Music`.
+     */
     public Response<List<Music>> searchMusics(String searchTerm){
         try{
             if(searchTerm.isBlank()){
@@ -390,6 +507,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém as músicas mais pesquisadas por um usuário específico.
+     *
+     * @param userId O ID do usuário.
+     * @param showAmount O número máximo de músicas a serem retornadas.
+     * @return Uma `Response` contendo uma lista das músicas mais pesquisadas.
+     */
     public Response<List<Music>> getUserMostSearchedMusics(int userId, int showAmount){
         try{
             if (userId <= 0 || showAmount <= 0){
@@ -409,22 +533,48 @@ public class MusicService {
         }
     }
 
+    /**
+     * Retorna se uma nova música foi selecionada no player.
+     *
+     * @return `true` se uma nova música foi selecionada, `false` caso contrário.
+     */
     public boolean isNewMusicSelected() {
         return isNewMusicSelected;
     }
 
+    /**
+     * Define o estado de seleção de nova música.
+     *
+     * @param newMusicSelected O `boolean` a ser definido.
+     */
     public void setNewMusicSelected(boolean newMusicSelected) {
         isNewMusicSelected = newMusicSelected;
     }
 
+    /**
+     * Retorna o ID da última música que foi selecionada para tocar.
+     *
+     * @return O `int` do ID da música.
+     */
     public int getNewMusicSelectedId() {
         return newMusicSelectedId;
     }
 
+    /**
+     * Define o ID da última música selecionada para tocar.
+     *
+     * @param newMusicSelectedId O `int` a ser definido como o ID da música.
+     */
     public void setNewMusicSelectedId(int newMusicSelectedId) {
         this.newMusicSelectedId = newMusicSelectedId;
     }
 
+    /**
+     * Deleta uma música do sistema pelo seu ID.
+     *
+     * @param idMusic O ID da música a ser deletada.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> deleteMusic(int idMusic){
         try{
             if(idMusic == 0){
@@ -439,6 +589,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém uma lista de músicas curtidas por um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @param limit O número máximo de músicas a serem retornadas.
+     * @return Uma `Response` contendo a lista de músicas curtidas.
+     */
     public Response<List<Music>> getUserLikedMusics(int userId, int limit){
         try{
             if(userId <= 0 || limit <= 0){
@@ -456,6 +613,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém uma lista de músicas descurtidas por um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @param limit O número máximo de músicas a serem retornadas.
+     * @return Uma `Response` contendo a lista de músicas descurtidas.
+     */
     public Response<List<Music>> getUserDislikedMusics(int userId, int limit){
         try{
             if(userId <= 0 || limit <= 0){
@@ -474,6 +638,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém o número total de músicas registradas no sistema.
+     *
+     * @return Uma `Response` contendo o total de músicas.
+     */
     public Response<Long> getTotalMusics(){
         try{
             long total = musicRepository.getTotalMusics();
@@ -483,6 +652,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém uma lista de todas as músicas cadastradas no sistema.
+     *
+     * @return Uma `Response` contendo a lista de todas as músicas.
+     */
     public Response<List<Music>> getAllMusics() {
         try {
 
@@ -494,6 +668,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas mais curtidas no sistema.
+     *
+     * @return Uma `Response` contendo a lista das músicas mais curtidas.
+     */
     public Response<List<Music>> getMostLikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostLikedMusics();
@@ -507,6 +686,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém a fila de reprodução atual de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response` contendo a lista de músicas na fila do usuário.
+     */
     public Response<List<Music>> getUserQueue(int userId){
         try {
             if(userId == 0){
@@ -519,6 +704,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém uma lista das músicas mais descurtidas no sistema.
+     *
+     * @return Uma `Response` contendo a lista das músicas mais descurtidas.
+     */
     public Response<List<Music>> getMostDislikedMusics(){
         try{
             List<Music> musics = musicRepository.getMostDislikedMusics();
@@ -532,6 +722,12 @@ public class MusicService {
         }
     }
 
+    /**
+     * Obtém todas as músicas de uma playlist.
+     *
+     * @param playlistId O ID da playlist.
+     * @return Uma `Response` contendo a lista de músicas da playlist.
+     */
     public Response<List<Music>> getMusicsFromPlaylist(int playlistId) {
         try {
             if (playlistId <= 0) {
@@ -550,7 +746,12 @@ public class MusicService {
         }
     }
 
-    // sim criei isso no music service porque estou com preguiça de criar um outro service para colocar 1 funçao...
+    /**
+     * Cria um novo gênero musical no sistema.
+     *
+     * @param name O nome do gênero a ser criado.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
     public Response<Void> createGenre(String name){
         try{
             genreRepository.createGenre(name);
@@ -561,6 +762,13 @@ public class MusicService {
         }
     }
 
+    /**
+     * Método auxiliar privado para popular a lista de autores em um objeto `Music`.
+     * Busca os artistas associados à música no `ArtistRepository`.
+     *
+     * @param music O objeto `Music` a ser preenchido.
+     * @throws Exception Se ocorrer um erro ao obter os artistas ou se não houver artistas.
+     */
     private void putAuthorsIntoMusic(Music music) throws Exception{
         List<Artist> artists = artistRepository.getArtistsByMusicId(music.getIdMusica());
         if (artists == null || artists.isEmpty()){
@@ -569,6 +777,13 @@ public class MusicService {
         music.setAutores(artists);
     }
 
+    /**
+     * Método auxiliar privado para popular o gênero em um objeto `Music`.
+     * Busca o gênero associado à música no `GenreRepository`.
+     *
+     * @param music O objeto `Music` a ser preenchido.
+     * @throws Exception Se ocorrer um erro ao obter o gênero ou se não houver gênero.
+     */
     private void putGenreIntoMusic(Music music) throws Exception{
         Genre genre = genreRepository.getGenreByMusicId(music.getIdMusica());
         if (genre == null){

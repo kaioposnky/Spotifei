@@ -1,17 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Controller.AdminController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -29,6 +26,12 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     private final AdminController adminController;
     private SwingWorker<Void, Void> updaterWorker;
 
+    /**
+     * Construtor da classe `ADMDelMusicPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public ADMDelMusicPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
@@ -37,6 +40,7 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         addShowListeners();
     }
 
+    // Métodos Getters e Setters para os componentes visuais.
     public JButton getBt_excluir() {
         return bt_excluir;
     }
@@ -113,6 +117,10 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -166,10 +174,16 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
 
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método acionado pelo botão "VOLTAR".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }//GEN-LAST:event_bt_voltarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_excluir;
@@ -181,6 +195,9 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_id_musicadel;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Inicia um `SwingWorker` para carregar e atualizar a lista de músicas em segundo plano.
+     */
     private void startMusicUpdateWorker(){
         updaterWorker = new SwingWorker<>() {
             @Override
@@ -198,6 +215,9 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         updaterWorker.execute();
     }
 
+    /**
+     * Adiciona `ComponentListener`s ao painel para iniciar e parar o `SwingWorker`.
+     */
     private void addShowListeners(){
         this.addComponentListener(new ComponentAdapter() {
 
@@ -216,6 +236,11 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
         });
     }
 
+    /**
+     * Getter para a instância do `MainFrame`.
+     *
+     * @return A instância do `MainFrame`.
+     */
     public MainFrame getMainframe() {
         return mainframe;
     }

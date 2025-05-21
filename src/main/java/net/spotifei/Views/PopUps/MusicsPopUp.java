@@ -1,5 +1,6 @@
 package net.spotifei.Views.PopUps;
 
+//imports
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
@@ -14,6 +15,15 @@ public class MusicsPopUp extends JDialog {
     private final MusicListComponent musicListComponent;
     private final String title;
 
+    /**
+     * Construtor da classe `MusicsPopUp`.
+     *
+     * @param appContext O contexto da aplicação (não usado diretamente aqui, mas passado para o builder).
+     * @param mainFrame A janela principal que será a proprietária deste diálogo (tornando-o modal).
+     * @param title O título a ser exibido na janela pop-up.
+     * @param musics Uma lista de objetos `Music` a serem exibidos.
+     * @param panelBuilder O builder usado para criar os painéis de informação para cada música na lista.
+     */
     public MusicsPopUp(AppContext appContext, MainFrame mainFrame, String title, List<Music> musics, MusicInfoPanelBuilder panelBuilder){
         super(mainFrame, true);
         musicListComponent = new MusicListComponent(
@@ -23,6 +33,9 @@ public class MusicsPopUp extends JDialog {
         initComponents();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais dentro do pop-up.
+     */
     private void initComponents() {
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(new java.awt.Color(48, 45, 45));
@@ -51,6 +64,11 @@ public class MusicsPopUp extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Getter para o `MusicListComponent`.
+     *
+     * @return A instância de `MusicListComponent` contida no pop-up.
+     */
     public MusicListComponent getMusicListComponent() {
         return musicListComponent;
     }

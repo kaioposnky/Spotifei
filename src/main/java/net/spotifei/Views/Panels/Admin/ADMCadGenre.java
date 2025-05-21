@@ -1,5 +1,6 @@
 package net.spotifei.Views.Panels.Admin;
 
+//imports
 import net.spotifei.Controller.GenreController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
@@ -13,6 +14,12 @@ public class ADMCadGenre extends JPanel {
     private final GenreController genreController;
     private JTextField genreTextField;
 
+    /**
+     * Construtor da classe `ADMCadGenre`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public ADMCadGenre(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
@@ -20,6 +27,9 @@ public class ADMCadGenre extends JPanel {
         initComponents();
     }
 
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -66,14 +76,25 @@ public class ADMCadGenre extends JPanel {
         add(bt_voltar);
     }
 
+    /**
+     * Método acionado pelo botão "Cadastrar".
+     */
     private void handleGenreCreate(){
         genreController.createGenre();
     }
 
+    /**
+     * Método acionado pelo botão "Voltar".
+     */
     private void handleGoBack(){
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
     }
 
+    /**
+     * Retorna a instância do `JTextField` usado para inserir o nome do gênero.
+     *
+     * @return O `JTextField` do nome do gênero.
+     */
     public JTextField getGenreTextField() {
         return genreTextField;
     }

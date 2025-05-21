@@ -1,21 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.Components.PlaylistListComponent;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logInfo;
 
 /**
  *
@@ -31,6 +26,12 @@ public class PlaylistPanel extends javax.swing.JPanel {
     private JTextField txt_criar;
 
 
+    /**
+     * Construtor da classe `PlaylistPanel`.
+     *
+     * @param mainframe A instância da janela principal .
+     * @param appContext O contexto da aplicação.
+     */
     public PlaylistPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
@@ -39,6 +40,9 @@ public class PlaylistPanel extends javax.swing.JPanel {
         addShowListeners();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents(){
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -104,15 +108,26 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.add(playlistListComponent);
     }
 
+    /**
+     * Método acionado pelo botão "Criar!".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_createActionPerformed(java.awt.event.ActionEvent evt) {
         playlistController.createPlaylist();
 
     }
 
+    /**
+     * Método acionado pelo botão "Atualizar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_updateActionPerformed(java.awt.event.ActionEvent evt){
         playlistController.getUserUpdatedPlaylists();
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public MainFrame getMainframe() {
         return mainframe;
     }
@@ -133,6 +148,9 @@ public class PlaylistPanel extends javax.swing.JPanel {
         this.playlistListComponent = playlistListComponent;
     }
 
+    /**
+     * Inicia um `SwingWorker` para atualizar a lista de playlists em segundo plano.
+     */
     private void startPlaylistUpdateWorker(){
         updaterWorker = new SwingWorker<>() {
             @Override
@@ -150,6 +168,10 @@ public class PlaylistPanel extends javax.swing.JPanel {
         updaterWorker.execute();
     }
 
+    /**
+     * Adiciona listeners de componente ao painel para iniciar e parar o `SwingWorker`
+     * quando o painel é mostrado ou escondido.
+     */
     private void addShowListeners(){
         this.addComponentListener(new ComponentAdapter() {
 

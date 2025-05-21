@@ -1,7 +1,7 @@
 package net.spotifei.Infrastructure.Repository;
 
+//imports
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Timestamp;
@@ -11,10 +11,22 @@ import java.util.Map;
 public class AdministratorRepository {
     private final JDBCRepository jdbcRepository;
 
+    /**
+     * Construtor da classe.
+     *
+     * @param jdbcRepository A instância do JDBCRepository a ser utilizada para as operações de banco de dados.
+     */
     public AdministratorRepository(JDBCRepository jdbcRepository) {
         this.jdbcRepository = jdbcRepository;
     }
 
+    /**
+     * Verifica se um usuário é um administrador pelo seu ID.
+     *
+     * @param userId O ID do usuário a ser verificado.
+     * @return Retorna `1` se o usuário for um administrador, `0` caso contrário.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
+     */
     public int checkUserAdminById(int userId) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();
@@ -31,6 +43,12 @@ public class AdministratorRepository {
         }
     }
 
+    /**
+     * Atualiza o último login de um administrador.
+     *
+     * @param adminId O ID do administrador cujo último login será atualizado.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void updateAdminLastLoginById(int adminId) throws Exception{
         try{
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -47,6 +65,14 @@ public class AdministratorRepository {
         }
     }
 
+    /**
+     * Obtém o ID de um administrador pelo seu endereço de e-mail.
+     *
+     * @param email O endereço de e-mail do administrador.
+     * @return O ID do administrador.
+     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados,
+     * ou se o administrador não for encontrado (resultando em 0 ou uma exceção dependendo do handler).
+     */
     public int getAdminIdByEmail(String email) throws Exception{
         try{
             Map<String, Object> params = new HashMap<>();

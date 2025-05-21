@@ -1,5 +1,6 @@
 package net.spotifei.Services;
 
+//imports
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.Repository.MusicRepository;
 import net.spotifei.Infrastructure.Repository.PlaylistRepository;
@@ -13,11 +14,25 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final MusicRepository musicRepository;
 
+    /**
+     * Construtor da classe `PlaylistService`.
+     * Injeta as dependências do `PlaylistRepository` e `MusicRepository`.
+     *
+     * @param playlistRepository A instância de `PlaylistRepository` a ser utilizada.
+     * @param musicRepository A instância de `MusicRepository` a ser utilizada.
+     */
     public PlaylistService(PlaylistRepository playlistRepository, MusicRepository musicRepository) {
         this.playlistRepository = playlistRepository;
         this.musicRepository = musicRepository;
     }
 
+    /**
+     * Cria uma nova playlist no sistema.
+     *
+     * @param playlist O objeto `Playlist` a ser criado.
+     * @param userId O ID do usuário que está criando a playlist.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> createPlaylist(Playlist playlist, int userId){
         try{
             if (playlist == null){
@@ -32,6 +47,12 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Deleta uma playlist existente pelo seu ID.
+     *
+     * @param playlistId O ID da playlist a ser deletada.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> deletePlaylist(int playlistId){
         try{
             if (playlistId <= 0){
@@ -46,6 +67,12 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Atualiza os dados de uma playlist.
+     *
+     * @param playlist O objeto `Playlist` com os dados atualizados (deve conter o ID da playlist).
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> updatePlaylist(Playlist playlist){
         try{
             if (playlist == null || playlist.getIdPlaylist() <= 0){
@@ -61,6 +88,13 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Adiciona uma música na última posição de uma playlist.
+     *
+     * @param musicId O ID da música a ser adicionada.
+     * @param playlistId O ID da playlist.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> addMusicToLastPositionInPlaylist(int musicId, int playlistId){
         try{
             if (musicId == 0 || playlistId <= 0){
@@ -90,6 +124,13 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Remove uma música de uma playlist.
+     *
+     * @param musicId O ID da música a ser removida.
+     * @param playlistId O ID da playlist da qual a música será removida.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> removeMusicFromPlaylist(int musicId, int playlistId){
         try{
             if (musicId == 0 || playlistId <= 0){
@@ -105,6 +146,12 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Obtém uma playlist pelo seu ID.
+     *
+     * @param playlistId O ID da playlist a ser obtida.
+     * @return Uma `Response<Playlist>` contendo o objeto `Playlist` ou uma mensagem de erro.
+     */
     public Response<Playlist> getPlaylistById(int playlistId) {
         try {
             if (playlistId <= 0) {
@@ -123,6 +170,12 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Obtém todas as playlists de um usuário.
+     *
+     * @param userId O ID do usuário.
+     * @return Uma `Response<List<Playlist>>` contendo a lista de playlists do usuário.
+     */
     public Response<List<Playlist>> getPlaylistUser(int userId){
         try{
             if(userId <= 0){
@@ -140,6 +193,13 @@ public class PlaylistService {
         }
     }
 
+    /**
+     * Define uma playlist inteira como a fila de reprodução para um usuário.
+     *
+     * @param playlistId O ID da playlist a ser usada como fila.
+     * @param userId O ID do usuário.
+     * @return Uma `Response<Void>` indicando o sucesso ou falha da operação.
+     */
     public Response<Void> setPlaylistAsQueueForUser(int playlistId, int userId){
         try{
 

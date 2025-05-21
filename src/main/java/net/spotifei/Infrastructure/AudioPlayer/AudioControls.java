@@ -2,6 +2,7 @@ package net.spotifei.Infrastructure.AudioPlayer;
 
 import net.spotifei.Models.Music;
 
+//Interface das funções de Audio do AudioPlayer
 public interface AudioControls {
     void selectMusic(Music music);
     void playMusic(byte[] musicAudioByteArray) throws InterruptedException;

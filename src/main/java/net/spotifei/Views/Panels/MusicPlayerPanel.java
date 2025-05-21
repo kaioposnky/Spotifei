@@ -1,5 +1,6 @@
 package net.spotifei.Views.Panels;
 
+//imports
 import net.spotifei.Controller.MusicController;
 import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
@@ -14,8 +15,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
 
@@ -32,6 +31,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
     private final MainFrame mainframe;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe `MusicPlayerPanel`.
+     *
+     * @param mainframe A instância da janela principal.
+     * @param appContext O contexto da aplicação.
+     */
     public MusicPlayerPanel(MainFrame mainframe, AppContext appContext) {
         this.mainframe = mainframe;
         this.appContext = appContext;
@@ -40,6 +45,9 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         initComponents();
     }
 
+    /**
+     * Este método inicializa e configura todos os componentes visuais do painel.
+     */
     private void initComponents() {
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(5, 5, 15, 10));
@@ -66,6 +74,15 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         add(rightPanel, gbc);
     }
 
+    /**
+     * Cria e retorna um objeto `GridBagConstraints` com as configurações para posicionar
+     * um painel no `GridBagLayout`.
+     *
+     * @param gridx A coluna na grade.
+     * @param weightx O peso horizontal (para espaçamento flexível).
+     * @param anchor O ponto de ancoragem dentro da célula (e.g., WEST, CENTER, EAST).
+     * @return Um objeto `GridBagConstraints` configurado.
+     */
     public GridBagConstraints createPanelConstraints(
             int gridx, double weightx, int anchor
     ){
@@ -78,6 +95,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         return constraints;
     }
 
+    /**
+     * Cria e retorna o painel esquerdo do player, contendo o título da música, o artista
+     * e o componente de feedback.
+     *
+     * @return Um JPanel configurado para o lado esquerdo do player.
+     */
     private JPanel createLeftPanel(){
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.X_AXIS) );
@@ -118,6 +141,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         return leftPanel;
     }
 
+    /**
+     * Cria e retorna o painel central do player, contendo os controles de reprodução
+     * e o slider de progresso da música.
+     *
+     * @return Um JPanel configurado para o centro do player.
+     */
     private JPanel createCenterPanel() {
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
@@ -175,6 +204,11 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         return centerPanel;
     }
 
+    /**
+     * Cria e retorna o painel direito do player, contendo o botão de mudo e o slider de volume.
+     *
+     * @return Um JPanel configurado para o lado direito do player.
+     */
     private JPanel createRightPanel(){
         JPanel rightPanel = new JPanel();
         rightPanel.setOpaque(false);
@@ -202,6 +236,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         return rightPanel;
     }
 
+    /**
+     * Retorna um `MouseAdapter` para o slider de progresso da música.
+     *
+     * @param musicSlider O slider de progresso da música.
+     * @return Um `MouseAdapter` para o slider.
+     */
     private MouseAdapter getMusicSliderMouseListeners(SpotifyLikeSlider musicSlider) {
         return new MouseAdapter() {
             @Override
@@ -212,6 +252,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         };
     }
 
+    /**
+     * Retorna um `MouseAdapter` para o slider de volume de áudio.
+     *
+     * @param audioSlider O slider de volume.
+     * @return Um `MouseAdapter` para o slider.
+     */
     private MouseAdapter getAudioSliderMouseListeners(SpotifyLikeSlider audioSlider) {
         return new MouseAdapter() {
             @Override
@@ -222,6 +268,11 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         };
     }
 
+    /**
+     * Implementação do método `onSelectMusic` da interface `AudioUpdateListener`.
+     *
+     * @param music A música que foi selecionada.
+     */
     @Override
     public void onSelectMusic(Music music) {
         // atualiza os textos para os textos da nova música
@@ -238,6 +289,12 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         feedbackPanel.setMusic(music);
     }
 
+    /**
+     * Implementação do método `onMusicProgressUpdate` da interface `AudioUpdateListener`.
+     *
+     * @param musicCurrentLength O tempo atual da música em microssegundos.
+     * @param musicTotalLength O tempo total da música em microssegundos.
+     */
     @Override
     public void onMusicProgressUpdate(long musicCurrentLength, long musicTotalLength) {
 
@@ -252,6 +309,11 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         this.musicTimeNowLabel.setText(String.format("%1d:%02d", minutes, seconds));
     }
 
+    /**
+     * Implementação do método `onMusicPlayingStatusUpdate` da interface `AudioUpdateListener`.
+     *
+     * @param isPlaying `true` se a música estiver tocando, `false` caso contrário.
+     */
     @Override
     public void onMusicPlayingStatusUpdate(boolean isPlaying) {
         if (isPlaying) {
@@ -261,23 +323,36 @@ public class MusicPlayerPanel extends JPanel implements AudioUpdateListener {
         }
     }
 
+    /**
+     * Implementação do método `onEndOfMusic` da interface `AudioUpdateListener`.
+     */
     @Override
     public void onEndOfMusic() {
 
     }
 
+    /**
+     * Método para lidar com o clique no botão "Pular".
+     */
     public void handleSkipButton(){
         musicController.skipMusic();
     }
 
+    /**
+     * Método para lidar com o clique no botão "Voltar".
+     */
     public void handlePreviousButton(){
         musicController.previousMusic();
     }
 
+    /**
+     * Método para lidar com o clique no botão de pausa/play.
+     */
     public void handlePauseButton(){
         musicController.togglePauseMusic();
     }
 
+    // Métodos Getters e Setters para as variáveis de instância dos componentes
     public JLabel getMusicTimeNowLabel() {
         return musicTimeNowLabel;
     }

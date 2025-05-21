@@ -1,13 +1,12 @@
 
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.*;
-
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Views.Components.ConstUserListComponent;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
-import net.spotifei.Views.Components.ConstUserListComponent;
 
 /**
  *
@@ -21,12 +20,21 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
     private JTextField txt_pesquisa;
 
 
+    /**
+     * Construtor da classe `ADMConsultUserPanel`.
+     *
+     * @param mainframe A instância da janela principal (`MainFrame`).
+     * @param appContext O contexto da aplicação.
+     */
     public ADMConsultUserPanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
     }
 
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents(){
         setBackground(new java.awt.Color(35, 35, 35));
         setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -82,17 +90,27 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
         this.add(Box.createVerticalStrut(30));
     }
 
+    /**
+     * Método acionado pelo botão "Pesquisar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {
         appContext.getAdminController(this).constUser();
 
     }
 
+    /**
+     * Método acionado pelo botão "Voltar".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {
         mainframe.setPanel(MainFrame.ADMHOME_PANEL);
 
     }
 
-
+    // Variáveis de declaração
     private javax.swing.JButton bt_pesquisa;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -101,6 +119,7 @@ public class ADMConsultUserPanel extends javax.swing.JPanel {
     private javax.swing.JButton bt_voltar;
 
 
+    //Getters e Setters
     public MainFrame getMainframe() {
         return mainframe;
     }

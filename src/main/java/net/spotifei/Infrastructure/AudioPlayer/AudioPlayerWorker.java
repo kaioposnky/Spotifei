@@ -1,5 +1,6 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
+//imports
 import net.spotifei.Models.Music;
 
 import javax.sound.sampled.*;
@@ -30,6 +31,9 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     private final float DEFAULT_VOLUME = -23.0f;
 
+    /**
+     * Interface funcional para definir comandos de áudio que serão processados sequencialmente.
+     */
     @FunctionalInterface
     private interface AudioCommand{
         void execute() throws Exception;
@@ -37,36 +41,66 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // FUNÇÕES RELACIONADAS AOS LISTENERS (conexões para outros lugares do código)
 
+
+    /**
+     * Adiciona um listener para receber atualizações de áudio.
+     *
+     * @param listener O AudioUpdateListener a ser adicionado.
+     */
     public void addListener(AudioUpdateListener listener){
         if (listener != null && !listeners.contains(listener)){
             listeners.add(listener);
         }
     }
 
+    /**
+     * Remove um listener.
+     *
+     * @param listener O AudioUpdateListener a ser removido.
+     */
     public void removeListener(AudioUpdateListener listener){
         if (listener != null){
             listeners.remove(listener);
         }
     }
 
+    /**
+     * Notifica todos os listeners que a música atual chegou ao fim.
+     */
     public void notifyEndOfMusic(){
         for(AudioUpdateListener listener : listeners){
             listener.onEndOfMusic();
         }
     }
 
+    /**
+     * Notifica todos os listeners sobre a atualização do progresso da música.
+     *
+     * @param musicTime O tempo atual da música em microssegundos.
+     * @param musicTotalTime O tempo total da música em microssegundos.
+     */
     public void notifyOnMusicUpdate(long musicTime, long musicTotalTime){
         for(AudioUpdateListener listener : listeners){
             listener.onMusicProgressUpdate(musicTime, musicTotalTime);
         }
     }
 
+    /**
+     * Notifica todos os listeners sobre a mudança no status de reprodução (tocando/pausado).
+     *
+     * @param isPlaying true se a música estiver tocando, false caso contrário.
+     */
     public void notifyOnPlayingStatusUpdate(boolean isPlaying){
         for (AudioUpdateListener listener : listeners){
             listener.onMusicPlayingStatusUpdate(isPlaying);
         }
     }
 
+    /**
+     * Notifica todos os listeners que uma nova música foi selecionada.
+     *
+     * @param music O objeto Music que foi selecionado.
+     */
     public void notifyOnMusicSelected(Music music){
         for (AudioUpdateListener listener : listeners){
             listener.onSelectMusic(music);
@@ -75,6 +109,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // FUNÇÕES DO WORKER
 
+
+    /**
+     * Método chamado na Event Dispatch Thread (EDT) após a conclusão da tarefa em segundo plano.
+     * Este método lida com quaisquer exceções que possam ter ocorrido durante doInBackground().
+     */
     @Override
     protected void done() {
         try {
@@ -85,6 +124,13 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         }
     }
 
+    /**
+     * Este método é executado em uma thread separada e contém a lógica principal do worker.
+     * Ele entra em um loop para processar comandos de áudio da fila.
+     *
+     * @return Uma mensagem indicando que o worker foi encerrado.
+     * @throws Exception Se ocorrer um erro inesperado durante a execução de um comando.
+     */
     @Override
     protected String doInBackground() throws Exception {
         clip = AudioSystem.getClip();
@@ -108,6 +154,13 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         return "Worker de aúdio encerrado.";
     }
 
+    /**
+     * Processa os chunks de dados publicados.
+     * Este método é executado na Event Dispatch Thread (EDT) e é usado para atualizar a interface do usuário
+     * com o progresso da música.
+     *
+     * @param chunks Uma lista de Longs representando os tempos de música em microssegundos.
+     */
     @Override
     protected void process(List<Long> chunks) {
         // muitas verificacoes mas é para ter certeza que nao vai bugar
@@ -126,6 +179,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
     // FUNCOES DOS CONTROLES DE AUDIO
 
 
+    /**
+     * Notifica os listeners que uma música foi selecionada.
+     *
+     * @param music O objeto Music a ser selecionado.
+     */
     @Override
     public void selectMusic(Music music) {
         notifyOnMusicSelected(music);
@@ -133,6 +191,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     /**
      * Toca uma música com o audioinputstream fornecido
+     *
      * @param musicAudioByteArray byte[] contendo o aúdio da música
      * @throws InterruptedException Retorna qualquer excessão gerada ao tentar gerar o inputStream da música
      * ao tentar tocar a música
@@ -159,6 +218,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     /**
      * Altera o tempo da música sendo tocada
+     *
      * @param musicTimePercentage Tempo da música em porcentagem
      * setado (vai tocar a música a partir desse tempo)
      */
@@ -168,6 +228,7 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     /**
      * Altera o volume da música sendo tocada
+     *
      * @param volume Número float entre 0.1f e 1.0f
      */
     public void setVolume(float volume) throws InterruptedException {
@@ -179,6 +240,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         commandQueue.put(() -> handleSetVolume(finalVolume));
     }
 
+    /**
+     * Sinaliza ao worker para encerrar seu loop principal e liberar recursos.
+     *
+     * @throws InterruptedException Se a thread for interrompida ao adicionar o comando à fila.
+     */
     public void shutdown() throws InterruptedException {
         shutdownWorker = false;
         commandQueue.put(() -> {});
@@ -186,6 +252,12 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // FUNCOES DA LÓGICA DOS CONTROLES DE AÚDIO
 
+    /**
+     * Manipula o evento de fim de música do Clip.
+     * Notifica os listeners quando a música atinge o fim.
+     *
+     * @param event O LineEvent recebido do Clip.
+     */
     private void handleEndOfMusic(LineEvent event){
         // verificacao para checar se musica finalizou
         if (event.getType() == LineEvent.Type.STOP && clip != null && isPlaying) {
@@ -204,6 +276,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         }
     }
 
+    /**
+     * Define o volume do Clip de áudio.
+     *
+     * @param volume O volume desejado (0.0f a 1.0f).
+     */
     private void handleSetVolume(float volume){
         if (clip == null || !clip.isOpen()) return;
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -219,6 +296,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         gainControl.setValue(finalVolume);
     }
 
+    /**
+     * Força a definição do volume do Clip.
+     *
+     * @param volume O volume em decibéis a ser aplicado.
+     */
     private void forceSetVolume(float volume){
         if (clip == null || !clip.isOpen()) {
             logWarn("Tentativa de forçar volume enquanto clip não foi inicializado!");
@@ -230,6 +312,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         gainControl.setValue(volume);
     }
 
+    /**
+     * Altera a posição de reprodução da música.
+     *
+     * @param musicTimePercentage A porcentagem da música para a qual pular.
+     */
     private void handleSeek(float musicTimePercentage){
 
         long microseconds = (long) (clip.getMicrosecondLength() * musicTimePercentage);
@@ -244,6 +331,12 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         }
     }
 
+    /**
+     * Lida com a pausa ou despausa da música.
+     *
+     * @param forceStatus Se não nulo, força o status para true (pausar) ou false (despausar).
+     * Se nulo, alterna o status atual.
+     */
     private void handlePauseMusic(Boolean forceStatus){
         boolean shouldPause = isPlaying;
         if (forceStatus != null){
@@ -264,11 +357,23 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         notifyOnPlayingStatusUpdate(isPlaying); // notificar o listener de alterar status
     }
 
+    /**
+     * Publica o progresso da música para ser consumido pelo método process() do SwingWorker.
+     *
+     * @param microseconds A posição atual da música em microssegundos.
+     */
     public void publishProgress(long microseconds) {
         if (shutdownWorker) return;
         publish(microseconds);
     }
 
+    /**
+     * Manipula a lógica de iniciar a reprodução de uma música.
+     * Fecha o clip anterior (se houver), converte os bytes de áudio e abre um novo clip para reprodução.
+     *
+     * @param audioByteArray O array de bytes contendo os dados de áudio da música (formato Opus).
+     * @throws Exception Se ocorrer um erro durante a conversão ou reprodução do áudio.
+     */
     private void handlePlayMusic(byte[] audioByteArray) throws Exception{
         if (clip == null){
             throw new IllegalStateException("O clip não foi inicializado!");
@@ -312,6 +417,9 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // FUNCOES DO THREAD PARA DAR UPATE NO SLIDER DE MUSICA
 
+    /**
+     * Inicia a thread que publica o progresso da música para atualização da UI.
+     */
     private void startProgressUpdateThread() {
         if(shutdownWorker){
             logWarn("Tentativa de iniciar o Thread de Atualizar Progresso do Slider com o Worker encerrado!");
@@ -329,6 +437,10 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
         logDebug("Thread de Atualizar Progresso do Slider iniciada com sucesso!");
     }
 
+    /**
+     * Para a thread que publica o progresso da música.
+     * Interrompe o runnable e a thread, e limpa as referências.
+     */
     private void stopProgressUpdateThread() {
         if (progressPublisherRunnable != null){
             progressPublisherRunnable.stopPublisher();
@@ -345,6 +457,11 @@ public class AudioPlayerWorker extends SwingWorker<String, Long> implements Audi
 
     // GETTER DE isPlaying
 
+    /**
+     * Retorna o status de reprodução atual.
+     *
+     * @return true se a música estiver tocando, false caso contrário.
+     */
     public boolean isPlaying() {
         return isPlaying;
     }

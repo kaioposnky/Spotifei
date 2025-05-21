@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package net.spotifei.Views.Panels.Admin;
 
-import javax.swing.*;
-
+//imports
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -20,12 +17,19 @@ public class ADMHomePanel extends javax.swing.JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
 
+    /**
+     * Construtor da classe `ADMHomePanel`.
+     *
+     * @param mainframe A instância da janela principal (`MainFrame`).
+     * @param appContext O contexto da aplicação.
+     */
     public ADMHomePanel(MainFrame mainframe, AppContext appContext) {
         this.appContext = appContext;
         this.mainframe = mainframe;
         initComponents();
     }
 
+    // Métodos Getters e Setters para os componentes visuais.
     public JButton getBt_cad_artista() {
         return bt_cad_artista;
     }
@@ -97,6 +101,10 @@ public class ADMHomePanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -208,6 +216,19 @@ public class ADMHomePanel extends javax.swing.JPanel {
         });
         bt_cad_genero.setAlignmentX(CENTER_ALIGNMENT);
 
+        JButton bt_sair = new JButton("Deslogar");
+        bt_sair.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        bt_sair.setAlignmentX(CENTER_ALIGNMENT);
+        bt_sair.addActionListener(this::bt_sairActionPerformed);
+        bt_sair.setMaximumSize(new Dimension(200, 50));
+        bt_sair.setBackground(Color.gray);
+        bt_sair.setForeground(Color.black);
+        bt_cad_genero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_sairActionPerformed(evt);
+            }
+        });
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(CENTER_ALIGNMENT);
 
@@ -229,37 +250,76 @@ public class ADMHomePanel extends javax.swing.JPanel {
         add(bt_cad_genero);
         add(Box.createVerticalStrut(30));
         add(bt_sistema);
+        add(Box.createVerticalStrut(30));
+        add(bt_sair);
         add(Box.createVerticalGlue());
 
 
     }
 
+    /**
+     * Método acionado pelo botão "Cadastrar Músicas".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_cad_musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cad_musicaActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMREGMUSIC_PANEL);
     }//GEN-LAST:event_bt_cad_musicaActionPerformed
 
+    /**
+     * Método acionado pelo botão "Estatísticas do Sistema".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_sistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_sistemaActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMESTATISTICS_PANEL);
     }//GEN-LAST:event_bt_sistemaActionPerformed
 
+    /**
+     * Método acionado pelo botão "Consultar Usuários".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_consulta_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_consulta_usuarioActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMCONUSER_PANEL);
     }//GEN-LAST:event_bt_consulta_usuarioActionPerformed
 
+    /**
+     * Método acionado pelo botão "Excluir Músicas".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_excluir_musicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_excluir_musicaActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMDELMUSIC_PANEL);
     }//GEN-LAST:event_bt_excluir_musicaActionPerformed
 
+    /**
+     * Método acionado pelo botão "Cadastrar Artistas".
+     *
+     * @param evt O evento de ação.
+     */
     private void bt_cad_artistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cad_artistaActionPerformed
         // TODO add your handling code here:
         mainframe.setPanel(MainFrame.ADMCADARTIST_PANEL);
     }//GEN-LAST:event_bt_cad_artistaActionPerformed
 
+    /**
+     * Método acionado pelo botão "Deslogar".
+     *
+     * @param evt O evento de ação.
+     */
+    private void bt_sairActionPerformed(java.awt.event.ActionEvent evt){
+        mainframe.setPanel(MainFrame.LOGIN_PANEL);
+    }
 
+    /**
+     * Método acionado pelo botão "Cadastrar Gênero".
+     *
+     */
     private void bt_cad_generoActionPerformed(){
         mainframe.setPanel(MainFrame.ADMCADGENRE_PANEL);
     }
@@ -276,6 +336,11 @@ public class ADMHomePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Getter para a instância do `MainFrame`.
+     *
+     * @return A instância do `MainFrame`.
+     */
     public MainFrame getMainframe() {
         return mainframe;
     }

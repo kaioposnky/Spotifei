@@ -1,5 +1,6 @@
 package net.spotifei.Views.Components;
 
+//imports
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,12 @@ public class SpotifyLikeButton extends JButton {
     private final Color hoverTextColor = Color.white;
     private final int fontSize;
 
+    /**
+     * Construtor do `SpotifyLikeButton`.
+     *
+     * @param text O texto a ser exibido no botão.
+     * @param fontSize O tamanho da fonte para o texto do botão.
+     */
     public SpotifyLikeButton(String text, int fontSize) {
         super("<html><span style='font-size: " + fontSize + "px;'>" + text + "</span></html>");
         this.setFocusPainted(false);
@@ -24,6 +31,11 @@ public class SpotifyLikeButton extends JButton {
         this.fontSize = fontSize;
     }
 
+    /**
+     * Sobrescreve o método `setText` para aplicar o tamanho da fonte.
+     *
+     * @param text O novo texto para o botão.
+     */
     @Override
     public void setText(String text) {
         super.setText("<html><span style='font-size: " + this.fontSize + "px;'>" + text + "</span></html>");
@@ -31,12 +43,23 @@ public class SpotifyLikeButton extends JButton {
         this.repaint();
     }
 
+    /**
+     * Sobrecarga do método `setText` que permite alterar o texto e o tamanho da fonte.
+     *
+     * @param text O novo texto para o botão.
+     * @param fontSize O novo tamanho da fonte para o texto do botão.
+     */
     public void setText(String text, int fontSize) {
         super.setText("<html><span style='font-size: " + fontSize + "px;'>" + text + "</span></html>");
         this.revalidate();
         this.repaint();
     }
 
+    /**
+     * Cria e retorna um `MouseAdapter` que implementa o efeito de hover.
+     *
+     * @return Um `MouseAdapter` para lidar com eventos de mouse.
+     */
     private MouseAdapter getMouseListener() {
         return new MouseAdapter() {
             @Override

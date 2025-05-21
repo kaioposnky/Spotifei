@@ -1,9 +1,10 @@
 package net.spotifei.Views.Components;
 
+//imports
 import net.spotifei.Controller.PlaylistController;
 import net.spotifei.Helpers.AssetsLoader;
-import net.spotifei.Models.Playlist;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Models.Playlist;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
@@ -11,12 +12,20 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+
 public class PlaylistInfoComponent extends JPanel {
     private final Playlist playlist;
     private final AppContext appContext;
     private final MainFrame mainframe;
     private final PlaylistController playlistController;
 
+    /**
+     * Construtor do componente `PlaylistInfoComponent`.
+     *
+     * @param playlist A playlist cujas informações e ações serão exibidas.
+     * @param appContext O contexto da aplicação.
+     * @param mainframe A instância do `MainFrame`.
+     */
     public PlaylistInfoComponent(Playlist playlist, AppContext appContext, MainFrame mainframe){
         this.playlist = playlist;
         this.appContext = appContext;
@@ -25,6 +34,9 @@ public class PlaylistInfoComponent extends JPanel {
         initComponents();
     }
 
+    /**
+     * Método privado para inicializar e configurar os componentes visuais do painel.
+     */
     private void initComponents(){
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Color.decode("#121212"));
@@ -45,6 +57,12 @@ public class PlaylistInfoComponent extends JPanel {
 
         setAlignmentY(Component.CENTER_ALIGNMENT);
     }
+
+    /**
+     * Cria e retorna um painel contendo os botões de ação da playlist (deletar, editar, tocar).
+     *
+     * @return Um `JPanel` com os botões de ação.
+     */
     private JPanel createPlaylistButtonsPanel(){
         JPanel playlistButtonsPanel = new JPanel();
         playlistButtonsPanel.setLayout(new BoxLayout(playlistButtonsPanel, BoxLayout.X_AXIS));
@@ -59,6 +77,11 @@ public class PlaylistInfoComponent extends JPanel {
         return playlistButtonsPanel;
     }
 
+    /**
+     * Cria e retorna um painel contendo apenas o nome da playlist.
+     *
+     * @return Um `JPanel` com o nome da playlist.
+     */
     private JPanel createPlaylistInfoComponent(){
         JPanel playlistInfoComponent = new JPanel();
         playlistInfoComponent.setLayout(new BoxLayout(playlistInfoComponent, BoxLayout.X_AXIS));
@@ -73,6 +96,11 @@ public class PlaylistInfoComponent extends JPanel {
         return playlistInfoComponent;
     }
 
+    /**
+     * Cria e retorna um painel com o botão "Tocar Playlist".
+     *
+     * @return Um `JPanel` contendo o botão de play.
+     */
     private JPanel createPlaylistPlayButtonPanel(){
         JPanel playlistActionButtonPanel = new JPanel();
         playlistActionButtonPanel.setLayout(new BoxLayout(playlistActionButtonPanel, BoxLayout.X_AXIS));
@@ -94,6 +122,11 @@ public class PlaylistInfoComponent extends JPanel {
         return playlistActionButtonPanel;
     }
 
+    /**
+     * Cria e retorna um painel com o botão "Deletar Playlist".
+     *
+     * @return Um `JPanel` contendo o botão de exclusão.
+     */
     private JPanel createPlaylistDeleteButtonPanel(){
         JPanel playlistDeleteButtonPanel = new JPanel();
         playlistDeleteButtonPanel.setLayout(new BoxLayout(playlistDeleteButtonPanel, BoxLayout.X_AXIS));
@@ -111,6 +144,11 @@ public class PlaylistInfoComponent extends JPanel {
         return playlistDeleteButtonPanel;
     }
 
+    /**
+     * Cria e retorna um painel com o botão "Editar Playlist".
+     *
+     * @return Um `JPanel` contendo o botão de edição.
+     */
     private JPanel createPlaylistEditButtonPanel(){
         JPanel playlistDeleteButtonPanel = new JPanel();
         playlistDeleteButtonPanel.setLayout(new BoxLayout(playlistDeleteButtonPanel, BoxLayout.X_AXIS));
@@ -128,6 +166,10 @@ public class PlaylistInfoComponent extends JPanel {
         return playlistDeleteButtonPanel;
     }
 
+    /**
+     * Adiciona listeners de mouse para criar o efeito de "hover".
+     * Muda a cor de fundo do componente quando o mouse entra e sai.
+     */
     private void addHoverListeners(){
         addMouseListener(new MouseAdapter() {
             @Override
@@ -144,6 +186,11 @@ public class PlaylistInfoComponent extends JPanel {
         });
     }
 
+    /**
+     * Retorna a playlist associada a este componente.
+     *
+     * @return O objeto `Playlist`.
+     */
     public Playlist getPlaylist() {
         return playlist;
     }

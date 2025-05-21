@@ -15,6 +15,15 @@ public class Music {
     private Boolean gostou;
     private String artistsNames; // maneira forçada de colocar os nomes dos artistas, para não precisar encher de objetos artistas
 
+    /**
+     * Construtor completo para criar uma instância de `Music`.
+     *
+     * @param nome O nome da música.
+     * @param autores Uma lista de objetos Artist que são os autores da música.
+     * @param genre O gênero musical da música.
+     * @param duracaoMs A duração da música em milissegundos.
+     * @param idMusica O ID único da música.
+     */
     public Music(String nome, List<Artist> autores, Genre genre, long duracaoMs, int idMusica) {
         this.nome = nome;
         this.autores = autores;
@@ -23,10 +32,16 @@ public class Music {
         this.idMusica = idMusica;
     }
 
+    /**
+     * Construtor padrão/vazio para a classe `Music`.
+     */
     public Music(){
 
     }
 
+    /**
+     * Getters e Setters da classe `Music`.
+     */
     public List<Artist> getAutores() {
         return autores;
     }
@@ -99,6 +114,11 @@ public class Music {
         this.idMusicaFila = idMusicaFila;
     }
 
+    /**
+     * Retorna os nomes dos artistas da música como uma única string concatenada.
+     *
+     * @return Uma `String` contendo os nomes artísticos dos autores, separados por vírgula.
+     */
     public String getArtistsNames(){
         if((autores == null || autores.isEmpty()) && artistsNames != null){
             return artistsNames;
@@ -118,6 +138,11 @@ public class Music {
         this.artistsNames = artistsNames;
     }
 
+    /**
+     * Sobrescreve o método `toString()` da música.
+     *
+     * @return Uma `String` que representa o estado do objeto `Music`.
+     */
     @Override
     public String toString() {
         return "Music{" +

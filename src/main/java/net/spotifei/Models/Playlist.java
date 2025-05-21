@@ -11,6 +11,14 @@ public class Playlist {
     private ArrayList<Music> musicas;
     private long qntMusicas;
 
+    /**
+     * Construtor para criar uma instância de `Playlist` com detalhes essenciais.
+     *
+     * @param nome O nome da playlist.
+     * @param autor O artista que criou a playlist.
+     * @param musicas Uma `ArrayList` de objetos `Music` que pertencem à playlist.
+     * @param salvamentos O número inicial de salvamentos da playlist.
+     */
     public Playlist(String nome, Artist autor, ArrayList<Music> musicas, long salvamentos) {
         this.nome = nome;
         this.autor = autor;
@@ -18,8 +26,14 @@ public class Playlist {
         this.salvamentos = salvamentos;
     }
 
+    /**
+     * Construtor padrão/vazio para a classe `Playlist`.
+     */
     public Playlist(){}
 
+    /**
+     * Getters e Setters da classe `Playlist`.
+     */
     public String getNome() {
         return nome;
     }
