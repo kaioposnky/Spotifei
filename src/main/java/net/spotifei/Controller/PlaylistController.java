@@ -218,6 +218,9 @@ public class PlaylistController {
         Response<Music> responseGetQueueFirstMusic = musicService.getFirstMusicInUserQueue(userId);
         if(handleDefaultResponseIfError(responseGetQueueFirstMusic)) return;
 
+        Response<Void> responseRemoveFirstMusicFromQueue = musicService.deleteFirstMusicFromUserQueue(userId);
+        if(handleDefaultResponseIfError(responseRemoveFirstMusicFromQueue)) return;
+
         Music music = responseGetQueueFirstMusic.getData();
         musicController.playMusicInBackground(music);
 

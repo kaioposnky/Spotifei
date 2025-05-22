@@ -191,12 +191,7 @@ public class MusicController implements AudioUpdateListener {
      * Solicita a próxima música ao musicServices e inicia sua reprodução.
      */
     public void skipMusic(){
-        Response<Music> response = musicServices.getNextMusicInUserQueue(appContext.getPersonContext().getIdUsuario());
-        if(handleDefaultResponseIfError(response)) return;
-
-        Music musicFound = response.getData();
-
-        playMusicInBackground(musicFound);
+        playUserNextMusic();
 
         logDebug("Tocando a próxima música!");
     }
@@ -228,10 +223,6 @@ public class MusicController implements AudioUpdateListener {
 
         SwingUtilities.invokeLater(() -> {
             queueMusicInfoPanel.updateMusicListPanel(queueMusics);
-            queueMusicInfoPanel.getMusicAuthors().setText(appContext.getMusicContext().getArtistsNames());
-            queueMusicInfoPanel.getMusicTitle().setText(appContext.getMusicContext().getNome());
-            queueMusicInfoPanel.repaint();
-            queueMusicInfoPanel.revalidate();
         });
 
         // log removido por spamar muito no console por conta do worker de queue
@@ -290,16 +281,18 @@ public class MusicController implements AudioUpdateListener {
     public void onEndOfMusic() {
         Music currentContextMusic = appContext.getMusicContext();
 
-        boolean musicFinishedWasPendingSelection = musicServices.isNewMusicSelected() && currentContextMusic != null &&
-                musicServices.getNewMusicSelectedId() == currentContextMusic.getIdMusica();
+        boolean musicPlayIsPending = musicServices.isNewMusicSelected() &&
+                (currentContextMusic == null || musicServices.getNewMusicSelectedId() != currentContextMusic.getIdMusica());
 
         // ignorar pedido se já tem um pendente
-        if(musicServices.isNewMusicSelected() && musicFinishedWasPendingSelection){
+        if(musicPlayIsPending){
             return;
         }
         musicServices.setNewMusicSelectedId(0);
         musicServices.setNewMusicSelected(false);
         playUserNextMusic();
+
+        logDebug("Tocando próxima música da fila.");
     }
 
     /**

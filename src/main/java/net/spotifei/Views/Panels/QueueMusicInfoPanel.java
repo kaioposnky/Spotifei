@@ -1,6 +1,7 @@
 package net.spotifei.Views.Panels;
 
 //imports
+import net.spotifei.Infrastructure.AudioPlayer.AudioUpdateListener;
 import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Views.MainFrame;
 
@@ -20,7 +21,7 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 
 
-public class QueueMusicInfoPanel extends JPanel {
+public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
     private final MainFrame mainframe;
     private final AppContext appContext;
     private JLabel musicTitle;
@@ -41,6 +42,7 @@ public class QueueMusicInfoPanel extends JPanel {
         this.musicController = appContext.getMusicController(this, mainframe);
         initComponents();
         this.addStartListener();
+        appContext.getAudioPlayerWorker().addListener(this);
     }
 
     /**
@@ -90,13 +92,21 @@ public class QueueMusicInfoPanel extends JPanel {
         musicPlaying.setForeground(new Color(255, 255, 255));
         musicPlaying.setAlignmentX(LEFT_ALIGNMENT);
 
-        Music music = new Music();
-        music.setNome("Carregando...");
-        music.setArtistsNames("Carregando...");
-        JPanel musicInfoPanel;
-        musicInfoPanel = createMusicInfoPanel(music);
-        musicInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+        musicTitle = new JLabel("Carregando...");
+        musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
+        musicTitle.setForeground(Color.WHITE);
+
+        musicAuthors = new JLabel("Carregando...");
+        musicAuthors.setFont(new Font("Arial", Font.BOLD, 12));
+        musicAuthors.setForeground(Color.GRAY);
+
+        JPanel musicInfoPanel = new JPanel();
+        musicInfoPanel.setLayout(new BoxLayout(musicInfoPanel, BoxLayout.Y_AXIS));
         musicInfoPanel.setOpaque(false);
+        musicInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
+
+        musicInfoPanel.add(musicTitle);
+        musicInfoPanel.add(musicAuthors);
 
         contentPanel.add(musicPlaying);
         contentPanel.add(Box.createVerticalStrut(10));
@@ -164,12 +174,21 @@ public class QueueMusicInfoPanel extends JPanel {
         } else {
             JLabel emptyQueueLabel = new JLabel("A fila está vazia.");
             emptyQueueLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            emptyQueueLabel.setForeground(Color.DARK_GRAY);
-            emptyQueueLabel.setAlignmentX(LEFT_ALIGNMENT);
+            emptyQueueLabel.setForeground(Color.GRAY);
+            emptyQueueLabel.setAlignmentX(CENTER_ALIGNMENT);
             queuePanel.add(emptyQueueLabel);
         }
         queuePanel.revalidate();
         queuePanel.repaint();
+    }
+
+    public void updateCurrentMusic(){
+        if(appContext.getMusicContext() != null){
+            musicTitle.setText(appContext.getMusicContext().getNome());
+            musicAuthors.setText(appContext.getMusicContext().getArtistsNames());
+            repaint();
+            revalidate();
+        }
     }
 
     private JPanel createMusicInfoPanel(Music music) {
@@ -182,16 +201,16 @@ public class QueueMusicInfoPanel extends JPanel {
         infoWrapperPanel.setLayout(new BoxLayout(infoWrapperPanel, BoxLayout.Y_AXIS));
         infoWrapperPanel.setOpaque(false);
 
-        musicTitle = new JLabel(music.getNome());
-        musicTitle.setFont(new Font("Arial", Font.BOLD, 14));
-        musicTitle.setForeground(Color.white);
+        JLabel musicInfoTitle = new JLabel(music.getNome());
+        musicInfoTitle.setFont(new Font("Arial", Font.BOLD, 14));
+        musicInfoTitle.setForeground(Color.white);
 
-        musicAuthors = new JLabel(music.getArtistsNames());
-        musicAuthors.setFont(new Font("Arial", Font.BOLD, 12));
-        musicAuthors.setForeground(Color.gray);
+        JLabel musicInfoAuthors = new JLabel(music.getArtistsNames());
+        musicInfoAuthors.setFont(new Font("Arial", Font.BOLD, 12));
+        musicInfoAuthors.setForeground(Color.gray);
 
-        infoWrapperPanel.add(musicTitle);
-        infoWrapperPanel.add(musicAuthors);
+        infoWrapperPanel.add(musicInfoTitle);
+        infoWrapperPanel.add(musicInfoAuthors);
 
         musicInfoPanel.add(infoWrapperPanel);
         return musicInfoPanel;
@@ -246,11 +265,25 @@ public class QueueMusicInfoPanel extends JPanel {
         });
     }
 
-    public JLabel getMusicTitle() {
-        return musicTitle;
+    @Override
+    public void onSelectMusic(Music music) {
+        SwingUtilities.invokeLater(() -> {
+            updateCurrentMusic();
+        });
     }
 
-    public JLabel getMusicAuthors() {
-        return musicAuthors;
+    @Override
+    public void onMusicProgressUpdate(long musicTime, long musicDuration) {
+
+    }
+
+    @Override
+    public void onMusicPlayingStatusUpdate(boolean isPlaying) {
+
+    }
+
+    @Override
+    public void onEndOfMusic() {
+
     }
 }

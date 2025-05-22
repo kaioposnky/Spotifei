@@ -625,43 +625,6 @@ public class MusicRepository {
         }
     }
 
-    /**
-     * Exclui uma música da fila de reprodução de um usuário com base no ID da música.
-     *
-     * @param userId O ID do usuário.
-     * @param musicId O ID da música a ser removida da fila.
-     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
-     */
-    public void deleteMusicFromQueueByMusicId(int userId, int musicId) throws Exception {
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("idUser", userId);
-            params.put("idMusica", musicId);
-
-            String sql = jdbcRepository.getQueryNamed("DeleteMusicFromQueueByMusicId");
-            jdbcRepository.executeProcedure(sql, params);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public boolean isMusicFirstInUserQueue(int userId, int musicId) throws Exception{
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("idUser", userId);
-            params.put("idMusic", musicId);
-
-            ScalarHandler<Boolean> handler = new ScalarHandler<>();
-
-            String sql = jdbcRepository.getQueryNamed("IsMusicFirstInUserQueue");
-            Boolean isMusicFirst = jdbcRepository.queryProcedure(sql, params, handler);
-
-            return isMusicFirst != null;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
     public void deleteFirstMusicFromUserQueue(int userId) throws Exception{
         try {
             Map<String, Object> params = new HashMap<>();

@@ -85,12 +85,11 @@ public class MusicService {
 
             Music music = musicRepository.getNextMusicOnUserQueue(userId);
 
-            if(music == null){
+            if(music != null){
                 // uma alternativa inteligente de lidar com quando a próxima música "não existe"
-                music = musicRepository.getRandomMusic();
-            } else{
                 musicRepository.deleteMusicFromQueueById(music.getIdMusicaFila());
-                music = musicRepository.getNextMusicOnUserQueue(userId);
+            } else{
+                music = musicRepository.getRandomMusic();
             }
 
             return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
@@ -162,12 +161,6 @@ public class MusicService {
 
             if(musicAudio == null){
                 return ResponseHelper.generateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
-            }
-
-            // só para remover da fila quando ela começar a tocar, para evitar da fila do usuário ficar com a música tocando
-            boolean musicInUserQueue = musicRepository.isMusicFirstInUserQueue(userId, musicId);
-            if(musicInUserQueue){
-                musicRepository.deleteFirstMusicFromUserQueue(userId);
             }
 
             music.setAutores(artists);
@@ -772,6 +765,16 @@ public class MusicService {
             genreRepository.createGenre(name);
 
             return ResponseHelper.generateSuccessResponse("Gênero criado com sucesso!");
+        } catch (Exception ex){
+            return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
+        }
+    }
+
+    public Response<Void> deleteFirstMusicFromUserQueue(int userId){
+        try {
+            musicRepository.deleteFirstMusicFromUserQueue(userId);
+
+            return ResponseHelper.generateSuccessResponse("Música removida da primeira posição da Queue com sucesso!");
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }

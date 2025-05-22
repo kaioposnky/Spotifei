@@ -155,10 +155,6 @@ public class AppContext {
         return musicService;
     }
 
-    public AuthService getAuthService() {
-        return authService;
-    }
-
     public UserService getUserService() {
         return userService;
     }
