@@ -774,7 +774,14 @@ public class MusicService {
      */
     public Response<Void> createGenre(String name){
         try{
+
+            Genre genreToCheck = genreRepository.getGenreByName(name);
+            if (genreToCheck != null){
+                return ResponseHelper.generateBadResponse("Já existe um gênero com esse nome!");
+            }
+
             genreRepository.createGenre(name);
+
 
             return ResponseHelper.generateSuccessResponse("Gênero criado com sucesso!");
         } catch (Exception ex){

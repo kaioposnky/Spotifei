@@ -42,10 +42,10 @@ public class GenreController {
 
         String genreNameLower = genreName.toLowerCase();
 
-        Response<Void> response = musicService.createGenre(genreNameLower);
-        if(handleDefaultResponseIfError(response)) return;
+        String genreNameCap = capitalize(genreNameLower);
 
-        String genreNameCap = capitalize(genreName);
+        Response<Void> response = musicService.createGenre(genreNameCap);
+        if(handleDefaultResponseIfError(response)) return;
 
         JOptionPane.showMessageDialog(view, "Gênero " + genreNameCap + " criado com sucesso!");
         logDebug("Gênero " + genreNameCap + " criado com sucesso!");
