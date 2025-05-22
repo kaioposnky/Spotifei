@@ -47,6 +47,8 @@ public class AppContext {
     private Person personContext;
     private Music musicContext;
 
+    private final MusicCache musicCache = new MusicCache();
+
     /**
      * Construtor do AppContext.
      * Aqui todas as dependências são instanciadas e injetadas umas nas outras.
@@ -66,7 +68,7 @@ public class AppContext {
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
         this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository, this.authService);
-        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.playlistRepository, this.genreRepository);
+        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.playlistRepository, this.genreRepository, this);
 
     }
 
@@ -176,4 +178,7 @@ public class AppContext {
         this.musicContext = musicContext;
     }
 
+    public MusicCache getMusicCache() {
+        return musicCache;
+    }
 }

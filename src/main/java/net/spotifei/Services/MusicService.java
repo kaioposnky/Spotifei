@@ -3,6 +3,7 @@ package net.spotifei.Services;
 //imports
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
+import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.GenreRepository;
 import net.spotifei.Infrastructure.Repository.MusicRepository;
@@ -29,6 +30,7 @@ public class MusicService {
     private final PlaylistRepository playlistRepository;
     private final GenreRepository genreRepository;
     private final AudioPlayerWorker audioPlayerWorker;
+    private final AppContext appContext;
 
     private boolean isNewMusicSelected = false;
     private int newMusicSelectedId = 0;
@@ -43,12 +45,13 @@ public class MusicService {
      * @param playlistRepository Repositório para operações com playlists.
      * @param genreRepository Repositório para operações com gêneros.
      */
-    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository){
+    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository, AppContext appContext){
         this.musicRepository = musicRepository;
         this.audioPlayerWorker = audioPlayerWorker;
         this.artistRepository = artistRepository;
         this.playlistRepository = playlistRepository;
         this.genreRepository = genreRepository;
+        this.appContext = appContext;
     }
 
     /**
@@ -157,7 +160,14 @@ public class MusicService {
             Music music = musicRepository.getMusicById(musicId);
             List<Artist> artists = artistRepository.getArtistsByMusicId(musicId);
             Boolean userMusicRating = musicRepository.getUserRatingOnMusic(musicId, userId);
-            byte[] musicAudio = musicRepository.getMusicAsByteArray(musicId);
+
+            byte[] musicAudio;
+            if(appContext.getMusicCache().cacheContains(musicId)){
+                musicAudio = appContext.getMusicCache().getMusicBytesFromCache(musicId);
+            } else{
+                musicAudio = musicRepository.getMusicAsByteArray(musicId);
+                appContext.getMusicCache().addMusicBytesToCache(musicId, musicAudio);
+            }
 
             if(musicAudio == null){
                 return ResponseHelper.generateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
@@ -171,6 +181,8 @@ public class MusicService {
 
             audioPlayerWorker.playMusic(musicAudio);
             audioPlayerWorker.selectMusic(music); // atualiza o UI
+
+            musicAudio = null;
 
             return ResponseHelper.generateSuccessResponse("Música iniciada com sucesso!");
         } catch (Exception e){
