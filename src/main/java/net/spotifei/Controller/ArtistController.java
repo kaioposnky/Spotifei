@@ -46,11 +46,12 @@ public class ArtistController {
         String musicFilePath = registerMusicPanel.getMusicFilePath();
         int userId = appContext.getPersonContext().getIdUsuario(); // id do usuario = id do artista
 
-        Response<Void> response = musicService.registerMusic(name, genre, userId, musicFilePath);
+        Response<Void> response = musicService.registerMusic(musicFilePath, name, userId, genre);
         if(handleDefaultResponseIfError(response)) return;
 
         JOptionPane.showMessageDialog(view, "Música cadastrada com sucesso!");
 
         logDebug("Música cadastrada com sucesso!");
     }
+
 }

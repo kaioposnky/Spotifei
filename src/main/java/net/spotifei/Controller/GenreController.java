@@ -39,10 +39,20 @@ public class GenreController {
     public void createGenre(){
         ADMCadGenre cadGenreView = (ADMCadGenre) view;
         String genreName = cadGenreView.getGenreTextField().getText();
-        Response<Void> response = musicService.createGenre(genreName);
+
+        String genreNameLower = genreName.toLowerCase();
+
+        Response<Void> response = musicService.createGenre(genreNameLower);
         if(handleDefaultResponseIfError(response)) return;
 
-        JOptionPane.showMessageDialog(view, "Gênero " + genreName + " criado com sucesso!");
-        logDebug("Gênero " + genreName + " criado com sucesso!");
+        String genreNameCap = capitalize(genreName);
+
+        JOptionPane.showMessageDialog(view, "Gênero " + genreNameCap + " criado com sucesso!");
+        logDebug("Gênero " + genreNameCap + " criado com sucesso!");
     }
+
+    private String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
 }

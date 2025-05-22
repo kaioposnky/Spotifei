@@ -180,6 +180,9 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setAlignmentX(CENTER_ALIGNMENT);
+        bt_voltar.setAlignmentX(CENTER_ALIGNMENT);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,11 +207,11 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 .addContainerGap(196, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(280, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLabel1).addContainerGap(63, Short.MAX_VALUE)
                 .addGap(264, 264, 264))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
                 .addGap(317, 317, 317))
         );
         layout.setVerticalGroup(
