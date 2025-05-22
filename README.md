@@ -60,16 +60,12 @@ Projeto em JAVA do Curso (Arquitetura de software e programação orientada a ob
         <sub>
           <b>Gabriel Engle</b>
           <br>
-          <b>R.A.: 24.024.124.0</b>
-          <br>
           <cite>- Isso é uma obra de arte! </cite>
         </sub>
     </td>
     <td align="center">
         <sub>
           <b>Kaio Angelo</b>
-          <br>
-          <b>R.A.: 24.124.058-9</b>
           <br>
           <cite>- Nunca foi criado algo! </cite>
         </sub>
