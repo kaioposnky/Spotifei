@@ -234,7 +234,11 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
                 try{
                     while(true){
                         try{
-                            Thread.sleep(2000);
+                            try{
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ex){
+                                break;
+                            }
                             if(appContext.getMusicContext() == null || appContext.getPersonContext() == null) continue;
 
                             musicController.loadUserMusicQueue();
@@ -243,6 +247,7 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
                             logError(e.getMessage(), e);
                         }
                     }
+                    return null;
                 } catch (Exception e){
                     return null;
                 }
