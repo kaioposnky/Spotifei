@@ -39,9 +39,9 @@ public class JDBCRepository {
     private static final Pattern PARAM_PATTERN = Pattern.compile("@(\\w+)");
     // Sobre o regex: o @ significa pegar caractere @ os () significa todos os que estão depois do @
     // e o \\w+ um ou mais quaisquer caracteres de a-z A-Z + underscore
-    private String url;
-    private String user;
-    private String password;
+    private final String url;
+    private final String user;
+    private final String password;
     private Connection connection;
 
     /**
@@ -193,7 +193,13 @@ public class JDBCRepository {
      * @throws SQLException Gerada se tiver erro de conexão na DB
      */
     private PreparedStatement getPreparedStatement(String sqlRaw) throws SQLException {
-        return getConnection().prepareStatement(sqlRaw);
+        try{
+
+            return getConnection().prepareStatement(sqlRaw);
+        } catch (SQLException ex){
+            openConnection();
+            return getConnection().prepareStatement(sqlRaw);
+        }
     }
 
 
@@ -213,10 +219,16 @@ public class JDBCRepository {
 
         // dá replace no @XXXX para o parâmetro inserido
         sqlRaw = PARAM_PATTERN.matcher(sqlRaw).replaceAll("?");
-
-        PreparedStatement statement = getConnection().prepareStatement(sqlRaw);
-        statement.setString(1, parameter);
-        return statement;
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sqlRaw);
+            statement.setString(1, parameter);
+            return statement;
+        } catch (SQLException ex){
+            openConnection();
+            PreparedStatement statement = getConnection().prepareStatement(sqlRaw);
+            statement.setString(1, parameter);
+            return statement;
+        }
     }
 
     /**
@@ -241,8 +253,12 @@ public class JDBCRepository {
         }
 
         Map<String, Object> paramValues = getParametersFromObject(classParam);
-
-        return prepareStatementFromMap(sqlRaw, paramValues);
+        try{
+            return prepareStatementFromMap(sqlRaw, paramValues);
+        } catch (SQLException ex){
+            openConnection();
+            return prepareStatementFromMap(sqlRaw, paramValues);
+        }
     }
 
     /**
