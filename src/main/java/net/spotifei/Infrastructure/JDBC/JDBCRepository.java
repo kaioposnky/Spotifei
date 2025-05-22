@@ -69,10 +69,22 @@ public class JDBCRepository {
      * @throws SQLException Se ocorrer um erro ao abrir ou verificar a conexão.
      */
     private Connection getConnection() throws SQLException {
-        if(connection == null || connection.isClosed()){
+        if(!isConnectionValid()){
             openConnection();
         }
         return connection;
+    }
+
+    /**
+     * Checa se a conexão é válida
+     * @return true se sim false se não
+     */
+    private boolean isConnectionValid() {
+        try {
+            return connection != null && !connection.isClosed() && connection.isValid(2);
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     /**
@@ -305,27 +317,53 @@ public class JDBCRepository {
         // dá replace em todos os @XXXX para ?
         sqlRaw = PARAM_PATTERN.matcher(sqlRaw).replaceAll("?");
 
-        PreparedStatement sqlFilled = getConnection().prepareStatement(sqlRaw);
+        PreparedStatement sqlFilled = null;
+        int tries = 0;
+        int maxTries = 5;
 
-        // converte os valores
-        Object[] paramsList = new Object[paramNames.size()];
-        for (int i = 0; i < paramNames.size(); i++) {
-            String name = paramNames.get(i);
-            if (!paramsMap.containsKey(name)) {
-                throw new IllegalArgumentException(
-                        "Parâmetro não encontrado: " + name);
+        while (tries < maxTries) {
+            try {
+                if (tries > 0) {
+                    try {
+                        if (connection != null && !connection.isClosed()) {
+                            connection.close();
+                        }
+                    } catch (Exception ignored) {}
+                    connection = null;
+                }
+
+                sqlFilled = getConnection().prepareStatement(sqlRaw);
+
+                // converte os valores
+                Object[] paramsList = new Object[paramNames.size()];
+                for (int i = 0; i < paramNames.size(); i++) {
+                    String name = paramNames.get(i);
+                    if (!paramsMap.containsKey(name)) {
+                        throw new IllegalArgumentException(
+                                "Parâmetro não encontrado: " + name);
+                    }
+                    paramsList[i] = paramsMap.get(name);
+                }
+
+                new QueryRunner().fillStatement(sqlFilled, paramsList);
+
+                return sqlFilled;
+
+            } catch (SQLException e) {
+                tries++;
+                logDebug("Tentativa " + tries + " falhou: " + e.getMessage());
+
+                if (tries >= maxTries) {
+                    throw e;
+                }
+
+                try {
+                    Thread.sleep(100 * tries);
+                } catch (InterruptedException ignored) {}
             }
-            paramsList[i] = paramsMap.get(name);
-        }
-        try{
-            new QueryRunner().fillStatement(sqlFilled, paramsList);
-        } catch (Exception ex){
-            openConnection();
-            new QueryRunner().fillStatement(sqlFilled, paramsList);
         }
 
         return sqlFilled;
-
     }
 
 
