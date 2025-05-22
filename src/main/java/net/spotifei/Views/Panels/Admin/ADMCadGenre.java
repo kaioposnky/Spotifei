@@ -67,13 +67,15 @@ public class ADMCadGenre extends JPanel {
         bt_voltar.setAlignmentX(CENTER_ALIGNMENT);
         bt_voltar.addActionListener(event -> handleGoBack());
 
+        add(Box.createVerticalGlue());
         add(title);
-        add(Box.createVerticalStrut(200));
+        add(Box.createVerticalStrut(50));
         add(genreCreationPanel);
         add(Box.createVerticalStrut(20));
         add(bt_cadastrar);
-        add(Box.createVerticalStrut(200));
+        add(Box.createVerticalStrut(50));
         add(bt_voltar);
+        add(Box.createVerticalGlue());
     }
 
     /**
