@@ -625,6 +625,11 @@ public class MusicRepository {
         }
     }
 
+    /**
+     * Excluir a primeira música da fila de reprodução de um usuário.
+     * @param userId Id do usuário.
+     * @throws Exception Se ocorrer um erro durante a execução da procedure no banco de dados.
+     */
     public void deleteFirstMusicFromUserQueue(int userId) throws Exception{
         try {
             Map<String, Object> params = new HashMap<>();

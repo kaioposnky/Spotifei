@@ -770,6 +770,11 @@ public class MusicService {
         }
     }
 
+    /**
+     * Deleta a primeira música na fila de músicas do usuário.
+     * @param userId O id do usuário.
+     * @return A resposta da tentativa de deletar a música.
+     */
     public Response<Void> deleteFirstMusicFromUserQueue(int userId){
         try {
             musicRepository.deleteFirstMusicFromUserQueue(userId);

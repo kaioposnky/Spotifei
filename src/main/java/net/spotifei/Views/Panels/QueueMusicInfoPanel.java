@@ -182,6 +182,9 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         queuePanel.repaint();
     }
 
+    /**
+     * Atualiza as informações da música atual tocando.
+     */
     public void updateCurrentMusic(){
         if(appContext.getMusicContext() != null){
             musicTitle.setText(appContext.getMusicContext().getNome());
@@ -191,6 +194,11 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         }
     }
 
+    /**
+     * Cria o painel de informações da música.
+     * @param music A música a ser mostrada
+     * @return Painel com as informações da música
+     */
     private JPanel createMusicInfoPanel(Music music) {
         JPanel musicInfoPanel = new JPanel();
         musicInfoPanel.setLayout(new BoxLayout(musicInfoPanel, BoxLayout.X_AXIS));
@@ -216,6 +224,9 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         return musicInfoPanel;
     }
 
+    /**
+     * Inicia o worker que atualiza constantemente as informações da fila de músicas.
+     */
     private void startPlaylistUpdateWorker(){
         updaterWorker = new SwingWorker<Void, Void>() {
             @Override
@@ -265,6 +276,11 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         });
     }
 
+    /**
+     * Evento gerado quando uma música é selecionada para tocar,
+     * atualiza a música atual tocando
+     * @param music A música selecionada
+     */
     @Override
     public void onSelectMusic(Music music) {
         SwingUtilities.invokeLater(() -> {
@@ -272,16 +288,25 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         });
     }
 
+    /**
+     * Não aplicável
+     */
     @Override
     public void onMusicProgressUpdate(long musicTime, long musicDuration) {
 
     }
 
+    /**
+     * Não aplicável
+     */
     @Override
     public void onMusicPlayingStatusUpdate(boolean isPlaying) {
 
     }
 
+    /**
+     * Não aplicável
+     */
     @Override
     public void onEndOfMusic() {
 

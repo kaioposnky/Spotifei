@@ -212,6 +212,9 @@ public class MusicController implements AudioUpdateListener {
         logDebug("Tocando a música anterior!");
     }
 
+    /**
+     * Carrega a fila de músicas do usuário.
+     */
     public void loadUserMusicQueue(){
         QueueMusicInfoPanel queueMusicInfoPanel = (QueueMusicInfoPanel) view;
         int userId = appContext.getPersonContext().getIdUsuario();
