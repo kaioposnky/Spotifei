@@ -224,7 +224,15 @@ public class MusicController implements AudioUpdateListener {
         Response<List<Music>> responseUserMusicQueue = musicServices.getUserQueue(userId);
         if (handleDefaultResponseIfError(responseUserMusicQueue)) return;
 
-        queueMusicInfoPanel.getMusicsQueue().setMusics(responseUserMusicQueue.getData());
+        List<Music> queueMusics = responseUserMusicQueue.getData();
+
+        SwingUtilities.invokeLater(() -> {
+            queueMusicInfoPanel.updateMusicListPanel(queueMusics);
+            queueMusicInfoPanel.getMusicAuthors().setText(appContext.getMusicContext().getArtistsNames());
+            queueMusicInfoPanel.getMusicTitle().setText(appContext.getMusicContext().getNome());
+            queueMusicInfoPanel.repaint();
+            queueMusicInfoPanel.revalidate();
+        });
 
         // log removido por spamar muito no console por conta do worker de queue
 //        logDebug("Músicas da fila obtidas com sucesso!");
@@ -310,7 +318,7 @@ public class MusicController implements AudioUpdateListener {
         waitDialog.setLocationRelativeTo(null);
         waitDialog.setModal(false);
         waitDialog.setVisible(true);
-        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),

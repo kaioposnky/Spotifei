@@ -645,6 +645,35 @@ public class MusicRepository {
         }
     }
 
+    public boolean isMusicFirstInUserQueue(int userId, int musicId) throws Exception{
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("idMusic", musicId);
+
+            ScalarHandler<Boolean> handler = new ScalarHandler<>();
+
+            String sql = jdbcRepository.getQueryNamed("IsMusicFirstInUserQueue");
+            Boolean isMusicFirst = jdbcRepository.queryProcedure(sql, params, handler);
+
+            return isMusicFirst != null;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void deleteFirstMusicFromUserQueue(int userId) throws Exception{
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+
+            String sql = jdbcRepository.getQueryNamed("DeleteFirstMusicFromUserQueue");
+            jdbcRepository.executeProcedure(sql, params);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     /**
      * Obtém a fila de reprodução atual de um usuário.
      *

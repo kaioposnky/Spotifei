@@ -2,21 +2,19 @@ package net.spotifei.Views.Panels;
 
 //imports
 import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
-import net.spotifei.Views.Components.MusicListComponent;
 import net.spotifei.Views.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.spotifei.Controller.MusicController;
-import net.spotifei.Infrastructure.Container.AppContext;
-import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Models.Music;
-import net.spotifei.Views.Components.MusicListComponent;
-import net.spotifei.Views.MainFrame;
 
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
@@ -25,10 +23,9 @@ import static net.spotifei.Infrastructure.Logger.LoggerRepository.logError;
 public class QueueMusicInfoPanel extends JPanel {
     private final MainFrame mainframe;
     private final AppContext appContext;
-    private MusicListComponent musicsQueue;
-    private MusicInfoPanelBuilder musicInfoPanelBuilder;
     private JLabel musicTitle;
     private JLabel musicAuthors;
+    private JPanel queuePanel;
     private final MusicController musicController;
     private SwingWorker<Void, Void> updaterWorker;
 
@@ -81,7 +78,7 @@ public class QueueMusicInfoPanel extends JPanel {
         JPanel musicPlayingPanel = new JPanel();
         musicPlayingPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
         musicPlayingPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        musicPlayingPanel.setAlignmentX(CENTER_ALIGNMENT);
+        musicPlayingPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
         musicPlayingPanel.setOpaque(false);
 
         JPanel contentPanel = new JPanel();
@@ -90,7 +87,7 @@ public class QueueMusicInfoPanel extends JPanel {
 
         JLabel musicPlaying = new JLabel("Tocando agora");
         musicPlaying.setFont(new Font("Segoe UI", 1, 16));
-        musicPlaying.setForeground(new Color(250, 250, 250));
+        musicPlaying.setForeground(new Color(255, 255, 255));
         musicPlaying.setAlignmentX(LEFT_ALIGNMENT);
 
         Music music = new Music();
@@ -110,50 +107,76 @@ public class QueueMusicInfoPanel extends JPanel {
         return musicPlayingPanel;
     }
 
-    private JPanel createMusicsQueue(){
+    /**
+     * Cria o painel que contêm a lista de músicas na fila.
+     * @return O JPanel com a lista de músicas na fila.
+     */
+    private JPanel createMusicsQueue() {
         JPanel musicsQueuePanel = new JPanel();
-        musicsQueuePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-        musicsQueuePanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        musicsQueuePanel.setAlignmentX(CENTER_ALIGNMENT);
+        musicsQueuePanel.setLayout(new BoxLayout(musicsQueuePanel, BoxLayout.Y_AXIS));
         musicsQueuePanel.setOpaque(false);
-        musicsQueuePanel.setPreferredSize(new Dimension(140, Integer.MAX_VALUE));
-        musicsQueuePanel.setMaximumSize(new Dimension(140, Integer.MAX_VALUE));
-        musicsQueuePanel.setMinimumSize(new Dimension(140, Integer.MAX_VALUE));
-
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setOpaque(false);
+        musicsQueuePanel.setBorder(null);
 
         JLabel queueMusicsLabel = new JLabel("Próximas");
-        queueMusicsLabel.setFont(new Font("Segoe UI", 1, 16));
-        queueMusicsLabel.setForeground(new Color(250, 250, 250));
-        queueMusicsLabel.setAlignmentX(LEFT_ALIGNMENT);
+        queueMusicsLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        queueMusicsLabel.setForeground(new Color(255, 255, 255));
+        queueMusicsLabel.setBorder(new EmptyBorder(0, 5, 10, 0));
 
-        musicInfoPanelBuilder = new MusicInfoPanelBuilder(appContext, mainframe);
-        musicInfoPanelBuilder.selectMusicInfoFromQueuePanel();
+        musicsQueuePanel.add(queueMusicsLabel);
 
-        musicsQueue = new MusicListComponent(musicInfoPanelBuilder);
-        musicsQueue.setOpaque(false);
-        musicsQueue.setBackground(null);
-        musicsQueue.setPreferredSize(new Dimension(140, Integer.MAX_VALUE));
-        musicsQueue.setMaximumSize(new Dimension(140, Integer.MAX_VALUE));
-        musicsQueue.setMinimumSize(new Dimension(140, Integer.MAX_VALUE));
-        musicsQueue.setAlignmentX(LEFT_ALIGNMENT);
+        JScrollPane scrollPane = new JScrollPane(queueMusicListPanel());
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(null);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        contentPanel.add(Box.createVerticalStrut(10));
-        contentPanel.add(queueMusicsLabel);
-        contentPanel.add(Box.createVerticalStrut(30));
-        contentPanel.add(musicsQueue);
-
-        musicsQueuePanel.add(contentPanel);
+        musicsQueuePanel.add(scrollPane);
+        musicsQueuePanel.add(Box.createVerticalGlue());
 
         return musicsQueuePanel;
+    }
+
+    /**
+     * Cria o painel interno que irá conter os itens da fila de músicas.
+     * @return O JPanel que servirá como contêiner para os itens da fila.
+     */
+    private JPanel queueMusicListPanel(){
+        queuePanel = new JPanel();
+        queuePanel.setLayout(new BoxLayout(queuePanel, BoxLayout.Y_AXIS));
+        queuePanel.setOpaque(false);
+        queuePanel.setBorder(new EmptyBorder(0, 5, 0, 0));
+        return queuePanel;
+    }
+
+    /**
+     * Atualiza o painel da lista de músicas da fila.
+     * @param musics A lista de objetos Music para exibir na fila.
+     */
+    public void updateMusicListPanel(List<Music> musics){
+        queuePanel.removeAll();
+        if (musics != null && !musics.isEmpty()) {
+            for (Music music : musics){
+                queuePanel.add(createMusicInfoPanel(music));
+                queuePanel.add(Box.createVerticalStrut(8));
+            }
+        } else {
+            JLabel emptyQueueLabel = new JLabel("A fila está vazia.");
+            emptyQueueLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            emptyQueueLabel.setForeground(Color.DARK_GRAY);
+            emptyQueueLabel.setAlignmentX(LEFT_ALIGNMENT);
+            queuePanel.add(emptyQueueLabel);
+        }
+        queuePanel.revalidate();
+        queuePanel.repaint();
     }
 
     private JPanel createMusicInfoPanel(Music music) {
         JPanel musicInfoPanel = new JPanel();
         musicInfoPanel.setLayout(new BoxLayout(musicInfoPanel, BoxLayout.X_AXIS));
         musicInfoPanel.setOpaque(false);
+        musicInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
 
         JPanel infoWrapperPanel = new JPanel();
         infoWrapperPanel.setLayout(new BoxLayout(infoWrapperPanel, BoxLayout.Y_AXIS));
@@ -183,12 +206,9 @@ public class QueueMusicInfoPanel extends JPanel {
                         try{
                             Thread.sleep(2000);
                             if(appContext.getMusicContext() == null || appContext.getPersonContext() == null) continue;
+
                             musicController.loadUserMusicQueue();
-                            musicTitle.setText(appContext.getMusicContext().getNome());
-                            musicAuthors.setText(appContext.getMusicContext().getArtistsNames());
-                            updateUI();
-                            repaint();
-                            revalidate();
+
                         } catch (Exception e){
                             logError(e.getMessage(), e);
                         }
@@ -210,6 +230,9 @@ public class QueueMusicInfoPanel extends JPanel {
 
             @Override
             public void componentShown(ComponentEvent e) {
+                if (updaterWorker != null){
+                    updaterWorker.cancel(true);
+                }
                 startPlaylistUpdateWorker();
                 super.componentShown(e);
             }
@@ -223,7 +246,11 @@ public class QueueMusicInfoPanel extends JPanel {
         });
     }
 
-    public MusicListComponent getMusicsQueue() {
-        return musicsQueue;
+    public JLabel getMusicTitle() {
+        return musicTitle;
+    }
+
+    public JLabel getMusicAuthors() {
+        return musicAuthors;
     }
 }

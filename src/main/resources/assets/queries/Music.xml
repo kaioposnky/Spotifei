@@ -99,6 +99,7 @@
     </query>
 
     <query name="GetUserPreviousMusic">
+        SELECT
         m.id_musica AS idMusica,
         m.nome AS nomeMusica,
         m.duracao_ms AS duracaoMs,
@@ -116,7 +117,7 @@
         ORDER BY
         data_tocada DESC
         LIMIT 1 OFFSET 1
-        )
+        ) AS next_music ON m.id_musica = next_music.id_musica;
     </query>
     <query name="GetUserLastPlayedMusic">
         SELECT

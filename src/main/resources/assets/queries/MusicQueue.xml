@@ -38,14 +38,26 @@
 
     <query name="DeleteMusicFromQueueByMusicId">
         DELETE FROM usuario_fila
-        WHERE id_usuario = @idUser AND id_musica = @idMusica;
+        WHERE id_usuario = @idUser AND id_musica = @idMusica
+        LIMIT 1;
+    </query>
+
+    <query name="DeleteFirstMusicFromUserQueue">
+        DELETE FROM usuario_fila
+        WHERE id_musica_fila = (
+        SELECT uf.id_musica_fila
+        FROM usuario_fila uf
+        WHERE uf.id_usuario = @idUser
+        ORDER BY uf.posicao ASC
+        LIMIT 1
+        );
     </query>
 
     <query name="GetUserQueue">
         SELECT
         uf.id_musica_fila AS idMusicaFila,
         m.id_musica AS idMusica,
-        m.nome AS nomeMusica,
+        m.nome AS nome,
         m.duracao_ms AS duracaoMs,
         uf.posicao AS posicao
         FROM
@@ -74,5 +86,15 @@
     <query name="DeleteMusicFromQueueById">
         DELETE FROM usuario_fila
         WHERE id_musica_fila = @musicQueueId;
+    </query>
+
+    <query name="IsMusicFirstInUserQueue">
+        SELECT (
+        SELECT uf.id_musica
+        FROM usuario_fila uf
+        WHERE uf.id_usuario = @idUser
+        ORDER BY uf.posicao ASC
+        LIMIT 1
+        ) = @idMusic;
     </query>
 </queries>

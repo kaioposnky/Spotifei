@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.getMP3DurationInMicrosseconds;
+import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class MusicService {
 
@@ -109,6 +110,9 @@ public class MusicService {
         try{
             Music music = musicRepository.getPreviousMusicFromUser(userId);
 
+            putAuthorsIntoMusic(music);
+            putGenreIntoMusic(music);
+
             return ResponseHelper.generateSuccessResponse("Música obtida com sucesso!", music);
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
@@ -158,6 +162,12 @@ public class MusicService {
 
             if(musicAudio == null){
                 return ResponseHelper.generateBadResponse("O aúdio retornado foi nulo! Operação cancelada!");
+            }
+
+            // só para remover da fila quando ela começar a tocar, para evitar da fila do usuário ficar com a música tocando
+            boolean musicInUserQueue = musicRepository.isMusicFirstInUserQueue(userId, musicId);
+            if(musicInUserQueue){
+                musicRepository.deleteFirstMusicFromUserQueue(userId);
             }
 
             music.setAutores(artists);
