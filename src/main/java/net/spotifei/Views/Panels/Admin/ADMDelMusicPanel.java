@@ -199,7 +199,7 @@ public class ADMDelMusicPanel extends javax.swing.JPanel {
      * Inicia um `SwingWorker` para carregar e atualizar a lista de músicas em segundo plano.
      */
     private void startMusicUpdateWorker(){
-        updaterWorker = new SwingWorker<>() {
+        updaterWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground(){
                 try{

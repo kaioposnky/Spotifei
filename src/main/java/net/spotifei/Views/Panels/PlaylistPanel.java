@@ -152,7 +152,7 @@ public class PlaylistPanel extends javax.swing.JPanel {
      * Inicia um `SwingWorker` para atualizar a lista de playlists em segundo plano.
      */
     private void startPlaylistUpdateWorker(){
-        updaterWorker = new SwingWorker<>() {
+        updaterWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground(){
                 try{

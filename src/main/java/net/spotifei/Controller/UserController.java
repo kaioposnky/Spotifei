@@ -114,7 +114,7 @@ public class UserController {
      * @param music A música a ser potencialmente reproduzida (geralmente a última tocada).
      */
     private void handlePlayMusicBackground(Music music){
-        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<>() {
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() {
                 Response<Void> responsePlay = musicService.playMusic(music.getIdMusica(),

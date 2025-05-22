@@ -311,7 +311,7 @@ public class MusicController implements AudioUpdateListener {
         waitDialog.setLocationRelativeTo(null);
         waitDialog.setModal(false);
         waitDialog.setVisible(true);
-        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<>() {
+        SwingWorker<Void, Void> backgroundWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 Response<Void> responsePlay = musicServices.playMusic(music.getIdMusica(),

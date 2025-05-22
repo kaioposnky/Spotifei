@@ -217,7 +217,7 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
     }
 
     private void startPlaylistUpdateWorker(){
-        updaterWorker = new SwingWorker<>() {
+        updaterWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground(){
                 try{

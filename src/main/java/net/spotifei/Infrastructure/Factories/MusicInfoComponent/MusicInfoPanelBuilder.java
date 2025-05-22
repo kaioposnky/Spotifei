@@ -120,32 +120,25 @@ public class MusicInfoPanelBuilder extends MusicInfoFactory implements MusicInfo
      * @throws IllegalStateException Se um `panelType` inesperado for encontrado (deveria ser coberto pelos `case`s).
      */
     private JPanel generatePanel(Music music){
-        switch (panelType){
-            case SEARCH -> {
+        switch (panelType) {
+            case SEARCH:
                 return getSearchMusicInfoPanel(music);
-            }
-            case MOSTPLAYED -> {
+            case MOSTPLAYED:
                 return getMostViewedMusicInfoPanel(music);
-            }
-            case LIKEDORDISLIKED -> {
+            case LIKEDORDISLIKED:
                 return getUserLikedOrDislikedMusicInfoPanel(music);
-            }
-            case PLAYLISTEDIT -> {
+            case PLAYLISTEDIT:
                 return getMusicInfoFromPlaylistEditorPanel(music);
-            }
-            case PLAYLISTADD -> {
+            case PLAYLISTADD:
                 return getSearchMusicInfoForPlaylistPanel(music);
-            }
-            case MUSICSPLAYLIST -> {
+            case MUSICSPLAYLIST:
                 return getMusicsFromPlaylist(music);
-            }
-            case DELMUSIC ->{
+            case DELMUSIC:
                 return getMusicInfoFromDeletePanel(music);
-            }
-            case QUEUEMUSIC ->{
+            case QUEUEMUSIC:
                 return getMusicInfoFromQueuePanel(music);
-            }
-            default -> throw new IllegalStateException("Valor inesperado: " + panelType);
+            default:
+                throw new IllegalStateException("Valor inesperado: " + panelType);
         }
     }
 

@@ -218,7 +218,7 @@ public class PlaylistEditPopUp extends JDialog {
      * Inicia um `SwingWorker` em segundo plano para atualizar periodicamente a lista de músicas da playlist.
      */
     private void startPlaylistUpdateWorker(){
-        SwingWorker<Void, Void> updaterWorker = new SwingWorker<>() {
+        SwingWorker<Void, Void> updaterWorker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground(){
                 try{
