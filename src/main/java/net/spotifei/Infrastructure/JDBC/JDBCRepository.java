@@ -317,8 +317,12 @@ public class JDBCRepository {
             }
             paramsList[i] = paramsMap.get(name);
         }
-
-        new QueryRunner().fillStatement(sqlFilled, paramsList);
+        try{
+            new QueryRunner().fillStatement(sqlFilled, paramsList);
+        } catch (Exception ex){
+            openConnection();
+            new QueryRunner().fillStatement(sqlFilled, paramsList);
+        }
 
         return sqlFilled;
 
