@@ -39,6 +39,12 @@ public class PlaylistService {
                 return ResponseHelper.generateBadResponse("A playlist fornecida foi nula!");
             }
 
+            boolean userHasAPlaylistWithSameName = playlistRepository.
+                    checkUserPlaylistExistsByName(playlist.getNome(), userId);
+            if(userHasAPlaylistWithSameName){
+               return ResponseHelper.generateBadResponse("Você já possui uma playlist esse nome!");
+            }
+
             playlistRepository.createPlaylist(playlist, userId);
 
             return ResponseHelper.generateSuccessResponse("Playlist criada com sucesso!");

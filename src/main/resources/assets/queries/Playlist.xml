@@ -70,4 +70,14 @@
         GROUP BY
         p.id_playlist, p.nome;
     </query>
+
+    <query name="CheckUserPlaylistExistsByName">
+        SELECT EXISTS (
+        SELECT 1
+        FROM playlist p
+        JOIN playlist_usuario pu ON p.id_playlist = pu.id_playlist
+        WHERE pu.id_usuario = @idUser
+        AND p.nome ILIKE @name
+        );
+    </query>
 </queries>
