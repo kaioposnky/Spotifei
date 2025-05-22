@@ -20,20 +20,39 @@ Projeto em JAVA do Curso (Arquitetura de software e programação orientada a ob
 ### 6° -> Gerenciar playlists
   > O usuário consegue criar, editar e excluir suas playlists, além de conseguir adicionar ou remover uma música dela.
 ### 7° -> Visualizar Histórico
-  > É apresentado ao usuário as ultimas 10 músicas tocadas/buscadas e uma lista de suas músicas curtidas/descurtidas
+  > É apresentado ao usuário as ultimas 10 músicas tocadas/buscadas e uma lista de suas músicas curtidas/descurtidas.
 ### 8° -> Reprodução de músicas/playlist
-  > O usuário consegue reproduzir as músicas e playlists, apresentando uma fila dinâmica onde é mostrado as próximas músicas que serão tocadas
+  > O usuário consegue reproduzir as músicas e playlists, apresentando uma fila dinâmica onde é mostrado as próximas músicas que serão tocadas.
 
 ## | 🔉 Funcionalidades - ADMINISTRADOR. |
-
+### 1° -> Login como administrador
+  > O administrador recebe um login de ADM, onde tem acesso a suas funcionalidades.
+### 2° -> Cadastrar e excluir músicas
+  > O ADM consegue cadastrar e excluir músicas no sistema (O artista e o gênero devem ser criados antes caso sejam novos no sistema). 
+### 3° ->  Cadastrar artistas
+  > O administrador consegue cadastrar novos artistas no sistema.
+### 4° ->  Consultar usuários
+  > O ADM consegue buscar as informações de um usuário pelo seu email.
+### 5° -> Curtir e descurtir músicas
+  > O usuário pode realizar o feedback das músicas (like ou dislike).
+### 6° -> Visualizar estatísticas do sistema
+  > Como administrador é possível visualizar estatísticas do sistema como o total de musicas, total de usuários e musicas com mais likes/dislikes
 
 ## | 🎶 Instruções de uso |
 
 ### USUÁRIOS
+  > [!IMPORTANT]
+  > O usuário só consegue entrar no sistema após realizar o seu cadastro, uma vez feito, não é necessário realizar novamente para entrar na mesma conta.
 
 ### ADMINISTRADOR
+  > [!IMPORTANT]
+  > O ADM recebe um login padrão para entrar no menu exclusivo de funcionalidades.
+  >>  - e-mail: adm@email.com
+  >>  - senha: 1234
 
-### ARTISTAS
+### ARTISTAS                 
+> [!IMPORTANT]
+> Um artista só recebe um login, após o ADM realizar seu cadastro.
 
 ## | ☕ Passo a passo |
 
