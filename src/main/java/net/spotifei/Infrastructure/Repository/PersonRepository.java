@@ -85,63 +85,6 @@ public class PersonRepository {
     }
 
     /**
-     * Obtém uma lista das músicas mais curtidas por um usuário.
-     *
-     * @param userId O ID do usuário para o qual se deseja obter as músicas mais curtidas.
-     * @return Uma lista de objetos `Music` que o usuário mais curtiu.
-     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
-     */
-    public List<Music> getMostLikedUserMusics(int userId) throws Exception{
-        try{
-            String sql = jdbcRepository.getQueryNamed("GetMostLikedUserMusics");
-            List<Music> musics = jdbcRepository.queryProcedure(sql, userId, new BeanListHandler<>(Music.class));
-
-            return musics;
-        } catch (Exception ex){
-            ex.getCause();
-            throw ex;
-        }
-    }
-
-    /**
-     * Obtém uma lista das músicas mais descurtidas por um usuário.
-     *
-     * @param userId O ID do usuário para o qual se deseja obter as músicas mais descurtidas.
-     * @return Uma lista de objetos `Music` que o usuário mais descurtiu.
-     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
-     */
-    public List<Music> getMostDislikedUserMusics(int userId) throws Exception{
-        try{
-            String sql = jdbcRepository.getQueryNamed("GetMostDislikedUserMusics");
-            List<Music> musics = jdbcRepository.queryProcedure(sql, userId, new BeanListHandler<>(Music.class));
-
-            return musics;
-        } catch (Exception ex){
-            ex.getCause();
-            throw ex;
-        }
-    }
-
-    /**
-     * Obtém o histórico das últimas 10 músicas pesquisadas por um usuário.
-     *
-     * @param userId O ID do usuário para o qual se deseja obter o histórico de pesquisa.
-     * @return Uma lista de objetos `UserSearch` contendo os termos de pesquisa e metadados.
-     * @throws Exception Se ocorrer um erro durante a execução da query no banco de dados.
-     */
-    public List<UserSearch> getUserLast10MusicsSearched(int userId) throws Exception{
-        try{
-            String sql = jdbcRepository.getQueryNamed("GetUserLast10MusicsSearched");
-            List<UserSearch> searches = jdbcRepository.queryProcedure(sql, userId, new BeanListHandler<>(UserSearch.class));
-
-            return searches;
-        } catch (Exception ex){
-            ex.getCause();
-            throw ex;
-        }
-    }
-
-    /**
      * Obtém o número total de usuários registrados no sistema.
      *
      * @return O número total de usuários como um valor `long`.
