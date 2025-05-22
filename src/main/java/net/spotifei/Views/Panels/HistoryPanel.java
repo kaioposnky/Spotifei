@@ -76,7 +76,7 @@ public class HistoryPanel extends javax.swing.JPanel {
     /**
      * Cria e retorna um JPanel contendo os botões de opções de histórico.
      *
-     * @return Um JPanel com os botões "Últimas", "Mais likes" e "Mais deslikes".
+     * @return Um JPanel com os botões "Últimas", "Likes" e "Deslikes".
      */
     private JPanel historybuttons(){
         JPanel historyButton = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -90,13 +90,13 @@ public class HistoryPanel extends javax.swing.JPanel {
         bt_top10.addActionListener(this::bt_top10ActionPerformed);
         bt_top10.setPreferredSize(buttonSize);
 
-        JButton bt_curtidas = new JButton("Mais likes");
+        JButton bt_curtidas = new JButton("Likes");
         bt_curtidas.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
         bt_curtidas.setAlignmentX(CENTER_ALIGNMENT);
         bt_curtidas.addActionListener(this::bt_curtidasActionPerformed);
         bt_curtidas.setPreferredSize(buttonSize);
 
-        JButton bt_deslikes = new JButton("Mais deslikes");
+        JButton bt_deslikes = new JButton("Deslikes");
         bt_deslikes.setFont(new java.awt.Font("Segoe UI Black", 1, 14));
         bt_deslikes.setAlignmentX(CENTER_ALIGNMENT);
         bt_deslikes.addActionListener(this::bt_deslikesActionPerformed);

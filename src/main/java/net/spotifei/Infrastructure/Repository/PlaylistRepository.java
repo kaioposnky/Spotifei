@@ -240,4 +240,28 @@ public class PlaylistRepository {
         }
     }
 
+    /**
+     * Checa se um usuário já tem uma playlist com um nome
+     * @param userId Id do usuário
+     * @param name Nome da playlist
+     * @return Retorna true se o usuário tem false se não tem
+     * @throws Exception Excessão gerada caso dê algum erro no banco
+     */
+    public boolean checkUserPlaylistExistsByName(String name, int userId) throws Exception{
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("idUser", userId);
+            params.put("name", name);
+
+            ScalarHandler<Boolean> handler = new ScalarHandler<>();
+
+            String sql = jdbcRepository.getQueryNamed("CheckUserPlaylistExistsByName");
+            Boolean exists = jdbcRepository.queryProcedure(sql, params, handler);
+
+            return exists != null && exists;
+        } catch (Exception ex){
+            throw ex;
+        }
+    }
+
 }

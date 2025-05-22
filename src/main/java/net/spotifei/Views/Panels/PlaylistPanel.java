@@ -60,6 +60,7 @@ public class PlaylistPanel extends javax.swing.JPanel {
         greetingLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         JPanel createPlaylistPanel = new JPanel();
+        createPlaylistPanel.setOpaque(false);
         createPlaylistPanel.setLayout(new BoxLayout(createPlaylistPanel, BoxLayout.X_AXIS));
 
         JLabel textPlaylistName = new JLabel("Digite o nome da playlist:");

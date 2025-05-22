@@ -50,7 +50,7 @@ public class LoginPanel extends javax.swing.JPanel {
         titleLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 36));
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-        JLabel greetingLabel = new JLabel("Sejam Bem-Vindos!");
+        JLabel greetingLabel = new JLabel("Seja bem-vindo!");
         greetingLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 28));
         greetingLabel.setForeground(Color.white);
         greetingLabel.setAlignmentX(CENTER_ALIGNMENT);

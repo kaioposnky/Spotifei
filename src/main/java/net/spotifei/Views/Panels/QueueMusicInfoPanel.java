@@ -88,7 +88,7 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         contentPanel.setOpaque(false);
 
         JLabel musicPlaying = new JLabel("Tocando agora");
-        musicPlaying.setFont(new Font("Segoe UI", 1, 16));
+        musicPlaying.setFont(new Font("Segoe UI", 1, 18));
         musicPlaying.setForeground(new Color(255, 255, 255));
         musicPlaying.setAlignmentX(LEFT_ALIGNMENT);
 
@@ -103,6 +103,7 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         JPanel musicInfoPanel = new JPanel();
         musicInfoPanel.setLayout(new BoxLayout(musicInfoPanel, BoxLayout.Y_AXIS));
         musicInfoPanel.setOpaque(false);
+        musicInfoPanel.setBorder(new EmptyBorder(0, 5, 0, 0));
         musicInfoPanel.setAlignmentX(LEFT_ALIGNMENT);
 
         musicInfoPanel.add(musicTitle);
@@ -123,16 +124,15 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
      */
     private JPanel createMusicsQueue() {
         JPanel musicsQueuePanel = new JPanel();
-        musicsQueuePanel.setLayout(new BoxLayout(musicsQueuePanel, BoxLayout.Y_AXIS));
+        musicsQueuePanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
+        musicsQueuePanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         musicsQueuePanel.setOpaque(false);
-        musicsQueuePanel.setBorder(null);
 
         JLabel queueMusicsLabel = new JLabel("Próximas");
-        queueMusicsLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        queueMusicsLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        queueMusicsLabel.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
         queueMusicsLabel.setForeground(new Color(255, 255, 255));
-        queueMusicsLabel.setBorder(new EmptyBorder(0, 5, 10, 0));
-
-        musicsQueuePanel.add(queueMusicsLabel);
+        queueMusicsLabel.setAlignmentX(LEFT_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(queueMusicListPanel());
         scrollPane.setOpaque(false);
@@ -142,6 +142,8 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
+        musicsQueuePanel.add(queueMusicsLabel);
+        musicsQueuePanel.add(Box.createVerticalStrut(10));
         musicsQueuePanel.add(scrollPane);
         musicsQueuePanel.add(Box.createVerticalGlue());
 
@@ -234,7 +236,11 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
                 try{
                     while(true){
                         try{
-                            Thread.sleep(2000);
+                            try{
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ex){
+                                break;
+                            }
                             if(appContext.getMusicContext() == null || appContext.getPersonContext() == null) continue;
 
                             musicController.loadUserMusicQueue();
@@ -243,6 +249,7 @@ public class QueueMusicInfoPanel extends JPanel implements AudioUpdateListener {
                             logError(e.getMessage(), e);
                         }
                     }
+                    return null;
                 } catch (Exception e){
                     return null;
                 }
