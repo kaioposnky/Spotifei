@@ -4,7 +4,7 @@ Projeto em JAVA do Curso (Arquitetura de software e programação orientada a ob
 ![image (32)](https://github.com/user-attachments/assets/a15f001d-649c-4b5f-887b-05c0449ff9f4)
 
 ## | 🎧 Objetivo do Projeto | 
-- O <b>Spotifei</b> como o projeto do semestre da disciplina de Arquitetura de software e programação orientada a objetos (CCM310) vem com o objetivo de construir uma <b>plataforma de áudios digitais</b> como todos os conhecimentos adquiridos ao longo do semestre e desenvolvimento índividual. O programa apresenta <b>todas</b> as funcionalidades necessárias com o adicional de <b>reprodução de músicas e playlists</b>, juntamente com interafces bem interativas para o usuário.
+- O <b>Spotifei</b> como o projeto do semestre da disciplina de Arquitetura de software e programação orientada a objetos (CCM310) vem com o objetivo de construir uma <b>plataforma de áudios digitais</b> com todos os conhecimentos adquiridos ao longo do semestre e desenvolvimento índividual. O programa apresenta <b>todas</b> as funcionalidades necessárias com o adicional de <b>reprodução de músicas e playlists</b>, juntamente com interafces bem interativas para o usuário.
 
 ## | 🔊 Funcionalidades - USUÁRIO. |
 ### 1° -> Cadastrar novo usuário
