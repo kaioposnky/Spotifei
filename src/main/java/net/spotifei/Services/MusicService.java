@@ -3,7 +3,9 @@ package net.spotifei.Services;
 //imports
 import net.spotifei.Helpers.ResponseHelper;
 import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
+import net.spotifei.Infrastructure.AudioPlayer.OpusConverter;
 import net.spotifei.Infrastructure.Container.AppContext;
+import net.spotifei.Infrastructure.JavaTube.AudioDownloader;
 import net.spotifei.Infrastructure.Repository.ArtistRepository;
 import net.spotifei.Infrastructure.Repository.GenreRepository;
 import net.spotifei.Infrastructure.Repository.MusicRepository;
@@ -12,6 +14,8 @@ import net.spotifei.Models.Artist;
 import net.spotifei.Models.Genre;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.spotifei.Infrastructure.AudioPlayer.OpusConverter.getMP3DurationInMicrosseconds;
-import static net.spotifei.Infrastructure.Logger.LoggerRepository.logDebug;
 
 public class MusicService {
 
@@ -31,6 +34,7 @@ public class MusicService {
     private final GenreRepository genreRepository;
     private final AudioPlayerWorker audioPlayerWorker;
     private final AppContext appContext;
+    private final AudioDownloader audioDownloader;
 
     private boolean isNewMusicSelected = false;
     private int newMusicSelectedId = 0;
@@ -45,13 +49,14 @@ public class MusicService {
      * @param playlistRepository Repositório para operações com playlists.
      * @param genreRepository Repositório para operações com gêneros.
      */
-    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository, AppContext appContext){
+    public MusicService(MusicRepository musicRepository, AudioPlayerWorker audioPlayerWorker, ArtistRepository artistRepository, PlaylistRepository playlistRepository, GenreRepository genreRepository, AppContext appContext, AudioDownloader audioDownloader){
         this.musicRepository = musicRepository;
         this.audioPlayerWorker = audioPlayerWorker;
         this.artistRepository = artistRepository;
         this.playlistRepository = playlistRepository;
         this.genreRepository = genreRepository;
         this.appContext = appContext;
+        this.audioDownloader = audioDownloader;
     }
 
     /**
@@ -304,7 +309,7 @@ public class MusicService {
     }
 
     /**
-     * Registra uma nova música no sistema.
+     * Registra uma nova música no sistema pelo arquivo da música.
      *
      * @param musicFilePath O caminho completo para o arquivo de áudio da música (MP3).
      * @param musicName O nome da música.
@@ -312,7 +317,7 @@ public class MusicService {
      * @param musicGenre O nome do gênero da música.
      * @return Uma `Response` indicando o sucesso da operação.
      */
-    public Response<Void> registerMusic(String musicFilePath, String musicName, String musicArtist, String musicGenre){
+    public Response<Void> registerMusicWithFile(String musicFilePath, String musicName, String musicArtist, String musicGenre){
         try{
             String[] infos = {musicFilePath, musicName, musicArtist, musicGenre};
             if (Arrays.stream(infos).anyMatch(info -> info == null || info.isEmpty())){
@@ -325,9 +330,6 @@ public class MusicService {
             }
 //            byte[] fileBytes = convertMP3FileToOpusBytes(musicFile);
             byte[] fileBytes = Files.readAllBytes(Paths.get(musicFilePath));
-            if (fileBytes == null){
-                return ResponseHelper.generateBadResponse("Não foi possível obter os bytes do arquivo!");
-            }
             Genre genre = genreRepository.getGenreByName(musicGenre);
             if (genre == null){
                 return ResponseHelper.generateBadResponse("Gênero não encontrado! (" + musicGenre + ") ");
@@ -350,7 +352,7 @@ public class MusicService {
                     music, fileBytes);
 
             musicRepository.insertArtistIntoMusic(musicId, artist.getIdArtista());
-            fileBytes = null;
+            fileBytes = null; // Libera memória dos bytes do arquivo
             return ResponseHelper.generateSuccessResponse("Música cadastrada com sucesso!");
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
@@ -366,7 +368,7 @@ public class MusicService {
      * @param musicGenre O nome do gênero da música.
      * @return Uma `Response` indicando o sucesso da operação.
      */
-    public Response<Void> registerMusic(String musicFilePath, String musicName, int artistId, String musicGenre){
+    public Response<Void> registerMusicWithFile(String musicFilePath, String musicName, int artistId, String musicGenre){
         try{
             String[] infos = {musicFilePath, musicName, musicGenre};
             if (Arrays.stream(infos).anyMatch(info -> info == null || info.isEmpty())){
@@ -404,6 +406,39 @@ public class MusicService {
         } catch (Exception ex){
             return ResponseHelper.generateErrorResponse(ex.getMessage(), ex);
         }
+    }
+
+    /**
+     * Registra uma nova música no sistema pelo link do youtube da música
+     * @param musicLink Link da música no Youtube
+     * @param musicName O nome da música.
+     * @param musicArtist O nome artístico do autor da música.
+     * @param musicGenre O nome do gênero da música.
+     * @return Uma `Response` indicando o sucesso da operação.
+     */
+    public Response<Void> registerMusicWithLink(String musicLink, String musicName, String musicArtist, String musicGenre){
+        String audioFilePath;
+
+        // Baixa e obtêm o Path da música baixada
+        try {
+            audioFilePath = audioDownloader.downloadYoutubeAudioWithLink(musicLink); // Final .mp4
+            File audioFile = new File(audioFilePath);
+
+            String opusPath = FilenameUtils.removeExtension(audioFilePath) + ".opus";
+            File opusAudioFile = new File(opusPath);
+
+            byte[] opusBytes = OpusConverter.convertMP3FileToOpusBytes(audioFile);
+            FileUtils.writeByteArrayToFile(opusAudioFile, opusBytes);
+
+            System.out.println(audioFilePath);
+            System.out.println(opusPath);
+
+            audioFilePath = opusPath;
+        } catch (Exception e){
+            return ResponseHelper.generateErrorResponse(e.getMessage(), e);
+        }
+
+        return registerMusicWithFile(audioFilePath, musicName, musicArtist, musicGenre);
     }
 
     /**

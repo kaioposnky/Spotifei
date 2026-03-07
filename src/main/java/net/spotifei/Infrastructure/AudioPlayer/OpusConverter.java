@@ -1,6 +1,7 @@
 package net.spotifei.Infrastructure.AudioPlayer;
 
 //imports
+import org.bytedeco.ffmpeg.global.avcodec; // Não esqueça de importar isso!
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -84,15 +85,19 @@ public final class OpusConverter {
             int sampleRate = grabber.getSampleRate();
 
             // isso grava os frames do mp3 no pcmOut que são os bytes do aúdio
-            // em formato ogg, que o opus usa tmb
+            // em formato opus diretamente
             try(FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(pcmOut, audioChannels)){
-                recorder.setFormat("ogg");
-                recorder.setSampleRate(sampleRate);
+                recorder.setFormat("opus");
+                recorder.setAudioCodec(avcodec.AV_CODEC_ID_OPUS);
+                recorder.setAudioBitrate(128000);
+                recorder.setSampleRate(48000);
                 recorder.start();
 
                 Frame frame;
                 while((frame = grabber.grabFrame()) != null){
-                    recorder.record(frame);
+                    if(frame.samples != null){ // Garante que apenas aúdio será capturado e não samples (imagens)
+                        recorder.record(frame);
+                    }
                 }
 
             }

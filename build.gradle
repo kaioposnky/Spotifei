@@ -1,60 +1,241 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'net.spotifei'
-version = '1.0-SNAPSHOT'
+version = '1.2'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+// Configurações para cada plataforma específica
+configurations {
+    ffmpegLinuxArm64
+    ffmpegLinuxX64
+    ffmpegMacosArm64
+    ffmpegMacosX64
+    ffmpegWindowsX64
 }
 
 dependencies {
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation("com.google.code.gson:gson:2.7")
-
-    // https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
+    // Dependências comuns
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("commons-dbutils:commons-dbutils:1.7")
-
-    // https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
     implementation("io.github.cdimascio:dotenv-java:3.2.0")
-
-    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
     implementation("org.springframework.security:spring-security-crypto:5.8.16")
-
-    // tive que colocar isso por causa que é dependência do crypto
-    // https://mvnrepository.com/artifact/commons-logging/commons-logging
     implementation("commons-logging:commons-logging:1.3.0")
-
-    implementation 'org.postgresql:postgresql:42.7.5'
-
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1")
+    implementation("commons-io:commons-io:2.21.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+    implementation("com.formdev:flatlaf:3.6")
 
-    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
+    // JavaTube para download de vídeos do youtube
+    implementation("com.github.felipeucelli:javatube:master-SNAPSHOT")
 
-    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    // JavaCV comum
+    implementation("org.bytedeco:javacv:1.5.10")
+    implementation("org.bytedeco:ffmpeg:6.1.1-1.5.10")
 
-    // TUDO ISSO para poder tocar o aúdio .opus ;)
-    implementation 'org.bytedeco:javacv:1.5.10'
-    implementation 'org.bytedeco:ffmpeg:6.1.1-1.5.10'
-    implementation 'org.bytedeco:ffmpeg:6.1.1-1.5.10:windows-x86_64'
+    // Para desenvolvimento local - Windows 64-bit por padrão
+    implementation("org.bytedeco:ffmpeg:6.1.1-1.5.10:windows-x86_64")
 
-    implementation 'com.formdev:flatlaf:3.6' // update para a 3.6
+    // FFmpeg específico para cada plataforma
+    ffmpegLinuxArm64("org.bytedeco:ffmpeg:6.1.1-1.5.10:linux-arm64")
+    ffmpegLinuxX64("org.bytedeco:ffmpeg:6.1.1-1.5.10:linux-x86_64")
+    ffmpegMacosArm64("org.bytedeco:ffmpeg:6.1.1-1.5.10:macosx-arm64")
+    ffmpegMacosX64("org.bytedeco:ffmpeg:6.1.1-1.5.10:macosx-x86_64")
+    ffmpegWindowsX64("org.bytedeco:ffmpeg:6.1.1-1.5.10:windows-x86_64")
 }
 
+application {
+    mainClass = 'net.spotifei.Spotifei'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Função helper para obter dependências comuns (exceto FFmpeg específico)
+def getCommonDependencies() {
+    return configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts
+            .findAll { artifact ->
+                def id = artifact.moduleVersion.id
+                // Excluir FFmpeg com classificadores específicos de plataforma
+                !(id.group == 'org.bytedeco' && id.name == 'ffmpeg' &&
+                        artifact.classifier && artifact.classifier != '')
+            }
+            .collect { it.file }
+}
+
+// Task para Linux ARM64
+task jarLinuxArm64(type: Jar) {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'linux-arm64'
+
+    from sourceSets.main.output
+    from getCommonDependencies().collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.ffmpegLinuxArm64.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.spotifei.Spotifei',
+                'Platform': 'linux-arm64'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task para Linux x64
+task jarLinuxX64(type: Jar) {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'linux-x64'
+
+    from sourceSets.main.output
+    from getCommonDependencies().collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.ffmpegLinuxX64.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.spotifei.Spotifei',
+                'Platform': 'linux-x64'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task para macOS ARM64
+task jarMacosArm64(type: Jar) {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'macos-arm64'
+
+    from sourceSets.main.output
+    from getCommonDependencies().collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.ffmpegMacosArm64.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.spotifei.Spotifei',
+                'Platform': 'macos-arm64'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task para macOS x64
+task jarMacosX64(type: Jar) {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'macos-x64'
+
+    from sourceSets.main.output
+    from getCommonDependencies().collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.ffmpegMacosX64.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.spotifei.Spotifei',
+                'Platform': 'macos-x64'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task para Windows x64
+task jarWindowsX64(type: Jar) {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'windows-x64'
+
+    from sourceSets.main.output
+    from getCommonDependencies().collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.ffmpegWindowsX64.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.spotifei.Spotifei',
+                'Platform': 'windows-x64'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task para construir todas as plataformas
+task buildAllPlatforms {
+    description = 'Constrói JARs para todas as plataformas suportadas'
+    group = 'build'
+
+    dependsOn 'jarLinuxArm64', 'jarLinuxX64', 'jarMacosArm64', 'jarMacosX64', 'jarWindowsX64'
+
+    doLast {
+        println "JARs criados:"
+        println "  - Spotify-1.2-linux-arm64.jar"
+        println "  - Spotify-1.2-linux-x64.jar"
+        println "  - Spotify-1.2-macos-arm64.jar"
+        println "  - Spotify-1.2-macos-x64.jar"
+        println "  - Spotify-1.2-windows-x64.jar"
+    }
+}
+
+// Task para limpar apenas os JARs de plataforma
+task cleanPlatformJars(type: Delete) {
+    description = 'Remove todos os JARs específicos de plataforma'
+    group = 'build'
+
+    delete fileTree(layout.buildDirectory.dir('libs')) {
+        include 'Spotify-*-linux-*.jar'
+        include 'Spotify-*-macos-*.jar'
+        include 'Spotify-*-windows-*.jar'
+    }
+}
+
+// Task para mostrar informações sobre as plataformas
+task showPlatforms {
+    description = 'Mostra todas as plataformas suportadas'
+    group = 'help'
+
+    doLast {
+        println "Plataformas suportadas:"
+        println "  - linux-arm64"
+        println "  - linux-x64"
+        println "  - macos-arm64"
+        println "  - macos-x64"
+        println "  - windows-x64"
+        println ""
+        println "Para construir uma plataforma específica:"
+        println "  gradle jarLinuxArm64    # Linux ARM64"
+        println "  gradle jarLinuxX64      # Linux x64"
+        println "  gradle jarMacosArm64    # macOS Apple Silicon"
+        println "  gradle jarMacosX64      # macOS Intel"
+        println "  gradle jarWindowsX64    # Windows x64"
+        println ""
+        println "Para construir todas as plataformas:"
+        println "  gradle buildAllPlatforms"
+    }
+}
+
+// Configurar o JAR padrão para desenvolvimento
 jar {
+    archiveBaseName = 'Spotify'
+    archiveVersion = '1.2'
+    archiveClassifier = 'dev'
+
     manifest {
         attributes 'Main-Class': 'net.spotifei.Spotifei'
     }
     from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-
-    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+// Reconfigurar a task build para construir todos os JARs
+build {
+    dependsOn buildAllPlatforms
 }
-

@@ -1,7 +1,6 @@
 package net.spotifei.Controller;
 
 // Importes Otimizados
-import net.spotifei.Infrastructure.Container.AppContext;
 import net.spotifei.Models.Artist;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Responses.Response;
@@ -22,7 +21,6 @@ public class AdminController {
     private final JPanel view;
     private final MusicService musicService;
     private final UserService userService;
-    private final AppContext appContext;
 
     /**
      * Construtor da classe.
@@ -31,13 +29,11 @@ public class AdminController {
      * @param view O painel da interface gráfica onde as ações ocorrem.
      * @param musicService O serviço responsável pela lógica de negócios de músicas.
      * @param userService O serviço responsável pela lógica de negócios de usuários.
-     * @param appContext O contexto da aplicação.
      */
-    public AdminController(JPanel view, MusicService musicService, UserService userService, AppContext appContext) {
+    public AdminController(JPanel view, MusicService musicService, UserService userService) {
         this.view = view;
         this.musicService = musicService;
         this.userService = userService;
-        this.appContext = appContext;
     }
 
     /**
@@ -47,9 +43,15 @@ public class AdminController {
      */
     public void registerMusic() {
         ADMRegisterMusicPanel registerMusicPanel = (ADMRegisterMusicPanel) view;
-        String musicFilePath = registerMusicPanel.getMusicFilePath();
-        if (musicFilePath == null || musicFilePath.isEmpty()) {
-            createJDialog("Você deve incluir o arquivo da música!");
+//      Desabilitado para lógica de baixar música pelo youtube
+//        String musicFilePath = registerMusicPanel.getMusicFilePath();
+//        if (musicFilePath == null || musicFilePath.isEmpty()) {
+//            createJDialog("Você deve incluir o arquivo da música!");
+//            return;
+//        }
+        String musicLink = registerMusicPanel.getTxt_selecionar_musica().getText();
+        if (musicLink == null || musicLink.isEmpty()){
+            createJDialog("Você deve incluir o link do youtube da música!");
             return;
         }
         String musicName = registerMusicPanel.getTxt_nome_musicacad().getText();
@@ -68,8 +70,12 @@ public class AdminController {
             return;
         }
 
-        Response<Void> response = musicService.registerMusic(musicFilePath, musicName, musicArtistName, musicGenreName);
-        if (handleDefaultResponseIfError(response)) return;
+        Response<Void> response = musicService.registerMusicWithLink(musicLink, musicName, musicArtistName, musicGenreName);
+        if (!response.isSuccess()){
+            JOptionPane.showMessageDialog(null, response.getMessage());
+            return;
+        }
+        System.out.println(response.getMessage());
 
         createJDialog("Música registrada com sucesso!");
         logDebug("Música registrada com sucesso!");

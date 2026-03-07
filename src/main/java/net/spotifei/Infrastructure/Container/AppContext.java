@@ -7,6 +7,7 @@ import net.spotifei.Infrastructure.AudioPlayer.AudioPlayerWorker;
 import net.spotifei.Infrastructure.Cryptograph.CriptographRepository;
 import net.spotifei.Infrastructure.Factories.MusicInfoComponent.MusicInfoPanelBuilder;
 import net.spotifei.Infrastructure.JDBC.JDBCRepository;
+import net.spotifei.Infrastructure.JavaTube.AudioDownloader;
 import net.spotifei.Infrastructure.Repository.*;
 import net.spotifei.Models.Music;
 import net.spotifei.Models.Person;
@@ -48,12 +49,14 @@ public class AppContext {
     private Music musicContext;
 
     private final MusicCache musicCache = new MusicCache();
+    private final AudioDownloader audioDownloader;
 
     /**
      * Construtor do AppContext.
      * Aqui todas as dependências são instanciadas e injetadas umas nas outras.
      */
     public AppContext() {
+        this.audioDownloader = new AudioDownloader();
         this.audioPlayerWorker = new AudioPlayerWorker();
         this.jdbcRepository = new JDBCRepository();
         this.criptographRepository = new CriptographRepository();
@@ -68,7 +71,7 @@ public class AppContext {
         this.authService = new AuthService(this.personRepository, this.criptographRepository);
         this.playlistService = new PlaylistService(this.playlistRepository, this.musicRepository);
         this.userService = new UserService(this.personRepository, this.administratorRepository, this.artistRepository, this.authService);
-        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.playlistRepository, this.genreRepository, this);
+        this.musicService = new MusicService(this.musicRepository, this.audioPlayerWorker, this.artistRepository, this.playlistRepository, this.genreRepository, this, audioDownloader);
 
     }
 
@@ -126,7 +129,7 @@ public class AppContext {
     }
 
     public AdminController getAdminController(JPanel view){
-        return new AdminController(view, this.musicService, this.userService, this);
+        return new AdminController(view, this.musicService, this.userService);
     }
 
     public PlaylistController getPlayListController(JPanel view, MainFrame mainframe){

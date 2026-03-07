@@ -101,7 +101,23 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     public void setTxt_nome_musicacad(JTextField txt_nome_musicacad) {
         this.txt_nome_musicacad = txt_nome_musicacad;
     }
-    
+
+
+    public JLabel getJlabel_selecionar_musica() {
+        return jlabel_selecionar_musica;
+    }
+
+    public void setJlabel_selecionar_musica(JLabel jlabel_selecionar_musica) {
+        this.jlabel_selecionar_musica = jlabel_selecionar_musica;
+    }
+
+    public JTextField getTxt_selecionar_musica() {
+        return txt_selecionar_musica;
+    }
+
+    public void setTxt_selecionar_musica(JTextField txt_selecionar_musica) {
+        this.txt_selecionar_musica = txt_selecionar_musica;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,9 +137,11 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jlabel_selecionar_musica = new javax.swing.JLabel();
         txt_nome_musicacad = new javax.swing.JTextField();
         txt_genero_musicacad = new javax.swing.JTextField();
         txt_artista_musicacad = new javax.swing.JTextField();
+        txt_selecionar_musica = new javax.swing.JTextField();
         bt_salvar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         bt_selecionar_musica = new javax.swing.JButton();
@@ -169,9 +187,14 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
         });
         bt_salvar.setAlignmentX(CENTER_ALIGNMENT);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel5.setText("Música:");
+        // Desativado para usar apenas música pelo link do yt
+//        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+//        jLabel5.setForeground(new java.awt.Color(250, 250, 250));
+//        jLabel5.setText("Música:");
+
+        jlabel_selecionar_musica.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jlabel_selecionar_musica.setForeground(new java.awt.Color(250, 250, 250));
+        jlabel_selecionar_musica.setText("Link YT da Música:");
 
         bt_selecionar_musica.setText("Selecionar a música");
         bt_selecionar_musica.addActionListener(new java.awt.event.ActionListener() {
@@ -179,6 +202,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 bt_selecionar_musicaActionPerformed(evt);
             }
         });
+        bt_selecionar_musica.setVisible(false); // Desabilitado para usar link do youtube para download da música
 
         jLabel1.setAlignmentX(CENTER_ALIGNMENT);
         bt_voltar.setAlignmentX(CENTER_ALIGNMENT);
@@ -192,13 +216,15 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel4)
-                                .addComponent(jLabel5))
+                                .addComponent(jLabel5)
+                                .addComponent(jlabel_selecionar_musica))
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txt_nome_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                                 .addComponent(txt_artista_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                                 .addComponent(txt_genero_musicacad, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
-                                .addComponent(bt_selecionar_musica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(bt_selecionar_musica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_selecionar_musica, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)))
                 .addComponent(bt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE);
 
@@ -228,6 +254,10 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(bt_selecionar_musica))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlabel_selecionar_musica)
+                        .addComponent(txt_selecionar_musica))
                 .addGap(38, 38, 38)
                 .addComponent(bt_salvar)
                 .addGap(18, 18, 18)
@@ -284,6 +314,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private String musicFilePath;
     private javax.swing.JButton bt_salvar;
     private javax.swing.JButton bt_selecionar_musica;
+    private javax.swing.JLabel jlabel_selecionar_musica;
     private javax.swing.JButton bt_voltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -293,6 +324,7 @@ public class ADMRegisterMusicPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txt_artista_musicacad;
     private javax.swing.JTextField txt_genero_musicacad;
     private javax.swing.JTextField txt_nome_musicacad;
+    private javax.swing.JTextField txt_selecionar_musica;
     // End of variables declaration//GEN-END:variables
 
     /**
